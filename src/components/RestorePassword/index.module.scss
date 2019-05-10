@@ -1,0 +1,13 @@
+.form {
+  width: 388px;
+  text-align: center;
+}
+.fields {
+  margin-bottom: 28px;
+
+  & > * {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}

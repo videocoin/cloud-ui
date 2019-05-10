@@ -1,0 +1,55 @@
+body,
+html {
+  font-family: $baseFont;
+  background: $bg no-repeat;
+  min-height: 100vh;
+  min-width: 1200px;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+
+.vc-container {
+  width: 100%;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.link {
+  text-decoration: none;
+  color: $white;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.07px;
+  text-transform: uppercase;
+}
+
+.g-tac {
+  text-align: center;
+}
+
+.g-flex {
+  display: flex;
+}
+.g-flex-justify {
+  &_center {
+    justify-content: center;
+  }
+}
+
+.g-flex-align {
+  &_center {
+    align-items: center;
+  }
+}

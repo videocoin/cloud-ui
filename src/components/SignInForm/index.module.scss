@@ -1,0 +1,12 @@
+.form {
+  padding: 38px 40px 22px;
+}
+
+.fields {
+  margin-bottom: 28px;
+  & > * {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}

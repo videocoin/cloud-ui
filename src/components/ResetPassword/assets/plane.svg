@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="335px" height="64px" viewBox="0 0 335 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Plane</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artwork/Popups/Email-Sent" transform="translate(-43.000000, -32.000000)">
+            <g id="Plane" transform="translate(43.000000, 32.000000)">
+                <rect id="Rectangle" fill="#FFFFFF" opacity="0.238397507" x="0" y="30.4" width="260.6" height="3.2" rx="1.6"></rect>
+                <rect id="Rectangle-Copy" fill="#FFFFFF" opacity="0.140276228" x="12.8" y="24" width="241.4" height="1.6" rx="0.8"></rect>
+                <rect id="Rectangle-Copy-2" fill="#FFFFFF" opacity="0.140276228" x="12.8" y="38.4" width="241.4" height="1.6" rx="0.8"></rect>
+                <g id="Airplane" transform="translate(264.600000, 0.000000)">
+                    <polygon id="Path-2" fill="#EEE3FF" points="-9.23705556e-14 1.13686838e-13 70 32 -9.23705556e-14 64 6 40 19.2 32 6 24"></polygon>
+                    <polygon id="Path-2" fill="#A38FC0" points="70 32 6 40 19.2 32 6 24"></polygon>
+                    <polygon id="Path-2" fill="#DAD0E8" points="70 32 6 40 19.2 32"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

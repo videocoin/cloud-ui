@@ -1,10 +1,7 @@
 /* eslint-disable */
-const { addWebpackAlias, override, addBabelPlugin, fixBabelImports } = require('customize-cra');
+const { useEslintRc, override, fixBabelImports } = require('customize-cra');
 
 module.exports = override(
+  useEslintRc(),
   fixBabelImports('lodash'),
-  addBabelPlugin('react-hot-loader/babel'),
-  addWebpackAlias({
-    'react-dom': '@hot-loader/react-dom'
-  })
 );

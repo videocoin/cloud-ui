@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import './hotLoader.setup';
 import App from 'components/App';
 import { connectReduxDevtools } from 'mst-middlewares';
-import UserStore from './models/User';
+import UserStore from './stores/user';
 import 'styles/index.scss';
 import * as serviceWorker from './serviceWorker';
 

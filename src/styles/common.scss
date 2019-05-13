@@ -16,8 +16,6 @@ html {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding-top: 100px;
-  padding-bottom: 50px;
 }
 
 .vc-container {
@@ -28,11 +26,14 @@ html {
 
 .link {
   text-decoration: none;
-  color: $white;
+  color: $perfect-white;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.07px;
   text-transform: uppercase;
+  &_violet {
+    color: $light;
+  }
 }
 
 .g-tac {

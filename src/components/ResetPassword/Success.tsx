@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button } from 'videocoin-ui-kit';
+import { Typography, Button, ActionBar } from 'ui-kit';
 import css from './index.module.scss';
 
 interface Props {
@@ -15,11 +15,11 @@ const Success = ({ closeModal, email }: Props) => (
         Follow the instructions inside to reset your password.
       </Typography>
     </div>
-    <div className={css.btns}>
-      <Button theme="ghost-secondary" onClick={closeModal}>
+    <ActionBar>
+      <Button theme="minimal" onClick={closeModal}>
         Close
       </Button>
-    </div>
+    </ActionBar>
   </div>
 );
 

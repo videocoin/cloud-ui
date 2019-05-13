@@ -3,10 +3,10 @@ import { withFormik, Field, FormikProps, Form } from 'formik';
 import { equals, map, omit, get, compose, mapKeys, camelCase } from 'lodash/fp';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
-import { Button, Typography } from 'videocoin-ui-kit';
+import { Button, Typography } from 'ui-kit';
 import css from './index.module.scss';
 import { FormField, SignUpForm } from '../../@types';
-import UserStore from '../../models/User';
+import UserStore from '../../stores/user';
 import validationSchema from './validate';
 
 const formFields: FormField[] = [
@@ -48,9 +48,10 @@ const SignUp = (props: FormikProps<SignUpForm>) => {
         </Field>
       </div>
       <Button
-        disabled={!isValid || isSubmitting}
-        isBlock
-        theme="white"
+        disabled={!isValid}
+        loading={isSubmitting}
+        block
+        theme="perfect-white"
         type="submit"
       >
         Join waitlist

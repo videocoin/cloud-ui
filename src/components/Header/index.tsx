@@ -1,5 +1,5 @@
 import React from 'react';
-import { Logo } from 'videocoin-ui-kit';
+import { Logo } from 'ui-kit';
 import css from './index.module.scss';
 
 const Header = () => {

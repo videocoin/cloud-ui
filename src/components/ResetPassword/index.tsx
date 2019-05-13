@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from 'videocoin-ui-kit';
+import { Button } from 'ui-kit';
 import Modal from 'components/Modal';
 import css from './index.module.scss';
 import plane from './assets/plane.svg';
@@ -26,7 +26,7 @@ const ResetPassword = () => {
 
   return (
     <div className={css.wrap}>
-      <Button theme="ghost-primary" onClick={openModal}>
+      <Button theme="minimal-sunkissed" onClick={openModal}>
         Forgot password?
       </Button>
       <Modal

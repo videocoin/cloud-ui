@@ -1,0 +1,37 @@
+@import '~styles/vars';
+
+.wrap {
+  padding-left: 60px;
+  padding-top: 72px;
+}
+
+.header {
+  border-bottom: 1px solid $grey-dawn-w2;
+  margin-bottom: 15px;
+  padding-left: 8px;
+}
+
+.section {
+  &:not(:last-child) {
+    margin-bottom: 40px;
+  }
+}
+
+.field {
+  padding: 8px 0 8px 32px;
+  display: flex;
+  align-items: baseline;
+  & > *:first-child {
+    width: 130px;
+    margin-right: 13px;
+  }
+}
+
+.terms {
+  a {
+    display: inline-block;
+    &:first-child {
+      margin-bottom: 12px;
+    }
+  }
+}

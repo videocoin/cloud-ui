@@ -1,7 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { Modal as BaseModal } from 'videocoin-ui-kit';
-import { ModalProps } from 'videocoin-ui-kit/dist/components/Modal/Modal';
+import { Modal as BaseModal, ModalProps } from 'ui-kit';
 import usePortal from '../../hooks/usePortal';
 
 const Modal = ({ ...props }: ModalProps) => {

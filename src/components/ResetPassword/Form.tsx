@@ -1,6 +1,6 @@
 import { Field, Form, withFormik } from 'formik';
 import React from 'react';
-import { Button, Typography } from 'videocoin-ui-kit';
+import { Button, Typography, ActionBar } from 'ui-kit';
 import * as Yup from 'yup';
 import { resetPassword } from 'api/user';
 import Input from 'components/Input';
@@ -44,14 +44,14 @@ const ResetForm = withFormik<FormProps, FormValues>({
         reset it.
       </Typography>
     </div>
-    <div className={css.btns}>
-      <Button theme="ghost-secondary" onClick={closeModal}>
+    <ActionBar>
+      <Button theme="minimal" onClick={closeModal}>
         Cancel
       </Button>
-      <Button type="submit" disabled={!isValid || isSubmitting}>
+      <Button type="submit" disabled={!isValid} loading={isSubmitting}>
         Send email
       </Button>
-    </div>
+    </ActionBar>
   </Form>
 ));
 

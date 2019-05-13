@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
-import { Typography } from 'videocoin-ui-kit';
+import { Typography } from 'ui-kit';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { RouteComponentProps } from '@reach/router';
 import AudienceImg from 'img/audience.svg';
-import withAuth from 'HOCs/withAuth';
 
 const Pending: FC<RouteComponentProps> = () => {
   return (
@@ -33,4 +32,4 @@ const Pending: FC<RouteComponentProps> = () => {
   );
 };
 
-export default withAuth()(Pending);
+export default Pending;

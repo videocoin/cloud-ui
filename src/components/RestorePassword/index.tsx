@@ -1,9 +1,9 @@
 import React from 'react';
-import { map } from 'lodash/fp';
+import { camelCase, compose, equals, get, map, mapKeys } from 'lodash/fp';
 import { withFormik, Form, Field } from 'formik';
 import Modal from 'components/Modal';
 import Input from 'components/Input';
-import { Button } from 'videocoin-ui-kit';
+import { Button, ActionBar } from 'ui-kit';
 import { recoverPassword } from 'api/user';
 import { FormField } from '@types';
 import validationSchema from './validate';
@@ -39,13 +39,23 @@ const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
     confirmPassword: '',
   }),
   validationSchema,
-  handleSubmit: async (values, { setSubmitting, props, resetForm }) => {
+  handleSubmit: async (
+    values,
+    { setSubmitting, props, resetForm, setErrors },
+  ) => {
     try {
       await recoverPassword({ ...values, token: props.token });
       resetForm();
       props.closeModal();
     } catch (e) {
       setSubmitting(false);
+      if (equals(400, get('response.status')(e))) {
+        const errors = compose(
+          mapKeys(camelCase),
+          get('response.data.fields'),
+        )(e);
+        setErrors(errors);
+      }
       throw e;
     }
   },
@@ -57,14 +67,14 @@ const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
     <Modal hideCloseButton isOpen={isOpen} close={closeModal}>
       <Form className={css.form}>
         <div className={css.fields}>{map(renderField, formFields)}</div>
-        <div>
-          <Button theme="ghost-secondary" onClick={closeModal}>
+        <ActionBar>
+          <Button theme="minimal" onClick={closeModal}>
             Cancel
           </Button>
-          <Button type="submit" disabled={!isValid || isSubmitting}>
+          <Button type="submit" disabled={!isValid} loading={isSubmitting}>
             Send
           </Button>
-        </div>
+        </ActionBar>
       </Form>
     </Modal>
   );

@@ -1,0 +1,21 @@
+.link {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 14px 28px 14px 30px;
+  opacity: 0.48;
+  cursor: pointer;
+  transition: opacity 0.15s ease-in-out;
+  text-decoration: none;
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
+  &:hover,
+  &.active {
+    opacity: 1;
+  }
+  svg {
+    flex-shrink: 0;
+    margin-right: 48px;
+  }
+}

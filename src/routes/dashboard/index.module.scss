@@ -1,0 +1,18 @@
+.dashboard {
+  flex: 1;
+  display: flex;
+  background-image: linear-gradient(180deg, #290f55 0%, #1b0a33 100%);
+}
+
+.nav {
+  padding: 56px 0;
+}
+
+.body {
+  width: 100%;
+  background: linear-gradient(180deg, #1b0d2f 0%, #0c0417 100%);
+  border: 2px solid #4e238e;
+  border-right-width: 0;
+  border-radius: 50px 0 0 50px;
+  padding: 44px 54px;
+}

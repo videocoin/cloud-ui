@@ -1,7 +1,6 @@
 import React from 'react';
 import { FieldProps } from 'formik';
-import { Checkbox as BaseCheckbox } from 'videocoin-ui-kit';
-import { CheckboxProps } from 'videocoin-ui-kit/dist/components/Checkbox/Checkbox';
+import { Checkbox as BaseCheckbox, CheckboxProps } from 'ui-kit';
 
 const Checkbox = ({
   field,

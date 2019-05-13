@@ -1,25 +1,26 @@
-import { hot } from 'react-hot-loader/root';
 import React, { Suspense, lazy } from 'react';
-import { Router } from '@reach/router';
-import DevTools from 'mobx-react-devtools';
+import { Redirect, Router } from '@reach/router';
 import { ToastContainer } from 'react-toastify';
-import Header from './Header';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Dashboard = lazy(() => import('routes/Dashboard'));
+const Dashboard = lazy(() => import('routes/dashboard/Dashboard'));
+const DashHome = lazy(() => import('routes/DashHome'));
 const Pending = lazy(() => import('routes/Pending'));
+const Account = lazy(() => import('routes/account/Account'));
 const SignIn = lazy(() => import('routes/signin/SignIn'));
 const SignUp = lazy(() => import('routes/signup/SignUp'));
 
 const App = () => {
   return (
     <>
-      <DevTools />
-      <Header />
       <Suspense fallback={<div />}>
         <Router className="wrapper">
-          <Dashboard path="/dashboard" default />
-          <Pending path="/pending" />
+          <Redirect from="/" to="/dashboard" noThrow />
+          <Dashboard path="/dashboard">
+            <DashHome path="/" />
+            <Pending path="pending" />
+            <Account path="account" />
+          </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
           <SignUp path="/sign-up" />
@@ -30,4 +31,4 @@ const App = () => {
   );
 };
 
-export default hot(App);
+export default App;

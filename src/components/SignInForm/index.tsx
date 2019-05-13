@@ -1,12 +1,12 @@
 import React from 'react';
 import { withFormik, Field, FormikProps, Form } from 'formik';
-import UserStore from 'models/User';
-import { equals, get, map } from 'lodash/fp';
+import UserStore from 'stores/user';
+import { get, map } from 'lodash/fp';
+import { toast } from 'react-toastify';
 import Input from 'components/Input';
-import { Button } from 'videocoin-ui-kit';
+import { Button } from 'ui-kit';
 import { FormField, SignInForm } from '@types';
 import ResetPassword from 'components/ResetPassword';
-import { navigate } from '@reach/router';
 import css from './index.module.scss';
 import validationSchema from './validate';
 
@@ -33,10 +33,11 @@ const SignIn = (props: FormikProps<SignInForm>) => {
       <Form className={css.form}>
         <div className={css.fields}>{map(renderField, formFields)}</div>
         <Button
-          disabled={!isValid || isSubmitting}
-          isBlock
+          disabled={!isValid}
+          loading={isSubmitting}
+          block
           type="submit"
-          theme="white"
+          theme="perfect-white"
         >
           Log in
         </Button>
@@ -52,16 +53,13 @@ export default withFormik<{}, SignInForm>({
     password: '',
   }),
   validationSchema,
-  handleSubmit: async (values, { setErrors, setSubmitting }) => {
+  handleSubmit: async (values, { setSubmitting }) => {
     try {
-      const res = await UserStore.signIn(values);
-      navigate(res.data.activated ? '/dashboard' : '/pending');
+      await UserStore.signIn(values);
     } catch (e) {
       setSubmitting(false);
-      if (equals(400, get('response.status')(e))) {
-        const errors = get('response.data.fields')(e);
-        setErrors(errors);
-      }
+      toast.error(get('response.data.message', e));
+      throw e;
     }
   },
 })(SignIn);

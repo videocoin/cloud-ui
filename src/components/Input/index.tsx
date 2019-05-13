@@ -1,6 +1,7 @@
 import React from 'react';
 import { ErrorMessage, FieldProps } from 'formik';
-import { Input as BaseInput, FieldAction } from 'videocoin-ui-kit';
+import { Input as BaseInput, FieldAction } from 'ui-kit';
+import css from './index.module.scss';
 
 const Input = ({ field, form, ...baseInputProps }: FieldProps) => {
   const { touched, errors } = form;
@@ -13,7 +14,7 @@ const Input = ({ field, form, ...baseInputProps }: FieldProps) => {
       postfix={() => (
         <ErrorMessage name={field.name}>
           {msg => (
-            <FieldAction color="pink" icon="warn">
+            <FieldAction color="pink" icon="incomplete" className={css.postfix}>
               {msg}
             </FieldAction>
           )}

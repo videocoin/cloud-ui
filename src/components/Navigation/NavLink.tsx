@@ -12,8 +12,8 @@ export interface NavItemProps {
   label?: string;
 }
 
-const buildClasses: any = ({ isCurrent }: LinkGetProps) => ({
-  className: cn(css.link, isCurrent && css.active),
+const buildClasses: any = ({ isPartiallyCurrent }: LinkGetProps) => ({
+  className: cn(css.link, isPartiallyCurrent && css.active),
 });
 
 const NavLink = ({ icon, label, ...props }: NavItemProps) => (

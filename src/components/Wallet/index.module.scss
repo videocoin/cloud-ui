@@ -1,0 +1,55 @@
+@import '~styles/vars';
+
+.root {
+  margin-top: 32px;
+  background: $grey-dawn;
+  border-radius: 36px;
+  padding: 16px 16px 16px 0;
+  display: flex;
+}
+
+.sidebar {
+  margin-top: 31px;
+  width: 230px;
+}
+
+.body {
+  flex: 1;
+  height: 352px;
+  & > div {
+    border-radius: 36px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.balance {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 71px;
+  & > *:last-child {
+    margin-left: 10px;
+  }
+}
+
+.address {
+  position: relative;
+  max-width: 67%;
+  overflow: hidden;
+  &::after {
+    content: '';
+    display: block;
+    right: 0;
+    top: 0;
+    width: 283px;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(90deg, rgba(114, 52, 200, 0) 0%, #7234c8 100%);
+  }
+}
+
+.walletBody {
+  background: $violet-sky;
+  padding: 64px;
+}

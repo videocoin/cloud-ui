@@ -2,29 +2,35 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, Router } from '@reach/router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ModalManager from 'components/ModalManager';
 
-const Dashboard = lazy(() => import('routes/dashboard/Dashboard'));
+const Dashboard = lazy(() => import('routes/dashboard'));
 const DashHome = lazy(() => import('routes/DashHome'));
 const Pending = lazy(() => import('routes/Pending'));
-const Account = lazy(() => import('routes/account/Account'));
-const SignIn = lazy(() => import('routes/signin/SignIn'));
-const SignUp = lazy(() => import('routes/signup/SignUp'));
+const Account = lazy(() => import('routes/account'));
+const Wallet = lazy(() => import('routes/wallet'));
+const Terms = lazy(() => import('routes/terms'));
+const SignIn = lazy(() => import('routes/signin'));
+const SignUp = lazy(() => import('routes/signup'));
 
 const App = () => {
   return (
     <>
       <Suspense fallback={<div />}>
-        <Router className="wrapper">
+        <Router className="wrapper" primary={false}>
           <Redirect from="/" to="/dashboard" noThrow />
           <Dashboard path="/dashboard">
             <DashHome path="/" />
             <Pending path="pending" />
             <Account path="account" />
+            <Terms path="account/terms" />
+            <Wallet path="wallet" />
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
           <SignUp path="/sign-up" />
         </Router>
+        <ModalManager />
       </Suspense>
       <ToastContainer />
     </>

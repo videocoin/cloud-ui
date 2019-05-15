@@ -1,0 +1,36 @@
+@import '~styles/vars';
+
+.root {
+  background: $violet-sky-b2;
+  padding: 56px 56px 32px;
+  display: flex;
+  flex-direction: column;
+}
+.body {
+  display: flex;
+}
+
+.left {
+  flex: 1;
+  margin-right: 65px;
+}
+
+.qr {
+  width: 136px;
+  flex-shrink: 0;
+}
+
+.address {
+  margin-top: 28px;
+}
+
+.footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.copy {
+  cursor: pointer;
+}

@@ -1,25 +1,24 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Link, RouteComponentProps } from '@reach/router';
 import { get } from 'lodash/fp';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Typography, Card } from 'ui-kit';
-
+import ModalStore from 'stores/modal';
 import SignInForm from 'components/SignInForm';
-import RestorePassword from 'components/RestorePassword';
 import withAuth from 'HOCs/withAuth';
 import queryString from 'query-string';
+import { modalType } from 'components/ModalManager';
+import Header from 'components/Header';
 import css from './index.module.scss';
-import Header from '../../components/Header';
 
 const SignIn: FC<RouteComponentProps> = ({ location }) => {
   const { token } = queryString.parse(get('search')(location));
-  const [isRecoveryOpen, setRecoveryOpen] = useState(false);
-  const closeRecoveryModal = () => setRecoveryOpen(false);
+  const { openModal } = ModalStore;
   useEffect(() => {
     if (token) {
-      setRecoveryOpen(true);
+      openModal(modalType.RESTORE_PASSWORD, { token: String(token) });
     }
-  }, [token]);
+  }, [openModal, token]);
   return (
     <>
       <Header />
@@ -52,11 +51,6 @@ const SignIn: FC<RouteComponentProps> = ({ location }) => {
             </Col>
           </Row>
         </Grid>
-        <RestorePassword
-          token={String(token)}
-          isOpen={isRecoveryOpen}
-          closeModal={closeRecoveryModal}
-        />
       </div>
     </>
   );

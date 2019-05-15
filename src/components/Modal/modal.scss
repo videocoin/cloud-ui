@@ -1,0 +1,10 @@
+@import '~styles/vars';
+
+.modalInner {
+  width: $modal-width;
+  text-align: center;
+}
+
+.modalActions {
+  margin-top: 56px;
+}

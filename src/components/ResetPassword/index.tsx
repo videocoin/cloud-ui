@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { Button } from 'ui-kit';
 import Modal from 'components/Modal';
 import css from './index.module.scss';
 import plane from './assets/plane.svg';
 import Success from './Success';
 import ResetForm from './Form';
 
-const ResetPassword = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const ResetPassword = ({ closeModal }: { closeModal: () => void }) => {
   const [isSuccess, setSuccess] = useState(false);
   const [email, setEmail] = useState('');
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+
   const onSuccess = (newEmail: string) => {
     setSuccess(true);
     setEmail(newEmail);
@@ -25,25 +22,15 @@ const ResetPassword = () => {
     ) : null;
 
   return (
-    <div className={css.wrap}>
-      <Button theme="minimal-sunkissed" onClick={openModal}>
-        Forgot password?
-      </Button>
-      <Modal
-        header={renderHeader}
-        close={closeModal}
-        hideCloseButton
-        isOpen={isOpen}
-      >
-        <div className={css.inner}>
-          {isSuccess ? (
-            <Success closeModal={closeModal} email={email} />
-          ) : (
-            <ResetForm onSuccess={onSuccess} closeModal={closeModal} />
-          )}
-        </div>
-      </Modal>
-    </div>
+    <Modal header={renderHeader}>
+      <div className="modalInner">
+        {isSuccess ? (
+          <Success closeModal={closeModal} email={email} />
+        ) : (
+          <ResetForm onSuccess={onSuccess} closeModal={closeModal} />
+        )}
+      </div>
+    </Modal>
   );
 };
 

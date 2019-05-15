@@ -37,21 +37,21 @@ const ResetForm = withFormik<FormProps, FormValues>({
     <div className={css.field}>
       <Field component={Input} name="email" label="E-mail" />
     </div>
-    <div className={css.text}>
-      <Typography type="bodyAlt">Don&apos;t remember your password?</Typography>
-      <Typography>
-        Enter your email address and we&apos;ll send you instruction on how to
-        reset it.
-      </Typography>
+    <Typography type="bodyAlt">Don&apos;t remember your password?</Typography>
+    <Typography>
+      Enter your email address and we&apos;ll send you instruction on how to
+      reset it.
+    </Typography>
+    <div className="modalActions">
+      <ActionBar>
+        <Button theme="minimal" onClick={closeModal}>
+          Cancel
+        </Button>
+        <Button type="submit" disabled={!isValid} loading={isSubmitting}>
+          Send email
+        </Button>
+      </ActionBar>
     </div>
-    <ActionBar>
-      <Button theme="minimal" onClick={closeModal}>
-        Cancel
-      </Button>
-      <Button type="submit" disabled={!isValid} loading={isSubmitting}>
-        Send email
-      </Button>
-    </ActionBar>
   </Form>
 ));
 

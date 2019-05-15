@@ -6,7 +6,8 @@ import { toast } from 'react-toastify';
 import Input from 'components/Input';
 import { Button } from 'ui-kit';
 import { FormField, SignInForm } from '@types';
-import ResetPassword from 'components/ResetPassword';
+import ModalStore from 'stores/modal';
+import { modalType } from 'components/ModalManager';
 import css from './index.module.scss';
 import validationSchema from './validate';
 
@@ -28,6 +29,9 @@ const SignIn = (props: FormikProps<SignInForm>) => {
   const renderField = (field: FormField) => (
     <Field key={field.name} component={Input} {...field} />
   );
+  const { openModal } = ModalStore;
+  const handleOpenModal = () => openModal(modalType.RESET_PASSWORD);
+
   return (
     <>
       <Form className={css.form}>
@@ -41,8 +45,12 @@ const SignIn = (props: FormikProps<SignInForm>) => {
         >
           Log in
         </Button>
+        <div className={css.forgotBtn}>
+          <Button theme="minimal-sunkissed" onClick={handleOpenModal}>
+            Forgot password?
+          </Button>
+        </div>
       </Form>
-      <ResetPassword />
     </>
   );
 };

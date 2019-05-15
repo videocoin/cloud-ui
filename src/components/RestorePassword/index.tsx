@@ -11,7 +11,6 @@ import css from './index.module.scss';
 
 interface RestorePasswordProps {
   token: string;
-  isOpen: boolean;
   closeModal: () => void;
 }
 
@@ -59,12 +58,12 @@ const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
       throw e;
     }
   },
-})(({ isOpen, closeModal, isValid, isSubmitting }) => {
+})(({ closeModal, isValid, isSubmitting }) => {
   const renderField = (field: FormField) => (
     <Field key={field.name} component={Input} {...field} />
   );
   return (
-    <Modal hideCloseButton isOpen={isOpen} close={closeModal}>
+    <Modal>
       <Form className={css.form}>
         <div className={css.fields}>{map(renderField, formFields)}</div>
         <ActionBar>

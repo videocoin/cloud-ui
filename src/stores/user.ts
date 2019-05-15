@@ -2,7 +2,7 @@ import { types, flow } from 'mobx-state-tree';
 import { equals, getOr } from 'lodash/fp';
 import makeInspectable from 'mobx-devtools-mst';
 import * as API from 'api/user';
-import { setTokenHeader } from 'api';
+import { removeTokenHeader, setTokenHeader } from 'api';
 
 const Account = types.model('Account', {
   id: types.identifier,
@@ -10,7 +10,7 @@ const Account = types.model('Account', {
   balance: types.number,
 });
 
-export const User = types.model('User', {
+const User = types.model('User', {
   id: types.maybe(types.string),
   email: types.maybe(types.string),
   name: types.maybe(types.string),
@@ -18,7 +18,7 @@ export const User = types.model('User', {
   account: types.maybeNull(Account),
 });
 
-export const UserStore = types
+const Store = types
   .model('UserStore', {
     user: types.maybeNull(User),
     state: types.enumeration('State', [
@@ -66,6 +66,12 @@ export const UserStore = types
           throw e;
         }
       }),
+      logout() {
+        localStorage.removeItem('token');
+        removeTokenHeader();
+        self.user = null;
+        self.state = 'pending';
+      },
     };
   })
   .views(self => ({
@@ -81,13 +87,16 @@ export const UserStore = types
     get isPending() {
       return equals('pending', self.state);
     },
+    get account() {
+      return self.user.account;
+    },
   }));
 
-const store = UserStore.create({
+const UserStore = Store.create({
   state: 'pending',
   user: null,
 });
 
-makeInspectable(store);
+makeInspectable(UserStore);
 
-export default store;
+export default UserStore;

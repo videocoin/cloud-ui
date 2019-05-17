@@ -6,7 +6,7 @@ import BackLink from 'components/BackLink';
 
 const WalletPage: FC<RouteComponentProps> = () => {
   return (
-    <div>
+    <>
       <TopBar>
         <BackLink />
         <div>
@@ -15,7 +15,7 @@ const WalletPage: FC<RouteComponentProps> = () => {
         </div>
       </TopBar>
       <Wallet />
-    </div>
+    </>
   );
 };
 

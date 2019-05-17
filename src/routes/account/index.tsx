@@ -6,7 +6,7 @@ import BackLink from 'components/BackLink';
 
 const Account: FC<RouteComponentProps> = () => {
   return (
-    <div>
+    <>
       <TopBar>
         <BackLink />
         <div>
@@ -15,7 +15,7 @@ const Account: FC<RouteComponentProps> = () => {
         </div>
       </TopBar>
       <AccountDetails />
-    </div>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { camelCase, compose, equals, get, map, mapKeys } from 'lodash/fp';
+import { camelCase, compose, eq, get, map, mapKeys } from 'lodash/fp';
 import { withFormik, Form, Field } from 'formik';
 import Modal from 'components/Modal';
 import Input from 'components/Input';
@@ -48,7 +48,7 @@ const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
       props.closeModal();
     } catch (e) {
       setSubmitting(false);
-      if (equals(400, get('response.status')(e))) {
+      if (eq(400, get('response.status')(e))) {
         const errors = compose(
           mapKeys(camelCase),
           get('response.data.fields'),

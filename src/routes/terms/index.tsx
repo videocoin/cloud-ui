@@ -6,7 +6,7 @@ import BackLink from 'components/BackLink';
 
 const TermsPage: FC<RouteComponentProps> = () => {
   return (
-    <div>
+    <>
       <TopBar>
         <BackLink />
         <div>
@@ -15,7 +15,7 @@ const TermsPage: FC<RouteComponentProps> = () => {
         </div>
       </TopBar>
       <Terms />
-    </div>
+    </>
   );
 };
 

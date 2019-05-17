@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly CHART_NAME=cloud-ui
+readonly CHART_NAME=ui
 readonly CHART_DIR=./helm
 
 CONSUL_ADDR=${CONSUL_ADDR:=127.0.0.1:8500}

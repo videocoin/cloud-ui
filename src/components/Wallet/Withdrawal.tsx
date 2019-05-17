@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Typography } from 'ui-kit/src';
 import { Field, Form, withFormik } from 'formik';
-import { equals } from 'lodash/fp';
+import { eq } from 'lodash/fp';
 import Input from 'components/Input';
 import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
@@ -14,7 +14,7 @@ interface WithdrawalForm {
 
 const Withdrawal = () => {
   const [step, setStep] = useState(1);
-  const isFirstStep = equals(1, step);
+  const isFirstStep = eq(1, step);
   const nextStepHandle = () => {
     setStep(2);
   };

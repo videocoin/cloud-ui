@@ -4,7 +4,7 @@ RUN apk upgrade libcurl
 
 COPY . /ui
 WORKDIR /ui
-RUN npm install -g create-react-app react-scripts react-app-rewired
+RUN npm install -g create-react-app react-scripts react-app-rewired @types/react-copy-to-clipboard
 RUN make build-bin
 
 FROM nginx:1.11.8-alpine

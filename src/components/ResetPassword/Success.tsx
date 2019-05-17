@@ -1,6 +1,5 @@
 import React from 'react';
 import { Typography, Button, ActionBar } from 'ui-kit';
-import css from './index.module.scss';
 
 interface Props {
   closeModal: () => void;

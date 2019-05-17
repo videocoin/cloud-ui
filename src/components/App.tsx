@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react';
+import { hot } from 'react-hot-loader/root';
 import { Redirect, Router } from '@reach/router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +13,7 @@ const Wallet = lazy(() => import('routes/wallet'));
 const Terms = lazy(() => import('routes/terms'));
 const SignIn = lazy(() => import('routes/signin'));
 const SignUp = lazy(() => import('routes/signup'));
+const Pipelines = lazy(() => import('routes/pipelines'));
 
 const App = () => {
   return (
@@ -25,6 +27,7 @@ const App = () => {
             <Account path="account" />
             <Terms path="account/terms" />
             <Wallet path="wallet" />
+            <Pipelines path="pipelines" />
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
@@ -37,4 +40,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default hot(App);

@@ -22,3 +22,10 @@ export interface RestoreForm {
   confirmPassword: string;
   token: string;
 }
+
+export interface Pipeline {
+  id: string;
+  name: string;
+  status: 'IDLE';
+  profileId: string;
+}

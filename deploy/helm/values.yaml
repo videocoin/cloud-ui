@@ -2,7 +2,7 @@ replicasCount: 2
 maxUnavailableCount: 0
 
 image:
-  repository: gcr.io/videocoin-network/cloud-ui
+  repository: gcr.io/videocoin-network/ui
   tag: latest
   pullPolicy: Always
 

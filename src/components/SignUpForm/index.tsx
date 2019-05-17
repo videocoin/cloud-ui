@@ -1,6 +1,6 @@
 import React from 'react';
 import { withFormik, Field, FormikProps, Form } from 'formik';
-import { equals, map, omit, get, compose, mapKeys, camelCase } from 'lodash/fp';
+import { eq, map, omit, get, compose, mapKeys, camelCase } from 'lodash/fp';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { Button, Typography } from 'ui-kit';
@@ -75,7 +75,7 @@ export default withFormik<{}, SignUpForm>({
       resetForm();
     } catch (e) {
       setSubmitting(false);
-      if (equals(400, get('response.status')(e))) {
+      if (eq(400, get('response.status')(e))) {
         const errors = compose(
           mapKeys(camelCase),
           get('response.data.fields'),

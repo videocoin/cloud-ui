@@ -6,7 +6,7 @@ GOARCH?=amd64
 CONSUL_ADDR?=127.0.0.1:8500
 
 PROJECT?=videocoin-network
-APP_NAME?=cloud-ui
+APP_NAME?=ui
 VERSION?=$$(git describe --abbrev=0)-$$(git rev-parse --short HEAD)
 
 DOCKER_REGISTRY?=gcr.io/${PROJECT}
@@ -35,6 +35,3 @@ push:
 	docker push ${IMAGE_TAG}
 
 release: build push
-
-deploy:
-	cd deploy && ./deploy.sh WORKSPACE=${WORKSPACE} PROJECT=${PROJECT} VERSION=${VERSION}

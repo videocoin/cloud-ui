@@ -1,8 +1,9 @@
 import { types, flow } from 'mobx-state-tree';
-import { equals, getOr } from 'lodash/fp';
+import { propEq, getOr } from 'lodash/fp';
 import makeInspectable from 'mobx-devtools-mst';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
+import { State } from './types';
 
 const Account = types.model('Account', {
   id: types.identifier,
@@ -21,12 +22,7 @@ const User = types.model('User', {
 const Store = types
   .model('UserStore', {
     user: types.maybeNull(User),
-    state: types.enumeration('State', [
-      'loading',
-      'loaded',
-      'pending',
-      'error',
-    ]),
+    state: State,
   })
   .actions(self => {
     const fetchUser = flow(function* fetchUser() {
@@ -82,13 +78,16 @@ const Store = types
       return getOr(false, 'user.activated', self);
     },
     get isLoading() {
-      return equals('loading', self.state);
+      return propEq('state', 'loading')(self);
     },
     get isPending() {
-      return equals('pending', self.state);
+      return propEq('state', 'pending')(self);
     },
     get account() {
       return self.user.account;
+    },
+    get balance() {
+      return self.user.account.balance;
     },
   }));
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Checkbox, Icon, Typography } from 'ui-kit';
 import cn from 'classnames';
-import PipelinesStore from 'stores/pipelines';
+import PipelinesStore, { TPipeline } from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
-import { Pipeline } from '@types';
+
 import css from './Item.module.scss';
 
 interface PipelineItemProps {
-  pipeline: Pipeline;
+  pipeline: TPipeline;
 }
 
 const statusTable: { [key: string]: string } = {
@@ -15,10 +15,10 @@ const statusTable: { [key: string]: string } = {
 };
 
 const PipelineItem = ({ pipeline }: PipelineItemProps) => {
-  const { id, name, status } = pipeline;
+  const { name, status } = pipeline;
   const { checkPipeline, checked } = PipelinesStore;
-  const handleCheck = () => checkPipeline(id);
-  const isChecked = checked.indexOf(id) >= 0;
+  const handleCheck = () => checkPipeline(pipeline);
+  const isChecked = checked.has(pipeline.id);
 
   return (
     <tr className={cn(css.row, isChecked && css.checked)}>

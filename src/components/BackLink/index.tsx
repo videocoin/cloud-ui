@@ -6,7 +6,7 @@ import css from './index.module.scss';
 const BackLink = ({ to = '../' }: { to?: string }) => {
   return (
     <Link className={css.btn} to={to}>
-      <Icon name="placeholderSm" width={24} height={24} />
+      <Icon color="#EEE3FF" name="back" width={24} height={24} />
     </Link>
   );
 };

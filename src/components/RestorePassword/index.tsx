@@ -53,6 +53,7 @@ const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
           mapKeys(camelCase),
           get('response.data.fields'),
         )(e);
+
         setErrors(errors);
       }
       throw e;
@@ -62,6 +63,7 @@ const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
   const renderField = (field: FormField) => (
     <Field key={field.name} component={Input} {...field} />
   );
+
   return (
     <Modal>
       <Form className={css.form}>

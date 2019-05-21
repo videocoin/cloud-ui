@@ -5,8 +5,8 @@ import UserStore from 'stores/user';
 import css from './index.module.scss';
 
 const Wallet = () => {
-  const { account } = UserStore;
-  const { address, balance } = account;
+  const { address, balance } = UserStore;
+
   return (
     <div className={css.walletBody}>
       <Typography type="bodyAlt">Primary Wallet</Typography>

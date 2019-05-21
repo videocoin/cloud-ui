@@ -25,8 +25,10 @@ const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
 const ModalManager = () => {
   const { type, props: modalProps, closeModal } = ModalStore;
   const ModalComponent = modalComponentLookupTable[type];
+
   if (!type) return null;
   const pairsProps = modalProps ? fromPairs([...modalProps]) : {};
+
   return <ModalComponent closeModal={closeModal} {...pairsProps} />;
 };
 

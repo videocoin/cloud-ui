@@ -1,7 +1,7 @@
-import { types, flow, applySnapshot } from 'mobx-state-tree';
+import { types, flow, applySnapshot, Instance } from 'mobx-state-tree';
 import { propEq, keyBy, fromPairs, orderBy, compose } from 'lodash/fp';
 import makeInspectable from 'mobx-devtools-mst';
-import { getPipeline, getPipelines } from 'api/pipelines';
+import { addPipeline, getPipeline, getPipelines } from 'api/pipelines';
 import { State } from './types';
 
 type OrderType = 'asc' | 'desc';
@@ -13,6 +13,8 @@ const Pipeline = types.model('Pipeline', {
   profileId: types.string,
 });
 
+export type TPipeline = Instance<typeof Pipeline>;
+
 const Store = types
   .model('PipelinesStore', {
     pipelines: types.map(Pipeline),
@@ -23,7 +25,7 @@ const Store = types
       field: 'status',
       order: types.enumeration('Order', ['asc', 'desc']),
     }),
-    checked: types.array(types.string),
+    checked: types.map(types.reference(types.late(() => Pipeline))),
   })
   .actions(self => ({
     afterCreate() {
@@ -33,8 +35,10 @@ const Store = types
       self.state = 'loading';
       try {
         const res = yield getPipelines();
+
         applySnapshot(self.pipelines, keyBy('id', res.data.items));
         self.state = 'loaded';
+
         return res;
       } catch (e) {
         self.state = 'error';
@@ -42,18 +46,35 @@ const Store = types
       }
     }),
     fetchPipeline: flow(function* fetchPipeline(id: string) {
-      const res = yield getPipeline(id);
-      self.pipeline = res.data;
+      try {
+        const res = yield getPipeline(id);
+
+        self.pipeline = res.data;
+
+        return res;
+      } catch (e) {
+        throw e;
+      }
+    }),
+    createPipeline: flow(function* createPipeline(data) {
+      try {
+        const res = yield addPipeline(data);
+
+        self.pipelines.put(res.data);
+
+        return res;
+      } catch (e) {
+        throw e;
+      }
     }),
     changeSort(field: string, order: string = 'asc') {
       self.sort = { field, order };
     },
-    checkPipeline(id: string) {
-      const idx = self.checked.indexOf(id);
-      if (idx >= 0) {
-        self.checked.remove(id);
+    checkPipeline(pipeline: TPipeline) {
+      if (self.checked.has(pipeline.id)) {
+        self.checked.delete(pipeline.id);
       } else {
-        self.checked.push(id);
+        self.checked.put(pipeline);
       }
     },
   }))
@@ -81,7 +102,7 @@ const PipelinesStore = Store.create({
     field: 'status',
     order: 'asc',
   },
-  checked: [],
+  checked: {},
 });
 
 makeInspectable(PipelinesStore);

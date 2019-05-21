@@ -17,6 +17,7 @@ function errorHandler(error: AxiosError) {
   const {
     response: { status },
   } = error;
+
   // if (status === 401) {
   //   if (!toast.isActive(toastId)) {
   //     toastId = toast.error(

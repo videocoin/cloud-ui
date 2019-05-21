@@ -11,5 +11,6 @@ export function getPipeline(id: string) {
 
 export function addPipeline(data: { name: string; profileId: string }) {
   const mappedData = mapKeys(snakeCase)(data);
+
   return api.post('/pipelines', mappedData);
 }

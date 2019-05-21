@@ -31,6 +31,7 @@ const PipelinesTable = () => {
   const handleSort = (field: string) => () => {
     const order =
       eq(sort.field, field) && eq(sort.order, 'asc') ? 'desc' : 'asc';
+
     changeSort(field, order);
   };
   const renderHead = () =>

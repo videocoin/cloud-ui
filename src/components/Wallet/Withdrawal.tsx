@@ -18,6 +18,7 @@ const Withdrawal = () => {
   const nextStepHandle = () => {
     setStep(2);
   };
+
   return (
     <div className={css.root}>
       <div className={css.body}>
@@ -66,6 +67,7 @@ const Withdrawal = () => {
     </div>
   );
 };
+
 export default withFormik<{}, WithdrawalForm>({
   mapPropsToValues: () => ({
     address: '',
@@ -73,6 +75,7 @@ export default withFormik<{}, WithdrawalForm>({
   }),
   handleSubmit: values => {
     const { openModal } = ModalStore;
+
     openModal(modalType.WITHDRAW_CONFIRM, { ...values });
   },
 })(Withdrawal);

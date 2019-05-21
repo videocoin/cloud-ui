@@ -2,12 +2,9 @@ import './hotLoader.setup';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'components/App';
-import { connectReduxDevtools } from 'mst-middlewares';
-import UserStore from './stores/user';
 import 'styles/index.scss';
 import * as serviceWorker from './serviceWorker';
-
-connectReduxDevtools(require('remotedev'), UserStore);
+import 'stores';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

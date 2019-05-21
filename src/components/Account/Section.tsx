@@ -16,4 +16,5 @@ const Section = ({
     {children}
   </div>
 );
+
 export default Section;

@@ -14,6 +14,7 @@ const ACTIVE_TAB: { [tab: string]: ReactNode } = {
 const Wallet = () => {
   const [activeTab, setActiveTab] = useState('wallet');
   const handleSetTab = (tab: string) => () => setActiveTab(tab);
+
   return (
     <div className={css.root}>
       <div className={css.sidebar}>

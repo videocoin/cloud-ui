@@ -14,11 +14,13 @@ import css from './index.module.scss';
 const SignIn: FC<RouteComponentProps> = ({ location }) => {
   const { token } = queryString.parse(get('search')(location));
   const { openModal } = ModalStore;
+
   useEffect(() => {
     if (token) {
       openModal(modalType.RESTORE_PASSWORD, { token: String(token) });
     }
   }, [openModal, token]);
+
   return (
     <>
       <Header />

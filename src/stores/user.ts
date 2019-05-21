@@ -1,6 +1,5 @@
 import { types, flow } from 'mobx-state-tree';
-import { propEq, getOr } from 'lodash/fp';
-import makeInspectable from 'mobx-devtools-mst';
+import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import { State } from './types';
@@ -12,8 +11,8 @@ const Account = types.model('Account', {
 });
 
 const User = types.model('User', {
-  id: types.maybe(types.string),
-  email: types.maybe(types.string),
+  id: types.string,
+  email: types.string,
   name: types.maybe(types.string),
   activated: false,
   account: types.maybeNull(Account),
@@ -29,22 +28,27 @@ const Store = types
       self.state = 'loading';
       try {
         const res = yield API.getUser();
+
         self.user = User.create(res.data);
         self.state = 'loaded';
+
         return res;
       } catch (e) {
         self.state = 'error';
         throw e;
       }
     });
+
     return {
       fetchUser,
       signIn: flow(function* signIn(data) {
         try {
           const res = yield API.signIn(data);
           const { token } = res.data;
+
           localStorage.setItem('token', token);
           setTokenHeader(token);
+
           return yield fetchUser();
         } catch (e) {
           throw e;
@@ -54,9 +58,11 @@ const Store = types
         try {
           const res = yield API.signUp(data);
           const { token } = res.data;
+
           localStorage.setItem('token', token);
           setTokenHeader(token);
           fetchUser();
+
           return res;
         } catch (e) {
           throw e;
@@ -84,10 +90,13 @@ const Store = types
       return propEq('state', 'pending')(self);
     },
     get account() {
-      return self.user.account;
+      return get('user.account')(self);
     },
     get balance() {
-      return self.user.account.balance;
+      return get('user.account.balance')(self);
+    },
+    get address() {
+      return get('user.account.address')(self);
     },
   }));
 
@@ -95,7 +104,5 @@ const UserStore = Store.create({
   state: 'pending',
   user: null,
 });
-
-makeInspectable(UserStore);
 
 export default UserStore;

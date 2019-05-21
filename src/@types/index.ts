@@ -29,3 +29,8 @@ export interface Pipeline {
   status: 'IDLE';
   profileId: string;
 }
+
+export interface SelectOption {
+  value: string | number;
+  label: string;
+}

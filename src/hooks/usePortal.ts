@@ -2,7 +2,9 @@ import { useRef, useEffect } from 'react';
 
 function createRootElement(id: string): HTMLDivElement {
   const rootContainer: HTMLDivElement = document.createElement('div');
+
   rootContainer.setAttribute('id', id);
+
   return rootContainer;
 }
 
@@ -49,6 +51,7 @@ export default (id: string) => {
     if (!rootElemRef.current) {
       rootElemRef.current = document.createElement('div');
     }
+
     return rootElemRef.current;
   }
 

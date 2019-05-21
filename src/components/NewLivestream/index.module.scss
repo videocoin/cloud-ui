@@ -1,0 +1,39 @@
+@import '~styles/vars';
+
+.form {
+  margin-top: 52px;
+}
+.radioLabel {
+  display: flex;
+  align-items: baseline;
+  & > *:first-child {
+    opacity: 0.24;
+    margin-right: 10px;
+  }
+}
+
+.row {
+  display: flex;
+  margin-bottom: 72px;
+  & > *:first-child {
+    width: 284px;
+    flex-shrink: 0;
+    padding-right: 125px;
+  }
+  & > *:last-child {
+    width: 100%;
+  }
+}
+
+.name {
+  max-width: 453px;
+}
+
+.activeRadio {
+  background-color: $violet-sky-b1;
+}
+
+.innerField {
+  background: $grey-dawn;
+  padding: 36px 72px 72px;
+}

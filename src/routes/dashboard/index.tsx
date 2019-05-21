@@ -11,8 +11,10 @@ const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
 }) => {
   const { isActive } = UserStore;
   const { '*': path } = props;
+
   if (!isActive && path !== 'pending') {
     navigate('/dashboard/pending');
+
     return null;
   }
 

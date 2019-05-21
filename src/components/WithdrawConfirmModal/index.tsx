@@ -14,6 +14,7 @@ const WithDraw = ({ amount, address, closeModal }: WithdrawProps) => {
       <Logo width={92} short type="colorWhite" />
     </div>
   );
+
   return (
     <Modal header={renderHeader}>
       <div className="modalInner">

@@ -1,11 +1,11 @@
 import { types } from 'mobx-state-tree';
 
-const Node: any = types.map(types.union(types.string, types.number));
+const Node = types.map(types.union(types.string, types.number));
 
 const Modal = types
   .model('Modal', {
     type: types.maybeNull(types.string),
-    props: types.maybeNull(Node),
+    props: types.maybeNull(types.late(() => Node)),
   })
   .actions(self => ({
     openModal(modalType: string, modalProps?: any) {
@@ -18,7 +18,9 @@ const Modal = types
     },
   }));
 
-export default Modal.create({
+const ModalStore = Modal.create({
   type: null,
   props: null,
 });
+
+export default ModalStore;

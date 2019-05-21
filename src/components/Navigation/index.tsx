@@ -6,6 +6,7 @@ import css from './index.module.scss';
 
 const Navigation = () => {
   const { isActive } = UserStore;
+
   return (
     <BaseNavigation>
       {isActive && (

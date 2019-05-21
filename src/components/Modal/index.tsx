@@ -8,6 +8,7 @@ import './modal.scss';
 const Modal = ({ ...props }: ModalProps) => {
   const target = usePortal('modal-root');
   const { closeModal } = ModalStore;
+
   return createPortal(
     <Overlay onClick={closeModal}>
       <BaseModal {...props} />

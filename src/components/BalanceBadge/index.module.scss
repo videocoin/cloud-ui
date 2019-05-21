@@ -1,14 +1,14 @@
 @import '~styles/vars';
 
 .root {
-  position: fixed;
+  position: absolute;
   height: 112px;
   display: flex;
   align-items: center;
   border-radius: 12px;
   background: $violet-sky-b3;
   box-shadow: $lofty;
-  left: 132px;
+  left: 39px;
   bottom: 64px;
   padding: 36px 25px;
 }

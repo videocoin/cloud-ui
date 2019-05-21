@@ -14,6 +14,7 @@ const Terms = lazy(() => import('routes/terms'));
 const SignIn = lazy(() => import('routes/signin'));
 const SignUp = lazy(() => import('routes/signup'));
 const Pipelines = lazy(() => import('routes/pipelines'));
+const NewLivestream = lazy(() => import('routes/new-livestream'));
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
             <Terms path="account/terms" />
             <Wallet path="wallet" />
             <Pipelines path="pipelines" />
+            <NewLivestream path="pipelines/new-livestream" />
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />

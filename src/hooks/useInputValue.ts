@@ -5,6 +5,7 @@ export default (initialValue: string) => {
   const onChange: FormEventHandler<HTMLInputElement> = event => {
     setValue(event.currentTarget.value || event.currentTarget.innerText);
   };
+
   return {
     value,
     onChange,

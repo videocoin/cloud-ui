@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { Link, RouteComponentProps } from '@reach/router';
 import withAuth from 'HOCs/withAuth';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
@@ -17,7 +17,9 @@ const PipelinesPage: FC<RouteComponentProps> = () => {
           <Typography type="smallTitle">Livestream Pipelines</Typography>
         </div>
         <div className={css.newBtn}>
-          <Button>New livestream</Button>
+          <Link to="new-livestream">
+            <Button>New livestream</Button>
+          </Link>
         </div>
       </TopBar>
       <Pipelines />

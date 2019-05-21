@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 import css from './Deposit.module.scss';
 
 const Deposit = () => {
-  const { account } = UserStore;
-  const { address } = account;
+  const { address } = UserStore;
   const handleCopy = () => {
     toast.success('Copied');
   };
+
   return (
     <div className={css.root}>
       <div className={css.body}>
@@ -49,4 +49,5 @@ const Deposit = () => {
     </div>
   );
 };
+
 export default Deposit;

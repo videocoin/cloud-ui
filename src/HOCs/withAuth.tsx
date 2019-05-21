@@ -6,11 +6,13 @@ import { Redirect } from '@reach/router';
 export default (authRedirect = false) => (WrappedComponent: ComponentType) => {
   return observer(function withAuth(props: any) {
     const { isAuth, isLoading, isPending, fetchUser } = UserStore;
+
     if (isLoading) {
       return null;
     }
     if (isPending) {
       fetchUser();
+
       return null;
     }
 

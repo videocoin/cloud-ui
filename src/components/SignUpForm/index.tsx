@@ -37,6 +37,7 @@ const SignUp = (props: FormikProps<SignUpForm>) => {
   const renderField = (field: FormField) => (
     <Field key={field.name} component={Input} {...field} />
   );
+
   return (
     <Form className={css.form}>
       <div className={css.fields}>
@@ -80,6 +81,7 @@ export default withFormik<{}, SignUpForm>({
           mapKeys(camelCase),
           get('response.data.fields'),
         )(e);
+
         setErrors(errors);
       }
     }

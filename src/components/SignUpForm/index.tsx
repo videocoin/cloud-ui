@@ -1,9 +1,10 @@
 import React from 'react';
 import { withFormik, Field, FormikProps, Form } from 'formik';
-import { eq, map, omit, get, compose, mapKeys, camelCase } from 'lodash/fp';
+import { eq, map, omit, get } from 'lodash/fp';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { Button, Typography } from 'ui-kit';
+import { Link } from '@reach/router';
 import css from './index.module.scss';
 import { FormField, SignUpForm } from '../../@types';
 import UserStore from '../../stores/user';
@@ -44,7 +45,8 @@ const SignUp = (props: FormikProps<SignUpForm>) => {
         {map(renderField, formFields)}
         <Field checked={false} name="agree" component={Checkbox}>
           <Typography>
-            I agree to the Privacy Policy and Terms and Conditions
+            I agree to the{' '}
+            <Link to="/terms">Privacy Policy and Terms and Conditions</Link>
           </Typography>
         </Field>
       </div>
@@ -77,12 +79,11 @@ export default withFormik<{}, SignUpForm>({
     } catch (e) {
       setSubmitting(false);
       if (eq(400, get('response.status')(e))) {
-        const errors = compose(
-          mapKeys(camelCase),
-          get('response.data.fields'),
-        )(e);
+        const errors = get('response.data.fields')(e);
 
-        setErrors(errors);
+        if (errors) {
+          setErrors(errors);
+        }
       }
     }
   },

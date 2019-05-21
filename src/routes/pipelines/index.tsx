@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Link, RouteComponentProps } from '@reach/router';
 import withAuth from 'HOCs/withAuth';
 import { Button, TopBar, Typography } from 'ui-kit';
-import BackLink from 'components/BackLink';
 import Pipelines from 'components/Pipelines';
 import BalanceBadge from 'components/BalanceBadge';
 import css from './index.module.scss';
@@ -11,7 +10,6 @@ const PipelinesPage: FC<RouteComponentProps> = () => {
   return (
     <>
       <TopBar>
-        <BackLink />
         <div>
           <Typography type="caption">VideoCoin Network</Typography>
           <Typography type="smallTitle">Livestream Pipelines</Typography>

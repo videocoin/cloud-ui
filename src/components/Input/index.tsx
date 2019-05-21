@@ -5,7 +5,7 @@ import css from './index.module.scss';
 
 const Input = ({ field, form, ...baseInputProps }: FieldProps) => {
   const { touched, errors } = form;
-  const hasError = Boolean(touched[field.name] && errors[field.name]);
+  const hasError = field && Boolean(touched[field.name] && errors[field.name]);
 
   return (
     <BaseInput

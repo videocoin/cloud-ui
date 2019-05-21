@@ -17,3 +17,5 @@ export const LiveStreamProfiles = [
     value: 3,
   },
 ];
+
+export const balanceRequestTimeout = 30000;

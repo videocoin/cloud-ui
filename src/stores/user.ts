@@ -1,6 +1,7 @@
-import { types, flow } from 'mobx-state-tree';
+import { types, flow, Instance } from 'mobx-state-tree';
 import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
+import * as AccountAPI from 'api/account';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import { State } from './types';
 
@@ -11,12 +12,15 @@ const Account = types.model('Account', {
 });
 
 const User = types.model('User', {
-  id: types.string,
+  id: types.identifier,
   email: types.string,
   name: types.maybe(types.string),
-  activated: false,
+  isActive: false,
   account: types.maybeNull(Account),
 });
+
+type TUser = Instance<typeof User>;
+type TAccount = Instance<typeof Account>;
 
 const Store = types
   .model('UserStore', {
@@ -41,6 +45,17 @@ const Store = types
 
     return {
       fetchUser,
+      fetchAccount: flow(function* fetchAccount() {
+        try {
+          const res = yield AccountAPI.fetchAccount(self.user.account.id);
+
+          self.user.account = res.data;
+
+          return res;
+        } catch (e) {
+          throw e;
+        }
+      }),
       signIn: flow(function* signIn(data) {
         try {
           const res = yield API.signIn(data);
@@ -81,7 +96,7 @@ const Store = types
       return Boolean(self.user);
     },
     get isActive() {
-      return getOr(false, 'user.activated', self);
+      return getOr(false, 'user.isActive', self);
     },
     get isLoading() {
       return propEq('state', 'loading')(self);

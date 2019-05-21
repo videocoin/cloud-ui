@@ -1,5 +1,5 @@
 import { types, flow, applySnapshot, Instance } from 'mobx-state-tree';
-import { propEq, keyBy, fromPairs, orderBy, compose } from 'lodash/fp';
+import { propEq, keyBy, fromPairs, orderBy, compose, get } from 'lodash/fp';
 import makeInspectable from 'mobx-devtools-mst';
 import { addPipeline, getPipeline, getPipelines } from 'api/pipelines';
 import { State } from './types';
@@ -28,15 +28,17 @@ const Store = types
     checked: types.map(types.reference(types.late(() => Pipeline))),
   })
   .actions(self => ({
-    afterCreate() {
-      this.load();
-    },
     load: flow(function* load() {
       self.state = 'loading';
       try {
         const res = yield getPipelines();
 
-        applySnapshot(self.pipelines, keyBy('id', res.data.items));
+        const mappedData = compose(
+          keyBy('id'),
+          get('data.items'),
+        )(res);
+
+        applySnapshot(self.pipelines, mappedData);
         self.state = 'loaded';
 
         return res;

@@ -1,12 +1,11 @@
 import React, { Suspense, lazy } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Redirect, Router } from '@reach/router';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ModalManager from 'components/ModalManager';
 
 const Dashboard = lazy(() => import('routes/dashboard'));
-const DashHome = lazy(() => import('routes/DashHome'));
 const Pending = lazy(() => import('routes/Pending'));
 const Account = lazy(() => import('routes/account'));
 const Wallet = lazy(() => import('routes/wallet'));
@@ -21,23 +20,26 @@ const App = () => {
     <>
       <Suspense fallback={<div />}>
         <Router className="wrapper" primary={false}>
-          <Redirect from="/" to="/dashboard" noThrow />
+          <Redirect from="/" to="/dashboard/pipelines" noThrow />
           <Dashboard path="/dashboard">
-            <DashHome path="/" />
             <Pending path="pending" />
             <Account path="account" />
             <Terms path="account/terms" />
             <Wallet path="wallet" />
-            <Pipelines path="pipelines" />
+            <Pipelines path="pipelines" default />
             <NewLivestream path="pipelines/new-livestream" />
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
           <SignUp path="/sign-up" />
+          <Terms isCommon path="/terms" />
         </Router>
         <ModalManager />
       </Suspense>
-      <ToastContainer />
+      <ToastContainer
+        position={toast.POSITION.BOTTOM_CENTER}
+        closeButton={false}
+      />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, FieldAction, Input, Typography } from 'ui-kit/src';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import QRCode from 'qrcode.react';
 
 import UserStore from 'stores/user';
 import { toast } from 'react-toastify';
@@ -9,7 +10,7 @@ import css from './Deposit.module.scss';
 const Deposit = () => {
   const { address } = UserStore;
   const handleCopy = () => {
-    toast.success('Copied');
+    toast.success('Address has been copied to your clipboard');
   };
 
   return (
@@ -34,9 +35,13 @@ const Deposit = () => {
             />
           </div>
         </div>
-        <div className={css.qr}>
-          <img src="http://placehold.it/136x136" alt="" />
-        </div>
+        <QRCode
+          bgColor="#351661"
+          fgColor="#dad0e8"
+          level="M"
+          size={136}
+          value={address}
+        />
       </div>
       <div className={css.footer}>
         <Typography type="caption">

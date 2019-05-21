@@ -1,16 +1,20 @@
 @import '~styles/vars';
+@import '~styles/mixins';
 
 .root {
-  position: absolute;
+  position: fixed;
   height: 112px;
   display: flex;
   align-items: center;
   border-radius: 12px;
   background: $violet-sky-b3;
   box-shadow: $lofty;
-  left: 39px;
   bottom: 64px;
   padding: 36px 25px;
+  left: 350px;
+  @include laptop {
+    left: 132px;
+  }
 }
 .balance {
   margin-right: 7px;

@@ -1,11 +1,8 @@
-import { snakeCase, mapKeys } from 'lodash/fp';
 import api from '.';
 import { RestoreForm, SignInForm, SignUpForm } from '@types';
 
 export function signUp(data: SignUpForm) {
-  const mappedData = mapKeys(snakeCase)(data);
-
-  return api.post('/users', mappedData);
+  return api.post('/users', data);
 }
 
 export function signIn(data: SignInForm) {
@@ -21,7 +18,5 @@ export function resetPassword(data: { email: string }) {
 }
 
 export function recoverPassword(data: RestoreForm) {
-  const mappedData = mapKeys(snakeCase)(data);
-
-  return api.post('/recover', mappedData);
+  return api.post('/recover', data);
 }

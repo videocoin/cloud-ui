@@ -1,12 +1,18 @@
 import React, { FC } from 'react';
-import { Typography } from 'ui-kit';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { TopBar, Typography } from 'ui-kit';
+import { Row, Col } from 'react-flexbox-grid';
 import { RouteComponentProps } from '@reach/router';
 import AudienceImg from 'img/audience.svg';
 
 const Pending: FC<RouteComponentProps> = () => {
   return (
-    <Grid>
+    <>
+      <TopBar>
+        <div>
+          <Typography type="caption">VideoCoin Network</Typography>
+          <Typography type="smallTitle">Waitlist</Typography>
+        </div>
+      </TopBar>
       <Row>
         <Col xs={6} xsOffset={3}>
           <div className="g-tac">
@@ -28,7 +34,7 @@ const Pending: FC<RouteComponentProps> = () => {
           </div>
         </Col>
       </Row>
-    </Grid>
+    </>
   );
 };
 

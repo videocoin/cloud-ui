@@ -1,16 +1,30 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { RouteComponentProps, navigate } from '@reach/router';
 import Navigation from 'components/Navigation';
 import withAuth from 'HOCs/withAuth';
 import UserStore from 'stores/user';
 import css from './index.module.scss';
+import { balanceRequestTimeout } from '../../constants';
 
 const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
   children,
   ...props
 }) => {
-  const { isActive } = UserStore;
+  const { isActive, fetchAccount } = UserStore;
   const { '*': path } = props;
+  const interval = useRef(null);
+
+  useEffect(() => {
+    if (isActive) {
+      interval.current = setInterval(() => {
+        fetchAccount();
+      }, balanceRequestTimeout);
+    }
+
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, [fetchAccount, isActive]);
 
   if (!isActive && path !== 'pending') {
     navigate('/dashboard/pending');

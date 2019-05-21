@@ -3,6 +3,7 @@ import Modal from 'components/Modal';
 import UserStore from 'stores/user';
 import { resetPassword } from 'api/user';
 import plane from 'components/ResetPassword/assets/plane.svg';
+import icon from './assets/icon.svg';
 import Form from './Form';
 import Success from './Success';
 
@@ -18,12 +19,7 @@ const ResetPassword = ({ closeModal }: ResetPasswordProps) => {
     user: { email },
     logout,
   } = UserStore;
-  const renderHeader = () =>
-    isSuccess ? (
-      <img src={plane} alt="" />
-    ) : (
-      <img src="http://placehold.it/220x64" alt="" />
-    );
+  const renderHeader = () => <img src={isSuccess ? plane : icon} alt="" />;
 
   const handleReset = async () => {
     setIsLoading(true);

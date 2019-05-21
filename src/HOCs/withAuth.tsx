@@ -18,7 +18,7 @@ export default (authRedirect = false) => (WrappedComponent: ComponentType) => {
 
     if (authRedirect) {
       return isAuth ? (
-        <Redirect to="/dashboard" noThrow />
+        <Redirect to="/dashboard/pipelines" noThrow />
       ) : (
         <WrappedComponent {...props} />
       );

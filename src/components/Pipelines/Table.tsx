@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Icon, Typography } from 'ui-kit';
 import { map, eq } from 'lodash/fp';
 import PipelineItem from 'components/Pipelines/Item';
@@ -20,7 +20,13 @@ const fields = [
 ];
 
 const PipelinesTable = () => {
-  const { items, changeSort, sort, state } = PipelinesStore;
+  const { items, changeSort, sort, state, load } = PipelinesStore;
+
+  useEffect(() => {
+    if (!items.length) {
+      load();
+    }
+  }, [items.length, load]);
 
   if (eq('loading', state)) {
     return <Typography>Loading...</Typography>;

@@ -1,3 +1,14 @@
 .root {
   margin-top: 25px;
 }
+
+.btns {
+  margin-left: auto;
+  & > * {
+    margin-left: 10px;
+  }
+}
+
+.disable {
+  pointer-events: none;
+}

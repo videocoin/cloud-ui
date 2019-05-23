@@ -10,10 +10,13 @@ const Pending = lazy(() => import('routes/Pending'));
 const Account = lazy(() => import('routes/account'));
 const Wallet = lazy(() => import('routes/wallet'));
 const Terms = lazy(() => import('routes/terms'));
+const Privacy = lazy(() => import('routes/privacy'));
 const SignIn = lazy(() => import('routes/signin'));
 const SignUp = lazy(() => import('routes/signup'));
+const PipelinesRoot = lazy(() => import('routes/PipelinesRoot'));
 const Pipelines = lazy(() => import('routes/pipelines'));
 const NewLivestream = lazy(() => import('routes/new-livestream'));
+const Livestream = lazy(() => import('routes/livestream'));
 
 const App = () => {
   return (
@@ -25,14 +28,19 @@ const App = () => {
             <Pending path="pending" />
             <Account path="account" />
             <Terms path="account/terms" />
+            <Privacy path="account/privacy" />
             <Wallet path="wallet" />
-            <Pipelines path="pipelines" default />
-            <NewLivestream path="pipelines/new-livestream" />
+            <PipelinesRoot path="pipelines">
+              <Pipelines path="/" />
+              <NewLivestream path="new" />
+              <Livestream path=":streamId" />
+            </PipelinesRoot>
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
           <SignUp path="/sign-up" />
           <Terms isCommon path="/terms" />
+          <Privacy isCommon path="/privacy" />
         </Router>
         <ModalManager />
       </Suspense>

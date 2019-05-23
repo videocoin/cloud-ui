@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+}
+.icon {
+  margin-right: 85px;
+}
+
+.desc {
+  padding-top: 16px;
+}
+
+.steps {
+  margin-top: 22px;
+  padding-left: 36px;
+  li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  svg {
+    margin-right: 20px;
+  }
+}
+
+.cross {
+  div {
+    text-decoration: line-through;
+  }
+}

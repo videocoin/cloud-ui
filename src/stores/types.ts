@@ -5,6 +5,7 @@ export const State = types.enumeration('State', [
   'loaded',
   'pending',
   'error',
+  'deleting',
 ]);
 
 export type TState = Instance<typeof State>;

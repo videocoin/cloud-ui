@@ -1,7 +1,15 @@
 import { types, flow, applySnapshot, Instance } from 'mobx-state-tree';
-import { propEq, keyBy, fromPairs, orderBy, compose, get } from 'lodash/fp';
-import makeInspectable from 'mobx-devtools-mst';
-import { addPipeline, getPipeline, getPipelines } from 'api/pipelines';
+import {
+  map,
+  propEq,
+  keyBy,
+  fromPairs,
+  orderBy,
+  compose,
+  get,
+  some,
+} from 'lodash/fp';
+import * as API from 'api/pipelines';
 import { State } from './types';
 
 type OrderType = 'asc' | 'desc';
@@ -9,7 +17,7 @@ type OrderType = 'asc' | 'desc';
 const Pipeline = types.model('Pipeline', {
   id: types.identifier,
   name: types.string,
-  status: types.enumeration('Status', ['IDLE']),
+  status: types.enumeration('Status', ['IDLE', 'PENDING_CREATE']),
   profileId: types.string,
 });
 
@@ -25,13 +33,13 @@ const Store = types
       field: 'status',
       order: types.enumeration('Order', ['asc', 'desc']),
     }),
-    checked: types.map(types.reference(types.late(() => Pipeline))),
+    checked: types.map(types.safeReference(types.late(() => Pipeline))),
   })
   .actions(self => ({
     load: flow(function* load() {
       self.state = 'loading';
       try {
-        const res = yield getPipelines();
+        const res = yield API.getPipelines();
 
         const mappedData = compose(
           keyBy('id'),
@@ -48,24 +56,44 @@ const Store = types
       }
     }),
     fetchPipeline: flow(function* fetchPipeline(id: string) {
+      self.pipelineState = 'loading';
       try {
-        const res = yield getPipeline(id);
+        const res = yield API.getPipeline(id);
 
         self.pipeline = res.data;
+        self.pipelineState = 'loaded';
+
+        return res;
+      } catch (e) {
+        self.pipelineState = 'error';
+        throw e;
+      }
+    }),
+    createPipeline: flow(function* createPipeline(data) {
+      try {
+        const res = yield API.addPipeline(data);
+
+        self.pipelines.put(res.data);
 
         return res;
       } catch (e) {
         throw e;
       }
     }),
-    createPipeline: flow(function* createPipeline(data) {
-      try {
-        const res = yield addPipeline(data);
+    deletePipelines: flow(function* deletePipelines() {
+      self.state = 'deleting';
+      const keys = [...self.checked.keys()];
+      const promises = map(API.deletePipeline)(keys);
 
-        self.pipelines.put(res.data);
+      try {
+        const res = yield Promise.all(promises);
+
+        self.checked.forEach((val, key) => self.pipelines.delete(key));
+        self.state = 'loaded';
 
         return res;
       } catch (e) {
+        self.state = 'error';
         throw e;
       }
     }),
@@ -79,6 +107,9 @@ const Store = types
         self.checked.put(pipeline);
       }
     },
+    clearPipeline() {
+      self.pipeline = null;
+    },
   }))
   .views(self => ({
     get isLoading() {
@@ -87,11 +118,17 @@ const Store = types
     get isPending() {
       return propEq('state', 'pending')(self);
     },
+    get isDeleting() {
+      return propEq('state', 'deleting')(self);
+    },
     get items() {
       return compose(
         orderBy(self.sort.field, self.sort.order as OrderType),
         fromPairs,
       )([...self.pipelines]);
+    },
+    get hasFirstActiveStream() {
+      return some(!propEq('status', 'IDLE'))(self.pipelines);
     },
   }));
 
@@ -107,6 +144,6 @@ const PipelinesStore = Store.create({
   checked: {},
 });
 
-makeInspectable(PipelinesStore);
+export type TPipelineStore = Instance<typeof PipelinesStore>;
 
 export default PipelinesStore;

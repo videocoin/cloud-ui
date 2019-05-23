@@ -40,6 +40,7 @@ const SignUp: FC<RouteComponentProps> = () => {
             </Col>
           </Row>
         </Grid>
+        <div className={css.pad} />
       </div>
     </>
   );

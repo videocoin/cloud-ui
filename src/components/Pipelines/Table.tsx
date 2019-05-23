@@ -20,15 +20,22 @@ const fields = [
 ];
 
 const PipelinesTable = () => {
-  const { items, changeSort, sort, state, load } = PipelinesStore;
+  const {
+    items,
+    changeSort,
+    sort,
+    isPending,
+    isLoading,
+    load,
+  } = PipelinesStore;
 
   useEffect(() => {
-    if (!items.length) {
+    if (isPending) {
       load();
     }
-  }, [items.length, load]);
+  }, [isPending, load]);
 
-  if (eq('loading', state)) {
+  if (isLoading || isPending) {
     return <Typography>Loading...</Typography>;
   }
 

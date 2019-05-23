@@ -11,3 +11,11 @@ export function getPipeline(id: string) {
 export function addPipeline(data: { name: string; profileId: string }) {
   return api.post('/pipelines', data);
 }
+
+export function deletePipeline(id: string) {
+  return api.delete(`/pipelines/${id}`);
+}
+
+export function runPipeline(id: string) {
+  return api.post(`/pipelines/${id}/run`);
+}

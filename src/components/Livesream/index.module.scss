@@ -1,0 +1,87 @@
+@import '~styles/vars';
+
+.top {
+  display: flex;
+  margin-top: 16px;
+  align-items: flex-end;
+  margin-bottom: 56px;
+}
+
+.player {
+  width: 320px;
+  height: 180px;
+  background-color: $grey-dawn-b2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 79px;
+  border-radius: 4px;
+}
+
+.spec {
+  display: flex;
+  margin-top: 16px;
+  li {
+    display: flex;
+    align-items: baseline;
+    &:not(:last-child) {
+      margin-right: 36px;
+    }
+  }
+}
+
+.section {
+  &:not(:last-child) {
+    margin-bottom: 56px;
+  }
+}
+
+.head {
+  border-bottom: 1px solid $grey-dawn-w2;
+  padding-left: 8px;
+  margin-bottom: 41px;
+}
+
+.endpoints {
+  display: flex;
+  & > * {
+    flex: 1;
+    &:first-child {
+      margin-right: 21px;
+    }
+  }
+}
+
+.endpointTitle {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+  color: $light2;
+  margin-right: 8px;
+}
+.endpointStatus {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: baseline;
+}
+.mark {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #2d1153;
+  margin-right: 17px;
+  align-self: center;
+  &.active {
+    background: $minty-green;
+  }
+}
+
+.copy {
+  cursor: pointer;
+}
+
+.log {
+  background: $grey-dawn-b2;
+  border-radius: 8px;
+  height: 300px;
+}

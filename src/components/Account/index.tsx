@@ -43,7 +43,7 @@ const Account = () => {
               Terms and conditions
             </Link>
             <br />
-            <Link className="link link_violet" to="">
+            <Link className="link link_violet" to="privacy">
               Privacy policy
             </Link>
           </div>

@@ -26,8 +26,12 @@ const Deposit = () => {
               readOnly
               label="VideoCoin Address"
               postfix={() => (
-                <CopyToClipboard text={address} onCopy={handleCopy}>
-                  <span className={css.copy}>
+                <CopyToClipboard
+                  className={css.copy}
+                  text={address}
+                  onCopy={handleCopy}
+                >
+                  <span>
                     <FieldAction color="violet" icon="copy" />
                   </span>
                 </CopyToClipboard>

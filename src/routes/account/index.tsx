@@ -5,15 +5,19 @@ import AccountDetails from 'components/Account';
 
 const Account: FC<RouteComponentProps> = () => {
   return (
-    <>
-      <TopBar>
-        <div>
-          <Typography type="caption">VideoCoin Network</Typography>
-          <Typography type="smallTitle">Account</Typography>
-        </div>
-      </TopBar>
-      <AccountDetails />
-    </>
+    <div>
+      <div className="topBar">
+        <TopBar>
+          <div>
+            <Typography type="caption">VideoCoin Network</Typography>
+            <Typography type="smallTitle">Account</Typography>
+          </div>
+        </TopBar>
+      </div>
+      <div className="content">
+        <AccountDetails />
+      </div>
+    </div>
   );
 };
 

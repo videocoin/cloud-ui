@@ -42,30 +42,34 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
 
   return (
     <>
-      <TopBar>
-        <BackLink />
-        <div>
-          <Typography type="caption">VideoCoin Network</Typography>
-          <Typography type="smallTitle">New Livestream</Typography>
-        </div>
-        <div className={css.btns}>
-          {!isValid && (
-            <Typography type="caption">
-              Finish selections to continue
-            </Typography>
-          )}
-          <Button
-            type="submit"
-            form="pipelineForm"
-            loading={isSubmitting}
-            disabled={!isValid}
-          >
-            Create pipeline
-          </Button>
-        </div>
-      </TopBar>
-      <NewLivestream {...props} />
-      <BalanceBadge />
+      <div className="topBar">
+        <TopBar>
+          <BackLink />
+          <div>
+            <Typography type="caption">VideoCoin Network</Typography>
+            <Typography type="smallTitle">New Livestream</Typography>
+          </div>
+          <div className={css.btns}>
+            {!isValid && (
+              <Typography type="caption">
+                Finish selections to continue
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              form="pipelineForm"
+              loading={isSubmitting}
+              disabled={!isValid}
+            >
+              Create pipeline
+            </Button>
+          </div>
+        </TopBar>
+      </div>
+      <div className="content">
+        <NewLivestream {...props} />
+        <BalanceBadge />
+      </div>
     </>
   );
 });

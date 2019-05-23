@@ -45,8 +45,9 @@ const SignUp = (props: FormikProps<SignUpForm>) => {
         {map(renderField, formFields)}
         <Field checked={false} name="agree" component={Checkbox}>
           <Typography>
-            I agree to the{' '}
-            <Link to="/terms">Privacy Policy and Terms and Conditions</Link>
+            I agree to the <Link to="/privacy">Privacy Policy</Link>
+            &nbsp;and&nbsp;
+            <Link to="/terms">Terms and Conditions</Link>
           </Typography>
         </Field>
       </div>

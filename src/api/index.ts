@@ -1,19 +1,31 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosTransformer } from 'axios';
 import { toast, ToastId } from 'react-toastify';
 import humps from 'humps';
 import { BASE_URL, defaultServerError } from '../constants';
 
 const AUTH_TOKEN = localStorage.getItem('token');
 
+const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
+  if (!transformRequest) {
+    return [];
+  }
+  if (transformRequest instanceof Array) {
+    return transformRequest;
+  }
+
+  return [transformRequest];
+};
+
 const api = axios.create({
   baseURL: BASE_URL,
-  transformRequest: [].concat(
+  transformRequest: [
     (data: any) => humps.decamelizeKeys(data),
-    axios.defaults.transformRequest,
-  ),
-  transformResponse: [].concat(axios.defaults.transformResponse, (data: any) =>
-    humps.camelizeKeys(data),
-  ),
+    ...defaultTransformers(axios.defaults.transformRequest),
+  ],
+  transformResponse: [
+    ...defaultTransformers(axios.defaults.transformResponse),
+    (data: any) => humps.camelizeKeys(data),
+  ],
 });
 
 let toastId: ToastId = '';

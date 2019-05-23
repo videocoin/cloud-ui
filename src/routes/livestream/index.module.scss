@@ -1,0 +1,8 @@
+.btns {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  div:first-child:not(:last-child) {
+    margin-right: 30px;
+  }
+}

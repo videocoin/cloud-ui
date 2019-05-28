@@ -5,6 +5,7 @@ import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
 import { FieldAction, Input, Typography } from 'ui-kit';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Player from 'components/Livesream/Player';
 import css from './index.module.scss';
 
 const Livestream = ({ streamId }: { streamId: string }) => {
@@ -25,14 +26,17 @@ const Livestream = ({ streamId }: { streamId: string }) => {
   if (eq('loading', pipelineState) || !pipeline) {
     return <Typography>Loading...</Typography>;
   }
-  const { name } = pipeline;
+  const { name, jobProfile } = pipeline;
+  const { ingestInputUrl, transcodeOutputUrl } = jobProfile;
 
   return (
     <div>
       <div className={css.top}>
-        <div className={css.player}>
-          <Typography type="bodyAlt">Offline</Typography>
-        </div>
+        <Player
+          src="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
+          format="MONO_FLAT"
+          status="offline"
+        />
         <div className={css.desc}>
           <Typography type="title">{name}</Typography>
           <ul className={css.spec}>
@@ -65,7 +69,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
               </Typography>
             </div>
             <Input
-              value="https://videocoin.network/18573/94s57"
+              value={ingestInputUrl}
               label="Ingest URL"
               postfix={() => (
                 <CopyToClipboard text="">
@@ -85,7 +89,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
               </Typography>
             </div>
             <Input
-              value="https://videocoin.network/18573/94s57"
+              value={transcodeOutputUrl}
               label="Output URL"
               postfix={() => (
                 <CopyToClipboard text="">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SelectOption } from '@types';
 import { RouteComponentProps, navigate } from '@reach/router';
 import withAuth from 'HOCs/withAuth';
@@ -6,8 +6,8 @@ import { withFormik } from 'formik';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import NewLivestream from 'components/NewLivestream';
-import BalanceBadge from 'components/BalanceBadge';
 import PipelinesStore from 'stores/pipelines';
+import UserStore from 'stores/user';
 import css from './index.module.scss';
 import validationSchema from './validate';
 
@@ -39,6 +39,17 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
   },
 })(props => {
   const { isValid, isSubmitting } = props;
+  const { balance } = UserStore;
+
+  useEffect(() => {
+    if (!balance) {
+      navigate('./');
+    }
+  }, [balance]);
+
+  if (!balance) {
+    return null;
+  }
 
   return (
     <>
@@ -68,7 +79,6 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
       </div>
       <div className="content">
         <NewLivestream {...props} />
-        <BalanceBadge />
       </div>
     </>
   );

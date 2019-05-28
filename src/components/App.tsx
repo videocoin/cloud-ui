@@ -4,6 +4,7 @@ import { Redirect, Router } from '@reach/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ModalManager from 'components/ModalManager';
+import { Spinner } from 'ui-kit';
 
 const Dashboard = lazy(() => import('routes/dashboard'));
 const Pending = lazy(() => import('routes/Pending'));
@@ -21,7 +22,7 @@ const Livestream = lazy(() => import('routes/livestream'));
 const App = () => {
   return (
     <>
-      <Suspense fallback={<div />}>
+      <Suspense fallback={<Spinner />}>
         <Router className="wrapper" primary={false}>
           <Redirect from="/" to="/dashboard/pipelines" noThrow />
           <Dashboard path="/dashboard">
@@ -42,6 +43,8 @@ const App = () => {
           <Terms isCommon path="/terms" />
           <Privacy isCommon path="/privacy" />
         </Router>
+      </Suspense>
+      <Suspense fallback={<Spinner />}>
         <ModalManager />
       </Suspense>
       <ToastContainer

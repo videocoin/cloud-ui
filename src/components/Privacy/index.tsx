@@ -28,7 +28,6 @@ const Privacy = () => {
         We will also use the information to help us understand you better and so
         that we can give you relevant offers.
       </Typography>
-      <Typography type="smallBody">From my youth upwards</Typography>
       <Typography type="smallBody">
         If you tell us that you don’t want to receive marketing messages, we
         will stop sending them. We will, of course, continue to send essential
@@ -70,6 +69,10 @@ const Privacy = () => {
         If you wish to amend any of the personal information that we hold about
         you, or update your marketing preferences, you can do so at any time
         through your account.
+      </Typography>
+      <Typography type="smallBody">
+        If you have any queries about how we use your personal information,
+        please contact us at support@videocoin.io.
       </Typography>
       <Typography type="smallBody">
         <Typography type="bodyAlt">Information we collect</Typography>

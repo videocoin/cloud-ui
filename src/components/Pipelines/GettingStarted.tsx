@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Typography } from 'ui-kit/src';
+import { Icon, Typography } from 'ui-kit';
 import UserStore from 'stores/user';
 import { observer } from 'mobx-react-lite';
 import PipelinesStore from 'stores/pipelines';

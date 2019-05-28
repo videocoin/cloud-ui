@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FieldAction, Input, Typography } from 'ui-kit/src';
+import { Button, FieldAction, Input, Typography } from 'ui-kit';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRCode from 'qrcode.react';
 

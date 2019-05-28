@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { Icon, Typography } from 'ui-kit';
 import { map, eq } from 'lodash/fp';
 import PipelineItem from 'components/Pipelines/Item';
-import PipelinesStore from 'stores/pipelines';
-import { Pipeline } from '@types';
+import PipelinesStore, { TPipeline } from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
 import css from './Table.module.scss';
 
@@ -61,7 +60,7 @@ const PipelinesTable = () => {
     ))(fields);
   const renderTable = () =>
     map(
-      (pipeline: Pipeline) => (
+      (pipeline: TPipeline) => (
         <PipelineItem key={pipeline.id} pipeline={pipeline} />
       ),
       items,

@@ -77,15 +77,18 @@ const Terms = () => {
         <Typography type="bodyAlt">2. Definitions</Typography>
         The terms defined below in this section will have the meaning assigned
         to them here throughout this entire document unless explicitly mentioned
-        otherwise: (a) ‘Accompanying Documents’ means other documents related to
-        the VideoCoin Token Presale in addition to these T&C including but not
-        limited to the Whitepaper, Token Presale Privacy Policy, Token Presale
-        Policy, Token Presale Agreement and KYC and AML guidelines for the Token
-        Presale. In case of any discrepancies between Accompanying Documents and
-        the T&C, the latter shall apply.
+        otherwise:
       </Typography>
       <Typography type="smallBody">
         <ul>
+          <li>
+            (a) ‘Accompanying Documents’ means other documents related to the
+            VideoCoin Token Presale in addition to these T&C including but not
+            limited to the Whitepaper, Token Presale Privacy Policy, Token
+            Presale Policy, Token Presale Agreement and KYC and AML guidelines
+            for the Token Presale. In case of any discrepancies between
+            Accompanying Documents and the T&C, the latter shall apply.
+          </li>
           <li>
             (b) ‘Account’ means a User’s digital account created and maintained
             on the Website, which is used to purchase VideoCoin Tokens during
@@ -295,9 +298,9 @@ const Terms = () => {
         Accompanying Documents that follow these Terms and regulate the Website
         usage and Tokens Sale procedure. The mentioned Accompanying Documents
         shall be regarded as an inalienable part hereof and their terms of use
-        shall be the same as of these T&amp;C. By using the Website each and any
+        shall be the same as of these T&C. By using the Website each and any
         User conﬁrms that he (she) has fully read and understood not only these
-        T&amp;C, but any Accompanying Documents and fully accepts their terms.
+        T&C, but any Accompanying Documents and fully accepts their terms.
       </Typography>
       <Typography type="smallBody">
         3.8. The pages of the Website may contain links to third-party websites
@@ -812,24 +815,23 @@ const Terms = () => {
         <Typography type="bodyAlt">10. Additional Provisions</Typography>
         <ul>
           <li>
-            (a) Complete Agreement: These T&amp;C set forth the entire
-            understanding between each User and the Company and the VideoCoin
-            Team with respect to the purchase and sale of Tokens. For facts
-            relating to the sale and purchase, the User agrees to rely only on
-            the Agreements in determining purchase decisions and understands
-            that these documents govern the sale of Tokens and supersede any
-            public statements about the Token Presale made by third parties or
-            by the VideoCoin Team or Company or individuals associated with
-            VideoCoin Team or Company, past and present and during the Token
-            Presale.
+            (a) Complete Agreement: These T&C set forth the entire understanding
+            between each User and the Company and the VideoCoin Team with
+            respect to the purchase and sale of Tokens. For facts relating to
+            the sale and purchase, the User agrees to rely only on the
+            Agreements in determining purchase decisions and understands that
+            these documents govern the sale of Tokens and supersede any public
+            statements about the Token Presale made by third parties or by the
+            VideoCoin Team or Company or individuals associated with VideoCoin
+            Team or Company, past and present and during the Token Presale.
           </li>
           <li>
-            (b) Severability: If any term, clause or provision of these T&amp;C
-            is held unlawful, void or unenforceable, then that term, clause or
-            provision will be severable from these T&amp;C and will not affect
-            the validity or enforceability of any remaining part of that term,
+            (b) Severability: If any term, clause or provision of these T&C is
+            held unlawful, void or unenforceable, then that term, clause or
+            provision will be severable from these T&C and will not affect the
+            validity or enforceability of any remaining part of that term,
             clause or provision, or any other term, clause or provision of these
-            T&amp;C.
+            T&C.
           </li>
           <li>
             (c) No Waiver: The failure of the Website Owner to require or
@@ -838,15 +840,15 @@ const Terms = () => {
             Agreements shall not be construed as a waiver or relinquishment of
             the Company’s right to assert or rely upon any such provision or
             right in that or any other instance. The express waiver by the
-            Company of any provision, condition, or requirement of these T&amp;C
+            Company of any provision, condition, or requirement of these T&C
             shall not constitute a waiver of any future obligation to comply
             with such provision, condition or requirement. Except as expressly
-            and specifically set forth in this these T&amp;C, no
-            representations, statements, consents, waivers, or other acts or
-            omissions by the Company shall be deemed a modification of these
-            T&amp;C nor be legally binding, unless documented in physical
-            writing, and executed by the User and a duly appointed officer,
-            employee, or agent of the Company.
+            and specifically set forth in this these T&C, no representations,
+            statements, consents, waivers, or other acts or omissions by the
+            Company shall be deemed a modification of these T&C nor be legally
+            binding, unless documented in physical writing, and executed by the
+            User and a duly appointed officer, employee, or agent of the
+            Company.
           </li>
           <li>
             (d) Force Majeure: The Company is not liable for failure to perform

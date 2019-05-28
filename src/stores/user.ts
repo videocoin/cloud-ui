@@ -3,6 +3,7 @@ import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
 import * as AccountAPI from 'api/account';
 import { removeTokenHeader, setTokenHeader } from 'api';
+import PipelinesStore from './pipelines';
 import { State } from './types';
 
 const Account = types.model('Account', {
@@ -11,7 +12,7 @@ const Account = types.model('Account', {
   balance: types.number,
 });
 
-const User = types.model('User', {
+export const User = types.model('User', {
   id: types.identifier,
   email: types.string,
   name: types.maybe(types.string),
@@ -35,15 +36,20 @@ const Store = types
 
         self.user = User.create(res.data);
         self.state = 'loaded';
+        PipelinesStore.initSocket(self.user.id);
 
         return res;
       } catch (e) {
         self.state = 'error';
+        localStorage.removeItem('token');
         throw e;
       }
     });
 
     return {
+      afterCreate() {
+        fetchUser();
+      },
       fetchUser,
       fetchAccount: flow(function* fetchAccount() {
         try {

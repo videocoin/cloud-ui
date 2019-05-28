@@ -4,7 +4,10 @@ import ReactDOM from 'react-dom';
 import App from 'components/App';
 import 'styles/index.scss';
 import * as serviceWorker from './serviceWorker';
-import 'stores';
+
+if (process.env.NODE_ENV !== 'production') {
+  import('stores');
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

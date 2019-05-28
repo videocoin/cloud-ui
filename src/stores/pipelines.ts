@@ -10,14 +10,33 @@ import {
   some,
 } from 'lodash/fp';
 import * as API from 'api/pipelines';
+import Centrifuge from 'centrifuge';
 import { State } from './types';
 
 type OrderType = 'asc' | 'desc';
 
+const JobProfile = types.model('JobProfile', {
+  id: types.number,
+  pipelineId: types.string,
+  profileId: types.string,
+  ingestInputUrl: types.string,
+  transcodeOutputUrl: types.string,
+  clientAddress: types.string,
+  streamId: types.string,
+  streamAddress: types.string,
+  status: types.string,
+  ingestStatus: types.string,
+});
+
 const Pipeline = types.model('Pipeline', {
   id: types.identifier,
   name: types.string,
-  status: types.enumeration('Status', ['IDLE', 'PENDING_CREATE']),
+  jobProfile: types.maybeNull(JobProfile),
+  status: types.enumeration('Status', [
+    'IDLE',
+    'PENDING_CREATE',
+    'PENDING_JOB',
+  ]),
   profileId: types.string,
 });
 
@@ -109,6 +128,18 @@ const Store = types
     },
     clearPipeline() {
       self.pipeline = null;
+    },
+    initSocket(id: string) {
+      const token = localStorage.getItem('token');
+      const centrifuge = new Centrifuge(
+        `wss://ws.thor.videocoin.network/connection/websocket`,
+      );
+
+      centrifuge.setToken(token);
+      centrifuge.subscribe(`users#${id}`, (message: string) => {
+        console.log(message);
+      });
+      centrifuge.connect();
     },
   }))
   .views(self => ({

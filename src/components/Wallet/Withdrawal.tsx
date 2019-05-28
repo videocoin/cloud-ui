@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography } from 'ui-kit/src';
+import { Button, Typography } from 'ui-kit';
 import { Field, Form, withFormik } from 'formik';
 import { eq } from 'lodash/fp';
 import Input from 'components/Input';

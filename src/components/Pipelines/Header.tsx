@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from 'ui-kit/src';
+import { Button, Typography } from 'ui-kit';
 import { Link } from '@reach/router';
 import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';

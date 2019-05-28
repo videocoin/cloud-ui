@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'components/Modal';
-import { ActionBar, Button, Logo, Typography } from 'ui-kit/src';
+import { ActionBar, Button, Logo, Typography } from 'ui-kit';
 
 interface WithdrawProps {
   amount: string;

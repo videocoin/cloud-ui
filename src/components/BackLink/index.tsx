@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from '@reach/router';
-import { Icon } from 'ui-kit/src';
+import { Icon } from 'ui-kit';
 import css from './index.module.scss';
 
 const BackLink = ({ to = '../' }: { to?: string }) => {

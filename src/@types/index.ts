@@ -23,13 +23,6 @@ export interface RestoreForm {
   token: string;
 }
 
-export interface Pipeline {
-  id: string;
-  name: string;
-  status: 'IDLE';
-  profileId: string;
-}
-
 export interface SelectOption {
   value: string | number;
   label: string;

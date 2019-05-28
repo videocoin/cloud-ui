@@ -1,10 +1,9 @@
-FROM node:8-alpine as builder
+FROM node:10.15.3-alpine as builder
 RUN apk add build-base git libc6-compat openssh-client
 RUN apk upgrade libcurl
 
 COPY . /ui
 WORKDIR /ui
-RUN npm install -g create-react-app react-scripts react-app-rewired @types/react-copy-to-clipboard
 RUN make build-bin
 
 FROM nginx:1.11.8-alpine

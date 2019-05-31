@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Icon, Typography } from 'ui-kit';
 import { map, eq } from 'lodash/fp';
 import PipelineItem from 'components/Pipelines/Item';
-import PipelinesStore, { TPipeline } from 'stores/pipelines';
+import PipelinesStore from 'stores/pipelines';
+import { TPipeline } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 import css from './Table.module.scss';
 
@@ -19,20 +20,7 @@ const fields = [
 ];
 
 const PipelinesTable = () => {
-  const {
-    items,
-    changeSort,
-    sort,
-    isPending,
-    isLoading,
-    load,
-  } = PipelinesStore;
-
-  useEffect(() => {
-    if (isPending) {
-      load();
-    }
-  }, [isPending, load]);
+  const { items, changeSort, sort, isPending, isLoading } = PipelinesStore;
 
   if (isLoading || isPending) {
     return <Typography>Loading...</Typography>;

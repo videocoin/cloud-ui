@@ -2,8 +2,36 @@ import React, { FC } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
-import Livestream from 'components/Livesream';
+import Livestream from 'components/Livestream';
+import { observer } from 'mobx-react-lite';
 import css from './index.module.scss';
+import PipelinesStore from '../../stores/pipelines';
+
+const StreamControl = observer(() => {
+  const { pipeline } = PipelinesStore;
+
+  if (!pipeline) return null;
+  const { status, runPipeline, cancelPipeline, completePipeline } = pipeline;
+
+  switch (status) {
+    case 'IDLE':
+      return <Button onClick={runPipeline}>Start stream</Button>;
+    case 'PENDING_REQUEST':
+    case 'PENDING_APPROVE':
+    case 'PENDING_CREATE':
+      return (
+        <Button onClick={cancelPipeline} disabled>
+          Cancel stream
+        </Button>
+      );
+    case 'PENDING_JOB':
+      return <Button onClick={cancelPipeline}>Cancel stream</Button>;
+    case 'RUNNING':
+      return <Button onClick={completePipeline}>Complete stream</Button>;
+    default:
+      return <Button onClick={runPipeline}>Start stream</Button>;
+  }
+});
 
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
@@ -19,7 +47,7 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
           </div>
           <div className={css.btns}>
             <Button theme="minimal">Share</Button>
-            <Button>Start stream</Button>
+            <StreamControl />
           </div>
         </TopBar>
       </div>

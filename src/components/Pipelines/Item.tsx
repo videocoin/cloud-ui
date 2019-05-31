@@ -1,7 +1,8 @@
 import React from 'react';
-import { Checkbox, Icon, Typography } from 'ui-kit';
+import { Checkbox, Icon, Typography, IconName } from 'ui-kit';
 import cn from 'classnames';
-import PipelinesStore, { TPipeline } from 'stores/pipelines';
+import PipelinesStore from 'stores/pipelines';
+import { TPipeline } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 
 import { Link } from '@reach/router';
@@ -13,7 +14,21 @@ interface PipelineItemProps {
 
 const statusTable: { [key: string]: string } = {
   IDLE: 'Idle',
+  PENDING_REQUEST: 'Pending',
+  PENDING_APPROVE: 'Pending',
   PENDING_CREATE: 'Pending',
+  PENDING_JOB: 'Awaiting Input',
+  RUNNING: 'Running',
+  FAILED: 'Failed',
+  COMPLETED: 'Failed',
+};
+
+const statusIcon: { [key: string]: IconName } = {
+  IDLE: 'offline',
+  PENDING_REQUEST: 'awaitingInput',
+  PENDING_APPROVE: 'awaitingInput',
+  PENDING_CREATE: 'awaitingInput',
+  PENDING_JOB: 'awaitingInput',
 };
 
 const PipelineItem = ({ pipeline }: PipelineItemProps) => {
@@ -29,7 +44,7 @@ const PipelineItem = ({ pipeline }: PipelineItemProps) => {
       </td>
       <td className={css.statusCell}>
         <Link to={id} className={css.status}>
-          <Icon name="placeholderSm" width={24} height={24} />
+          <Icon name={statusIcon[status]} width={24} height={24} />
           <div>{statusTable[status]}</div>
         </Link>
       </td>

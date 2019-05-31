@@ -19,3 +19,11 @@ export function deletePipeline(id: string) {
 export function runPipeline(id: string) {
   return api.post(`/pipelines/${id}/run`);
 }
+
+export function cancelPipeline(id: string) {
+  return api.post(`/pipelines/${id}/cancel`);
+}
+
+export function completePipeline(id: string) {
+  return api.post(`/pipelines/${id}/complete`);
+}

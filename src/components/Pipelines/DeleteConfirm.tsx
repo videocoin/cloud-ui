@@ -3,7 +3,8 @@ import pluralize from 'pluralize';
 import { some, propEq } from 'lodash/fp';
 import { ActionBar, Button, Typography } from 'ui-kit';
 import Modal from 'components/Modal';
-import PipelinesStore, { TPipelineStore } from 'stores/pipelines';
+import PipelinesStore from 'stores/pipelines';
+import { TPipelineStore } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 
 const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {

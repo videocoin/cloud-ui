@@ -10,14 +10,14 @@ interface PlayerProps {
 }
 
 const Player = ({ src, format, status }: PlayerProps) => {
-  const isOffline = eq('offline', status);
+  const isOffline = eq('None', status);
 
   return (
     <div className={css.player}>
-      {!isOffline ? (
+      {isOffline ? (
         <Typography type="bodyAlt">Offline</Typography>
       ) : (
-        <dl8-video aspect="16:9" format={format}>
+        <dl8-video crossorigin="anonymous" aspect="16:9" format={format}>
           <source src={src} type="application/x-mpegurl" />
         </dl8-video>
       )}

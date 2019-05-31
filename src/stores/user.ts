@@ -1,27 +1,11 @@
-import { types, flow, Instance } from 'mobx-state-tree';
+import { types, flow } from 'mobx-state-tree';
 import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
 import * as AccountAPI from 'api/account';
 import { removeTokenHeader, setTokenHeader } from 'api';
-import PipelinesStore from './pipelines';
 import { State } from './types';
-
-const Account = types.model('Account', {
-  id: types.identifier,
-  address: types.string,
-  balance: types.number,
-});
-
-export const User = types.model('User', {
-  id: types.identifier,
-  email: types.string,
-  name: types.maybe(types.string),
-  isActive: false,
-  account: types.maybeNull(Account),
-});
-
-type TUser = Instance<typeof User>;
-type TAccount = Instance<typeof Account>;
+import User from './models/user';
+import initSocket from '../socket';
 
 const Store = types
   .model('UserStore', {
@@ -36,7 +20,7 @@ const Store = types
 
         self.user = User.create(res.data);
         self.state = 'loaded';
-        PipelinesStore.initSocket(self.user.id);
+        initSocket(self.user.id);
 
         return res;
       } catch (e) {

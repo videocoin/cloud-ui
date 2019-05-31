@@ -1,41 +1,61 @@
-import React, { useEffect } from 'react';
+/* eslint-disable @typescript-eslint/camelcase */
+import React, { useEffect, useRef } from 'react';
 import { eq } from 'lodash/fp';
 import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
 import { FieldAction, Input, Typography } from 'ui-kit';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Player from 'components/Livesream/Player';
+import Player from 'components/Livestream/Player';
 import css from './index.module.scss';
 
+const pipelineRequestTimeout = 5000;
+
+const INGEST_STATUS: { [key: string]: string } = {
+  ingest_status_none: 'None',
+  ingest_status_active: 'Receiving',
+};
+
 const Livestream = ({ streamId }: { streamId: string }) => {
-  const {
-    fetchPipeline,
-    pipeline,
-    pipelineState,
-    clearPipeline,
-  } = PipelinesStore;
+  const interval = useRef(null);
+  const { pipeline, pipelineState, isLoading, isPending } = PipelinesStore;
 
   useEffect(() => {
-    fetchPipeline(streamId);
+    const { fetchPipeline, clearPipeline } = PipelinesStore;
+
+    if (!isLoading && !isPending) {
+      fetchPipeline(streamId);
+      interval.current = setInterval(() => {
+        fetchPipeline(streamId, true);
+      }, pipelineRequestTimeout);
+    }
 
     return () => {
       clearPipeline();
+      clearInterval(interval.current);
     };
-  }, [clearPipeline, fetchPipeline, streamId]);
-  if (eq('loading', pipelineState) || !pipeline) {
+  }, [isLoading, isPending, streamId]);
+
+  if (eq('loading', pipelineState) || !pipeline || isLoading) {
     return <Typography>Loading...</Typography>;
   }
+
   const { name, jobProfile } = pipeline;
-  const { ingestInputUrl, transcodeOutputUrl } = jobProfile;
+
+  if (!jobProfile) {
+    return null;
+  }
+  const { ingestInputUrl, transcodeOutputUrl, ingestStatus } = jobProfile;
+
+  const isIngestActive = eq(INGEST_STATUS[ingestStatus], 'Receiving');
 
   return (
     <div>
       <div className={css.top}>
         <Player
-          src="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
+          src={transcodeOutputUrl}
           format="MONO_FLAT"
-          status="offline"
+          status={INGEST_STATUS[ingestStatus]}
         />
         <div className={css.desc}>
           <Typography type="title">{name}</Typography>
@@ -62,17 +82,18 @@ const Livestream = ({ streamId }: { streamId: string }) => {
         <div className={css.endpoints}>
           <div>
             <div className={css.endpointStatus}>
-              <div className={cn(css.mark, css.active)} />
+              <div className={cn(css.mark, isIngestActive && css.active)} />
               <div className={css.endpointTitle}>Ingest</div>
               <Typography type="smallBodyAlt" theme="primary">
-                Receiving
+                {INGEST_STATUS[ingestStatus]}
               </Typography>
             </div>
             <Input
               value={ingestInputUrl}
               label="Ingest URL"
+              readOnly
               postfix={() => (
-                <CopyToClipboard text="">
+                <CopyToClipboard text={ingestInputUrl}>
                   <span className={css.copy}>
                     <FieldAction color="violet" icon="copy" />
                   </span>
@@ -91,8 +112,9 @@ const Livestream = ({ streamId }: { streamId: string }) => {
             <Input
               value={transcodeOutputUrl}
               label="Output URL"
+              readOnly
               postfix={() => (
-                <CopyToClipboard text="">
+                <CopyToClipboard text={transcodeOutputUrl}>
                   <span className={css.copy}>
                     <FieldAction color="violet" icon="copy" />
                   </span>

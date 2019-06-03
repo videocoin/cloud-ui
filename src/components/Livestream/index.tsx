@@ -4,9 +4,9 @@ import { eq } from 'lodash/fp';
 import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
-import { FieldAction, Input, Typography } from 'ui-kit';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Input, Typography } from 'ui-kit';
 import Player from 'components/Livestream/Player';
+import ClipboardPostfix from 'components/ClipboardPostfix';
 import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
@@ -92,13 +92,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
               value={ingestInputUrl}
               label="Ingest URL"
               readOnly
-              postfix={() => (
-                <CopyToClipboard text={ingestInputUrl}>
-                  <span className={css.copy}>
-                    <FieldAction color="violet" icon="copy" />
-                  </span>
-                </CopyToClipboard>
-              )}
+              postfix={() => <ClipboardPostfix text={ingestInputUrl} />}
             />
           </div>
           <div>
@@ -113,13 +107,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
               value={transcodeOutputUrl}
               label="Output URL"
               readOnly
-              postfix={() => (
-                <CopyToClipboard text={transcodeOutputUrl}>
-                  <span className={css.copy}>
-                    <FieldAction color="violet" icon="copy" />
-                  </span>
-                </CopyToClipboard>
-              )}
+              postfix={() => <ClipboardPostfix text={transcodeOutputUrl} />}
             />
           </div>
         </div>

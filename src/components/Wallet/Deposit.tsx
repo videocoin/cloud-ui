@@ -1,17 +1,12 @@
 import React from 'react';
-import { Button, FieldAction, Input, Typography } from 'ui-kit';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Button, Input, Typography } from 'ui-kit';
 import QRCode from 'qrcode.react';
-
 import UserStore from 'stores/user';
-import { toast } from 'react-toastify';
+import ClipboardPostfix from 'components/ClipboardPostfix';
 import css from './Deposit.module.scss';
 
 const Deposit = () => {
   const { address } = UserStore;
-  const handleCopy = () => {
-    toast.success('Address has been copied to your clipboard');
-  };
 
   return (
     <div className={css.root}>
@@ -25,17 +20,7 @@ const Deposit = () => {
               value={address}
               readOnly
               label="VideoCoin Address"
-              postfix={() => (
-                <CopyToClipboard
-                  className={css.copy}
-                  text={address}
-                  onCopy={handleCopy}
-                >
-                  <span>
-                    <FieldAction color="violet" icon="copy" />
-                  </span>
-                </CopyToClipboard>
-              )}
+              postfix={() => <ClipboardPostfix text={address} />}
             />
           </div>
         </div>

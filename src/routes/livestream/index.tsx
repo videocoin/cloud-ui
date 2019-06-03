@@ -4,6 +4,8 @@ import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
+import ModalStore from 'stores/modal';
+import { modalType } from 'components/ModalManager';
 import css from './index.module.scss';
 import PipelinesStore from '../../stores/pipelines';
 
@@ -36,6 +38,9 @@ const StreamControl = observer(() => {
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
 }) => {
+  const { openModal } = ModalStore;
+  const handleShare = () => openModal(modalType.SHARE_MODAL);
+
   return (
     <>
       <div className="topBar">
@@ -46,7 +51,9 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
             <Typography type="smallTitle">Livestream</Typography>
           </div>
           <div className={css.btns}>
-            <Button theme="minimal">Share</Button>
+            <Button theme="minimal" onClick={handleShare}>
+              Share
+            </Button>
             <StreamControl />
           </div>
         </TopBar>

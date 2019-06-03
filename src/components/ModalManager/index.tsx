@@ -9,6 +9,7 @@ export const modalType = {
   RESTORE_PASSWORD: 'RestorePassword',
   WITHDRAW_CONFIRM: 'WithdrawModal',
   PIPELINES_DELETE_CONFIRM: 'PipelinesDeleteConfirm',
+  SHARE_MODAL: 'ShareModal',
 };
 
 const ResetPasswordAuth = lazy(() => import('components/ResetPasswordAuth'));
@@ -18,6 +19,7 @@ const WithdrawModal = lazy(() => import('components/WithdrawConfirmModal'));
 const PipelinesDeleteConfirm = lazy(() =>
   import('components/Pipelines/DeleteConfirm'),
 );
+const ShareModal = lazy(() => import('components/ShareModal'));
 
 const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   ResetPasswordAuth,
@@ -25,6 +27,7 @@ const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   RestorePassword,
   WithdrawModal,
   PipelinesDeleteConfirm,
+  ShareModal,
 };
 
 const ModalManager = () => {

@@ -20,30 +20,28 @@ const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
   };
 
   return (
-    <>
-      <Modal>
-        <div className="modalInner">
-          <Typography type="bodyAlt">
-            Delete {pluralize('Livestream', checked.size, true)}?
-          </Typography>
-          <Typography type="smallBody">
-            {hasRunning
-              ? 'One of the selected livestreams is running and will be ended immediately upon deletion.'
-              : 'These livestream pipelines will be permanently deleted.'}
-          </Typography>
-          <div className="modalActions">
-            <ActionBar>
-              <Button theme="minimal" onClick={closeModal}>
-                Cancel
-              </Button>
-              <Button loading={isDeleting} onClick={onConfirm}>
-                Delete
-              </Button>
-            </ActionBar>
-          </div>
+    <Modal>
+      <div className="modalInner">
+        <Typography type="bodyAlt">
+          Delete {pluralize('Livestream', checked.size, true)}?
+        </Typography>
+        <Typography type="smallBody">
+          {hasRunning
+            ? 'One of the selected livestreams is running and will be ended immediately upon deletion.'
+            : 'These livestream pipelines will be permanently deleted.'}
+        </Typography>
+        <div className="modalActions">
+          <ActionBar>
+            <Button theme="minimal" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button loading={isDeleting} onClick={onConfirm}>
+              Delete
+            </Button>
+          </ActionBar>
         </div>
-      </Modal>
-    </>
+      </div>
+    </Modal>
   );
 };
 

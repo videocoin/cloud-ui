@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import PipelinesStore from '../stores/pipelines';
+import PipelinesStore from 'stores/pipelines';
 
 export default ({
   children,

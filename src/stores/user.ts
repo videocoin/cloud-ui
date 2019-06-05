@@ -3,9 +3,9 @@ import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
 import * as AccountAPI from 'api/account';
 import { removeTokenHeader, setTokenHeader } from 'api';
+import initSocket from 'socket';
 import { State } from './types';
 import User from './models/user';
-import initSocket from '../socket';
 
 const Store = types
   .model('UserStore', {

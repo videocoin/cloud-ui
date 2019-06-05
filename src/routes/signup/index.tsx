@@ -4,8 +4,8 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Typography, Card } from 'ui-kit';
 import SignUpForm from 'components/SignUpForm';
 import withAuth from 'HOCs/withAuth';
+import Header from 'components/Header';
 import css from './index.module.scss';
-import Header from '../../components/Header';
 
 const SignUp: FC<RouteComponentProps> = () => {
   return (

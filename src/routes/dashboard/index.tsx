@@ -3,8 +3,8 @@ import { RouteComponentProps, navigate } from '@reach/router';
 import Navigation from 'components/Navigation';
 import withAuth from 'HOCs/withAuth';
 import UserStore from 'stores/user';
+import { balanceRequestTimeout } from 'const';
 import css from './index.module.scss';
-import { balanceRequestTimeout } from '../../constants';
 
 const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
   children,

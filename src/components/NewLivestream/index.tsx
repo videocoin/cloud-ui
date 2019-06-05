@@ -4,8 +4,8 @@ import { Form, Field, FormikProps, FieldProps } from 'formik';
 import RadioGroup from 'components/RadioGroup';
 import Input from 'components/Input';
 import Select from 'components/Select';
+import { LiveStreamProfiles } from 'const';
 import css from './index.module.scss';
-import { LiveStreamProfiles } from '../../constants';
 
 const { RadioBtn } = RadioGroup;
 

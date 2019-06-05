@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosTransformer } from 'axios';
 import { toast, ToastId } from 'react-toastify';
 import humps from 'humps';
-import { BASE_URL, defaultServerError } from '../constants';
+import { BASE_URL, defaultServerError } from 'const';
 
 const AUTH_TOKEN = localStorage.getItem('token');
 

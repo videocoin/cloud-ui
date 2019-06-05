@@ -5,9 +5,9 @@ import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { Button, Typography } from 'ui-kit';
 import { Link } from '@reach/router';
+import UserStore from 'stores/user';
 import css from './index.module.scss';
-import { FormField, SignUpForm } from '../../@types';
-import UserStore from '../../stores/user';
+import { FormField, SignUpForm } from '@types';
 import validationSchema from './validate';
 
 const formFields: FormField[] = [

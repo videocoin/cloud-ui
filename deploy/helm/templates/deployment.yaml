@@ -39,3 +39,5 @@ spec:
             items:
             - key: nginx.conf
               path: nginx.conf
+      nodeSelector:
+        cloud.google.com/gke-nodepool: api

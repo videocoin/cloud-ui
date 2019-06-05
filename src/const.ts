@@ -19,3 +19,14 @@ export const LiveStreamProfiles = [
 ];
 
 export const balanceRequestTimeout = 30000;
+
+export const statusTable: { [key: string]: string } = {
+  IDLE: 'Idle',
+  PENDING_REQUEST: 'Pending',
+  PENDING_APPROVE: 'Pending',
+  PENDING_CREATE: 'Pending',
+  PENDING_JOB: 'Awaiting Input',
+  RUNNING: 'Running',
+  FAILED: 'Failed',
+  COMPLETED: 'Failed',
+};

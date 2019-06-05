@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { Input, Typography } from 'ui-kit';
 import Player from 'components/Livestream/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
+import { statusTable } from 'const';
 import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
@@ -40,7 +41,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
     return <Typography>Loading...</Typography>;
   }
 
-  const { name, jobProfile } = pipeline;
+  const { name, jobProfile, status } = pipeline;
 
   if (!jobProfile) {
     return null;
@@ -100,7 +101,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
               <div className={css.mark} />
               <div className={css.endpointTitle}>Output</div>
               <Typography type="smallBodyAlt" theme="primary">
-                Not Streaming
+                {statusTable[status]}
               </Typography>
             </div>
             <Input

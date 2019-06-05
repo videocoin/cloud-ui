@@ -4,24 +4,13 @@ import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
 import { TPipeline } from 'stores/types';
 import { observer } from 'mobx-react-lite';
-
 import { Link } from '@reach/router';
+import { statusTable } from 'const';
 import css from './Item.module.scss';
 
 interface PipelineItemProps {
   pipeline: TPipeline;
 }
-
-const statusTable: { [key: string]: string } = {
-  IDLE: 'Idle',
-  PENDING_REQUEST: 'Pending',
-  PENDING_APPROVE: 'Pending',
-  PENDING_CREATE: 'Pending',
-  PENDING_JOB: 'Awaiting Input',
-  RUNNING: 'Running',
-  FAILED: 'Failed',
-  COMPLETED: 'Failed',
-};
 
 const statusIcon: { [key: string]: IconName } = {
   IDLE: 'offline',

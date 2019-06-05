@@ -49,10 +49,6 @@ module.exports = {
   settings: {
     'import/resolver': {
       typescript: {},
-      alias: {
-        map: [['kit', path.join(__dirname, 'src', 'ui-kit', 'dist')]],
-        extensions: ['ts', '.tsx'],
-      },
     },
   },
 };

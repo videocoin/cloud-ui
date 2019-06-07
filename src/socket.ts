@@ -5,6 +5,7 @@ import PipelinesStore from 'stores/pipelines';
 
 const events = {
   PIPELINE_UPDATE: 'pipeline/update',
+  PIPELINE_STREAM: 'pipeline/stream',
 };
 
 const initSocket = (id: string) => {
@@ -23,6 +24,13 @@ const initSocket = (id: string) => {
       const pipeline = pipelines.get(pipeline_id);
 
       pipeline.updateStatus(status);
+    }
+    if (eq(event, events.PIPELINE_STREAM)) {
+      const { pipelines } = PipelinesStore;
+      const { pipeline_id, message } = data;
+      const pipeline = pipelines.get(pipeline_id);
+
+      pipeline.updateLog(message);
     }
   });
   centrifuge.connect();

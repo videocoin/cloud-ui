@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useEffect, useRef } from 'react';
-import { eq } from 'lodash/fp';
+import { eq, map, uniqueId } from 'lodash/fp';
 import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
@@ -41,7 +41,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
     return <Typography>Loading...</Typography>;
   }
 
-  const { name, jobProfile, status } = pipeline;
+  const { name, jobProfile, status, protocol } = pipeline;
 
   if (!jobProfile) {
     return null;
@@ -49,6 +49,10 @@ const Livestream = ({ streamId }: { streamId: string }) => {
   const { ingestInputUrl, transcodeOutputUrl, ingestStatus } = jobProfile;
 
   const isIngestActive = eq(INGEST_STATUS[ingestStatus], 'Receiving');
+
+  const renderLog = (message: string) => (
+    <code key={uniqueId('log_')}>{message}</code>
+  );
 
   return (
     <div>
@@ -117,7 +121,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
         <Typography type="subtitle" className={css.head}>
           Protocol events
         </Typography>
-        <div className={css.log} />
+        <div className={css.log}>{map(renderLog, protocol)}</div>
       </section>
     </div>
   );

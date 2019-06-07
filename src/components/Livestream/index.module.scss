@@ -84,4 +84,10 @@
   background: $grey-dawn-b2;
   border-radius: 8px;
   height: 300px;
+  color: #fff;
+  padding: 10px;
+  code {
+    font-family: monospace;
+    display: block;
+  }
 }

@@ -18,6 +18,7 @@ export default types
       'COMPLETED',
     ]),
     profileId: types.string,
+    protocol: types.optional(types.array(types.string), []),
   })
   .actions(self => ({
     runPipeline: flow(function* runPipeline() {
@@ -49,5 +50,8 @@ export default types
     }),
     updateStatus(status: string) {
       self.status = status;
+    },
+    updateLog(message: string) {
+      self.protocol.push(message);
     },
   }));

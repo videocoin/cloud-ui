@@ -18,6 +18,9 @@ const statusIcon: { [key: string]: IconName } = {
   PENDING_APPROVE: 'awaitingInput',
   PENDING_CREATE: 'awaitingInput',
   PENDING_JOB: 'awaitingInput',
+  RUNNING: 'streaming',
+  FAILED: 'incomplete',
+  COMPLETED: 'incomplete',
 };
 
 const PipelineItem = ({ pipeline }: PipelineItemProps) => {

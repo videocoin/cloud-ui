@@ -46,9 +46,15 @@ const Livestream = ({ streamId }: { streamId: string }) => {
   if (!jobProfile) {
     return null;
   }
-  const { ingestInputUrl, transcodeOutputUrl, ingestStatus } = jobProfile;
+  const {
+    ingestInputUrl,
+    transcodeOutputUrl,
+    ingestStatus,
+    status: jobStatus,
+  } = jobProfile;
 
   const isIngestActive = eq(INGEST_STATUS[ingestStatus], 'Receiving');
+  const isJobActive = eq(jobStatus, 'running');
 
   const renderLog = (message: string) => (
     <code key={uniqueId('log_')}>{message}</code>
@@ -102,10 +108,10 @@ const Livestream = ({ streamId }: { streamId: string }) => {
           </div>
           <div>
             <div className={css.endpointStatus}>
-              <div className={css.mark} />
+              <div className={cn(css.mark, isJobActive && css.active)} />
               <div className={css.endpointTitle}>Output</div>
               <Typography type="smallBodyAlt" theme="primary">
-                {statusTable[status]}
+                {jobStatus}
               </Typography>
             </div>
             <Input

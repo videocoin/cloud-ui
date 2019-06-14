@@ -4,7 +4,7 @@ RUN apk upgrade libcurl
 
 COPY . /ui
 WORKDIR /ui
-RUN make build-bin
+RUN make deps && make build
 
 FROM nginx:1.11.8-alpine
 COPY --from=builder /ui/build /usr/share/nginx/html

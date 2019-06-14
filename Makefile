@@ -1,16 +1,10 @@
-.NOTPARALLEL:
-
 GOOS?=linux
 GOARCH?=amd64
 
-CONSUL_ADDR?=127.0.0.1:8500
+GCP_PROJECT?=videocoin-network
 
-PROJECT?=videocoin-network
-APP_NAME?=ui
-VERSION?=$$(git describe --abbrev=0)-$$(git rev-parse --short HEAD)
-
-DOCKER_REGISTRY?=gcr.io/${PROJECT}
-IMAGE_TAG=${DOCKER_REGISTRY}/${APP_NAME}:${VERSION}
+NAME=ui
+VERSION=$$(git describe --abbrev=0)-$$(git rev-parse --short HEAD)
 
 .PHONY: deploy build
 
@@ -19,19 +13,22 @@ default: build
 version:
 	@echo ${VERSION}
 
-image-tag:
-	@echo ${IMAGE_TAG}
-
 build:
-	docker build -t ${IMAGE_TAG} -f Dockerfile .
-
-build-bin:
-	@echo "==> Building..."
-	yarn
 	yarn run build
 
-push:
-	@echo "==> Pushing ${APP_NAME} docker image..."
-	docker push ${IMAGE_TAG}
+deps:
+	yarn
+	cd src/ui-kit && yarn && cd -
 
-release: build push
+
+docker-build:
+	docker build -t gcr.io/${GCP_PROJECT}/${NAME}:${VERSION} -f Dockerfile .
+
+docker-push:
+	docker push gcr.io/${GCP_PROJECT}/${NAME}:${VERSION}
+
+release: docker-build docker-push
+
+deploy:
+	ENV=${ENV} deploy/deploy.sh
+

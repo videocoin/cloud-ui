@@ -1,10 +1,17 @@
 import React, { FC } from 'react';
 import { TopBar, Typography } from 'ui-kit';
 import { Row, Col } from 'react-flexbox-grid';
-import { RouteComponentProps } from '@reach/router';
+import { Redirect, RouteComponentProps } from '@reach/router';
 import AudienceImg from 'img/audience.svg';
+import UserStore from 'stores/user';
 
 const Pending: FC<RouteComponentProps> = () => {
+  const { isActive } = UserStore;
+
+  if (isActive) {
+    return <Redirect to="/dashboard/pipelines" noThrow />;
+  }
+
   return (
     <div>
       <div className="topBar">

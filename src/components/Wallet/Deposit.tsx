@@ -1,9 +1,9 @@
 import React from 'react';
+import css from 'components/Wallet/Deposit.module.scss';
 import { Button, Input, Typography } from 'ui-kit';
 import QRCode from 'qrcode.react';
 import UserStore from 'stores/user';
 import ClipboardPostfix from 'components/ClipboardPostfix';
-import css from './Deposit.module.scss';
 
 const Deposit = () => {
   const { address } = UserStore;

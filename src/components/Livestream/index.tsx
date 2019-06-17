@@ -7,7 +7,6 @@ import { observer } from 'mobx-react-lite';
 import { Input, Typography } from 'ui-kit';
 import Player from 'components/Livestream/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
-import { statusTable } from 'const';
 import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
@@ -41,7 +40,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
     return <Typography>Loading...</Typography>;
   }
 
-  const { name, jobProfile, status, protocol } = pipeline;
+  const { name, jobProfile, protocol } = pipeline;
 
   if (!jobProfile) {
     return null;
@@ -54,7 +53,7 @@ const Livestream = ({ streamId }: { streamId: string }) => {
   } = jobProfile;
 
   const isIngestActive = eq(INGEST_STATUS[ingestStatus], 'Receiving');
-  const isJobActive = eq(jobStatus, 'running');
+  const isJobActive = eq(jobStatus, 'ready');
 
   const renderLog = (message: string) => (
     <code key={uniqueId('log_')}>{message}</code>

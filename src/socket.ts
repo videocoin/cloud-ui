@@ -2,6 +2,7 @@
 import Centrifuge from 'centrifuge';
 import { eq } from 'lodash/fp';
 import PipelinesStore from 'stores/pipelines';
+import { WS_URL } from 'const';
 
 const events = {
   PIPELINE_UPDATE: 'pipeline/update',
@@ -10,9 +11,9 @@ const events = {
 
 const initSocket = (id: string) => {
   const token = localStorage.getItem('token');
-  const centrifuge = new Centrifuge(
-    `wss://ws.thor.videocoin.network/connection/websocket`,
-  );
+  const host =
+    process.env.NODE_ENV === 'production' ? window.location.hostname : WS_URL;
+  const centrifuge = new Centrifuge(`wss://ws.${host}/connection/websocket`);
 
   centrifuge.setToken(token);
   centrifuge.subscribe(`users#${id}`, ({ data }: any) => {

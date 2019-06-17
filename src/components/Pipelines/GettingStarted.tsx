@@ -8,9 +8,9 @@ import css from './GettingStarted.module.scss';
 
 const GettingStarted = () => {
   const { balance } = UserStore;
-  const { hasFirstActiveStream } = PipelinesStore;
+  const { pipelines, isLoaded } = PipelinesStore;
 
-  if (hasFirstActiveStream) {
+  if (pipelines.size > 2 || !isLoaded) {
     return null;
   }
 
@@ -37,9 +37,9 @@ const GettingStarted = () => {
               Step 1 - Fund your VideoCoin Wallet
             </Typography>
           </li>
-          <li>
+          <li className={pipelines.size > 0 ? css.cross : ''}>
             <Icon
-              color="#fd9369"
+              color={pipelines.size > 0 ? '#5f4681' : '#fd9369'}
               name="livestreamManager"
               height={24}
               width={24}

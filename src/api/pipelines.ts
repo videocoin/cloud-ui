@@ -27,3 +27,7 @@ export function cancelPipeline(id: string) {
 export function completePipeline(id: string) {
   return api.post(`/pipelines/${id}/complete`);
 }
+
+export function getShared(accessCode: string) {
+  return api(`/pipelines/code/${accessCode}`);
+}

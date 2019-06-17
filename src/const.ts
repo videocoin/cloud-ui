@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 export const BASE_URL = process.env.REACT_APP_VC_API_URL;
 export const WS_URL = process.env.REACT_APP_VC_WS_URL;
 
@@ -30,4 +31,9 @@ export const statusTable: { [key: string]: string } = {
   RUNNING: 'Running',
   FAILED: 'Failed',
   COMPLETED: 'Failed',
+};
+
+export const INGEST_STATUS: { [key: string]: string } = {
+  ingest_status_none: 'None',
+  ingest_status_active: 'Receiving',
 };

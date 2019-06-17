@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
@@ -6,10 +6,11 @@ import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
 import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
+import PipelinesStore from 'stores/pipelines';
 import css from './index.module.scss';
-import PipelinesStore from '../../stores/pipelines';
 
-const StreamControl = observer(() => {
+const pipelineRequestTimeout = 5000;
+const StreamControl = () => {
   const { pipeline } = PipelinesStore;
 
   if (!pipeline) return null;
@@ -33,13 +34,33 @@ const StreamControl = observer(() => {
     default:
       return <Button onClick={runPipeline}>Start stream</Button>;
   }
-});
+};
 
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
 }) => {
   const { openModal } = ModalStore;
-  const handleShare = () => openModal(modalType.SHARE_MODAL);
+  const { pipeline, isLoading, isPending } = PipelinesStore;
+  const interval = useRef(null);
+
+  const handleShare = () =>
+    openModal(modalType.SHARE_MODAL, { accessCode: pipeline.accessCode });
+
+  useEffect(() => {
+    const { fetchPipeline, clearPipeline } = PipelinesStore;
+
+    if (!isLoading && !isPending) {
+      fetchPipeline(streamId);
+      interval.current = setInterval(() => {
+        fetchPipeline(streamId, true);
+      }, pipelineRequestTimeout);
+    }
+
+    return () => {
+      clearPipeline();
+      clearInterval(interval.current);
+    };
+  }, [isLoading, isPending, streamId]);
 
   return (
     <>
@@ -59,10 +80,10 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
         </TopBar>
       </div>
       <div className="content">
-        <Livestream streamId={streamId} />
+        <Livestream />
       </div>
     </>
   );
 };
 
-export default LivestreamPage;
+export default observer(LivestreamPage);

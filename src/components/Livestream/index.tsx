@@ -1,40 +1,16 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { eq, map, uniqueId } from 'lodash/fp';
 import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
 import { Input, Typography } from 'ui-kit';
-import Player from 'components/Livestream/Player';
+import Player from 'components/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
+import { INGEST_STATUS } from 'const';
 import css from './index.module.scss';
 
-const pipelineRequestTimeout = 5000;
-
-const INGEST_STATUS: { [key: string]: string } = {
-  ingest_status_none: 'None',
-  ingest_status_active: 'Receiving',
-};
-
-const Livestream = ({ streamId }: { streamId: string }) => {
-  const interval = useRef(null);
-  const { pipeline, pipelineState, isLoading, isPending } = PipelinesStore;
-
-  useEffect(() => {
-    const { fetchPipeline, clearPipeline } = PipelinesStore;
-
-    if (!isLoading && !isPending) {
-      fetchPipeline(streamId);
-      interval.current = setInterval(() => {
-        fetchPipeline(streamId, true);
-      }, pipelineRequestTimeout);
-    }
-
-    return () => {
-      clearPipeline();
-      clearInterval(interval.current);
-    };
-  }, [isLoading, isPending, streamId]);
+const Livestream = () => {
+  const { pipeline, pipelineState, isLoading } = PipelinesStore;
 
   if (eq('loading', pipelineState) || !pipeline || isLoading) {
     return <Typography>Loading...</Typography>;
@@ -62,11 +38,13 @@ const Livestream = ({ streamId }: { streamId: string }) => {
   return (
     <div>
       <div className={css.top}>
-        <Player
-          src={transcodeOutputUrl}
-          format="MONO_FLAT"
-          status={INGEST_STATUS[ingestStatus]}
-        />
+        <div className={css.player}>
+          <Player
+            src={transcodeOutputUrl}
+            format="MONO_FLAT"
+            status={INGEST_STATUS[ingestStatus]}
+          />
+        </div>
         <div className={css.desc}>
           <Typography type="title">{name}</Typography>
           <ul className={css.spec}>

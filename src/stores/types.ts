@@ -3,6 +3,7 @@ import Pipeline from './models/pipeline';
 import User from './models/user';
 import Account from './models/account';
 import PipelinesStore from './pipelines';
+import JobProfile from './models/jobProfile';
 
 export const State = types.enumeration('State', [
   'loading',
@@ -18,3 +19,4 @@ export type OrderType = 'asc' | 'desc';
 export type TUser = Instance<typeof User>;
 export type TAccount = Instance<typeof Account>;
 export type TPipelineStore = Instance<typeof PipelinesStore>;
+export type JobProfile = Instance<typeof JobProfile>;

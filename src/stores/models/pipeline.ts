@@ -19,6 +19,7 @@ export default types
     ]),
     profileId: types.string,
     protocol: types.optional(types.array(types.string), []),
+    accessCode: types.string,
   })
   .actions(self => ({
     runPipeline: flow(function* runPipeline() {

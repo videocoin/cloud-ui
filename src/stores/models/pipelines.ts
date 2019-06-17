@@ -117,6 +117,9 @@ export default types
     get isDeleting() {
       return propEq('state', 'deleting')(self);
     },
+    get isLoaded() {
+      return propEq('state', 'loaded')(self);
+    },
     get items() {
       return compose(
         orderBy(self.sort.field, self.sort.order as OrderType),

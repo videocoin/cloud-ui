@@ -5,20 +5,21 @@ import ClipboardPostfix from 'components/ClipboardPostfix';
 
 interface ShareModalProps {
   closeModal: () => void;
+  accessCode: string;
 }
 
-const ShareModal = ({ closeModal }: ShareModalProps) => {
+const ShareModal = ({ closeModal, accessCode }: ShareModalProps) => {
+  const url = `https://${window.location.hostname}/pipelines/shared/${accessCode}`;
+
   return (
     <Modal>
       <div className="modalInner">
         <div className="mb30">
           <Input
-            value="https://www.videocoin.network/123456"
+            value={url}
             readOnly
             label="Sharing URL"
-            postfix={() => (
-              <ClipboardPostfix text="https://www.videocoin.network/123456" />
-            )}
+            postfix={() => <ClipboardPostfix text={url} />}
           />
         </div>
         <Typography type="bodyAlt">Share This Livestream</Typography>

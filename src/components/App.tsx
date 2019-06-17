@@ -18,6 +18,7 @@ const PipelinesRoot = lazy(() => import('routes/PipelinesRoot'));
 const Pipelines = lazy(() => import('routes/pipelines'));
 const NewLivestream = lazy(() => import('routes/new-livestream'));
 const Livestream = lazy(() => import('routes/livestream'));
+const Shared = lazy(() => import('routes/shared'));
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <SignUp path="/sign-up" />
           <Terms isCommon path="/terms" />
           <Privacy isCommon path="/privacy" />
+          <Shared path="/pipelines/shared/:accessCode" />
         </Router>
       </Suspense>
       <Suspense fallback={<Spinner />}>

@@ -35,5 +35,6 @@ export const statusTable: { [key: string]: string } = {
 
 export const INGEST_STATUS: { [key: string]: string } = {
   ingest_status_none: 'None',
+  ingest_status_inactive: 'Inactive',
   ingest_status_active: 'Receiving',
 };

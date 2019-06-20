@@ -10,7 +10,7 @@ interface PlayerProps {
 }
 
 const Player = ({ src, format, status }: PlayerProps) => {
-  const isOffline = eq('None', status);
+  const isOffline = eq('None', status) || eq('Inactive', status);
 
   return (
     <div className={css.player}>

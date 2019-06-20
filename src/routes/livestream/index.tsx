@@ -10,7 +10,7 @@ import PipelinesStore from 'stores/pipelines';
 import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
-const StreamControl = () => {
+const StreamControl = observer(() => {
   const { pipeline } = PipelinesStore;
 
   if (!pipeline) return null;
@@ -34,7 +34,7 @@ const StreamControl = () => {
     default:
       return <Button onClick={runPipeline}>Start stream</Button>;
   }
-};
+});
 
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,

@@ -24,14 +24,14 @@ const initSocket = (id: string) => {
       const { pipeline_id, status } = data;
       const pipeline = pipelines.get(pipeline_id);
 
-      pipeline.updateStatus(status);
+      // pipeline.updateStatus(status);
     }
     if (eq(event, events.PIPELINE_STREAM)) {
       const { pipelines } = PipelinesStore;
       const { pipeline_id, message } = data;
       const pipeline = pipelines.get(pipeline_id);
 
-      pipeline.updateLog(message);
+      // pipeline.updateLog(message);
     }
   });
   centrifuge.connect();

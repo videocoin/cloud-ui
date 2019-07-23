@@ -1,5 +1,5 @@
 import React from 'react';
-import { eq, map, uniqueId } from 'lodash/fp';
+import { eq, lowerCase, map, uniqueId } from 'lodash/fp';
 import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
@@ -10,30 +10,31 @@ import { INGEST_STATUS } from 'const';
 import css from './index.module.scss';
 
 const Livestream = () => {
-  const { pipeline, pipelineState, isLoading } = PipelinesStore;
+  const { stream, pipelineState, isStreamLoading } = PipelinesStore;
 
-  if (eq('loading', pipelineState) || !pipeline || isLoading) {
+  if (eq('loading', pipelineState) || !stream || isStreamLoading) {
     return <Typography>Loading...</Typography>;
   }
 
-  const { name, jobProfile, protocol } = pipeline;
+  if (!stream) return null;
 
-  if (!jobProfile) {
-    return null;
-  }
   const {
-    ingestInputUrl,
+    streamId,
+    status,
+    inputStatus,
     transcodeOutputUrl,
-    ingestStatus,
-    status: jobStatus,
-  } = jobProfile;
+    ingestInputUrl,
+  } = stream;
 
-  const isIngestActive = eq(INGEST_STATUS[ingestStatus], 'Receiving');
-  const isJobActive = eq(jobStatus, 'ready');
+  const isStreamActive =
+    eq(status, 'JOB_STATUS_READY') || eq(status, 'INPUT_STATUS_ACTIVE');
 
-  const renderLog = (message: string) => (
-    <code key={uniqueId('log_')}>{message}</code>
-  );
+  const isIngestActive = eq(status, 'INPUT_STATUS_ACTIVE');
+
+  //
+  // const renderLog = (message: string) => (
+  //   <code key={uniqueId('log_')}>{message}</code>
+  // );
 
   return (
     <div>
@@ -42,11 +43,11 @@ const Livestream = () => {
           <Player
             src={transcodeOutputUrl}
             format="MONO_FLAT"
-            status={INGEST_STATUS[ingestStatus]}
+            status={INGEST_STATUS[status] || 'None'}
           />
         </div>
         <div className={css.desc}>
-          <Typography type="title">{name}</Typography>
+          <Typography type="smallTitle">{streamId}</Typography>
           <ul className={css.spec}>
             <li>
               <Typography type="smallBodyAlt">0:00</Typography>&nbsp;
@@ -73,7 +74,7 @@ const Livestream = () => {
               <div className={cn(css.mark, isIngestActive && css.active)} />
               <div className={css.endpointTitle}>Ingest</div>
               <Typography type="smallBodyAlt" theme="primary">
-                {INGEST_STATUS[ingestStatus]}
+                {INGEST_STATUS[inputStatus]}
               </Typography>
             </div>
             <Input
@@ -85,10 +86,10 @@ const Livestream = () => {
           </div>
           <div>
             <div className={css.endpointStatus}>
-              <div className={cn(css.mark, isJobActive && css.active)} />
+              <div className={cn(css.mark, isStreamActive && css.active)} />
               <div className={css.endpointTitle}>Output</div>
               <Typography type="smallBodyAlt" theme="primary">
-                {jobStatus}
+                {lowerCase(status)}
               </Typography>
             </div>
             <Input
@@ -104,7 +105,7 @@ const Livestream = () => {
         <Typography type="subtitle" className={css.head}>
           Protocol events
         </Typography>
-        <div className={css.log}>{map(renderLog, protocol)}</div>
+        {/* <div className={css.log}>{map(renderLog, protocol)}</div> */}
       </section>
     </div>
   );

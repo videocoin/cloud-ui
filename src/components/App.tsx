@@ -16,6 +16,7 @@ const SignIn = lazy(() => import('routes/signin'));
 const SignUp = lazy(() => import('routes/signup'));
 const PipelinesRoot = lazy(() => import('routes/PipelinesRoot'));
 const Pipelines = lazy(() => import('routes/pipelines'));
+const Pipeline = lazy(() => import('routes/pipeline'));
 const NewLivestream = lazy(() => import('routes/new-livestream'));
 const Livestream = lazy(() => import('routes/livestream'));
 const Shared = lazy(() => import('routes/shared'));
@@ -34,8 +35,9 @@ const App = () => {
             <Wallet path="wallet" />
             <PipelinesRoot path="pipelines">
               <Pipelines path="/" />
+              <Pipeline path=":pipelineId" />
               <NewLivestream path="new" />
-              <Livestream path=":streamId" />
+              <Livestream path=":pipelineId/:streamId" />
             </PipelinesRoot>
           </Dashboard>
           <SignIn path="/sign-in" />

@@ -7,23 +7,26 @@ import {
   map,
   orderBy,
   propEq,
-  some,
 } from 'lodash/fp';
-import Pipeline from './pipeline';
-import { OrderType, State, TPipeline } from '../types';
-import * as API from '../../api/pipelines';
+import { PipelineItem, Pipeline } from 'stores/models/pipeline';
+import Stream from 'stores/models/stream';
+import { getStream } from 'api/streams';
+import * as API from 'api/pipelines';
+import { OrderType, State, TPipelineItem, TState } from '../types';
 
 export default types
   .model('PipelinesStore', {
-    pipelines: types.map(Pipeline),
-    pipeline: types.maybeNull(types.reference(Pipeline)),
+    pipelines: types.map(PipelineItem),
+    pipeline: types.maybeNull(Pipeline),
+    stream: types.maybeNull(Stream),
     state: State,
     pipelineState: State,
+    streamState: State,
     sort: types.model('PipelinesSort', {
       field: 'status',
       order: types.enumeration('Order', ['asc', 'desc']),
     }),
-    checked: types.map(types.safeReference(types.late(() => Pipeline))),
+    checked: types.map(types.safeReference(types.late(() => PipelineItem))),
   })
   .actions(self => ({
     load: flow(function* load() {
@@ -55,13 +58,31 @@ export default types
       try {
         const res = yield API.getPipeline(id);
 
-        self.pipeline = res.data.id;
-        self.pipelines.get(res.data.id).jobProfile = res.data.jobProfile;
+        self.pipeline = Pipeline.create(res.data);
         self.pipelineState = 'loaded';
 
         return res;
       } catch (e) {
         self.pipelineState = 'error';
+        throw e;
+      }
+    }),
+    fetchStream: flow(function* fetchStream(
+      id: string,
+      silent: boolean = false,
+    ) {
+      if (!silent) {
+        self.streamState = 'loading';
+      }
+      try {
+        const res = yield getStream(id);
+
+        self.stream = Stream.create(res.data);
+        self.streamState = 'loaded';
+
+        return res;
+      } catch (e) {
+        self.streamState = 'error';
         throw e;
       }
     }),
@@ -96,7 +117,7 @@ export default types
     changeSort(field: string, order: string = 'asc') {
       self.sort = { field, order };
     },
-    checkPipeline(pipeline: TPipeline) {
+    checkPipeline(pipeline: TPipelineItem) {
       if (self.checked.has(pipeline.id)) {
         self.checked.delete(pipeline.id);
       } else {
@@ -106,6 +127,12 @@ export default types
     clearPipeline() {
       self.pipeline = null;
     },
+    clearStream() {
+      self.stream = null;
+    },
+    changePipelineState(state: TState) {
+      self.pipelineState = state;
+    },
   }))
   .views(self => ({
     get isLoading() {
@@ -113,6 +140,15 @@ export default types
     },
     get isPending() {
       return propEq('state', 'pending')(self);
+    },
+    get isStreamLoading() {
+      return propEq('state', 'loading')(self);
+    },
+    get isStreamPending() {
+      return propEq('streamState', 'pending')(self);
+    },
+    get isStreamsDeleting() {
+      return propEq('pipelineState', 'deleting')(self);
     },
     get isDeleting() {
       return propEq('state', 'deleting')(self);
@@ -125,8 +161,5 @@ export default types
         orderBy(self.sort.field, self.sort.order as OrderType),
         fromPairs,
       )([...self.pipelines]);
-    },
-    get hasFirstActiveStream() {
-      return some(!propEq('status', 'IDLE'))(self.pipelines);
     },
   }));

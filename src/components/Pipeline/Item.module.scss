@@ -1,0 +1,61 @@
+@import '~styles/vars';
+
+.row {
+  &:not(:last-child) {
+    margin-bottom: 4px;
+  }
+  td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    &:not(:first-child) {
+      background-color: $grey-dawn;
+    }
+    &:nth-child(2) {
+      border-radius: 4px 0 0 4px;
+    }
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+  &:nth-child(even) {
+    td {
+      &:not(:first-child) {
+        background-color: $grey-dawn-w1;
+      }
+    }
+  }
+  &.checked {
+    td:not(:first-child) {
+      background-color: $violet-sky-b2;
+    }
+  }
+}
+
+.statusCell {
+  width: 55px;
+  padding: 0 53px;
+}
+
+.status {
+  color: #ab88de;
+  font-size: 8px;
+  line-height: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.link {
+  text-decoration: none;
+}
+
+.checkCell {
+  width: 68px;
+}
+
+.nameCell {
+  padding-left: 24px;
+  padding-right: 24px;
+}

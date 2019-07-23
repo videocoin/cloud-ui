@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Navigation, TopBar, Typography } from 'ui-kit';
 import Player from 'components/Player';
-import { getShared } from 'api/pipelines';
+import { getShared } from 'api/streams';
 import { getOr } from 'lodash/fp';
 import { INGEST_STATUS } from 'const';
 import { JobProfile } from 'stores/types';
@@ -16,7 +16,7 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [pipeline, setPipeline] = useState(null);
 
-  const fetchPipeline = async () => {
+  const fetchStream = async () => {
     try {
       const res = await getShared(accessCode);
 
@@ -28,8 +28,8 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
   };
 
   useEffect(() => {
-    fetchPipeline();
-  }, [fetchPipeline]);
+    fetchStream();
+  }, [fetchStream]);
 
   const jobProfile = getOr({}, 'jobProfile')(pipeline);
   const { transcodeOutputUrl, ingestStatus } = jobProfile as JobProfile;

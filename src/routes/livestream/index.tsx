@@ -11,56 +11,51 @@ import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
 const StreamControl = observer(() => {
-  const { pipeline } = PipelinesStore;
+  const { stream } = PipelinesStore;
 
-  if (!pipeline) return null;
-  const { status, runPipeline, cancelPipeline, completePipeline } = pipeline;
+  if (!stream) return null;
+  const { status, runStream, cancelStream, completeStream } = stream;
 
   switch (status) {
-    case 'IDLE':
-      return <Button onClick={runPipeline}>Start stream</Button>;
-    case 'PENDING_REQUEST':
-    case 'PENDING_APPROVE':
-    case 'PENDING_CREATE':
+    case 'JOB_STATUS_NONE':
+      return <Button onClick={runStream}>Start stream</Button>;
+    case 'JOB_STATUS_NEW':
       return (
-        <Button onClick={cancelPipeline} disabled>
+        <Button onClick={cancelStream} disabled>
           Cancel stream
         </Button>
       );
-    case 'PENDING_JOB':
-      return <Button onClick={cancelPipeline}>Cancel stream</Button>;
-    case 'RUNNING':
-      return <Button onClick={completePipeline}>Complete stream</Button>;
+    case 'JOB_STATUS_PENDING':
+    case 'JOB_STATUS_PROCESSING':
+      return <Button onClick={completeStream}>Cancel stream</Button>;
+    case 'JOB_STATUS_READY':
+      return <Button onClick={completeStream}>Complete stream</Button>;
     default:
-      return <Button onClick={runPipeline}>Start stream</Button>;
+      return <Button onClick={runStream}>Start stream</Button>;
   }
 });
 
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
 }) => {
-  const { openModal } = ModalStore;
-  const { pipeline, isLoading, isPending } = PipelinesStore;
+  const { isStreamLoading, isStreamPending } = PipelinesStore;
   const interval = useRef(null);
 
-  const handleShare = () =>
-    openModal(modalType.SHARE_MODAL, { accessCode: pipeline.accessCode });
-
   useEffect(() => {
-    const { fetchPipeline, clearPipeline } = PipelinesStore;
+    const { fetchStream, clearStream } = PipelinesStore;
 
-    if (!isLoading && !isPending) {
-      fetchPipeline(streamId);
+    if (!isStreamLoading) {
+      fetchStream(streamId);
       interval.current = setInterval(() => {
-        fetchPipeline(streamId, true);
+        fetchStream(streamId, true);
       }, pipelineRequestTimeout);
     }
 
     return () => {
-      clearPipeline();
+      clearStream();
       clearInterval(interval.current);
     };
-  }, [isLoading, isPending, streamId]);
+  }, [isStreamLoading, isStreamPending, streamId]);
 
   return (
     <>
@@ -72,9 +67,6 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
             <Typography type="smallTitle">Livestream</Typography>
           </div>
           <div className={css.btns}>
-            <Button theme="minimal" onClick={handleShare}>
-              Share
-            </Button>
             <StreamControl />
           </div>
         </TopBar>

@@ -1,5 +1,6 @@
 import React from 'react';
 import pluralize from 'pluralize';
+import { some, propEq } from 'lodash/fp';
 import { ActionBar, Button, Typography } from 'ui-kit';
 import Modal from 'components/Modal';
 import PipelinesStore from 'stores/pipelines';
@@ -7,13 +8,15 @@ import { TPipelineStore } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 
 const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
-  const {
-    checked,
-    deletePipelines,
-    isDeleting,
-  }: TPipelineStore = PipelinesStore;
+  const { pipeline, isStreamsDeleting }: TPipelineStore = PipelinesStore;
+
+  if (!pipeline) return null;
+
+  const { checked, deleteStreams } = pipeline;
+
+  const hasRunning = some(propEq('status', 'INPUT_STATUS_ACTIVE'), checked);
   const onConfirm = async () => {
-    await deletePipelines();
+    await deleteStreams();
     closeModal();
   };
 
@@ -21,17 +24,19 @@ const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
     <Modal>
       <div className="modalInner">
         <Typography type="bodyAlt">
-          Delete {pluralize('Pipeline', checked.size, true)}?
+          Delete {pluralize('Livestream', checked.length, true)}?
         </Typography>
         <Typography type="smallBody">
-          These pipelines will be permanently deleted.
+          {hasRunning
+            ? 'One of the selected livestreams is running and will be ended immediately upon deletion.'
+            : 'These livestreams will be permanently deleted.'}
         </Typography>
         <div className="modalActions">
           <ActionBar>
             <Button theme="minimal" onClick={closeModal}>
               Cancel
             </Button>
-            <Button loading={isDeleting} onClick={onConfirm}>
+            <Button loading={isStreamsDeleting} onClick={onConfirm}>
               Delete
             </Button>
           </ActionBar>

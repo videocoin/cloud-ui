@@ -10,6 +10,7 @@
     cursor: pointer;
     position: relative;
     &:first-child {
+      text-align: center;
       padding-left: 70px;
     }
     &:nth-child(2) {
@@ -22,4 +23,9 @@
       position: absolute;
     }
   }
+}
+
+.empty {
+  margin-top: 88px;
+  opacity: 0.48;
 }

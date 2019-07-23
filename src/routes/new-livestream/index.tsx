@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { SelectOption } from '@types';
 import { RouteComponentProps, navigate } from '@reach/router';
 import withAuth from 'HOCs/withAuth';
 import { withFormik } from 'formik';
@@ -8,6 +7,7 @@ import BackLink from 'components/BackLink';
 import NewLivestream from 'components/NewLivestream';
 import PipelinesStore from 'stores/pipelines';
 import UserStore from 'stores/user';
+import { SelectOption } from '@types';
 import css from './index.module.scss';
 import validationSchema from './validate';
 

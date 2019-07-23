@@ -12,7 +12,7 @@ const Navigation = () => {
       {isActive && (
         <>
           <NavLink
-            icon="livestreamManager"
+            icon="pipelines"
             label="Livestream Pipelines"
             to="pipelines"
           />

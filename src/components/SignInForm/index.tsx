@@ -5,9 +5,9 @@ import { get, map } from 'lodash/fp';
 import { toast } from 'react-toastify';
 import Input from 'components/Input';
 import { Button } from 'ui-kit';
-import { FormField, SignInForm } from '@types';
 import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
+import { FormField, SignInForm } from '@types';
 import css from './index.module.scss';
 import validationSchema from './validate';
 

@@ -20,6 +20,12 @@ export const LiveStreamProfiles = [
   },
 ];
 
+export const readableProfile: { [key: string]: string } = {
+  profile_id_sd: 'SD Profile  (2Mbps - 640px Width - 60fps)',
+  profile_id_hd: 'HD Profile  (3Mbps - 1280px Width - 60fps)',
+  profile_id_fhd: 'Full HD Profile  (4Mbps - 1920px Width - 60fps)',
+};
+
 export const balanceRequestTimeout = 30000;
 
 export const statusTable: { [key: string]: string } = {
@@ -34,7 +40,8 @@ export const statusTable: { [key: string]: string } = {
 };
 
 export const INGEST_STATUS: { [key: string]: string } = {
-  ingest_status_none: 'None',
-  ingest_status_inactive: 'Inactive',
-  ingest_status_active: 'Receiving',
+  INPUT_STATUS_NONE: 'None',
+  INPUT_STATUS_PENDING: 'Inactive',
+  INPUT_STATUS_ACTIVE: 'Receiving',
+  INPUT_STATUS_ERROR: 'Error',
 };

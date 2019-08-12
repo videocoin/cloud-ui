@@ -17,7 +17,8 @@ interface StreamItemProps {
 const statusIcon: { [key: string]: IconName } = {
   JOB_STATUS_NONE: 'offline',
   JOB_STATUS_NEW: 'offline',
-  JOB_STATUS_PENDING: 'awaitingInput',
+  JOB_STATUS_PREPARING: 'awaitingInput',
+  JOB_STATUS_PREPARED: 'awaitingInput',
   JOB_STATUS_PROCESSING: 'awaitingInput',
   JOB_STATUS_READY: 'awaitingInput',
   JOB_STATUS_COMPLETED: 'offline',

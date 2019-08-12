@@ -17,14 +17,10 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
   const [pipeline, setPipeline] = useState(null);
 
   const fetchStream = async () => {
-    try {
-      const res = await getShared(accessCode);
+    const res = await getShared(accessCode);
 
-      setPipeline(res.data);
-      setIsLoaded(true);
-    } catch (e) {
-      throw e;
-    }
+    setPipeline(res.data);
+    setIsLoaded(true);
   };
 
   useEffect(() => {

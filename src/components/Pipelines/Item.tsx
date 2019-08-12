@@ -12,7 +12,7 @@ interface PipelineItemProps {
 }
 
 const PipelineItem = ({ pipeline }: PipelineItemProps) => {
-  const { id, name } = pipeline;
+  const { id, name, streamsCount, streamsReady } = pipeline;
   const { checkPipeline, checked } = PipelinesStore;
   const handleCheck = () => checkPipeline(pipeline);
   const isChecked = checked.has(pipeline.id);
@@ -26,6 +26,14 @@ const PipelineItem = ({ pipeline }: PipelineItemProps) => {
         <Link className={css.link} to={id}>
           <Typography type="bodyAlt">{name}</Typography>
         </Link>
+      </td>
+      <td className={css.cell}>
+        <div className={css.count}>
+          <Typography type="bodyAlt">
+            {streamsReady} of {streamsCount}
+          </Typography>
+          <Typography>Streams</Typography>
+        </div>
       </td>
     </tr>
   );

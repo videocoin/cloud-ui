@@ -36,13 +36,9 @@ export const Pipeline = types
       }
     },
     createStream: flow(function* createStream() {
-      try {
-        const res = yield API.createStream(self.id);
+      const res = yield API.createStream(self.id);
 
-        self.streams.items.push(res.data);
-      } catch (e) {
-        throw e;
-      }
+      self.streams.items.push(res.data);
     }),
     deleteStreams: flow(function* deleteStream() {
       const parent = getParent(self);

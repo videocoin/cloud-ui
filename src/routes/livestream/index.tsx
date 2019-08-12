@@ -25,7 +25,8 @@ const StreamControl = observer(() => {
           Cancel stream
         </Button>
       );
-    case 'JOB_STATUS_PENDING':
+    case 'JOB_STATUS_PREPARING':
+    case 'JOB_STATUS_PREPARED':
     case 'JOB_STATUS_PROCESSING':
       return <Button onClick={completeStream}>Cancel stream</Button>;
     case 'JOB_STATUS_READY':

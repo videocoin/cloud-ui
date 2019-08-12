@@ -23,11 +23,7 @@ const NewLivestream = (props: FormikProps<Props>) => {
       <div className={css.row}>
         <Typography type="subtitle">General details</Typography>
         <div className={css.name}>
-          <Field
-            component={Input}
-            label="Livestream Pipeline Name"
-            name="name"
-          />
+          <Field component={Input} label="Pipeline Name" name="name" />
         </div>
       </div>
       <div className={css.row}>

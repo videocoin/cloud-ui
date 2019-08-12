@@ -13,6 +13,10 @@ const fields = [
     label: 'Pipeline Name',
     colspan: 2,
   },
+  {
+    name: 'streams',
+    label: 'Streams Running',
+  },
 ];
 
 const PipelinesTable = () => {

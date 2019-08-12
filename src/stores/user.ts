@@ -4,12 +4,14 @@ import * as API from 'api/user';
 import * as AccountAPI from 'api/account';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import initSocket from 'socket';
+import { WalletAction } from 'stores/models/wallet';
 import { State } from './types';
 import User from './models/user';
 
 const Store = types
   .model('UserStore', {
     user: types.maybeNull(User),
+    actions: types.array(WalletAction),
     state: State,
   })
   .actions(self => {
@@ -29,49 +31,51 @@ const Store = types
         throw e;
       }
     });
+    const fetchActions = flow(function* fetchActions() {
+      const res = yield API.getActions(self.user.account.address, {
+        limit: 15,
+        offset: 0,
+      });
+
+      console.log(res);
+    });
 
     return {
-      afterCreate() {
-        fetchUser();
-      },
       fetchUser,
+      fetchActions,
+      afterCreate: flow(function* afterCreate() {
+        yield fetchUser();
+        yield fetchActions();
+      }),
       fetchAccount: flow(function* fetchAccount() {
-        try {
-          const res = yield AccountAPI.fetchAccount(self.user.account.id);
+        const res = yield AccountAPI.fetchAccount(self.user.account.id);
 
-          self.user.account = res.data;
+        self.user.account = res.data;
 
-          return res;
-        } catch (e) {
-          throw e;
-        }
+        return res;
       }),
       signIn: flow(function* signIn(data) {
-        try {
-          const res = yield API.signIn(data);
-          const { token } = res.data;
+        const res = yield API.signIn(data);
+        const { token } = res.data;
 
-          localStorage.setItem('token', token);
-          setTokenHeader(token);
+        localStorage.setItem('token', token);
+        setTokenHeader(token);
 
-          return yield fetchUser();
-        } catch (e) {
-          throw e;
-        }
+        yield fetchUser();
+        yield fetchActions();
+
+        return res;
       }),
       signUp: flow(function* signUp(data) {
-        try {
-          const res = yield API.signUp(data);
-          const { token } = res.data;
+        const res = yield API.signUp(data);
+        const { token } = res.data;
 
-          localStorage.setItem('token', token);
-          setTokenHeader(token);
-          fetchUser();
+        localStorage.setItem('token', token);
+        setTokenHeader(token);
+        yield fetchUser();
+        yield fetchActions();
 
-          return res;
-        } catch (e) {
-          throw e;
-        }
+        return res;
       }),
       logout() {
         localStorage.removeItem('token');
@@ -108,6 +112,7 @@ const Store = types
 const UserStore = Store.create({
   state: 'pending',
   user: null,
+  actions: [],
 });
 
 export default UserStore;

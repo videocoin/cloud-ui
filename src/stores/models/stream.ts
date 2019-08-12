@@ -7,7 +7,8 @@ export default types
     status: types.enumeration('Status', [
       'JOB_STATUS_NONE',
       'JOB_STATUS_NEW',
-      'JOB_STATUS_PENDING',
+      'JOB_STATUS_PREPARING',
+      'JOB_STATUS_PREPARED',
       'JOB_STATUS_PROCESSING',
       'JOB_STATUS_READY',
       'JOB_STATUS_COMPLETED',
@@ -28,31 +29,19 @@ export default types
   })
   .actions(self => ({
     runStream: flow(function* runStream() {
-      try {
-        const res = yield API.runStream(self.id);
+      const res = yield API.runStream(self.id);
 
-        self.status = res.data.status;
-      } catch (e) {
-        throw e;
-      }
+      self.status = res.data.status;
     }),
     cancelStream: flow(function* cancelStream() {
-      try {
-        const res = yield API.cancelStream(self.id);
+      const res = yield API.cancelStream(self.id);
 
-        self.status = res.data.status;
-      } catch (e) {
-        throw e;
-      }
+      self.status = res.data.status;
     }),
     completeStream: flow(function* completeStream() {
-      try {
-        const res = yield API.completeStream(self.id);
+      const res = yield API.completeStream(self.id);
 
-        self.status = res.data.status;
-      } catch (e) {
-        throw e;
-      }
+      self.status = res.data.status;
     }),
     updateStatus(status: string) {
       self.status = status;

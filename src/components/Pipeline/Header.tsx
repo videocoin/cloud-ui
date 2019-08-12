@@ -16,7 +16,7 @@ const PipelineHeader = () => {
     <>
       <div>
         <Typography type="caption">VideoCoin Network</Typography>
-        <Typography type="smallTitle">Livestream Pipelines</Typography>
+        <Typography type="smallTitle">Pipelines</Typography>
       </div>
       <div className={css.btns}>
         {Boolean(pipeline && pipeline.checked.length) && (

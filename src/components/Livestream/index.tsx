@@ -1,5 +1,5 @@
 import React from 'react';
-import { eq, lowerCase, map, uniqueId } from 'lodash/fp';
+import { eq, lowerCase } from 'lodash/fp';
 import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
@@ -8,6 +8,7 @@ import Player from 'components/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
 import { INGEST_STATUS } from 'const';
 import css from './index.module.scss';
+import ProtocolTable from './ProtocolTable';
 
 const Livestream = () => {
   const { stream, pipelineState, isStreamLoading } = PipelinesStore;
@@ -105,6 +106,7 @@ const Livestream = () => {
         <Typography type="subtitle" className={css.head}>
           Protocol events
         </Typography>
+        <ProtocolTable />
         {/* <div className={css.log}>{map(renderLog, protocol)}</div> */}
       </section>
     </div>

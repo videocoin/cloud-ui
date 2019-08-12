@@ -58,7 +58,7 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
           <BackLink />
           <div>
             <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">New Livestream</Typography>
+            <Typography type="smallTitle">New Pipeline</Typography>
           </div>
           <div className={css.btns}>
             {!isValid && (

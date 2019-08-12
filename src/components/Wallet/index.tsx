@@ -4,6 +4,7 @@ import css from './index.module.scss';
 import WalletTab from './Wallet';
 import Deposit from './Deposit';
 import Withdrawal from './Withdrawal';
+import Table from './Table';
 
 const ACTIVE_TAB: { [tab: string]: ReactNode } = {
   wallet: <WalletTab />,
@@ -16,25 +17,28 @@ const Wallet = () => {
   const handleSetTab = (tab: string) => () => setActiveTab(tab);
 
   return (
-    <div className={css.root}>
-      <div className={css.sidebar}>
-        <SingleSelector
-          selected={activeTab === 'wallet'}
-          label="Wallet"
-          onClick={handleSetTab('wallet')}
-        />
-        <SingleSelector
-          selected={activeTab === 'deposit'}
-          label="Make Deposit"
-          onClick={handleSetTab('deposit')}
-        />
-        <SingleSelector
-          selected={activeTab === 'withdrawal'}
-          label="Make Withdrawal"
-          onClick={handleSetTab('withdrawal')}
-        />
+    <div>
+      <div className={css.root}>
+        <div className={css.sidebar}>
+          <SingleSelector
+            selected={activeTab === 'wallet'}
+            label="Wallet"
+            onClick={handleSetTab('wallet')}
+          />
+          <SingleSelector
+            selected={activeTab === 'deposit'}
+            label="Make Deposit"
+            onClick={handleSetTab('deposit')}
+          />
+          <SingleSelector
+            selected={activeTab === 'withdrawal'}
+            label="Make Withdrawal"
+            onClick={handleSetTab('withdrawal')}
+          />
+        </div>
+        <div className={css.body}>{ACTIVE_TAB[activeTab]}</div>
       </div>
-      <div className={css.body}>{ACTIVE_TAB[activeTab]}</div>
+      <Table />
     </div>
   );
 };

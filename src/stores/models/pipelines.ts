@@ -87,15 +87,11 @@ export default types
       }
     }),
     createPipeline: flow(function* createPipeline(data) {
-      try {
-        const res = yield API.addPipeline(data);
+      const res = yield API.addPipeline(data);
 
-        self.pipelines.put(res.data);
+      self.pipelines.put(res.data);
 
-        return res;
-      } catch (e) {
-        throw e;
-      }
+      return res;
     }),
     deletePipelines: flow(function* deletePipelines() {
       self.state = 'deleting';

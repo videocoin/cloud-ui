@@ -59,3 +59,14 @@
   padding-left: 24px;
   padding-right: 24px;
 }
+
+.cell {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.count {
+  display: flex;
+  div:last-child {
+    margin-left: 5px;
+  }
+}

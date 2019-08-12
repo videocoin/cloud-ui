@@ -19,7 +19,7 @@ const Header = () => {
     <>
       <div>
         <Typography type="caption">VideoCoin Network</Typography>
-        <Typography type="smallTitle">Livestream Pipelines</Typography>
+        <Typography type="smallTitle">Pipelines</Typography>
       </div>
       <div className={css.btns}>
         {Boolean(checked.size) && (
@@ -28,7 +28,7 @@ const Header = () => {
           </Button>
         )}
         <Link className={!balance ? css.disabled : ''} to="new">
-          <Button disabled={!balance}>New livestream</Button>
+          <Button disabled={!balance}>New pipeline</Button>
         </Link>
       </div>
     </>

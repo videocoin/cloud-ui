@@ -3,9 +3,6 @@ import { RouteComponentProps } from '@reach/router';
 import { Navigation, TopBar, Typography } from 'ui-kit';
 import Player from 'components/Player';
 import { getShared } from 'api/streams';
-import { getOr } from 'lodash/fp';
-import { INGEST_STATUS } from 'const';
-import { JobProfile } from 'stores/types';
 import css from './index.module.scss';
 
 interface Props {
@@ -14,21 +11,18 @@ interface Props {
 
 const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [pipeline, setPipeline] = useState(null);
+  const [stream, setStream] = useState(null);
 
   const fetchStream = async () => {
     const res = await getShared(accessCode);
 
-    setPipeline(res.data);
+    setStream(res.data);
     setIsLoaded(true);
   };
 
   useEffect(() => {
     fetchStream();
   }, [fetchStream]);
-
-  const jobProfile = getOr({}, 'jobProfile')(pipeline);
-  const { transcodeOutputUrl, ingestStatus } = jobProfile as JobProfile;
 
   return (
     <div className={css.shared}>
@@ -51,9 +45,10 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
             <div className="content">
               {isLoaded ? (
                 <Player
-                  src={transcodeOutputUrl}
+                  src={stream.transcodeOutputUrl}
                   format="MONO_FLAT"
-                  status={INGEST_STATUS[ingestStatus]}
+                  status={stream.status}
+                  inputStatus={stream.inputStatus}
                 />
               ) : (
                 <Typography>Loading ...</Typography>

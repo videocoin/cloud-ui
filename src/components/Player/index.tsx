@@ -1,20 +1,23 @@
 import React from 'react';
 import { eq } from 'lodash/fp';
 import { Typography } from 'ui-kit';
+import { IInputStatus, IStatus } from 'stores/models/stream';
 import css from './index.module.scss';
 
 interface PlayerProps {
   src: string;
   format: string;
-  status: string;
+  status: IStatus;
+  inputStatus: IInputStatus;
 }
 
 const Player = ({ src, format, status }: PlayerProps) => {
-  const isOffline = eq('None', status) || eq('Inactive', status);
+  const isOnline =
+    eq(status, 'JOB_STATUS_READY') && eq(status, 'INPUT_STATUS_ACTIVE');
 
   return (
     <div className={css.player}>
-      {isOffline ? (
+      {!isOnline ? (
         <Typography type="bodyAlt">Offline</Typography>
       ) : (
         <dl8-video crossorigin="anonymous" aspect="16:9" format={format}>

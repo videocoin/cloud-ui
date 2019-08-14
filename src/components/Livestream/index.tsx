@@ -46,7 +46,8 @@ const Livestream = () => {
           <Player
             src={transcodeOutputUrl}
             format="MONO_FLAT"
-            status={INGEST_STATUS[status] || 'None'}
+            status={status}
+            inputStatus={inputStatus}
           />
         </div>
         <div className={css.desc}>
@@ -101,7 +102,6 @@ const Livestream = () => {
           Protocol events
         </Typography>
         <ProtocolTable />
-        {/* <div className={css.log}>{map(renderLog, protocol)}</div> */}
       </section>
     </div>
   );

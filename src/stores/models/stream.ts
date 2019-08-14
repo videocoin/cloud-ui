@@ -2,26 +2,29 @@ import { flow, Instance, types } from 'mobx-state-tree';
 import * as API from 'api/streams';
 import { Source, Type } from 'stores/types';
 
+const InputStatus = types.enumeration('InputStatus', [
+  'INPUT_STATUS_NONE',
+  'INPUT_STATUS_PENDING',
+  'INPUT_STATUS_ACTIVE',
+  'INPUT_STATUS_ERROR',
+]);
+const Status = types.enumeration('Status', [
+  'JOB_STATUS_NONE',
+  'JOB_STATUS_NEW',
+  'JOB_STATUS_PENDING',
+  'JOB_STATUS_PREPARING',
+  'JOB_STATUS_PREPARED',
+  'JOB_STATUS_PROCESSING',
+  'JOB_STATUS_READY',
+  'JOB_STATUS_COMPLETED',
+  'JOB_STATUS_CANCELLED',
+  'JOB_STATUS_FAILED',
+]);
+
 const StreamModel = types.model('Stream', {
   id: types.identifier,
-  status: types.enumeration('Status', [
-    'JOB_STATUS_NONE',
-    'JOB_STATUS_NEW',
-    'JOB_STATUS_PENDING',
-    'JOB_STATUS_PREPARING',
-    'JOB_STATUS_PREPARED',
-    'JOB_STATUS_PROCESSING',
-    'JOB_STATUS_READY',
-    'JOB_STATUS_COMPLETED',
-    'JOB_STATUS_CANCELLED',
-    'JOB_STATUS_FAILED',
-  ]),
-  inputStatus: types.enumeration('InputStatus', [
-    'INPUT_STATUS_NONE',
-    'INPUT_STATUS_PENDING',
-    'INPUT_STATUS_ACTIVE',
-    'INPUT_STATUS_ERROR',
-  ]),
+  status: Status,
+  inputStatus: InputStatus,
   pipelineId: types.string,
   streamAddress: types.string,
   streamId: types.string,
@@ -45,7 +48,7 @@ export const Stream = StreamModel.actions(self => ({
 
     self.status = res.data.status;
   }),
-  updateStatus(status: string) {
+  updateStatus(status: IStatus) {
     self.status = status;
   },
 }));
@@ -61,3 +64,5 @@ export const Protocol = types.model({
 });
 
 export type IProtocol = Instance<typeof Protocol>;
+export type IInputStatus = Instance<typeof InputStatus>;
+export type IStatus = Instance<typeof Status>;

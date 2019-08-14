@@ -11,10 +11,7 @@ const Store = types
     protocol: types.array(Protocol),
   })
   .actions(self => ({
-    fetchStream: flow(function* fetchStream(
-      id: string,
-      silent: boolean = false,
-    ) {
+    fetchStream: flow(function* fetchStream(id: string, silent = false) {
       if (!silent) {
         self.streamState = 'loading';
       }
@@ -32,6 +29,7 @@ const Store = types
     }),
     clearStream() {
       self.stream = null;
+      self.protocol.clear();
     },
     fetchProtocol: flow(function* fetchProtocol(id: string) {
       const res = yield API.getProtocol(id);

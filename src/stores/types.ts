@@ -4,7 +4,7 @@ import User from './models/user';
 import Account from './models/account';
 import PipelinesStore from './pipelines';
 import JobProfile from './models/jobProfile';
-import Stream from './models/stream';
+import { Stream } from './models/stream';
 
 export const State = types.enumeration('State', [
   'loading',
@@ -12,6 +12,26 @@ export const State = types.enumeration('State', [
   'pending',
   'error',
   'deleting',
+]);
+
+export const Source = types.enumeration('Source', ['UNDETECTED', 'ETH', 'VID']);
+
+export const Type = types.enumeration('Type', [
+  'UNKNOWN',
+  'DEPOSIT',
+  'STREAM_CREATED',
+  'STREAM_ENDED',
+  'INPUT_CHUNK_ADDED',
+  'CHUNK_PROOF_SUBMITTED',
+  'CHUNK_PROOF_VALIDATED',
+  'CHUNK_PROOF_SCRAPPED',
+  'ACCOUNT_FUNDED',
+  'STREAM_REQUESTED',
+  'STREAM_APPROVED',
+  'VALIDATOR_ADDED',
+  'VALIDATOR_REMOVED',
+  'REFUND_ALLOWED',
+  'REFUND_REVOKED',
 ]);
 
 export type TState = Instance<typeof State>;

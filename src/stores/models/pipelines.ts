@@ -9,7 +9,7 @@ import {
   propEq,
 } from 'lodash/fp';
 import { PipelineItem, Pipeline } from 'stores/models/pipeline';
-import Stream from 'stores/models/stream';
+import { Stream } from 'stores/models/stream';
 import { getStream } from 'api/streams';
 import * as API from 'api/pipelines';
 import { OrderType, State, TPipelineItem, TState } from '../types';
@@ -18,10 +18,8 @@ export default types
   .model('PipelinesStore', {
     pipelines: types.map(PipelineItem),
     pipeline: types.maybeNull(Pipeline),
-    stream: types.maybeNull(Stream),
     state: State,
     pipelineState: State,
-    streamState: State,
     sort: types.model('PipelinesSort', {
       field: 'status',
       order: types.enumeration('Order', ['asc', 'desc']),
@@ -67,25 +65,6 @@ export default types
         throw e;
       }
     }),
-    fetchStream: flow(function* fetchStream(
-      id: string,
-      silent: boolean = false,
-    ) {
-      if (!silent) {
-        self.streamState = 'loading';
-      }
-      try {
-        const res = yield getStream(id);
-
-        self.stream = Stream.create(res.data);
-        self.streamState = 'loaded';
-
-        return res;
-      } catch (e) {
-        self.streamState = 'error';
-        throw e;
-      }
-    }),
     createPipeline: flow(function* createPipeline(data) {
       const res = yield API.addPipeline(data);
 
@@ -123,9 +102,6 @@ export default types
     clearPipeline() {
       self.pipeline = null;
     },
-    clearStream() {
-      self.stream = null;
-    },
     changePipelineState(state: TState) {
       self.pipelineState = state;
     },
@@ -136,15 +112,6 @@ export default types
     },
     get isPending() {
       return propEq('state', 'pending')(self);
-    },
-    get isStreamLoading() {
-      return propEq('state', 'loading')(self);
-    },
-    get isStreamPending() {
-      return propEq('streamState', 'pending')(self);
-    },
-    get isStreamsDeleting() {
-      return propEq('pipelineState', 'deleting')(self);
     },
     get isDeleting() {
       return propEq('state', 'deleting')(self);

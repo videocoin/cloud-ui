@@ -2,7 +2,7 @@ import { flow, getParent, types } from 'mobx-state-tree';
 import * as API from 'api/streams';
 import { map, reject, indexOf, without, concat } from 'lodash/fp';
 import { TStream } from 'stores/types';
-import Stream from './stream';
+import { Stream } from './stream';
 
 export const PipelineItem = types.model('PipelineItem', {
   id: types.identifier,

@@ -29,13 +29,15 @@ const ProtocolTable = () => {
     },
   ];
 
+  const calcVid = (value: string) => (+value / 10 ** 18).toFixed(2);
+
   const renderRow = (item: IProtocol) => (
     <tr>
       <td className={css.cell}>{item.type}</td>
       <td className={css.cell}>{item.hash}</td>
       <td className={css.cell}>{item.from}</td>
       <td className={css.cell}>{item.to}</td>
-      <td className={css.cell}>{item.source}</td>
+      <td className={css.cell}>{calcVid(item.value)}</td>
     </tr>
   );
 

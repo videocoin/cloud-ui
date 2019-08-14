@@ -18,6 +18,8 @@ const StreamControl = observer(() => {
     case 'JOB_STATUS_NEW':
     case 'JOB_STATUS_NONE':
       return <Button onClick={runStream}>Start stream</Button>;
+    case 'JOB_STATUS_COMPLETED':
+      return null;
     case 'JOB_STATUS_PREPARING':
     case 'JOB_STATUS_PREPARED':
     case 'JOB_STATUS_PROCESSING':

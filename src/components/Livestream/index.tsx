@@ -37,11 +37,7 @@ const Livestream = () => {
 
   const isStreamActive = eq(status, 'JOB_STATUS_READY');
   const isIngestActive = eq(inputStatus, 'INPUT_STATUS_ACTIVE');
-
-  //
-  // const renderLog = (message: string) => (
-  //   <code key={uniqueId('log_')}>{message}</code>
-  // );
+  const outputStatus = status.split('_').pop();
 
   return (
     <div>
@@ -88,7 +84,7 @@ const Livestream = () => {
               <div className={cn(css.mark, isStreamActive && css.active)} />
               <div className={css.endpointTitle}>Output</div>
               <Typography type="smallBodyAlt" theme="primary">
-                {lowerCase(status)}
+                {lowerCase(outputStatus)}
               </Typography>
             </div>
             <Input

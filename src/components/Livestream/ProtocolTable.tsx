@@ -1,25 +1,15 @@
 import React from 'react';
 import { Table, Field } from 'ui-kit';
+import StreamStore from 'stores/stream';
+import { IProtocol } from 'stores/models/stream';
 import css from './index.module.scss';
 
-interface ProtocolItem {
-  type: string;
-  age: string;
-  hash: string;
-  from: string;
-  to: string;
-  vid: number;
-}
-
 const ProtocolTable = () => {
+  const { protocol } = StreamStore;
   const fields: Field[] = [
     {
       name: 'type',
       label: 'Type',
-    },
-    {
-      name: 'age',
-      label: 'Age',
     },
     {
       name: 'hash',
@@ -39,29 +29,17 @@ const ProtocolTable = () => {
     },
   ];
 
-  const data: ProtocolItem[] = [
-    {
-      type: 'Protocol',
-      age: '5 sec',
-      hash: '123123123',
-      from: '123123123',
-      to: '123123123',
-      vid: 24.23,
-    },
-  ];
-
-  const renderRow = (item: ProtocolItem) => (
+  const renderRow = (item: IProtocol) => (
     <tr>
-      <td>{item.type}</td>
-      <td>{item.age}</td>
-      <td>{item.hash}</td>
-      <td>{item.from}</td>
-      <td>{item.to}</td>
-      <td>{item.vid}</td>
+      <td className={css.cell}>{item.type}</td>
+      <td className={css.cell}>{item.hash}</td>
+      <td className={css.cell}>{item.from}</td>
+      <td className={css.cell}>{item.to}</td>
+      <td className={css.cell}>{item.source}</td>
     </tr>
   );
 
-  return <Table fields={fields} data={data} renderRow={renderRow} />;
+  return <Table fields={fields} data={protocol} renderRow={renderRow} />;
 };
 
 export default ProtocolTable;

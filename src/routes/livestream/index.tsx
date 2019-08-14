@@ -4,27 +4,20 @@ import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
-import ModalStore from 'stores/modal';
-import { modalType } from 'components/ModalManager';
-import PipelinesStore from 'stores/pipelines';
+import StreamStore from 'stores/stream';
 import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
 const StreamControl = observer(() => {
-  const { stream } = PipelinesStore;
+  const { stream } = StreamStore;
 
   if (!stream) return null;
-  const { status, runStream, cancelStream, completeStream } = stream;
+  const { status, runStream, completeStream } = stream;
 
   switch (status) {
+    case 'JOB_STATUS_NEW':
     case 'JOB_STATUS_NONE':
       return <Button onClick={runStream}>Start stream</Button>;
-    case 'JOB_STATUS_NEW':
-      return (
-        <Button onClick={cancelStream} disabled>
-          Cancel stream
-        </Button>
-      );
     case 'JOB_STATUS_PREPARING':
     case 'JOB_STATUS_PREPARED':
     case 'JOB_STATUS_PROCESSING':
@@ -39,12 +32,15 @@ const StreamControl = observer(() => {
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
 }) => {
-  const { isStreamLoading, isStreamPending } = PipelinesStore;
+  const {
+    isStreamLoading,
+    isStreamPending,
+    fetchStream,
+    clearStream,
+  } = StreamStore;
   const interval = useRef(null);
 
   useEffect(() => {
-    const { fetchStream, clearStream } = PipelinesStore;
-
     if (!isStreamLoading) {
       fetchStream(streamId);
       interval.current = setInterval(() => {
@@ -56,7 +52,7 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
       clearStream();
       clearInterval(interval.current);
     };
-  }, [isStreamLoading, isStreamPending, streamId]);
+  }, [clearStream, fetchStream, isStreamLoading, isStreamPending, streamId]);
 
   return (
     <>

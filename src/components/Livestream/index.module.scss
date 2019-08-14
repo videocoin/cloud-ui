@@ -80,15 +80,9 @@
   cursor: pointer;
 }
 
-.log {
-  background: $grey-dawn-b2;
-  border-radius: 8px;
-  height: 300px;
-  color: #fff;
-  padding: 10px;
-  overflow-y: auto;
-  code {
-    font-family: monospace;
-    display: block;
-  }
+.cell {
+  max-width: 215px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

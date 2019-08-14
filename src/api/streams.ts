@@ -21,9 +21,13 @@ export function cancelStream(id: string) {
 }
 
 export function completeStream(id: string) {
-  return api.post(`/streams/${id}/complete`);
+  return api.post(`/streams/${id}/cancel`);
 }
 
 export function getShared(accessCode: string) {
   return api(`/streams/code/${accessCode}`);
+}
+
+export function getProtocol(id: string) {
+  return api(`http://txlog.dev.videocoin.network:8080/api/v1/stream/${id}`);
 }

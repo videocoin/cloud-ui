@@ -8,7 +8,7 @@ import { TPipelineStore } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 
 const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
-  const { pipeline, isStreamsDeleting }: TPipelineStore = PipelinesStore;
+  const { pipeline, isDeleting }: TPipelineStore = PipelinesStore;
 
   if (!pipeline) return null;
 
@@ -36,7 +36,7 @@ const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
             <Button theme="minimal" onClick={closeModal}>
               Cancel
             </Button>
-            <Button loading={isStreamsDeleting} onClick={onConfirm}>
+            <Button loading={isDeleting} onClick={onConfirm}>
               Delete
             </Button>
           </ActionBar>

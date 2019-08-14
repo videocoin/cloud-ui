@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { eq, lowerCase } from 'lodash/fp';
 import cn from 'classnames';
 import PipelinesStore from 'stores/pipelines';
@@ -7,11 +7,19 @@ import { Input, Typography } from 'ui-kit';
 import Player from 'components/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
 import { INGEST_STATUS } from 'const';
+import StreamStore from 'stores/stream';
 import css from './index.module.scss';
 import ProtocolTable from './ProtocolTable';
 
 const Livestream = () => {
-  const { stream, pipelineState, isStreamLoading } = PipelinesStore;
+  const { pipelineState } = PipelinesStore;
+  const { stream, fetchProtocol, isStreamLoading } = StreamStore;
+
+  useEffect(() => {
+    if (stream) {
+      fetchProtocol(stream.streamId);
+    }
+  }, [fetchProtocol, stream]);
 
   if (eq('loading', pipelineState) || !stream || isStreamLoading) {
     return <Typography>Loading...</Typography>;
@@ -27,10 +35,8 @@ const Livestream = () => {
     ingestInputUrl,
   } = stream;
 
-  const isStreamActive =
-    eq(status, 'JOB_STATUS_READY') || eq(status, 'INPUT_STATUS_ACTIVE');
-
-  const isIngestActive = eq(status, 'INPUT_STATUS_ACTIVE');
+  const isStreamActive = eq(status, 'JOB_STATUS_READY');
+  const isIngestActive = eq(inputStatus, 'INPUT_STATUS_ACTIVE');
 
   //
   // const renderLog = (message: string) => (
@@ -53,14 +59,6 @@ const Livestream = () => {
             <li>
               <Typography type="smallBodyAlt">0:00</Typography>&nbsp;
               <Typography type="smallBody">Minutes</Typography>
-            </li>
-            <li>
-              <Typography type="smallBodyAlt">3:45</Typography>&nbsp;
-              <Typography type="smallBody">VID/MIN</Typography>
-            </li>
-            <li>
-              <Typography type="smallBodyAlt">0</Typography>&nbsp;
-              <Typography type="smallBody">Total VID Spent</Typography>
             </li>
           </ul>
         </div>

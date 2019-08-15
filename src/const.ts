@@ -45,3 +45,6 @@ export const INGEST_STATUS: { [key: string]: string } = {
   INPUT_STATUS_ACTIVE: 'Receiving',
   INPUT_STATUS_ERROR: 'Error',
 };
+
+export const PROTOCOL_OFFSET = 10;
+export const protocolRequestTimeout = 3000;

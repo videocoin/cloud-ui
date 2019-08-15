@@ -1,38 +1,56 @@
-import React from 'react';
-import { Table, Field } from 'ui-kit';
+import React, { useRef, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { Field, Typography } from 'ui-kit';
 import StreamStore from 'stores/stream';
 import { IProtocol } from 'stores/models/stream';
+import { map, uniqueId } from 'lodash/fp';
+import { Pagination } from 'ui-kit/src';
+import { protocolRequestTimeout } from 'const';
 import css from './index.module.scss';
 
+const fields: Field[] = [
+  {
+    name: 'type',
+    label: 'Type',
+  },
+  {
+    name: 'hash',
+    label: 'Transaction Hash',
+  },
+  {
+    name: 'from',
+    label: 'From',
+  },
+  {
+    name: 'to',
+    label: 'To',
+  },
+  {
+    name: 'vid',
+    label: 'VID',
+  },
+];
+
 const ProtocolTable = () => {
-  const { protocol } = StreamStore;
-  const fields: Field[] = [
-    {
-      name: 'type',
-      label: 'Type',
-    },
-    {
-      name: 'hash',
-      label: 'Transaction Hash',
-    },
-    {
-      name: 'from',
-      label: 'From',
-    },
-    {
-      name: 'to',
-      label: 'To',
-    },
-    {
-      name: 'vid',
-      label: 'VID',
-    },
-  ];
+  const { fetchProtocol, protocolMeta, stream, protocol } = StreamStore;
+  const { page, hasMore } = protocolMeta;
+  const interval = useRef(null);
+
+  useEffect(() => {
+    fetchProtocol(stream.streamId, page);
+    interval.current = setInterval(() => {
+      fetchProtocol(stream.streamId, page);
+    }, protocolRequestTimeout);
+
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, [fetchProtocol, page, stream.streamId]);
 
   const calcVid = (value: string) => (+value / 10 ** 18).toFixed(2);
 
   const renderRow = (item: IProtocol) => (
-    <tr key={item.hash}>
+    <tr key={uniqueId('protocol_')}>
       <td className={css.cell}>{item.type}</td>
       <td className={css.cell}>{item.hash}</td>
       <td className={css.cell}>{item.from}</td>
@@ -41,7 +59,30 @@ const ProtocolTable = () => {
     </tr>
   );
 
-  return <Table fields={fields} data={protocol} renderRow={renderRow} />;
+  const renderHead = () =>
+    map(({ name, label, colspan = 1 }) => (
+      <th key={name} colSpan={colspan}>
+        <Typography type="smallBodyAlt">{label}</Typography>
+      </th>
+    ))(fields);
+
+  const handlePageChange = (val: number) => {
+    fetchProtocol(stream.streamId, val);
+  };
+
+  return (
+    <div className={css.protocol}>
+      <table className={css.root}>
+        <thead>
+          <tr>{renderHead()}</tr>
+        </thead>
+        <tbody>{map(renderRow, protocol)}</tbody>
+      </table>
+      <div className={css.pagination}>
+        <Pagination onChange={handlePageChange} max={!hasMore} />
+      </div>
+    </div>
+  );
 };
 
-export default ProtocolTable;
+export default observer(ProtocolTable);

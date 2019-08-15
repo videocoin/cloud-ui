@@ -13,13 +13,7 @@ import ProtocolTable from './ProtocolTable';
 
 const Livestream = () => {
   const { pipelineState } = PipelinesStore;
-  const { stream, fetchProtocol, isStreamLoading } = StreamStore;
-
-  useEffect(() => {
-    if (stream) {
-      fetchProtocol(stream.streamId);
-    }
-  }, [fetchProtocol, stream]);
+  const { stream, isStreamLoading } = StreamStore;
 
   if (eq('loading', pipelineState) || !stream || isStreamLoading) {
     return <Typography>Loading...</Typography>;

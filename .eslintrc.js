@@ -45,7 +45,8 @@ module.exports = {
       { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
       { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
     ],
-    'react/jsx-props-no-spreading': 'off'
+    'react/jsx-props-no-spreading': 'off',
+    '@typescript-eslint/no-angle-bracket-type-assertion': 'off',
   },
   settings: {
     'import/resolver': {

@@ -34,12 +34,7 @@ const StreamControl = observer(() => {
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
 }) => {
-  const {
-    isStreamLoading,
-    isStreamPending,
-    fetchStream,
-    clearStream,
-  } = StreamStore;
+  const { isStreamLoading, fetchStream, clearStream } = StreamStore;
   const interval = useRef(null);
 
   useEffect(() => {
@@ -54,7 +49,7 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
       clearStream();
       clearInterval(interval.current);
     };
-  }, [clearStream, fetchStream, isStreamLoading, isStreamPending, streamId]);
+  }, [clearStream, fetchStream, isStreamLoading, streamId]);
 
   return (
     <>

@@ -28,6 +28,11 @@ export function getShared(accessCode: string) {
   return api(`/streams/code/${accessCode}`);
 }
 
-export function getProtocol(id: string) {
-  return api(`http://txlog.dev.videocoin.network:8080/api/v1/stream/${id}`);
+export function getProtocol(
+  id: string,
+  params: { offset: number; limit: number },
+) {
+  return api(`http://txlog.dev.videocoin.network:8080/api/v1/stream/${id}`, {
+    params,
+  });
 }

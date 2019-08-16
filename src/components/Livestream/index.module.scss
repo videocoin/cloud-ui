@@ -45,6 +45,7 @@
   display: flex;
   & > * {
     flex: 1;
+    max-width: 50%;
     &:first-child {
       margin-right: 21px;
     }
@@ -73,6 +74,12 @@
   align-self: center;
   &.active {
     background: $minty-green;
+  }
+  &.error {
+    background: $impossibly-pink;
+  }
+  &.pending {
+    background: $sunkissed-orange;
   }
 }
 

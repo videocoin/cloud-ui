@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
@@ -9,23 +9,42 @@ import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
 const StreamControl = observer(() => {
+  const [isLoading, setLoading] = useState(false);
   const { stream } = StreamStore;
 
   if (!stream) return null;
   const { status, runStream, completeStream } = stream;
 
+  const handleStart = () => {
+    setLoading(true);
+    runStream();
+  };
+
   switch (status) {
     case 'JOB_STATUS_NEW':
     case 'JOB_STATUS_NONE':
-      return <Button onClick={runStream}>Start stream</Button>;
+      return (
+        <Button onClick={handleStart} loading={isLoading}>
+          Start stream
+        </Button>
+      );
     case 'JOB_STATUS_COMPLETED':
       return null;
     case 'JOB_STATUS_PREPARING':
     case 'JOB_STATUS_PREPARED':
+    case 'JOB_STATUS_PENDING':
     case 'JOB_STATUS_PROCESSING':
-      return <Button onClick={completeStream}>Cancel stream</Button>;
+      return (
+        <Button theme="perfect-white" onClick={completeStream}>
+          Cancel stream
+        </Button>
+      );
     case 'JOB_STATUS_READY':
-      return <Button onClick={completeStream}>Complete stream</Button>;
+      return (
+        <Button theme="violet-sky" onClick={completeStream}>
+          Stop stream
+        </Button>
+      );
     default:
       return <Button onClick={runStream}>Start stream</Button>;
   }

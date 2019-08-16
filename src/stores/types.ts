@@ -20,6 +20,7 @@ export const Type = types.enumeration('Type', [
   'UNKNOWN',
   'DEPOSIT',
   'STREAM_CREATED',
+  'STREAM_REFUNDED',
   'STREAM_ENDED',
   'INPUT_CHUNK_ADDED',
   'CHUNK_PROOF_SUBMITTED',

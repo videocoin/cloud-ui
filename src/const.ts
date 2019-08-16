@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import { IStatus } from 'stores/models/stream';
+
 export const BASE_URL = process.env.REACT_APP_VC_API_URL;
 export const WS_URL = process.env.REACT_APP_VC_WS_URL;
 
@@ -39,11 +41,30 @@ export const statusTable: { [key: string]: string } = {
   COMPLETED: 'Failed',
 };
 
-export const INGEST_STATUS: { [key: string]: string } = {
-  INPUT_STATUS_NONE: 'None',
-  INPUT_STATUS_PENDING: 'Inactive',
-  INPUT_STATUS_ACTIVE: 'Receiving',
-  INPUT_STATUS_ERROR: 'Error',
+export const OUTPUT_STATUS: { [key in IStatus]: string } = {
+  JOB_STATUS_NONE: '',
+  JOB_STATUS_NEW: '',
+  JOB_STATUS_PREPARING: '',
+  JOB_STATUS_PREPARED: 'Awaiting Input',
+  JOB_STATUS_PENDING: 'Preparing Stream',
+  JOB_STATUS_PROCESSING: 'Preparing Stream',
+  JOB_STATUS_READY: 'Streaming',
+  JOB_STATUS_COMPLETED: '',
+  JOB_STATUS_CANCELLED: '',
+  JOB_STATUS_FAILED: 'Stream Failed',
+};
+
+export const INGEST_STATUS: { [key in IStatus]: string } = {
+  JOB_STATUS_NONE: 'Not Started',
+  JOB_STATUS_NEW: 'Not Started',
+  JOB_STATUS_PREPARING: 'Preparing',
+  JOB_STATUS_PREPARED: 'Awaiting Input',
+  JOB_STATUS_PENDING: 'Receiving',
+  JOB_STATUS_PROCESSING: 'Receiving',
+  JOB_STATUS_READY: 'Receiving',
+  JOB_STATUS_COMPLETED: '',
+  JOB_STATUS_CANCELLED: '',
+  JOB_STATUS_FAILED: 'Receiving',
 };
 
 export const PROTOCOL_OFFSET = 10;

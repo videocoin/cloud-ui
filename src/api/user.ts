@@ -25,8 +25,7 @@ export function getActions(
   address: string,
   params: { limit: number; offset: number },
 ) {
-  return api(
-    `http://txlog.dev.videocoin.network:8080/api/v1/actions/${address}`,
-    { params },
-  );
+  return api(`https://txlog.dev.videocoin.network/api/v1/actions/${address}`, {
+    params,
+  });
 }

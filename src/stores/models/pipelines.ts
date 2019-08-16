@@ -46,10 +46,7 @@ export default types
         throw e;
       }
     }),
-    fetchPipeline: flow(function* fetchPipeline(
-      id: string,
-      silent: boolean = false,
-    ) {
+    fetchPipeline: flow(function* fetchPipeline(id: string, silent = false) {
       if (!silent) {
         self.pipelineState = 'loading';
       }
@@ -89,7 +86,7 @@ export default types
         throw e;
       }
     }),
-    changeSort(field: string, order: string = 'asc') {
+    changeSort(field: string, order = 'asc') {
       self.sort = { field, order };
     },
     checkPipeline(pipeline: TPipelineItem) {

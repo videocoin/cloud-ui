@@ -11,9 +11,9 @@ const InputStatus = types.enumeration('InputStatus', [
 const Status = types.enumeration('Status', [
   'JOB_STATUS_NONE',
   'JOB_STATUS_NEW',
-  'JOB_STATUS_PENDING',
   'JOB_STATUS_PREPARING',
   'JOB_STATUS_PREPARED',
+  'JOB_STATUS_PENDING',
   'JOB_STATUS_PROCESSING',
   'JOB_STATUS_READY',
   'JOB_STATUS_COMPLETED',

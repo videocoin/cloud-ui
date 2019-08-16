@@ -47,6 +47,7 @@ const Livestream = () => {
   const isIngestActive = eq(inputStatus, 'INPUT_STATUS_ACTIVE');
   const isStreamOffline = eq(status, 'JOB_STATUS_NEW');
   const isStreamPreparing = eq(status, 'JOB_STATUS_PREPARING');
+  const isStreamCompleted = eq(status, 'JOB_STATUS_COMPLETED');
 
   const renderInput = () => {
     if (isStreamOffline) {
@@ -118,46 +119,48 @@ const Livestream = () => {
           </ul>
         </div>
       </div>
-      <section className={css.section}>
-        <Typography type="subtitle" className={css.head}>
-          {isStreamOffline || isStreamPreparing ? 'Get started' : 'Endpoints'}
-        </Typography>
-        <div className={css.endpoints}>
-          <div>
-            <div className={css.endpointStatus}>
-              <div
-                className={cn(css.mark, {
-                  [css.active]: isIngestActive,
-                  [css.pending]: isStreamPrepared,
-                })}
-              />
-              <div className={css.endpointTitle}>Stream Input</div>
-              <Typography type="smallBodyAlt" theme="primary">
-                {INGEST_STATUS[status]}
-              </Typography>
-            </div>
-            {renderInput()}
-          </div>
-          {!isStreamOffline && !isStreamPreparing && (
+      {!isStreamCompleted && (
+        <section className={css.section}>
+          <Typography type="subtitle" className={css.head}>
+            {isStreamOffline || isStreamPreparing ? 'Get started' : 'Endpoints'}
+          </Typography>
+          <div className={css.endpoints}>
             <div>
               <div className={css.endpointStatus}>
                 <div
                   className={cn(css.mark, {
-                    [css.failed]: isStreamFailed,
-                    [css.active]: isStreamActive,
-                    [css.pending]: isStreamPending,
+                    [css.active]: isIngestActive,
+                    [css.pending]: isStreamPrepared,
                   })}
                 />
-                <div className={css.endpointTitle}>Stream Output</div>
+                <div className={css.endpointTitle}>Stream Input</div>
                 <Typography type="smallBodyAlt" theme="primary">
-                  {OUTPUT_STATUS[status]}
+                  {INGEST_STATUS[status]}
                 </Typography>
               </div>
-              {renderOutput()}
+              {renderInput()}
             </div>
-          )}
-        </div>
-      </section>
+            {!isStreamOffline && !isStreamPreparing && (
+              <div>
+                <div className={css.endpointStatus}>
+                  <div
+                    className={cn(css.mark, {
+                      [css.failed]: isStreamFailed,
+                      [css.active]: isStreamActive,
+                      [css.pending]: isStreamPending,
+                    })}
+                  />
+                  <div className={css.endpointTitle}>Stream Output</div>
+                  <Typography type="smallBodyAlt" theme="primary">
+                    {OUTPUT_STATUS[status]}
+                  </Typography>
+                </div>
+                {renderOutput()}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
       <section className={css.section}>
         <Typography type="subtitle" className={css.head}>
           Protocol events

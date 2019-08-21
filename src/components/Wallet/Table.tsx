@@ -1,9 +1,12 @@
 import React from 'react';
+import { map, uniqueId } from 'lodash/fp';
 import { observer } from 'mobx-react-lite';
-import { Icon, Typography } from 'ui-kit/src';
+import { Icon, Typography } from 'ui-kit';
+import UserStore from 'stores/user';
+import { IWalletAction } from 'stores/models/wallet';
 import css from './table.module.scss';
 
-const Row = observer(() => (
+const Row = observer(({ action }: { action: IWalletAction }) => (
   <tr>
     <td>
       <Icon name="deposit" />
@@ -14,12 +17,12 @@ const Row = observer(() => (
     <td>
       <Typography type="caption">From</Typography>
       <Typography type="caption" theme="white">
-        10RHNJFCAVFS9FRLOFXG0OLNXDDDTJE
+        {action.from}
       </Typography>
     </td>
-    <td>
+    <td className={css.value}>
       <Typography tagName="span" type="bodyAlt" theme="white">
-        592.10
+        {action.value}
       </Typography>
       <Typography className={css.vid} tagName="span" type="caption">
         VID
@@ -29,13 +32,16 @@ const Row = observer(() => (
 ));
 
 const Table = () => {
+  const { actions } = UserStore;
+  const renderRow = (action: IWalletAction) => (
+    <Row action={action} key={uniqueId('action_')} />
+  );
+
   return (
     <table className={css.table}>
-      <tbody>
-        <Row />
-      </tbody>
+      <tbody>{map(renderRow)(actions)}</tbody>
     </table>
   );
 };
 
-export default Table;
+export default observer(Table);

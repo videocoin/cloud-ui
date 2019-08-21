@@ -5,6 +5,7 @@ import Modal from 'components/Modal';
 import Input from 'components/Input';
 import { Button, ActionBar } from 'ui-kit';
 import { recoverPassword } from 'api/user';
+import { navigate } from '@reach/router';
 import { FormField } from '@types';
 import validationSchema from './validate';
 import css from './index.module.scss';
@@ -46,6 +47,7 @@ const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
       await recoverPassword({ ...values, token: props.token });
       resetForm();
       props.closeModal();
+      navigate('/sign-in', { replace: true });
     } catch (e) {
       setSubmitting(false);
       if (eq(400, get('response.status')(e))) {

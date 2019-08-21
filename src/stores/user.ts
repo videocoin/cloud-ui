@@ -1,10 +1,11 @@
-import { types, flow } from 'mobx-state-tree';
+import { types, flow, applySnapshot } from 'mobx-state-tree';
 import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
 import * as AccountAPI from 'api/account';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import initSocket from 'socket';
 import { WalletAction } from 'stores/models/wallet';
+import PipelinesStore from 'stores/pipelines';
 import { State } from './types';
 import User from './models/user';
 
@@ -22,7 +23,7 @@ const Store = types
 
         self.user = User.create(res.data);
         self.state = 'loaded';
-        initSocket(self.user.id);
+        // initSocket(self.user.id);
 
         return res;
       } catch (e) {
@@ -37,7 +38,7 @@ const Store = types
         offset: 0,
       });
 
-      console.log(res);
+      applySnapshot(self.actions, res.data.actions);
     });
 
     return {
@@ -82,6 +83,7 @@ const Store = types
         removeTokenHeader();
         self.user = null;
         self.state = 'pending';
+        PipelinesStore.reset();
       },
     };
   })

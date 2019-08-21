@@ -9,17 +9,20 @@ import withAuth from 'HOCs/withAuth';
 import queryString from 'query-string';
 import { modalType } from 'components/ModalManager';
 import Header from 'components/Header';
+import UserStore from 'stores/user';
 import css from './index.module.scss';
 
 const SignIn: FC<RouteComponentProps> = ({ location }) => {
   const { token } = queryString.parse(get('search')(location));
   const { openModal } = ModalStore;
+  const { logout } = UserStore;
 
   useEffect(() => {
     if (token) {
+      logout();
       openModal(modalType.RESTORE_PASSWORD, { token: String(token) });
     }
-  }, [openModal, token]);
+  }, [logout, openModal, token]);
 
   return (
     <>

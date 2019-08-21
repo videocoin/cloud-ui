@@ -1,4 +1,4 @@
-import { applySnapshot, flow, types } from 'mobx-state-tree';
+import { applySnapshot, flow, getSnapshot, types } from 'mobx-state-tree';
 import {
   compose,
   fromPairs,
@@ -9,8 +9,6 @@ import {
   propEq,
 } from 'lodash/fp';
 import { PipelineItem, Pipeline } from 'stores/models/pipeline';
-import { Stream } from 'stores/models/stream';
-import { getStream } from 'api/streams';
 import * as API from 'api/pipelines';
 import { OrderType, State, TPipelineItem, TState } from '../types';
 
@@ -26,83 +24,95 @@ export default types
     }),
     checked: types.map(types.safeReference(types.late(() => PipelineItem))),
   })
-  .actions(self => ({
-    load: flow(function* load() {
-      self.state = 'loading';
-      try {
-        const res = yield API.getPipelines();
+  .actions(self => {
+    let initialState = {};
+    const afterCreate = () => {
+      initialState = getSnapshot(self);
+    };
+    const reset = () => {
+      applySnapshot(self, initialState);
+    };
 
-        const mappedData = compose(
-          keyBy('id'),
-          get('data.items'),
-        )(res);
+    return {
+      afterCreate,
+      reset,
+      load: flow(function* load() {
+        self.state = 'loading';
+        try {
+          const res = yield API.getPipelines();
 
-        applySnapshot(self.pipelines, mappedData);
-        self.state = 'loaded';
+          const mappedData = compose(
+            keyBy('id'),
+            get('data.items'),
+          )(res);
 
-        return res;
-      } catch (e) {
-        self.state = 'error';
-        throw e;
-      }
-    }),
-    fetchPipeline: flow(function* fetchPipeline(id: string, silent = false) {
-      if (!silent) {
-        self.pipelineState = 'loading';
-      }
-      try {
-        const res = yield API.getPipeline(id);
+          applySnapshot(self.pipelines, mappedData);
+          self.state = 'loaded';
 
-        self.pipeline = Pipeline.create(res.data);
-        self.pipelineState = 'loaded';
+          return res;
+        } catch (e) {
+          self.state = 'error';
+          throw e;
+        }
+      }),
+      fetchPipeline: flow(function* fetchPipeline(id: string, silent = false) {
+        if (!silent) {
+          self.pipelineState = 'loading';
+        }
+        try {
+          const res = yield API.getPipeline(id);
 
-        return res;
-      } catch (e) {
-        self.pipelineState = 'error';
-        throw e;
-      }
-    }),
-    createPipeline: flow(function* createPipeline(data) {
-      const res = yield API.addPipeline(data);
+          self.pipeline = Pipeline.create(res.data);
+          self.pipelineState = 'loaded';
 
-      self.pipelines.put(res.data);
+          return res;
+        } catch (e) {
+          self.pipelineState = 'error';
+          throw e;
+        }
+      }),
+      createPipeline: flow(function* createPipeline(data) {
+        const res = yield API.addPipeline(data);
 
-      return res;
-    }),
-    deletePipelines: flow(function* deletePipelines() {
-      self.state = 'deleting';
-      const keys = [...self.checked.keys()];
-      const promises = map(API.deletePipeline)(keys);
-
-      try {
-        const res = yield Promise.all(promises);
-
-        self.checked.forEach((val, key) => self.pipelines.delete(key));
-        self.state = 'loaded';
+        self.pipelines.put(res.data);
 
         return res;
-      } catch (e) {
-        self.state = 'error';
-        throw e;
-      }
-    }),
-    changeSort(field: string, order = 'asc') {
-      self.sort = { field, order };
-    },
-    checkPipeline(pipeline: TPipelineItem) {
-      if (self.checked.has(pipeline.id)) {
-        self.checked.delete(pipeline.id);
-      } else {
-        self.checked.put(pipeline);
-      }
-    },
-    clearPipeline() {
-      self.pipeline = null;
-    },
-    changePipelineState(state: TState) {
-      self.pipelineState = state;
-    },
-  }))
+      }),
+      deletePipelines: flow(function* deletePipelines() {
+        self.state = 'deleting';
+        const keys = [...self.checked.keys()];
+        const promises = map(API.deletePipeline)(keys);
+
+        try {
+          const res = yield Promise.all(promises);
+
+          self.checked.forEach((val, key) => self.pipelines.delete(key));
+          self.state = 'loaded';
+
+          return res;
+        } catch (e) {
+          self.state = 'error';
+          throw e;
+        }
+      }),
+      changeSort(field: string, order = 'asc') {
+        self.sort = { field, order };
+      },
+      checkPipeline(pipeline: TPipelineItem) {
+        if (self.checked.has(pipeline.id)) {
+          self.checked.delete(pipeline.id);
+        } else {
+          self.checked.put(pipeline);
+        }
+      },
+      clearPipeline() {
+        self.pipeline = null;
+      },
+      changePipelineState(state: TState) {
+        self.pipelineState = state;
+      },
+    };
+  })
   .views(self => ({
     get isLoading() {
       return propEq('state', 'loading')(self);

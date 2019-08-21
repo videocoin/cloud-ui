@@ -1,16 +1,20 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Button, TopBar, Typography } from 'ui-kit';
+import { gt, lt } from 'lodash/fp';
+import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
+import UserStore from 'stores/user';
+import { MAX_VID, MIN_VID } from 'const';
 import css from './index.module.scss';
 
 const pipelineRequestTimeout = 5000;
 const StreamControl = observer(() => {
   const [isLoading, setLoading] = useState(false);
   const { stream } = StreamStore;
+  const { balance } = UserStore;
 
   if (!stream) return null;
   const { status, runStream, completeStream } = stream;
@@ -20,13 +24,34 @@ const StreamControl = observer(() => {
     runStream();
   };
 
+  const isMaxBalance = gt(balance)(MAX_VID);
+  const isMinBalance = lt(balance)(MIN_VID);
+
   switch (status) {
     case 'JOB_STATUS_NEW':
     case 'JOB_STATUS_NONE':
       return (
-        <Button onClick={handleStart} loading={isLoading}>
-          Start stream
-        </Button>
+        <div data-tip data-for="start">
+          <Button
+            onClick={handleStart}
+            loading={isLoading}
+            disabled={isMaxBalance || isMinBalance}
+          >
+            Start stream
+          </Button>
+          {isMinBalance && (
+            <WarnTooltip
+              text={`Minimum balance of ${MIN_VID} VID required to start a stream`}
+              id="start"
+            />
+          )}
+          {isMaxBalance && (
+            <WarnTooltip
+              text={`Withdraw VID to stream, max balance limited to ${MAX_VID} VID (for this release)`}
+              id="start"
+            />
+          )}
+        </div>
       );
     case 'JOB_STATUS_COMPLETED':
       return null;

@@ -23,6 +23,14 @@ const Deposit = () => {
               postfix={() => <ClipboardPostfix text={address} />}
             />
           </div>
+          <Typography>
+            Minimum 20 VID is needed to start a stream and you can hold up to 50
+            VID in your account. VideoCoin Fuji Release limits the number of VID
+            you can deposit to keep network load under control.&nbsp;
+            <a href="#">
+              <b>Learn More</b>
+            </a>
+          </Typography>
         </div>
         <QRCode
           bgColor="#351661"

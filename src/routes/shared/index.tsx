@@ -46,7 +46,6 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
               {isLoaded ? (
                 <Player
                   src={stream.transcodeOutputUrl}
-                  format="MONO_FLAT"
                   status={stream.status}
                   inputStatus={stream.inputStatus}
                 />

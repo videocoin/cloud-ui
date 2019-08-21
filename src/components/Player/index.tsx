@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { eq } from 'lodash/fp';
 import { Icon, Typography } from 'ui-kit';
 import { IInputStatus, IStatus } from 'stores/models/stream';
@@ -6,24 +6,39 @@ import css from './index.module.scss';
 
 interface PlayerProps {
   src: string;
-  format: string;
   status: IStatus;
   inputStatus: IInputStatus;
 }
 
-const Player = ({ src, format, status }: PlayerProps) => {
+const Player = ({ src, status, inputStatus }: PlayerProps) => {
+  const container = useRef(null);
+  const player = useRef(null);
+
   const isOnline =
-    eq(status, 'JOB_STATUS_READY') && eq(status, 'INPUT_STATUS_ACTIVE');
+    eq(status, 'JOB_STATUS_READY') && eq(inputStatus, 'INPUT_STATUS_ACTIVE');
   const isStreamPending =
     eq(status, 'JOB_STATUS_PENDING') || eq(status, 'JOB_STATUS_PROCESSING');
 
+  useEffect(() => {
+    if (isOnline) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      player.current = window.IndigoPlayer.init(container.current, {
+        sources: [
+          {
+            type: 'hls',
+            src,
+          },
+        ],
+      });
+    }
+
+    return () => player.current && player.current.destroy();
+  }, [isOnline, src]);
+
   const render = () => {
     if (isOnline) {
-      return (
-        <dl8-video crossorigin="anonymous" aspect="16:9" format={format}>
-          <source src={src} type="application/x-mpegurl" />
-        </dl8-video>
-      );
+      return <div ref={container} />;
     }
     if (isStreamPending) {
       return (
@@ -40,7 +55,5 @@ const Player = ({ src, format, status }: PlayerProps) => {
 
   return <div className={css.player}>{render()}</div>;
 };
-
-Player.defaultProps = {};
 
 export default Player;

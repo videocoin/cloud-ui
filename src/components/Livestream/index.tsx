@@ -103,7 +103,6 @@ const Livestream = () => {
         <div className={css.player}>
           <Player
             src={transcodeOutputUrl}
-            format="MONO_FLAT"
             status={status}
             inputStatus={inputStatus}
           />

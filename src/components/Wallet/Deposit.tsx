@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import css from 'components/Wallet/Deposit.module.scss';
 import { Button, Input, Typography } from 'ui-kit';
 import QRCode from 'qrcode.react';
 import UserStore from 'stores/user';
 import ClipboardPostfix from 'components/ClipboardPostfix';
+import ModalStore from 'stores/modal';
+import { modalType } from 'components/ModalManager';
 
 const Deposit = () => {
   const { address } = UserStore;
+  const { openModal } = ModalStore;
+
+  useEffect(() => {
+    openModal(modalType.DEPOSIT_MODAL);
+    console.log('123');
+  }, [openModal]);
 
   return (
     <div className={css.root}>

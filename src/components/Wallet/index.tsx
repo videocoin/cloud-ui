@@ -30,15 +30,15 @@ const Wallet = () => {
             label="Make Deposit"
             onClick={handleSetTab('deposit')}
           />
-          <SingleSelector
-            selected={activeTab === 'withdrawal'}
-            label="Make Withdrawal"
-            onClick={handleSetTab('withdrawal')}
-          />
+          {/* <SingleSelector */}
+          {/*  selected={activeTab === 'withdrawal'} */}
+          {/*  label="Make Withdrawal" */}
+          {/*  onClick={handleSetTab('withdrawal')} */}
+          {/* /> */}
         </div>
         <div className={css.body}>{ACTIVE_TAB[activeTab]}</div>
       </div>
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

@@ -110,12 +110,6 @@ const Livestream = () => {
         <div className={css.desc}>
           <Typography>Stream ID</Typography>
           <Typography type="smallTitle">{streamId}</Typography>
-          <ul className={css.spec}>
-            <li>
-              <Typography type="smallBodyAlt">0:00</Typography>&nbsp;
-              <Typography type="smallBody">Minutes</Typography>
-            </li>
-          </ul>
         </div>
       </div>
       {!isStreamCompleted && (

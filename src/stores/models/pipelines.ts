@@ -10,7 +10,8 @@ import {
 } from 'lodash/fp';
 import { PipelineItem, Pipeline } from 'stores/models/pipeline';
 import * as API from 'api/pipelines';
-import { OrderType, State, TPipelineItem, TState } from '../types';
+import { AxiosResponse } from 'axios';
+import { OrderType, State, TPipeline, TPipelineItem, TState } from '../types';
 
 export default types
   .model('PipelinesStore', {
@@ -39,7 +40,7 @@ export default types
       load: flow(function* load() {
         self.state = 'loading';
         try {
-          const res = yield API.getPipelines();
+          const res: AxiosResponse = yield API.getPipelines();
 
           const mappedData = compose(
             keyBy('id'),
@@ -60,7 +61,7 @@ export default types
           self.pipelineState = 'loading';
         }
         try {
-          const res = yield API.getPipeline(id);
+          const res: AxiosResponse<TPipeline> = yield API.getPipeline(id);
 
           self.pipeline = Pipeline.create(res.data);
           self.pipelineState = 'loaded';
@@ -72,7 +73,7 @@ export default types
         }
       }),
       createPipeline: flow(function* createPipeline(data) {
-        const res = yield API.addPipeline(data);
+        const res: AxiosResponse<TPipeline> = yield API.addPipeline(data);
 
         self.pipelines.put(res.data);
 

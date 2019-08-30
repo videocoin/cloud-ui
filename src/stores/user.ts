@@ -6,6 +6,7 @@ import { removeTokenHeader, setTokenHeader } from 'api';
 import initSocket from 'socket';
 import { WalletAction } from 'stores/models/wallet';
 import PipelinesStore from 'stores/pipelines';
+import { AxiosResponse } from 'axios';
 import { State } from './types';
 import User from './models/user';
 
@@ -19,7 +20,7 @@ const Store = types
     const fetchUser = flow(function* fetchUser() {
       self.state = 'loading';
       try {
-        const res = yield API.getUser();
+        const res: AxiosResponse = yield API.getUser();
 
         self.user = User.create(res.data);
         self.state = 'loaded';
@@ -33,10 +34,13 @@ const Store = types
       }
     });
     const fetchActions = flow(function* fetchActions() {
-      const res = yield API.getActions(self.user.account.address, {
-        limit: 15,
-        offset: 0,
-      });
+      const res: AxiosResponse = yield API.getActions(
+        self.user.account.address,
+        {
+          limit: 15,
+          offset: 0,
+        },
+      );
 
       applySnapshot(self.actions, res.data.actions);
     });
@@ -49,14 +53,16 @@ const Store = types
         yield fetchActions();
       }),
       fetchAccount: flow(function* fetchAccount() {
-        const res = yield AccountAPI.fetchAccount(self.user.account.id);
+        const res: AxiosResponse = yield AccountAPI.fetchAccount(
+          self.user.account.id,
+        );
 
         self.user.account = res.data;
 
         return res;
       }),
       signIn: flow(function* signIn(data) {
-        const res = yield API.signIn(data);
+        const res: AxiosResponse = yield API.signIn(data);
         const { token } = res.data;
 
         localStorage.setItem('token', token);
@@ -68,7 +74,7 @@ const Store = types
         return res;
       }),
       signUp: flow(function* signUp(data) {
-        const res = yield API.signUp(data);
+        const res: AxiosResponse = yield API.signUp(data);
         const { token } = res.data;
 
         localStorage.setItem('token', token);

@@ -1,6 +1,7 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import * as API from 'api/streams';
 import { Source, Type } from 'stores/types';
+import { AxiosResponse } from 'axios';
 
 const InputStatus = types.enumeration('InputStatus', [
   'INPUT_STATUS_NONE',
@@ -34,17 +35,17 @@ const StreamModel = types.model('Stream', {
 
 export const Stream = StreamModel.actions(self => ({
   runStream: flow(function* runStream() {
-    const res = yield API.runStream(self.id);
+    const res: AxiosResponse = yield API.runStream(self.id);
 
     self.status = res.data.status;
   }),
   cancelStream: flow(function* cancelStream() {
-    const res = yield API.cancelStream(self.id);
+    const res: AxiosResponse = yield API.cancelStream(self.id);
 
     self.status = res.data.status;
   }),
   completeStream: flow(function* completeStream() {
-    const res = yield API.completeStream(self.id);
+    const res: AxiosResponse = yield API.completeStream(self.id);
 
     self.status = res.data.status;
   }),

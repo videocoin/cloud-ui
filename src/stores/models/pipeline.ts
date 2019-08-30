@@ -2,6 +2,7 @@ import { flow, getParent, types } from 'mobx-state-tree';
 import * as API from 'api/streams';
 import { map, reject, indexOf, without, concat } from 'lodash/fp';
 import { TStream } from 'stores/types';
+import { AxiosResponse } from 'axios';
 import { Stream } from './stream';
 
 export const PipelineItem = types.model('PipelineItem', {
@@ -36,7 +37,7 @@ export const Pipeline = types
       }
     },
     createStream: flow(function* createStream() {
-      const res = yield API.createStream(self.id);
+      const res: AxiosResponse<TStream> = yield API.createStream(self.id);
 
       self.streams.items.push(res.data);
     }),

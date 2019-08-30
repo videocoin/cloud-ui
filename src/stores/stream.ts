@@ -4,6 +4,7 @@ import * as API from 'api/streams';
 import { propEq } from 'lodash/fp';
 import { Protocol, Stream } from 'stores/models/stream';
 import { PROTOCOL_OFFSET } from 'const';
+import { AxiosResponse } from 'axios';
 
 const Store = types
   .model({
@@ -23,7 +24,7 @@ const Store = types
         self.streamState = 'loading';
       }
       try {
-        const res = yield API.getStream(id);
+        const res: AxiosResponse = yield API.getStream(id);
 
         self.stream = Stream.create(res.data);
         self.streamState = 'loaded';
@@ -43,7 +44,7 @@ const Store = types
 
       self.protocolMeta.offset = offset;
       self.protocolMeta.page = page;
-      const res = yield API.getProtocol(id, {
+      const res: AxiosResponse = yield API.getProtocol(id, {
         offset,
         limit: PROTOCOL_OFFSET,
       });

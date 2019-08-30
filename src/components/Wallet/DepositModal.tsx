@@ -12,10 +12,12 @@ const DepositModal = ({ closeModal }: { closeModal: () => void }) => {
   return (
     <Modal header={renderHeader}>
       <div className="modalInner">
-        <Typography type="bodyAlt">Deposit has started</Typography>
+        <Typography type="bodyAlt">
+          Warning, VideoCoin Network is still under development.
+        </Typography>
         <Typography>
-          Your deposit should have been initiated and will show up shortly in
-          the transaction list below.
+          Any ERC-20 VID deposited to this address could be lost and is not
+          covered under any SLA&apos;s.
         </Typography>
         <div className="modalActions">
           <Button onClick={closeModal}>Okay</Button>

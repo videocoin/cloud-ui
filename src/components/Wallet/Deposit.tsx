@@ -35,7 +35,10 @@ const Deposit = () => {
             Minimum 20 VID is needed to start a stream and you can hold up to 50
             VID in your account. VideoCoin Fuji Release limits the number of VID
             you can deposit to keep network load under control.&nbsp;
-            <a href="#">
+            <a
+              href="https://medium.com/videocoin/introducing-the-videocoin-network-dcab0bf34f22"
+              target="_blank"
+            >
               <b>Learn More</b>
             </a>
           </Typography>

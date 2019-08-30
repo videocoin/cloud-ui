@@ -22,54 +22,57 @@ const Withdrawal = () => {
 
   return (
     <div className={css.root}>
-      <div className={css.body}>
-        <Form id="withdraw" className={css.form}>
-          <Typography type="bodyAlt" theme="white">
-            {isFirstStep
-              ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to'
-              : ' Enter the amount of VideoCoin to withdraw'}
-          </Typography>
-          {isFirstStep ? (
-            <div className={css.address}>
-              <Field
-                name="address"
-                label="VideoCoin Address"
-                component={Input}
-              />
-            </div>
-          ) : (
-            <div className={css.address}>
-              <div>
-                <Field
-                  name="amount"
-                  type="number"
-                  label="Amount of VideoCoin"
-                  component={Input}
-                />
-              </div>
-            </div>
-          )}
-        </Form>
-      </div>
       <Typography className={css.desc}>
-        Automatic withdraw functionality coming soon! Please send an email to{' '}
+        Automatic withdraw functionality coming soon!
+        <br />
+        Please send an email to{' '}
         <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> to initiate a
         withdraw until then.
       </Typography>
-      <div className={css.footer}>
-        <Typography type="caption">
-          Only send VideoCoin (VID) to VideoCoin Addresses.
-          <br />
-          Sending VideoCoin to a non VideoCoin Address could result in permanent
-          loss.
-        </Typography>
-        {isFirstStep && <Button onClick={nextStepHandle}>Next</Button>}
-        {!isFirstStep && (
-          <Button type="submit" form="withdraw">
-            Submit
-          </Button>
-        )}
-      </div>
+      {/* <div className={css.body}> */}
+      {/* <Form id="withdraw" className={css.form}> */}
+      {/*  <Typography type="bodyAlt" theme="white"> */}
+      {/*    {isFirstStep */}
+      {/*      ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to' */}
+      {/*      : ' Enter the amount of VideoCoin to withdraw'} */}
+      {/*  </Typography> */}
+      {/*  {isFirstStep ? ( */}
+      {/*    <div className={css.address}> */}
+      {/*      <Field */}
+      {/*        name="address" */}
+      {/*        label="VideoCoin Address" */}
+      {/*        component={Input} */}
+      {/*      /> */}
+      {/*    </div> */}
+      {/*  ) : ( */}
+      {/*    <div className={css.address}> */}
+      {/*      <div> */}
+      {/*        <Field */}
+      {/*          name="amount" */}
+      {/*          type="number" */}
+      {/*          label="Amount of VideoCoin" */}
+      {/*          component={Input} */}
+      {/*        /> */}
+      {/*      </div> */}
+      {/*    </div> */}
+      {/*  )} */}
+      {/* </Form> */}
+      {/* </div> */}
+
+      {/* <div className={css.footer}> */}
+      {/*  <Typography type="caption"> */}
+      {/*    Only send VideoCoin (VID) to VideoCoin Addresses. */}
+      {/*    <br /> */}
+      {/*    Sending VideoCoin to a non VideoCoin Address could result in permanent */}
+      {/*    loss. */}
+      {/*  </Typography> */}
+      {/*  {isFirstStep && <Button onClick={nextStepHandle}>Next</Button>} */}
+      {/*  {!isFirstStep && ( */}
+      {/*    <Button type="submit" form="withdraw"> */}
+      {/*      Submit */}
+      {/*    </Button> */}
+      {/*  )} */}
+      {/* </div> */}
     </div>
   );
 };

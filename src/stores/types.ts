@@ -12,6 +12,7 @@ export const State = types.enumeration('State', [
   'pending',
   'error',
   'deleting',
+  'creating',
 ]);
 
 export const Source = types.enumeration('Source', ['UNDETECTED', 'ETH', 'VID']);

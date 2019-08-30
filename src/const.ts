@@ -71,3 +71,4 @@ export const PROTOCOL_OFFSET = 10;
 export const protocolRequestTimeout = 3000;
 export const MAX_VID = 50;
 export const MIN_VID = 20;
+export const SUPPORT_EMAIL = 'support@videocoin.io';

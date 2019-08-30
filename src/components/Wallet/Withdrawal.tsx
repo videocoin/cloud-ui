@@ -5,6 +5,7 @@ import { eq } from 'lodash/fp';
 import Input from 'components/Input';
 import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
+import { SUPPORT_EMAIL } from 'const';
 import css from './Deposit.module.scss';
 
 interface WithdrawalForm {
@@ -50,6 +51,11 @@ const Withdrawal = () => {
           )}
         </Form>
       </div>
+      <Typography className={css.desc}>
+        Automatic withdraw functionality coming soon! Please send an email to{' '}
+        <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> to initiate a
+        withdraw until then.
+      </Typography>
       <div className={css.footer}>
         <Typography type="caption">
           Only send VideoCoin (VID) to VideoCoin Addresses.

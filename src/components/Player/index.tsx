@@ -32,9 +32,15 @@ const Player = ({ src, status, inputStatus }: PlayerProps) => {
         ],
       });
     }
-
-    return () => player.current && player.current.destroy();
   }, [isOnline, src]);
+
+  useEffect(() => {
+    return () => {
+      if (player.current) {
+        player.current.destroy();
+      }
+    };
+  }, []);
 
   const render = () => {
     if (isOnline) {

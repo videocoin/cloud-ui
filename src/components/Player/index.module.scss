@@ -11,10 +11,10 @@
   & > div {
     width: 100%;
   }
-  //svg {
-  //  fill: $perfect-white-b4;
-  //  animation: spinner-spin 2s linear infinite;
-  //}
+  svg {
+    fill: $perfect-white-b4;
+    animation: spinner-spin 2s linear infinite;
+  }
 }
 
 @keyframes spinner-spin {

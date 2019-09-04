@@ -57,7 +57,6 @@ const Deposit = () => {
           <br />
           Sending any cryptocurrency other than VideoCoin will be lost forever.
         </Typography>
-        <Button>Done</Button>
       </div>
     </div>
   );

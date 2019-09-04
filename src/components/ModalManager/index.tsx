@@ -1,6 +1,5 @@
 import React, { lazy, LazyExoticComponent } from 'react';
 import ModalStore from 'stores/modal';
-import { fromPairs } from 'lodash/fp';
 import { observer } from 'mobx-react-lite';
 
 export const modalType = {
@@ -12,6 +11,9 @@ export const modalType = {
   STREAMS_DELETE_CONFIRM: 'StreamsDeleteConfirm',
   SHARE_MODAL: 'ShareModal',
   DEPOSIT_MODAL: 'DepositModal',
+  NEW_TOKEN_MODAL: 'NewTokenModal',
+  ACCESS_TOKEN_MODAL: 'AccessTokenModal',
+  REVOKE_TOKEN_MODAL: 'RevokeTokenModal',
 };
 
 const ResetPasswordAuth = lazy(() => import('components/ResetPasswordAuth'));
@@ -26,6 +28,13 @@ const StreamsDeleteConfirm = lazy(() =>
 );
 const ShareModal = lazy(() => import('components/ShareModal'));
 const DepositModal = lazy(() => import('components/Wallet/DepositModal'));
+const NewTokenModal = lazy(() => import('components/Account/NewTokenModal'));
+const AccessTokenModal = lazy(() =>
+  import('components/Account/AccessTokenModal'),
+);
+const RevokeTokenModal = lazy(() =>
+  import('components/Account/RevokeTokenModal'),
+);
 
 const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   ResetPasswordAuth,
@@ -36,6 +45,9 @@ const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   ShareModal,
   StreamsDeleteConfirm,
   DepositModal,
+  NewTokenModal,
+  AccessTokenModal,
+  RevokeTokenModal,
 };
 
 const ModalManager = () => {
@@ -44,9 +56,7 @@ const ModalManager = () => {
   if (!type) return null;
   const ModalComponent = modalComponentLookupTable[type];
 
-  const pairsProps = modalProps ? fromPairs([...modalProps]) : {};
-
-  return <ModalComponent closeModal={closeModal} {...pairsProps} />;
+  return <ModalComponent closeModal={closeModal} {...modalProps} />;
 };
 
 export default observer(ModalManager);

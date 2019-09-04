@@ -5,14 +5,19 @@ import css from './index.module.scss';
 const Section = ({
   title,
   children,
+  right,
 }: {
   title: string;
   children: ReactNode;
+  right?: () => ReactNode;
 }) => (
   <div className={css.section}>
-    <Typography className={css.header} type="subtitle">
-      {title}
-    </Typography>
+    <div className={css.header}>
+      <Typography className={css.title} type="subtitle">
+        {title}
+      </Typography>
+      {right && right()}
+    </div>
     {children}
   </div>
 );

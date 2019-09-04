@@ -1,9 +1,13 @@
 import React from 'react';
 import { Typography, Button } from 'ui-kit';
+import { map } from 'lodash/fp';
 import UserStore from 'stores/user';
 import ModalStore from 'stores/modal';
 import { Link } from '@reach/router';
 import { modalType } from 'components/ModalManager';
+import { observer } from 'mobx-react-lite';
+import TokensStore, { IToken } from 'stores/tokens';
+import { AxiosPromise, AxiosResponse } from 'axios';
 import css from './index.module.scss';
 import Section from './Section';
 
@@ -12,7 +16,37 @@ const Account = () => {
     user: { name, email },
   } = UserStore;
   const { openModal } = ModalStore;
+  const { items, addToken, isCreating, isDeleting } = TokensStore;
   const handleResetPassword = () => openModal(modalType.RESET_PASSWORD_AUTH);
+
+  const handleRevoke = (token: IToken) => () => {
+    openModal(modalType.REVOKE_TOKEN_MODAL, {
+      onConfirm: token.remove,
+      isDeleting,
+    });
+  };
+
+  const renderToken = (token: IToken) => (
+    <div className={css.token}>
+      <Typography type="bodyAlt">{token.name}</Typography>
+      <Button theme="minimal-sunkissed" onClick={handleRevoke(token)}>
+        Revoke
+      </Button>
+    </div>
+  );
+
+  const handleAddToken = async (val: string) => {
+    const res: AxiosResponse = await addToken(val);
+
+    openModal(modalType.ACCESS_TOKEN_MODAL, { token: res.data.token });
+  };
+
+  const createToken = () => {
+    openModal(modalType.NEW_TOKEN_MODAL, {
+      onConfirm: handleAddToken,
+      isCreating,
+    });
+  };
 
   return (
     <div className={css.wrap}>
@@ -53,4 +87,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default observer(Account);

@@ -1,9 +1,14 @@
 @import '~styles/vars';
 
 .header {
-  border-bottom: 1px solid $grey-dawn-w2;
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+.title {
+  flex: 1;
   padding-left: 8px;
+  border-bottom: 1px solid $grey-dawn-w2;
 }
 
 .section {
@@ -29,4 +34,14 @@
       margin-bottom: 12px;
     }
   }
+}
+
+.newToken {
+  margin-left: 15px;
+  transform: translateY(15px);
+}
+.token {
+  color: #fff;
+  display: flex;
+  align-items: center;
 }

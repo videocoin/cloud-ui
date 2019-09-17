@@ -1,6 +1,5 @@
 import {
   applySnapshot,
-  castFlowReturn,
   destroy,
   flow,
   getParent,
@@ -11,7 +10,7 @@ import {
 import { keyBy, propEq } from 'lodash/fp';
 import * as API from 'api/token';
 import { values } from 'mobx';
-import { AxiosPromise, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { State, TState } from './types';
 
 const Token = types

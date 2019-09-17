@@ -1,4 +1,4 @@
-import { applySnapshot, flow, types } from 'mobx-state-tree';
+import { flow, types } from 'mobx-state-tree';
 import { State } from 'stores/types';
 import * as API from 'api/streams';
 import { propEq } from 'lodash/fp';

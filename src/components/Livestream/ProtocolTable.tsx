@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Field, Typography } from 'ui-kit';
+import { Field, Typography, Pagination } from 'ui-kit';
 import StreamStore from 'stores/stream';
 import { IProtocol } from 'stores/models/stream';
 import { map, uniqueId } from 'lodash/fp';
-import { Pagination } from 'ui-kit/src';
 import { protocolRequestTimeout } from 'const';
+import convertVID from 'helpers/convertVID';
 import css from './index.module.scss';
 
 const fields: Field[] = [
@@ -47,15 +47,13 @@ const ProtocolTable = () => {
     };
   }, [fetchProtocol, page, stream.streamId]);
 
-  const calcVid = (value: string) => (+value / 10 ** 18).toFixed(2);
-
   const renderRow = (item: IProtocol) => (
     <tr key={uniqueId('protocol_')}>
       <td className={css.cell}>{item.type}</td>
       <td className={css.cell}>{item.hash}</td>
       <td className={css.cell}>{item.from}</td>
       <td className={css.cell}>{item.to}</td>
-      <td className={css.cell}>{calcVid(item.value)}</td>
+      <td className={css.cell}>{convertVID(item.value)}</td>
     </tr>
   );
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography } from 'ui-kit';
-import { map, indexOf, without, concat } from 'lodash/fp';
+import { map } from 'lodash/fp';
 import PipelinesStore from 'stores/pipelines';
 import { TStream } from 'stores/types';
 import { observer } from 'mobx-react-lite';

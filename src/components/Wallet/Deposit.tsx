@@ -13,7 +13,6 @@ const Deposit = () => {
 
   useEffect(() => {
     openModal(modalType.DEPOSIT_MODAL);
-    console.log('123');
   }, [openModal]);
 
   return (
@@ -36,6 +35,7 @@ const Deposit = () => {
             VID in your account. VideoCoin Fuji Release limits the number of VID
             you can deposit to keep network load under control.&nbsp;
             <a
+              rel="noopener noreferrer"
               href="https://medium.com/videocoin/introducing-the-videocoin-network-dcab0bf34f22"
               target="_blank"
             >
@@ -57,6 +57,7 @@ const Deposit = () => {
           <br />
           Sending any cryptocurrency other than VideoCoin will be lost forever.
         </Typography>
+        <Button>Done</Button>
       </div>
     </div>
   );

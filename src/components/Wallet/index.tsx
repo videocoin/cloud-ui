@@ -1,11 +1,12 @@
 import React, { ReactNode, useState } from 'react';
 import { eq } from 'lodash/fp';
+import { observer } from 'mobx-react-lite';
 import { SingleSelector } from 'ui-kit';
 import css from './index.module.scss';
 import WalletTab from './Wallet';
 import Deposit from './Deposit';
 import Withdrawal from './Withdrawal';
-// import Table from './Table';
+import Table from './Table';
 
 const TABS = {
   wallet: 'wallet',
@@ -46,9 +47,9 @@ const Wallet = () => {
         </div>
         <div className={css.body}>{ACTIVE_TAB[activeTab]}</div>
       </div>
-      {/* <Table /> */}
+      <Table />
     </div>
   );
 };
 
-export default Wallet;
+export default observer(Wallet);

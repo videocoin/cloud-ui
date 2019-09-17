@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Typography } from 'ui-kit';
 import { Field, Form, withFormik } from 'formik';
 import { eq } from 'lodash/fp';
-import Input from 'components/Input';
+// import Input from 'components/Input';
 import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
 import { SUPPORT_EMAIL } from 'const';
@@ -14,11 +14,11 @@ interface WithdrawalForm {
 }
 
 const Withdrawal = () => {
-  const [step, setStep] = useState(1);
-  const isFirstStep = eq(1, step);
-  const nextStepHandle = () => {
-    setStep(2);
-  };
+  // const [step, setStep] = useState(1);
+  // const isFirstStep = eq(1, step);
+  // const nextStepHandle = () => {
+  //   setStep(2);
+  // };
 
   return (
     <div className={css.root}>

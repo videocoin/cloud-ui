@@ -1,7 +1,28 @@
+@import '~styles/vars';
+
+.root {
+  margin: 64px 96px 0;
+}
+
 .table {
   width: 100%;
-  max-width: 926px;
-  margin: 64px auto 0;
+  td {
+    padding: 8px 0;
+  }
+}
+.from {
+  color: #b8a8ce !important;
+}
+
+.hash {
+  width: 301px;
+}
+
+.header {
+  border-bottom: 1px solid;
+  padding-left: 8px;
+  border-bottom: 1px solid $grey-dawn-w2;
+  margin-bottom: 24px;
 }
 
 .vid {
@@ -9,5 +30,12 @@
 }
 
 .value {
+  text-align: right;
+  width: 120px;
+}
+
+.pagination {
+  position: sticky;
+  bottom: 0;
   text-align: right;
 }

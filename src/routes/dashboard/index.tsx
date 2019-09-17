@@ -10,21 +10,21 @@ const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
   children,
   ...props
 }) => {
-  const { isActive, fetchAccount } = UserStore;
+  const { isActive, fetchUser } = UserStore;
   const { '*': path } = props;
   const interval = useRef(null);
 
   useEffect(() => {
     if (isActive) {
       interval.current = setInterval(() => {
-        fetchAccount();
+        fetchUser(true);
       }, balanceRequestTimeout);
     }
 
     return () => {
       clearInterval(interval.current);
     };
-  }, [fetchAccount, isActive]);
+  }, [fetchUser, isActive]);
 
   if (!isActive && path !== 'pending') {
     navigate('/dashboard/pending');

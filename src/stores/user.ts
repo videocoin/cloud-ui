@@ -1,12 +1,11 @@
-import { types, flow, applySnapshot } from 'mobx-state-tree';
+import { types, flow } from 'mobx-state-tree';
 import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
-import * as AccountAPI from 'api/account';
 import { removeTokenHeader, setTokenHeader } from 'api';
-import initSocket from 'socket';
 import { WalletAction } from 'stores/models/wallet';
 import PipelinesStore from 'stores/pipelines';
 import { AxiosResponse } from 'axios';
+import { ACTIONS_OFFSET, PROTOCOL_OFFSET } from 'const';
 import { State } from './types';
 import User from './models/user';
 
@@ -15,10 +14,18 @@ const Store = types
     user: types.maybeNull(User),
     actions: types.array(WalletAction),
     state: State,
+    actionsMeta: types.model({
+      offset: types.number,
+      page: types.number,
+      limit: types.number,
+      hasMore: false,
+    }),
   })
   .actions(self => {
-    const fetchUser = flow(function* fetchUser() {
-      self.state = 'loading';
+    const fetchUser = flow(function* fetchUser(silent = false) {
+      if (!silent) {
+        self.state = 'loading';
+      }
       try {
         const res: AxiosResponse = yield API.getUser();
 
@@ -33,16 +40,22 @@ const Store = types
         throw e;
       }
     });
-    const fetchActions = flow(function* fetchActions() {
+    const fetchActions = flow(function* fetchActions(page) {
+      const offset = (page - 1) * ACTIONS_OFFSET;
+
+      self.actionsMeta.offset = offset;
+      self.actionsMeta.page = page;
       const res: AxiosResponse = yield API.getActions(
         self.user.account.address,
         {
-          limit: 15,
-          offset: 0,
+          limit: ACTIONS_OFFSET,
+          offset,
         },
       );
 
-      applySnapshot(self.actions, res.data.actions);
+      self.actionsMeta.hasMore = res.data.actions.length === ACTIONS_OFFSET;
+
+      self.actions.replace(res.data.actions);
     });
 
     return {
@@ -50,16 +63,7 @@ const Store = types
       fetchActions,
       afterCreate: flow(function* afterCreate() {
         yield fetchUser();
-        yield fetchActions();
-      }),
-      fetchAccount: flow(function* fetchAccount() {
-        const res: AxiosResponse = yield AccountAPI.fetchAccount(
-          self.user.account.id,
-        );
-
-        self.user.account = res.data;
-
-        return res;
+        yield fetchActions(1);
       }),
       signIn: flow(function* signIn(data) {
         const res: AxiosResponse = yield API.signIn(data);
@@ -69,7 +73,7 @@ const Store = types
         setTokenHeader(token);
 
         yield fetchUser();
-        yield fetchActions();
+        yield fetchActions(1);
 
         return res;
       }),
@@ -80,7 +84,7 @@ const Store = types
         localStorage.setItem('token', token);
         setTokenHeader(token);
         yield fetchUser();
-        yield fetchActions();
+        yield fetchActions(1);
 
         return res;
       }),
@@ -121,6 +125,12 @@ const UserStore = Store.create({
   state: 'pending',
   user: null,
   actions: [],
+  actionsMeta: {
+    offset: 0,
+    limit: PROTOCOL_OFFSET,
+    hasMore: false,
+    page: 1,
+  },
 });
 
 export default UserStore;

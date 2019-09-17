@@ -7,7 +7,7 @@ import { Link } from '@reach/router';
 import { modalType } from 'components/ModalManager';
 import { observer } from 'mobx-react-lite';
 import TokensStore, { IToken } from 'stores/tokens';
-import { AxiosPromise, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import css from './index.module.scss';
 import Section from './Section';
 
@@ -67,6 +67,26 @@ const Account = () => {
           <Button theme="minimal-sunkissed" onClick={handleResetPassword}>
             Reset
           </Button>
+        </div>
+      </Section>
+      <Section
+        title="API"
+        right={() => (
+          <div className={css.newToken}>
+            <Button theme="violet-sky" size="sm" onClick={createToken}>
+              {items.length ? 'New token' : 'Create Token'}
+            </Button>
+          </div>
+        )}
+      >
+        <div className={css.field}>
+          <Typography type="smallBody">API Tokens</Typography>
+          <div className={css.tokens}>
+            {!items.length && (
+              <Typography type="smallBodyAlt">None Yet</Typography>
+            )}
+            {map(renderToken)(items as [])}
+          </div>
         </div>
       </Section>
       <Section title="Legal">

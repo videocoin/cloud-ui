@@ -19,11 +19,11 @@ const NewLivestream = (props: FormikProps<Props>) => {
   const { profile, output } = values;
 
   return (
-    <Form className={css.form} id="pipelineForm">
+    <Form className={css.form} id="streamForm">
       <div className={css.row}>
         <Typography type="subtitle">General details</Typography>
         <div className={css.name}>
-          <Field component={Input} label="Pipeline Name" name="name" />
+          <Field component={Input} label="Stream Name" name="name" />
         </div>
       </div>
       <div className={css.row}>

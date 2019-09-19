@@ -61,9 +61,6 @@ const Store = types
     get isStreamPending() {
       return propEq('streamState', 'pending')(self);
     },
-    get isStreamDeleting() {
-      return propEq('pipelineState', 'deleting')(self);
-    },
   }));
 
 const StreamStore = Store.create({

@@ -3,16 +3,11 @@ import pluralize from 'pluralize';
 import { some, propEq } from 'lodash/fp';
 import { ActionBar, Button, Typography } from 'ui-kit';
 import Modal from 'components/Modal';
-import PipelinesStore from 'stores/pipelines';
-import { TPipelineStore } from 'stores/types';
+import StreamsStore from 'stores/streams';
 import { observer } from 'mobx-react-lite';
 
 const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
-  const { pipeline, isDeleting }: TPipelineStore = PipelinesStore;
-
-  if (!pipeline) return null;
-
-  const { checked, deleteStreams } = pipeline;
+  const { isDeleting, checked, deleteStreams } = StreamsStore;
 
   const hasRunning = some(propEq('status', 'INPUT_STATUS_ACTIVE'), checked);
   const onConfirm = async () => {
@@ -24,7 +19,7 @@ const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
     <Modal>
       <div className="modalInner">
         <Typography type="bodyAlt">
-          Delete {pluralize('Livestream', checked.length, true)}?
+          Delete {pluralize('Livestream', checked.size, true)}?
         </Typography>
         <Typography type="smallBody">
           {hasRunning

@@ -3,9 +3,9 @@ import { propEq, getOr, get } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import { WalletAction } from 'stores/models/wallet';
-import PipelinesStore from 'stores/pipelines';
 import { AxiosResponse } from 'axios';
 import { ACTIONS_OFFSET, PROTOCOL_OFFSET } from 'const';
+import StreamsStore from 'stores/streams';
 import { State } from './types';
 import User from './models/user';
 
@@ -93,7 +93,7 @@ const Store = types
         removeTokenHeader();
         self.user = null;
         self.state = 'pending';
-        PipelinesStore.reset();
+        StreamsStore.reset();
       },
     };
   })

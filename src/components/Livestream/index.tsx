@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { propEq, eq } from 'lodash/fp';
 import cn from 'classnames';
-import PipelinesStore from 'stores/pipelines';
 import { observer } from 'mobx-react-lite';
 import { Input, Typography } from 'ui-kit';
 import Player from 'components/Player';
@@ -13,41 +12,35 @@ import css from './index.module.scss';
 import ProtocolTable from './ProtocolTable';
 
 const Livestream = () => {
-  const { pipelineState } = PipelinesStore;
   const { stream, isStreamLoading } = StreamStore;
 
   const checkStatus = stream && stream.status;
 
   useEffect(() => {
-    if (propEq('status', 'JOB_STATUS_FAILED')(stream)) {
+    if (propEq('status', 'STREAM_STATUS_FAILED')(stream)) {
       toast.success('Stream Failed To Start.');
     }
   }, [checkStatus, stream]);
 
-  if (eq('loading', pipelineState) || !stream || isStreamLoading) {
+  if (!stream || isStreamLoading) {
     return <Typography>Loading...</Typography>;
   }
 
   if (!stream) return null;
 
-  const {
-    streamId,
-    status,
-    inputStatus,
-    transcodeOutputUrl,
-    ingestInputUrl,
-  } = stream;
+  const { streamContractId, status, inputStatus, outputUrl, inputUrl } = stream;
 
-  const isStreamActive = eq(status, 'JOB_STATUS_READY');
-  const isStreamFailed = eq(status, 'JOB_STATUS_FAILED');
-  const isStreamPrepared = eq(status, 'JOB_STATUS_PREPARED');
-  const isStreamReady = eq(status, 'JOB_STATUS_READY');
+  const isStreamActive = eq(status, 'STREAM_STATUS_READY');
+  const isStreamFailed = eq(status, 'STREAM_STATUS_FAILED');
+  const isStreamPrepared = eq(status, 'STREAM_STATUS_PREPARED');
+  const isStreamReady = eq(status, 'STREAM_STATUS_READY');
   const isStreamPending =
-    eq(status, 'JOB_STATUS_PENDING') || eq(status, 'JOB_STATUS_PROCESSING');
+    eq(status, 'STREAM_STATUS_PENDING') ||
+    eq(status, 'STREAM_STATUS_PROCESSING');
   const isIngestActive = eq(inputStatus, 'INPUT_STATUS_ACTIVE');
-  const isStreamOffline = eq(status, 'JOB_STATUS_NEW');
-  const isStreamPreparing = eq(status, 'JOB_STATUS_PREPARING');
-  const isStreamCompleted = eq(status, 'JOB_STATUS_COMPLETED');
+  const isStreamOffline = eq(status, 'STREAM_STATUS_NEW');
+  const isStreamPreparing = eq(status, 'STREAM_STATUS_PREPARING');
+  const isStreamCompleted = eq(status, 'STREAM_STATUS_COMPLETED');
 
   const renderInput = () => {
     if (isStreamOffline) {
@@ -63,10 +56,10 @@ const Livestream = () => {
 
     return (
       <Input
-        value={ingestInputUrl}
+        value={inputUrl}
         label="Ingest URL"
         readOnly
-        postfix={() => <ClipboardPostfix text={ingestInputUrl} />}
+        postfix={() => <ClipboardPostfix text={inputUrl} />}
       />
     );
   };
@@ -75,10 +68,10 @@ const Livestream = () => {
     if (isStreamReady) {
       return (
         <Input
-          value={transcodeOutputUrl}
+          value={outputUrl}
           label="Output URL"
           readOnly
-          postfix={() => <ClipboardPostfix text={transcodeOutputUrl} />}
+          postfix={() => <ClipboardPostfix text={outputUrl} />}
         />
       );
     }
@@ -101,15 +94,11 @@ const Livestream = () => {
     <div>
       <div className={css.top}>
         <div className={css.player}>
-          <Player
-            src={transcodeOutputUrl}
-            status={status}
-            inputStatus={inputStatus}
-          />
+          <Player src={outputUrl} status={status} inputStatus={inputStatus} />
         </div>
         <div className={css.desc}>
           <Typography>Stream ID</Typography>
-          <Typography type="smallTitle">{streamId}</Typography>
+          <Typography type="smallTitle">{streamContractId}</Typography>
         </div>
       </div>
       {!isStreamCompleted && (

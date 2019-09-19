@@ -1,14 +1,17 @@
 import React from 'react';
 import { Button, Typography } from 'ui-kit';
-import PipelinesStore from 'stores/pipelines';
+import { Link } from '@reach/router';
 import { observer } from 'mobx-react-lite';
+import UserStore from 'stores/user';
 import { modalType } from 'components/ModalManager';
 import ModalStore from 'stores/modal';
+import StreamsStore from 'stores/streams';
 import css from './index.module.scss';
 
-const PipelineHeader = () => {
+const Header = () => {
+  const { balance } = UserStore;
   const { openModal } = ModalStore;
-  const { pipeline } = PipelinesStore;
+  const { checked } = StreamsStore;
 
   const handleOpen = () => openModal(modalType.STREAMS_DELETE_CONFIRM);
 
@@ -16,19 +19,20 @@ const PipelineHeader = () => {
     <>
       <div>
         <Typography type="caption">VideoCoin Network</Typography>
-        <Typography type="smallTitle">
-          {pipeline ? pipeline.name : 'Pipeline'}
-        </Typography>
+        <Typography type="smallTitle">Streams</Typography>
       </div>
       <div className={css.btns}>
-        {Boolean(pipeline && pipeline.checked.length) && (
+        {Boolean(checked.size) && (
           <Button theme="minimal" onClick={handleOpen}>
             Delete
           </Button>
         )}
+        <Link className={!balance ? css.disabled : ''} to="new">
+          <Button disabled={!balance}>New stream</Button>
+        </Link>
       </div>
     </>
   );
 };
 
-export default observer(PipelineHeader);
+export default observer(Header);

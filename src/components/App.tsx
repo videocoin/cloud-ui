@@ -14,9 +14,8 @@ const Terms = lazy(() => import('routes/terms'));
 const Privacy = lazy(() => import('routes/privacy'));
 const SignIn = lazy(() => import('routes/signin'));
 const SignUp = lazy(() => import('routes/signup'));
-const PipelinesRoot = lazy(() => import('routes/PipelinesRoot'));
-const Pipelines = lazy(() => import('routes/pipelines'));
-const Pipeline = lazy(() => import('routes/pipeline'));
+const StreamsRoot = lazy(() => import('routes/StreamsRoot'));
+const Streams = lazy(() => import('routes/livestreams'));
 const NewLivestream = lazy(() => import('routes/new-livestream'));
 const Livestream = lazy(() => import('routes/livestream'));
 const Shared = lazy(() => import('routes/shared'));
@@ -26,26 +25,25 @@ const App = () => {
     <>
       <Suspense fallback={<Spinner />}>
         <Router className="wrapper" primary={false}>
-          <Redirect from="/" to="/dashboard/pipelines" noThrow />
+          <Redirect from="/" to="/dashboard/streams" noThrow />
           <Dashboard path="/dashboard">
             <Pending path="pending" />
             <Account path="account" />
             <Terms path="account/terms" />
             <Privacy path="account/privacy" />
             <Wallet path="wallet" />
-            <PipelinesRoot path="pipelines">
-              <Pipelines path="/" />
-              <Pipeline path=":pipelineId" />
+            <StreamsRoot path="streams">
+              <Streams path="/" />
+              <Livestream path=":streamId" />
               <NewLivestream path="new" />
-              <Livestream path=":pipelineId/:streamId" />
-            </PipelinesRoot>
+            </StreamsRoot>
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
           <SignUp path="/sign-up" />
           <Terms isCommon path="/terms" />
           <Privacy isCommon path="/privacy" />
-          <Shared path="/pipelines/shared/:accessCode" />
+          <Shared path="/streams/shared/:accessCode" />
         </Router>
       </Suspense>
       <Suspense fallback={<Spinner />}>

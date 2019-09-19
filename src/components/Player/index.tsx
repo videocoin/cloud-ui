@@ -15,9 +15,10 @@ const Player = ({ src, status, inputStatus }: PlayerProps) => {
   const player = useRef(null);
 
   const isOnline =
-    eq(status, 'JOB_STATUS_READY') && eq(inputStatus, 'INPUT_STATUS_ACTIVE');
+    eq(status, 'STREAM_STATUS_READY') && eq(inputStatus, 'INPUT_STATUS_ACTIVE');
   const isStreamPending =
-    eq(status, 'JOB_STATUS_PENDING') || eq(status, 'JOB_STATUS_PROCESSING');
+    eq(status, 'STREAM_STATUS_PENDING') ||
+    eq(status, 'STREAM_STATUS_PROCESSING');
 
   useEffect(() => {
     if (isOnline) {

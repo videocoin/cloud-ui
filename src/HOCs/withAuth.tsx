@@ -17,7 +17,7 @@ export default (authRedirect = false) => (WrappedComponent: ComponentType) => {
       const { token } = queryString.parse(get('search')(window.location));
 
       return isAuth && !token ? (
-        <Redirect to="/dashboard/pipelines" noThrow />
+        <Redirect to="/dashboard/streams" noThrow />
       ) : (
         <WrappedComponent {...props} />
       );

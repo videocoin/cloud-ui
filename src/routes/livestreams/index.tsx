@@ -1,25 +1,24 @@
 import React, { FC } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import withAuth from 'HOCs/withAuth';
-import { TopBar } from 'ui-kit';
-import Pipelines from 'components/Pipelines';
-import PipelinesHeader from 'components/Pipelines/Header';
+import Streams from 'components/LiveStreams';
+import StreamsHeader from 'components/LiveStreams/Header';
+import { TopBar } from 'ui-kit/src';
 import BalanceBadge from 'components/BalanceBadge';
 
-const PipelinesPage: FC<RouteComponentProps> = () => {
+const StreamsPage: FC<RouteComponentProps> = props => {
   return (
     <>
       <div className="topBar">
         <TopBar>
-          <PipelinesHeader />
+          <StreamsHeader />
         </TopBar>
       </div>
       <div className="content">
-        <Pipelines />
+        <Streams />
         <BalanceBadge />
       </div>
     </>
   );
 };
 
-export default withAuth()(PipelinesPage);
+export default StreamsPage;

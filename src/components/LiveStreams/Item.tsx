@@ -1,7 +1,6 @@
 import React from 'react';
 import { Checkbox, Icon, Typography, IconName } from 'ui-kit';
 import cn from 'classnames';
-import { indexOf } from 'lodash/fp';
 import { TStream } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 import { Link } from '@reach/router';
@@ -10,26 +9,26 @@ import css from './Item.module.scss';
 
 interface StreamItemProps {
   stream: TStream;
-  onCheck: (id: string) => void;
-  checked: string[];
+  onCheck: (stream: TStream) => void;
+  checked: Map<string, TStream>;
 }
 
 const statusIcon: { [key: string]: IconName } = {
-  JOB_STATUS_NONE: 'offline',
-  JOB_STATUS_NEW: 'offline',
-  JOB_STATUS_PREPARING: 'awaitingInput',
-  JOB_STATUS_PREPARED: 'awaitingInput',
-  JOB_STATUS_PROCESSING: 'awaitingInput',
-  JOB_STATUS_READY: 'awaitingInput',
-  JOB_STATUS_COMPLETED: 'offline',
-  JOB_STATUS_CANCELLED: 'offline',
-  JOB_STATUS_FAILED: 'incomplete',
+  STREAM_STATUS_NONE: 'offline',
+  STREAM_STATUS_NEW: 'offline',
+  STREAM_STATUS_PREPARING: 'awaitingInput',
+  STREAM_STATUS_PREPARED: 'awaitingInput',
+  STREAM_STATUS_PROCESSING: 'awaitingInput',
+  STREAM_STATUS_READY: 'awaitingInput',
+  STREAM_STATUS_COMPLETED: 'offline',
+  STREAM_STATUS_CANCELLED: 'offline',
+  STREAM_STATUS_FAILED: 'incomplete',
 };
 
 const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
-  const { id, streamId, status } = stream;
-  const handleCheck = () => onCheck(stream.id);
-  const isChecked = indexOf(stream.id)(checked) >= 0;
+  const { id, streamContractId, status } = stream;
+  const handleCheck = () => onCheck(stream);
+  const isChecked = checked.has(stream.id);
 
   return (
     <tr className={cn(css.row, isChecked && css.checked)}>
@@ -44,7 +43,7 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
       </td>
       <td className={css.nameCell}>
         <Link className={css.link} to={id}>
-          <Typography type="bodyAlt">{streamId}</Typography>
+          <Typography type="bodyAlt">{streamContractId}</Typography>
         </Link>
       </td>
     </tr>

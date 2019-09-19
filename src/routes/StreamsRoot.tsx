@@ -1,12 +1,12 @@
 import React, { ReactNode, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import PipelinesStore from 'stores/pipelines';
+import StreamsStore from 'stores/streams';
 
 export default ({
   children,
 }: RouteComponentProps & { children: ReactNode }) => {
   useEffect(() => {
-    const { load, isPending } = PipelinesStore;
+    const { load, isPending } = StreamsStore;
 
     if (isPending) {
       load();

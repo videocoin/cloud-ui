@@ -2,15 +2,15 @@ import React from 'react';
 import { Icon, Typography } from 'ui-kit';
 import UserStore from 'stores/user';
 import { observer } from 'mobx-react-lite';
-import PipelinesStore from 'stores/pipelines';
+import StreamsStore from 'stores/streams';
 import icon from './assets/started.svg';
 import css from './GettingStarted.module.scss';
 
 const GettingStarted = () => {
   const { balance } = UserStore;
-  const { pipelines, isLoaded } = PipelinesStore;
+  const { streams, isLoaded } = StreamsStore;
 
-  if (pipelines.size > 2 || !isLoaded) {
+  if (streams.size > 2 || !isLoaded) {
     return null;
   }
 
@@ -22,8 +22,8 @@ const GettingStarted = () => {
       <div className={css.desc}>
         <Typography type="display3">Getting Started</Typography>
         <Typography>
-          VideoCoin lets you quickly get a livestream pipeline up and running
-          using our distributed network
+          VideoCoin lets you quickly get a livestream up and running using our
+          distributed network
         </Typography>
         <ul className={css.steps}>
           <li className={balance ? css.cross : ''}>
@@ -37,9 +37,9 @@ const GettingStarted = () => {
               Step 1 - Fund your VideoCoin Wallet
             </Typography>
           </li>
-          <li className={pipelines.size > 0 ? css.cross : ''}>
+          <li className={streams.size > 0 ? css.cross : ''}>
             <Icon
-              color={pipelines.size > 0 ? '#5f4681' : '#fd9369'}
+              color={streams.size > 0 ? '#5f4681' : '#fd9369'}
               name="livestreamManager"
               height={24}
               width={24}

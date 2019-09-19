@@ -9,7 +9,7 @@ const Pending: FC<RouteComponentProps> = () => {
   const { isActive } = UserStore;
 
   if (isActive) {
-    return <Redirect to="/dashboard/pipelines" noThrow />;
+    return <Redirect to="/dashboard/streams" noThrow />;
   }
 
   return (

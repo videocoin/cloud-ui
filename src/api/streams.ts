@@ -1,12 +1,19 @@
 import api from 'api/index';
 import { AxiosPromise } from 'axios';
 
+export function getStreams() {
+  return api(`/streams`);
+}
+
 export function getStream(id: string) {
   return api(`/streams/${id}`);
 }
 
-export function createStream(pipelineId: string): AxiosPromise<any> {
-  return api.post('/streams', { pipelineId });
+export function addStream(data: {
+  name: string;
+  profileId: string;
+}): AxiosPromise<any> {
+  return api.post('/streams', data);
 }
 
 export function deleteStream(id: string) {

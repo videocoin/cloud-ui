@@ -42,29 +42,29 @@ export const statusTable: { [key: string]: string } = {
 };
 
 export const OUTPUT_STATUS: { [key in IStatus]: string } = {
-  JOB_STATUS_NONE: '',
-  JOB_STATUS_NEW: '',
-  JOB_STATUS_PREPARING: '',
-  JOB_STATUS_PREPARED: 'Awaiting Input',
-  JOB_STATUS_PENDING: 'Preparing Stream',
-  JOB_STATUS_PROCESSING: 'Preparing Stream',
-  JOB_STATUS_READY: 'Streaming',
-  JOB_STATUS_COMPLETED: '',
-  JOB_STATUS_CANCELLED: '',
-  JOB_STATUS_FAILED: 'Stream Failed',
+  STREAM_STATUS_NONE: '',
+  STREAM_STATUS_NEW: '',
+  STREAM_STATUS_PREPARING: '',
+  STREAM_STATUS_PREPARED: 'Awaiting Input',
+  STREAM_STATUS_PENDING: 'Preparing Stream',
+  STREAM_STATUS_PROCESSING: 'Preparing Stream',
+  STREAM_STATUS_READY: 'Streaming',
+  STREAM_STATUS_COMPLETED: '',
+  STREAM_STATUS_CANCELLED: '',
+  STREAM_STATUS_FAILED: 'Stream Failed',
 };
 
 export const INGEST_STATUS: { [key in IStatus]: string } = {
-  JOB_STATUS_NONE: 'Not Started',
-  JOB_STATUS_NEW: 'Not Started',
-  JOB_STATUS_PREPARING: 'Preparing',
-  JOB_STATUS_PREPARED: 'Awaiting Input',
-  JOB_STATUS_PENDING: 'Receiving',
-  JOB_STATUS_PROCESSING: 'Receiving',
-  JOB_STATUS_READY: 'Receiving',
-  JOB_STATUS_COMPLETED: '',
-  JOB_STATUS_CANCELLED: '',
-  JOB_STATUS_FAILED: 'Receiving',
+  STREAM_STATUS_NONE: 'Not Started',
+  STREAM_STATUS_NEW: 'Not Started',
+  STREAM_STATUS_PREPARING: 'Preparing',
+  STREAM_STATUS_PREPARED: 'Awaiting Input',
+  STREAM_STATUS_PENDING: 'Receiving',
+  STREAM_STATUS_PROCESSING: 'Receiving',
+  STREAM_STATUS_READY: 'Receiving',
+  STREAM_STATUS_COMPLETED: '',
+  STREAM_STATUS_CANCELLED: '',
+  STREAM_STATUS_FAILED: 'Receiving',
 };
 
 export const PROTOCOL_OFFSET = 10;

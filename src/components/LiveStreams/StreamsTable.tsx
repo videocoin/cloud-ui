@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from 'ui-kit';
 import { map } from 'lodash/fp';
-import PipelinesStore from 'stores/pipelines';
+import StreamsStore from 'stores/streams';
 import { TStream } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 import StreamItem from './Item';
@@ -20,19 +20,11 @@ const fields = [
 ];
 
 const StreamsTable = () => {
-  const { pipeline } = PipelinesStore;
+  const { checkStream, checked, items, isLoading, isPending } = StreamsStore;
 
-  if (!pipeline) return null;
-
-  const { checked, checkStream } = pipeline;
-
-  const handleCheck = (id: string) => {
-    checkStream(id);
+  const handleCheck = (stream: TStream) => {
+    checkStream(stream);
   };
-
-  const {
-    streams: { items },
-  } = pipeline;
 
   const renderHead = () =>
     map(({ name, label, colspan = 1 }) => (
@@ -52,6 +44,10 @@ const StreamsTable = () => {
       ),
       items,
     );
+
+  if (isPending || isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
 
   if (!items.length) {
     return (

@@ -9,7 +9,7 @@ interface ShareModalProps {
 }
 
 const ShareModal = ({ closeModal, accessCode }: ShareModalProps) => {
-  const url = `https://${window.location.hostname}/pipelines/shared/${accessCode}`;
+  const url = `https://${window.location.hostname}/streams/shared/${accessCode}`;
 
   return (
     <Modal>

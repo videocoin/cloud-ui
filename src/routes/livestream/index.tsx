@@ -10,7 +10,7 @@ import UserStore from 'stores/user';
 import { MAX_VID, MIN_VID } from 'const';
 import css from './index.module.scss';
 
-const pipelineRequestTimeout = 5000;
+const streamRequestTimeout = 5000;
 const StreamControl = observer(() => {
   const [isLoading, setLoading] = useState(false);
   const { stream } = StreamStore;
@@ -28,8 +28,8 @@ const StreamControl = observer(() => {
   const isMinBalance = lt(balance)(MIN_VID);
 
   switch (status) {
-    case 'JOB_STATUS_NEW':
-    case 'JOB_STATUS_NONE':
+    case 'STREAM_STATUS_NEW':
+    case 'STREAM_STATUS_NONE':
       return (
         <div data-tip data-for="start">
           <Button
@@ -53,18 +53,18 @@ const StreamControl = observer(() => {
           )}
         </div>
       );
-    case 'JOB_STATUS_COMPLETED':
+    case 'STREAM_STATUS_COMPLETED':
       return null;
-    case 'JOB_STATUS_PREPARING':
-    case 'JOB_STATUS_PREPARED':
-    case 'JOB_STATUS_PENDING':
-    case 'JOB_STATUS_PROCESSING':
+    case 'STREAM_STATUS_PREPARING':
+    case 'STREAM_STATUS_PREPARED':
+    case 'STREAM_STATUS_PENDING':
+    case 'STREAM_STATUS_PROCESSING':
       return (
         <Button theme="perfect-white" onClick={completeStream}>
           Cancel stream
         </Button>
       );
-    case 'JOB_STATUS_READY':
+    case 'STREAM_STATUS_READY':
       return (
         <Button theme="violet-sky" onClick={completeStream}>
           Stop stream
@@ -86,7 +86,7 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
       fetchStream(streamId);
       interval.current = setInterval(() => {
         fetchStream(streamId, true);
-      }, pipelineRequestTimeout);
+      }, streamRequestTimeout);
     }
 
     return () => {

@@ -5,7 +5,7 @@ import { withFormik } from 'formik';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import NewLivestream from 'components/NewLivestream';
-import PipelinesStore from 'stores/pipelines';
+import StreamsStore from 'stores/streams';
 import UserStore from 'stores/user';
 import { SelectOption } from '@types';
 import css from './index.module.scss';
@@ -27,10 +27,10 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
   }),
   validationSchema,
   handleSubmit: async ({ name, profile }, { setSubmitting }) => {
-    const { createPipeline } = PipelinesStore;
+    const { createStream } = StreamsStore;
 
     try {
-      await createPipeline({ name, profileId: profile.value });
+      await createStream({ name, profileId: profile.value });
       navigate('./');
     } catch (e) {
       setSubmitting(false);
@@ -58,7 +58,7 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
           <BackLink />
           <div>
             <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">New Pipeline</Typography>
+            <Typography type="smallTitle">New Stream</Typography>
           </div>
           <div className={css.btns}>
             {!isValid && (
@@ -68,11 +68,11 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
             )}
             <Button
               type="submit"
-              form="pipelineForm"
+              form="streamForm"
               loading={isSubmitting}
               disabled={!isValid}
             >
-              Create pipeline
+              Create stream
             </Button>
           </div>
         </TopBar>

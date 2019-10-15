@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Logo, Typography } from 'ui-kit/src';
+import { Button, Logo, Typography } from 'ui-kit';
 import Modal from 'components/Modal';
 
 const DepositModal = ({ closeModal }: { closeModal: () => void }) => {

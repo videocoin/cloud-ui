@@ -16,8 +16,8 @@ const buildClasses: any = ({ isPartiallyCurrent }: LinkGetProps) => ({
   className: cn(css.link, isPartiallyCurrent && css.active),
 });
 
-const NavLink = ({ icon, label, ...props }: NavItemProps) => (
-  <Link getProps={buildClasses} {...props}>
+const NavLink = ({ icon, label, to, ...props }: NavItemProps) => (
+  <Link to={to} getProps={buildClasses} {...props}>
     <Icon name={icon} width={28} height={28} />
     <Typography type="bodyAlt">{label}</Typography>
   </Link>

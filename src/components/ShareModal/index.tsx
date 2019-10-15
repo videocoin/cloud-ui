@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionBar, Button, Input, Typography } from 'ui-kit/src';
+import { ActionBar, Button, Input, Typography } from 'ui-kit';
 import Modal from 'components/Modal';
 import ClipboardPostfix from 'components/ClipboardPostfix';
 

@@ -1,6 +1,6 @@
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import css from 'components/Wallet/Deposit.module.scss';
-import { FieldAction } from 'ui-kit/src';
+import { FieldAction } from 'ui-kit';
 import React from 'react';
 import { toast } from 'react-toastify';
 

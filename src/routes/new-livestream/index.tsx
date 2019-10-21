@@ -40,6 +40,11 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
 })(props => {
   const { isValid, isSubmitting } = props;
   const { balance } = UserStore;
+  const { fetchProfiles } = StreamsStore;
+
+  useEffect(() => {
+    fetchProfiles();
+  }, [fetchProfiles]);
 
   useEffect(() => {
     if (!balance) {

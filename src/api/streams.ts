@@ -40,7 +40,11 @@ export function getProtocol(
   id: string,
   params: { offset: number; limit: number },
 ) {
-  return api(`https://txlog.dev.videocoin.network/api/v1/stream/${id}`, {
+  return api(`/stream/${id}`, {
     params,
   });
+}
+
+export function getProfiles() {
+  return api('/profiles');
 }

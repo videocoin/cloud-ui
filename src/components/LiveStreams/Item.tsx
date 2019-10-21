@@ -26,7 +26,7 @@ const statusIcon: { [key: string]: IconName } = {
 };
 
 const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
-  const { id, streamContractId, status } = stream;
+  const { id, streamContractId, status, name } = stream;
   const handleCheck = () => onCheck(stream);
   const isChecked = checked.has(stream.id);
 
@@ -45,6 +45,9 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
         <Link className={css.link} to={id}>
           <Typography type="bodyAlt">{streamContractId}</Typography>
         </Link>
+      </td>
+      <td>
+        <Typography type="bodyAlt">{name}</Typography>
       </td>
     </tr>
   );

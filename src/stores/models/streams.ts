@@ -17,6 +17,7 @@ import {
 import * as API from 'api/streams';
 import { AxiosResponse } from 'axios';
 import { Stream } from 'stores/models/stream';
+import { Profile } from 'stores/models/profile';
 import { OrderType, State, TStream } from '../types';
 
 export default types
@@ -28,6 +29,7 @@ export default types
       order: types.enumeration('Order', ['asc', 'desc']),
     }),
     checked: types.map(types.safeReference(types.late(() => Stream))),
+    profiles: types.array(Profile),
   })
   .actions(self => {
     let initialState = {};
@@ -94,6 +96,13 @@ export default types
           self.checked.put(stream);
         }
       },
+      fetchProfiles: flow(function* fetchProfiles() {
+        const res: AxiosResponse = yield API.getProfiles();
+
+        applySnapshot(self.profiles, res.data.items);
+
+        return res;
+      }),
     };
   })
   .views(self => ({
@@ -114,5 +123,10 @@ export default types
         orderBy(self.sort.field, self.sort.order as OrderType),
         fromPairs,
       )([...self.streams]);
+    },
+    get profilesSelect() {
+      return map(({ id: value, name: label }) => ({ label, value }))(
+        self.profiles,
+      );
     },
   }));

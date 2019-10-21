@@ -1,10 +1,11 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { Option, Typography } from 'ui-kit';
 import { Form, Field, FormikProps, FieldProps } from 'formik';
 import RadioGroup from 'components/RadioGroup';
 import Input from 'components/Input';
 import Select from 'components/Select';
-import { LiveStreamProfiles } from 'const';
+import StreamsStore from 'stores/streams';
 import css from './index.module.scss';
 
 const { RadioBtn } = RadioGroup;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const NewLivestream = (props: FormikProps<Props>) => {
+  const { profilesSelect } = StreamsStore;
   const { setFieldValue, setFieldTouched, values } = props;
   const { profile, output } = values;
 
@@ -66,7 +68,7 @@ const NewLivestream = (props: FormikProps<Props>) => {
                     placeholder="Select Profile"
                     name="profile"
                     value={profile}
-                    options={LiveStreamProfiles}
+                    options={profilesSelect}
                     onChange={setFieldValue}
                     onBlur={setFieldTouched}
                   />
@@ -96,4 +98,4 @@ const NewLivestream = (props: FormikProps<Props>) => {
   );
 };
 
-export default NewLivestream;
+export default observer(NewLivestream);

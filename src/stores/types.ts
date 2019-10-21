@@ -3,6 +3,7 @@ import StreamsStore from 'stores/streams';
 import User from './models/user';
 import Account from './models/account';
 import { Stream } from './models/stream';
+import { Profile } from './models/profile';
 
 export const State = types.enumeration('State', [
   'loading',
@@ -40,3 +41,4 @@ export type OrderType = 'asc' | 'desc';
 export type TUser = Instance<typeof User>;
 export type TAccount = Instance<typeof Account>;
 export type TStreamsStore = Instance<typeof StreamsStore>;
+export type TProfile = Instance<typeof Profile>;

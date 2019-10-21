@@ -8,6 +8,7 @@ const StreamsStore = Streams.create({
     order: 'asc',
   },
   checked: {},
+  profiles: [],
 });
 
 export default StreamsStore;

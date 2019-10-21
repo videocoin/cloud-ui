@@ -14,8 +14,12 @@ const fields = [
     colspan: 2,
   },
   {
-    name: 'name',
+    name: 'streamId',
     label: 'Stream ID',
+  },
+  {
+    name: 'name',
+    label: 'Name',
   },
 ];
 

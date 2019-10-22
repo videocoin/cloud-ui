@@ -70,6 +70,5 @@ export const INGEST_STATUS: { [key in IStatus]: string } = {
 export const PROTOCOL_OFFSET = 10;
 export const ACTIONS_OFFSET = 15;
 export const protocolRequestTimeout = 3000;
-export const MAX_VID = 50;
 export const MIN_VID = 20;
 export const SUPPORT_EMAIL = 'support@videocoin.io';

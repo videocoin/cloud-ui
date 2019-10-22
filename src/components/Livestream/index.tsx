@@ -28,7 +28,7 @@ const Livestream = () => {
 
   if (!stream) return null;
 
-  const { streamContractId, status, inputStatus, outputUrl, inputUrl } = stream;
+  const { name, status, inputStatus, outputUrl, inputUrl } = stream;
 
   const isStreamActive = eq(status, 'STREAM_STATUS_READY');
   const isStreamFailed = eq(status, 'STREAM_STATUS_FAILED');
@@ -97,8 +97,8 @@ const Livestream = () => {
           <Player src={outputUrl} status={status} inputStatus={inputStatus} />
         </div>
         <div className={css.desc}>
-          <Typography>Stream ID</Typography>
-          <Typography type="smallTitle">{streamContractId}</Typography>
+          <Typography>Stream Name</Typography>
+          <Typography type="smallTitle">{name}</Typography>
         </div>
       </div>
       {!isStreamCompleted && (

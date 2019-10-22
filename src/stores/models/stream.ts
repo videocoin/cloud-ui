@@ -1,6 +1,6 @@
 import { flow, Instance, types } from 'mobx-state-tree';
 import * as API from 'api/streams';
-import { Source, Type } from 'stores/types';
+import { Source } from 'stores/types';
 import { AxiosResponse } from 'axios';
 
 const InputStatus = types.enumeration('InputStatus', [
@@ -34,6 +34,7 @@ const StreamModel = types.model('Stream', {
   status: Status,
   streamContractAddress: types.string,
   streamContractId: types.string,
+  rtmpUrl: types.maybeNull(types.string),
 });
 
 export const Stream = StreamModel.actions(self => ({
@@ -64,7 +65,7 @@ export const Protocol = types.model({
   to: types.string,
   createdAt: types.string,
   value: types.string,
-  type: Type,
+  type: types.string,
 });
 
 export type IProtocol = Instance<typeof Protocol>;

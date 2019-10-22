@@ -28,7 +28,7 @@ const Livestream = () => {
 
   if (!stream) return null;
 
-  const { name, status, inputStatus, outputUrl, inputUrl } = stream;
+  const { name, status, inputStatus, outputUrl, rtmpUrl } = stream;
 
   const isStreamActive = eq(status, 'STREAM_STATUS_READY');
   const isStreamFailed = eq(status, 'STREAM_STATUS_FAILED');
@@ -56,10 +56,10 @@ const Livestream = () => {
 
     return (
       <Input
-        value={inputUrl}
+        value={rtmpUrl}
         label="Ingest URL"
         readOnly
-        postfix={() => <ClipboardPostfix text={inputUrl} />}
+        postfix={() => <ClipboardPostfix text={rtmpUrl} />}
       />
     );
   };

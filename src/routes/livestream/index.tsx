@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { gt, lt } from 'lodash/fp';
+import { lt } from 'lodash/fp';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';

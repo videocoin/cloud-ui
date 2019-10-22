@@ -29,7 +29,7 @@ export function cancelStream(id: string) {
 }
 
 export function completeStream(id: string) {
-  return api.post(`/streams/${id}/cancel`);
+  return api.post(`/streams/${id}/stop`);
 }
 
 export function getShared(accessCode: string) {

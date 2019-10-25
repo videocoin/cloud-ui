@@ -23,6 +23,7 @@ const statusIcon: { [key: string]: IconName } = {
   STREAM_STATUS_COMPLETED: 'offline',
   STREAM_STATUS_CANCELLED: 'offline',
   STREAM_STATUS_FAILED: 'incomplete',
+  STREAM_STATUS_PENDING: 'awaitingInput',
 };
 
 const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
@@ -37,7 +38,7 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
       </td>
       <td className={css.statusCell}>
         <Link to={id} className={css.status}>
-          <Icon name={statusIcon[status]} width={24} height={24} />
+          <Icon name={statusIcon[status] || 'offline'} width={24} height={24} />
           <div>{statusTable[status]}</div>
         </Link>
       </td>

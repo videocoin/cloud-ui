@@ -3,12 +3,10 @@ import Modal from 'components/Modal';
 import { ActionBar, Button, Logo, Typography } from 'ui-kit';
 
 interface WithdrawProps {
-  amount: string;
-  address: string;
   closeModal: () => void;
 }
 
-const WithDraw = ({ amount, address, closeModal }: WithdrawProps) => {
+const WithDraw = ({ closeModal }: WithdrawProps) => {
   const renderHeader = () => (
     <div className="g-tac">
       <Logo width={92} short type="colorWhite" />
@@ -18,14 +16,19 @@ const WithDraw = ({ amount, address, closeModal }: WithdrawProps) => {
   return (
     <Modal header={renderHeader}>
       <div className="modalInner">
-        <Typography type="bodyAlt">Withdraw {amount} VID to</Typography>
-        <Typography type="smallBody">{address}</Typography>
+        <Typography type="bodyAlt">
+          Successfully Started Your Withdraw
+        </Typography>
+        <Typography type="smallBody">
+          You&apos;ll receive an email shortly with the transaction id
+          <br />
+          once we&apos;ve begun the withdrawal.
+        </Typography>
         <div className="modalActions">
           <ActionBar>
             <Button theme="minimal" onClick={closeModal}>
-              Cancel
+              Close
             </Button>
-            <Button>Withdraw</Button>
           </ActionBar>
         </div>
       </div>

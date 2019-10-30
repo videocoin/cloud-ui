@@ -6,19 +6,22 @@ export const modalType = {
   RESET_PASSWORD_AUTH: 'ResetPasswordAuth',
   RESET_PASSWORD: 'ResetPassword',
   RESTORE_PASSWORD: 'RestorePassword',
-  WITHDRAW_CONFIRM: 'WithdrawModal',
+  WITHDRAW_SUCCESS_MODAL: 'WithdrawSuccessModal',
   STREAMS_DELETE_CONFIRM: 'StreamsDeleteConfirm',
   SHARE_MODAL: 'ShareModal',
   DEPOSIT_MODAL: 'DepositModal',
   NEW_TOKEN_MODAL: 'NewTokenModal',
   ACCESS_TOKEN_MODAL: 'AccessTokenModal',
   REVOKE_TOKEN_MODAL: 'RevokeTokenModal',
+  CONFIRM_WITHDRAW_MODAL: 'ConfirmWithdrawModal',
 };
 
 const ResetPasswordAuth = lazy(() => import('components/ResetPasswordAuth'));
 const ResetPassword = lazy(() => import('components/ResetPassword'));
 const RestorePassword = lazy(() => import('components/RestorePassword'));
-const WithdrawModal = lazy(() => import('components/WithdrawConfirmModal'));
+const WithdrawSuccessModal = lazy(() =>
+  import('components/WithdrawSuccessModal'),
+);
 const StreamsDeleteConfirm = lazy(() =>
   import('components/LiveStreams/DeleteConfirm'),
 );
@@ -32,17 +35,22 @@ const RevokeTokenModal = lazy(() =>
   import('components/Account/RevokeTokenModal'),
 );
 
+const ConfirmWithdrawModal = lazy(() =>
+  import('components/Wallet/ConfirmModal'),
+);
+
 const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   ResetPasswordAuth,
   ResetPassword,
   RestorePassword,
-  WithdrawModal,
+  WithdrawSuccessModal,
   ShareModal,
   StreamsDeleteConfirm,
   DepositModal,
   NewTokenModal,
   AccessTokenModal,
   RevokeTokenModal,
+  ConfirmWithdrawModal,
 };
 
 const ModalManager = () => {

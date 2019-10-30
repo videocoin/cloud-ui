@@ -7,7 +7,6 @@
   flex-direction: column;
 }
 .form {
-  max-width: 476px;
   width: 100%;
 }
 .body {
@@ -41,4 +40,24 @@
   margin: auto;
   text-align: center;
   padding-bottom: 24px;
+}
+
+.address {
+  & > div {
+    display: flex;
+    & > label {
+      flex: 1;
+    }
+    & > button {
+      position: relative;
+      z-index: 1;
+      background: $violet-sky;
+      border-radius: 4px;
+      padding: 0 20px;
+      border: none;
+      color: $perfect-white;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
 }

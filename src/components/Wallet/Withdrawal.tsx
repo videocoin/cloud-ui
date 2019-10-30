@@ -1,78 +1,120 @@
 import React, { useState } from 'react';
 import { Button, Typography } from 'ui-kit';
-import { Field, Form, withFormik } from 'formik';
+import web3 from 'web3';
+import { Field, Form, FormikProps, withFormik } from 'formik';
 import { eq } from 'lodash/fp';
-// import Input from 'components/Input';
+import Input from 'components/Input';
 import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
-import { SUPPORT_EMAIL } from 'const';
+import { observer } from 'mobx-react-lite';
+import UserStore from 'stores/user';
+import { withdraw, withdrawStart } from 'api/withdraw';
 import css from './Deposit.module.scss';
 
 interface WithdrawalForm {
   address: string;
-  amount: number;
+  amount: number | string;
 }
 
-const Withdrawal = () => {
-  // const [step, setStep] = useState(1);
-  // const isFirstStep = eq(1, step);
-  // const nextStepHandle = () => {
-  //   setStep(2);
-  // };
+const validateAddress = (value: string) => {
+  try {
+    web3.utils.toChecksumAddress(value);
+
+    return '';
+  } catch (e) {
+    return 'The entered address is not a valid ERC20 address. Double check the entered address.';
+  }
+};
+
+const Withdrawal = ({
+  values,
+  setFieldValue,
+  isValid,
+}: FormikProps<WithdrawalForm>) => {
+  const { balance } = UserStore;
+  const [step, setStep] = useState(1);
+  const isFirstStep = eq(1, step);
+  const nextStepHandle = () => {
+    if (isValid) {
+      setStep(2);
+    }
+  };
+
+  const addAllBalance = () => {
+    setFieldValue('amount', balance);
+  };
+
+  const validateAmount = () => {
+    if (values.amount <= balance) {
+      return '';
+    }
+
+    return 'You can only withdraw a maximum equal to the balance in your wallet.';
+  };
 
   return (
     <div className={css.root}>
-      <Typography className={css.desc}>
-        Automatic withdraw functionality coming soon!
-        <br />
-        Please send an email to{' '}
-        <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> to initiate a
-        withdraw until then.
-      </Typography>
-      {/* <div className={css.body}> */}
-      {/* <Form id="withdraw" className={css.form}> */}
-      {/*  <Typography type="bodyAlt" theme="white"> */}
-      {/*    {isFirstStep */}
-      {/*      ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to' */}
-      {/*      : ' Enter the amount of VideoCoin to withdraw'} */}
-      {/*  </Typography> */}
-      {/*  {isFirstStep ? ( */}
-      {/*    <div className={css.address}> */}
-      {/*      <Field */}
-      {/*        name="address" */}
-      {/*        label="VideoCoin Address" */}
-      {/*        component={Input} */}
-      {/*      /> */}
-      {/*    </div> */}
-      {/*  ) : ( */}
-      {/*    <div className={css.address}> */}
-      {/*      <div> */}
-      {/*        <Field */}
-      {/*          name="amount" */}
-      {/*          type="number" */}
-      {/*          label="Amount of VideoCoin" */}
-      {/*          component={Input} */}
-      {/*        /> */}
-      {/*      </div> */}
-      {/*    </div> */}
-      {/*  )} */}
-      {/* </Form> */}
-      {/* </div> */}
+      <div className={css.body}>
+        <Form id="withdraw" className={css.form}>
+          <Typography type="bodyAlt" theme="white">
+            {isFirstStep
+              ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to'
+              : ' Enter the amount of VideoCoin to withdraw'}
+          </Typography>
+          {isFirstStep ? (
+            <div className={css.address}>
+              <Field
+                validate={validateAddress}
+                name="address"
+                label="VideoCoin Address"
+                component={Input}
+              />
+            </div>
+          ) : (
+            <div className={css.address}>
+              <div>
+                <Field
+                  validate={validateAmount}
+                  name="amount"
+                  type="number"
+                  label="Amount of VideoCoin"
+                  component={Input}
+                />
+                <button
+                  type="button"
+                  className={css.balanceBtn}
+                  onClick={addAllBalance}
+                >
+                  All ({balance} VID)
+                </button>
+              </div>
+            </div>
+          )}
+        </Form>
+      </div>
 
-      {/* <div className={css.footer}> */}
-      {/*  <Typography type="caption"> */}
-      {/*    Only send VideoCoin (VID) to VideoCoin Addresses. */}
-      {/*    <br /> */}
-      {/*    Sending VideoCoin to a non VideoCoin Address could result in permanent */}
-      {/*    loss. */}
-      {/*  </Typography> */}
-      {/*  {isFirstStep && <Button onClick={nextStepHandle}>Next</Button>} */}
-      {/*  {!isFirstStep && ( */}
-      {/*    <Button type="submit" form="withdraw"> */}
-      {/*      Submit */}
-      {/*    </Button> */}
-      {/*  )} */}
-      {/* </div> */}
+      <div className={css.footer}>
+        <Typography type="caption">
+          Only send VideoCoin (VID) to VideoCoin Addresses.
+          <br />
+          Sending VideoCoin to a non VideoCoin Address could result in permanent
+          loss.
+        </Typography>
+        {isFirstStep && (
+          <Button onClick={nextStepHandle} disabled={!values.address}>
+            Next
+          </Button>
+        )}
+        {!isFirstStep && (
+          <Button
+            form="withdraw"
+            type="submit"
+            disabled={!values.amount || !isValid}
+          >
+            Withdraw
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
@@ -80,11 +122,23 @@ const Withdrawal = () => {
 export default withFormik<{}, WithdrawalForm>({
   mapPropsToValues: () => ({
     address: '',
-    amount: 0,
+    amount: '',
   }),
-  handleSubmit: values => {
-    const { openModal } = ModalStore;
+  handleSubmit: async ({ amount, address }) => {
+    const { openModal, closeModal } = ModalStore;
+    const { user, fetchUser } = UserStore;
 
-    openModal(modalType.WITHDRAW_CONFIRM, { ...values });
+    const res = await withdrawStart({ amount, address });
+
+    openModal(modalType.CONFIRM_WITHDRAW_MODAL, {
+      amount,
+      onConfirm: () => {
+        closeModal();
+        openModal(modalType.WITHDRAW_SUCCESS_MODAL);
+        fetchUser();
+      },
+      transferId: res.data.transferId,
+      email: user.email,
+    });
   },
-})(Withdrawal);
+})(observer(Withdrawal));

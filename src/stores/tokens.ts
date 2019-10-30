@@ -21,7 +21,9 @@ const Token = types
   })
   .actions(self => ({
     remove() {
-      getParent(self, 2).deleteToken(self);
+      const parent = getParent(self, 2);
+
+      parent.deleteToken(self);
     },
   }));
 

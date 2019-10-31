@@ -1,5 +1,5 @@
 FROM node:10.15.3-alpine as builder
-RUN apk add build-base git libc6-compat openssh-client
+RUN apk add build-base git libc6-compat openssh-client python
 RUN apk upgrade libcurl
 
 COPY . /ui

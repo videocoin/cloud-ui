@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Option, Typography } from 'ui-kit';
-import { Field, FormikProps, FieldProps } from 'formik';
+import { Form, Field, FormikProps, FieldProps } from 'formik';
 import RadioGroup from 'components/RadioGroup';
 import Input from 'components/Input';
 import Select from 'components/Select';
@@ -21,7 +21,7 @@ const NewLivestream = (props: FormikProps<Props>) => {
   const { profile, output } = values;
 
   return (
-    <form className={css.form} id="streamForm">
+    <Form className={css.form} id="streamForm">
       <div className={css.row}>
         <Typography type="subtitle">General details</Typography>
         <div className={css.name}>
@@ -94,7 +94,7 @@ const NewLivestream = (props: FormikProps<Props>) => {
           )}
         />
       </div>
-    </form>
+    </Form>
   );
 };
 

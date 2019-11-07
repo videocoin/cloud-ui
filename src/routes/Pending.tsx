@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { TopBar, Typography } from 'ui-kit';
+import { Button, TopBar, Typography } from 'ui-kit';
 import { Row, Col } from 'react-flexbox-grid';
 import { Redirect, RouteComponentProps } from '@reach/router';
 import AudienceImg from 'img/audience.svg';
 import UserStore from 'stores/user';
 
 const Pending: FC<RouteComponentProps> = () => {
-  const { isActive } = UserStore;
+  const { isActive, logout } = UserStore;
 
   if (isActive) {
     return <Redirect to="/dashboard/streams" noThrow />;
@@ -16,10 +16,13 @@ const Pending: FC<RouteComponentProps> = () => {
     <div>
       <div className="topBar">
         <TopBar>
-          <div>
+          <div className="mra">
             <Typography type="caption">VideoCoin Network</Typography>
             <Typography type="smallTitle">Waitlist</Typography>
           </div>
+          <Button theme="minimal" onClick={logout}>
+            Sign out
+          </Button>
         </TopBar>
       </div>
       <div className="content">

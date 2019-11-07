@@ -75,12 +75,12 @@ const Privacy = () => {
         please contact us at support@videocoin.io.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Information we collect</Typography>
+        <Typography type="body">Information we collect</Typography>
         This section details the information we may collect about you. We
         explain why, and how, we use it in later sections.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Account information</Typography>
+        <Typography type="body">Account information</Typography>
         If you decide to create an account or inquire about one of our products
         or services, we’ll ask you to provide us with some specific information,
         for example:
@@ -110,7 +110,7 @@ const Privacy = () => {
         </ul>
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Additional information</Typography>
+        <Typography type="body">Additional information</Typography>
         On occasion, we will ask you to voluntarily provide additional
         information, for example:
         <ul>
@@ -125,7 +125,7 @@ const Privacy = () => {
         understand our audience and enhance the relevance of our content.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           Information we obtain through cookies and similar tools
         </Typography>
         We use cookies (and similar technologies) and analytics tools across our
@@ -185,11 +185,11 @@ const Privacy = () => {
         London).
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Purpose of cookies</Typography>
+        <Typography type="body">Purpose of cookies</Typography>
         We group our cookies into the below categories.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Operating our Sites</Typography>
+        <Typography type="body">Operating our Sites</Typography>
         Some cookies are essential for the operation of our Sites. This includes
         cookies for the following purposes:
       </Typography>
@@ -236,7 +236,7 @@ const Privacy = () => {
         presented on a motoring article.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Third party cookies on our Sites</Typography>
+        <Typography type="body">Third party cookies on our Sites</Typography>
         We also use third party cookies on our Sites that fall into the
         categories above (“third party cookies”) for the following reasons:
       </Typography>
@@ -263,7 +263,7 @@ const Privacy = () => {
         </ul>
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Use of pixels in emails</Typography>
+        <Typography type="body">Use of pixels in emails</Typography>
         Our emails often contain a single, campaign-unique “web beacon pixel” to
         tell us whether, and how many times, our emails are opened and verify
         any clicks through to links or advertisements within the email. We use
@@ -286,12 +286,12 @@ const Privacy = () => {
         </ul>
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">How to manage cookies</Typography>
+        <Typography type="body">How to manage cookies</Typography>
         You can also manage your cookies via your browser settings. For more
         information, please visit your browser’s help page.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Lawful basis for processing</Typography>
+        <Typography type="body">Lawful basis for processing</Typography>
         We only process personal information where we have a lawful basis for
         doing so, such as the following:
       </Typography>
@@ -321,7 +321,7 @@ const Privacy = () => {
         customer invoice information to comply with financial regulations.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           How we use your personal information
         </Typography>
         We collect personal information for eight main reasons:
@@ -436,7 +436,7 @@ const Privacy = () => {
         and growth of our audiences.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           How long we retain your personal information
         </Typography>
         We retain the majority of your personal information for as long as your
@@ -470,7 +470,7 @@ const Privacy = () => {
         </ul>
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           How we keep your personal information secure
         </Typography>
         We have appropriate technical and administrative security measures in
@@ -488,7 +488,7 @@ const Privacy = () => {
         respond to your queries.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">Your rights</Typography>
+        <Typography type="body">Your rights</Typography>
         Under data protection laws, you have rights as an individual in relation
         to the personal data we hold about you. These rights include:
       </Typography>
@@ -518,9 +518,7 @@ const Privacy = () => {
         by journalists or for journalistic purposes.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
-          Where this Privacy Policy applies
-        </Typography>
+        <Typography type="body">Where this Privacy Policy applies</Typography>
         Personal information is collected by VideoCoin Development Association
         Ltd., which is considered the “data controller” of your personal
         information under European Union and UK data protection law. Our address

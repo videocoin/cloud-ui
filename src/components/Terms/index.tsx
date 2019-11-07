@@ -58,7 +58,7 @@ const Terms = () => {
         CONTRAVENTION OF SECURITIES DOMESTIC SECURITIES RULES.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">1. Introduction</Typography>
+        <Typography type="body">1. Introduction</Typography>
         1.1. These T&C including any and all Accompanying Documents, constitute
         a legally binding agreement between the Website Owner and any and all
         Users as deﬁned herein in the -Deﬁnitions (Clause 2).
@@ -74,7 +74,7 @@ const Terms = () => {
         Tokens in any form.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">2. Definitions</Typography>
+        <Typography type="body">2. Definitions</Typography>
         The terms defined below in this section will have the meaning assigned
         to them here throughout this entire document unless explicitly mentioned
         otherwise:
@@ -200,7 +200,7 @@ const Terms = () => {
         </ul>
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">3. General Provisions and Notes</Typography>
+        <Typography type="body">3. General Provisions and Notes</Typography>
         3.1. Important Note for Residents of United States of America and
         Singapore and their overseas territories or possessions (‘Restricted
         States’): The citizens, people domiciled in the Restricted States and
@@ -316,7 +316,7 @@ const Terms = () => {
         and resources.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           4. Registration of Accounts for Presale of Tokens and Use of Tokens
         </Typography>
         4.1. In case you fill in the requisite forms and/or complete additional
@@ -360,7 +360,7 @@ const Terms = () => {
         reasonable and/or necessary in a particular situation.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">5. Indemnity</Typography>
+        <Typography type="body">5. Indemnity</Typography>
         5.1. To the extent allowable under Applicable Law, the User shall
         indemnify, defend,and hold the Website Owner and/or its subsidiaries,
         Affiliated Parties, directors, officers, employees, agents, successors,
@@ -387,7 +387,7 @@ const Terms = () => {
         our absolute and direct control.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           6. Exclusion of Warranties and Limitation of Liability Clause
         </Typography>
         6.1. Any and all purchases of Tokens through the Presale or any other
@@ -478,7 +478,7 @@ const Terms = () => {
         Documents will govern you to the maximum permissible limits.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">7. Disclaimers</Typography>
+        <Typography type="body">7. Disclaimers</Typography>
         7.1. Any cryptographic tokens that possess value in public markets, such
         as Bitcoins or Ether, have demonstrated extreme ﬂuctuations in price
         over short periods of time on a regular basis. A Purchaser of Tokens
@@ -677,7 +677,7 @@ const Terms = () => {
         AVAILABLE.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">8. Intellectual Property Rights</Typography>
+        <Typography type="body">8. Intellectual Property Rights</Typography>
         8.1. The Website Owner has valid, unrestricted and exclusive ownership
         of rights to use the patents, trademarks, trademark registrations, trade
         names, copyrights, know-how, technology and other intellectual property
@@ -706,7 +706,7 @@ const Terms = () => {
         respective assistance without any remuneration for the same.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           9. Applicable Law And Dispute Resolution
         </Typography>
         9.1. All questions concerning the construction, validity, enforcement
@@ -812,7 +812,7 @@ const Terms = () => {
         by applicable law.
       </Typography>
       <Typography type="smallBody">
-        <Typography type="bodyAlt">10. Additional Provisions</Typography>
+        <Typography type="body">10. Additional Provisions</Typography>
         <ul>
           <li>
             (a) Complete Agreement: These T&C set forth the entire understanding

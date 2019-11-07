@@ -8,7 +8,7 @@ interface Props {
 
 const Success = ({ closeModal, email }: Props) => (
   <>
-    <Typography type="bodyAlt">Email Sent To {email}</Typography>
+    <Typography type="body">Email Sent To {email}</Typography>
     <Typography>
       Follow the instructions inside to reset your password.
     </Typography>

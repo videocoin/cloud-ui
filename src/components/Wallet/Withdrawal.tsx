@@ -56,7 +56,7 @@ const Withdrawal = ({
     <div className={css.root}>
       <div className={css.body}>
         <Form id="withdraw" className={css.form}>
-          <Typography type="bodyAlt" theme="white">
+          <Typography type="body" theme="white">
             {isFirstStep
               ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to'
               : ' Enter the amount of VideoCoin to withdraw'}

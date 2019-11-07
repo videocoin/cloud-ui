@@ -32,20 +32,20 @@ const NewLivestream = (props: FormikProps<Props>) => {
         <Typography type="subtitle">Select Input</Typography>
         <Field name="input" component={RadioGroup}>
           <RadioBtn value="rtmp" activeClassname={css.activeRadio}>
-            <Typography type="bodyAlt">RTMP</Typography>
+            <Typography type="body">RTMP</Typography>
           </RadioBtn>
           <RadioBtn value="rtsp" disabled>
             <div className={css.radioLabel}>
-              <Typography type="bodyAlt">RTSP</Typography>
-              <Typography type="caption" theme="primary">
+              <Typography type="body">RTSP</Typography>
+              <Typography type="caption" theme="sunkissed">
                 Coming Soon
               </Typography>
             </div>
           </RadioBtn>
           <RadioBtn value="hls" disabled>
             <div className={css.radioLabel}>
-              <Typography type="bodyAlt">HLS</Typography>
-              <Typography type="caption" theme="primary">
+              <Typography type="body">HLS</Typography>
+              <Typography type="caption" theme="sunkissed">
                 Coming Soon
               </Typography>
             </div>
@@ -59,7 +59,7 @@ const NewLivestream = (props: FormikProps<Props>) => {
           render={({ field, form }: FieldProps) => (
             <RadioGroup field={field} form={form}>
               <RadioBtn value="hls" activeClassname={css.activeRadio}>
-                <Typography type="bodyAlt">HLS</Typography>
+                <Typography type="body">HLS</Typography>
               </RadioBtn>
               {output === 'hls' && (
                 <div className={css.innerField}>
@@ -76,16 +76,16 @@ const NewLivestream = (props: FormikProps<Props>) => {
               )}
               <RadioBtn value="rtmp" disabled>
                 <div className={css.radioLabel}>
-                  <Typography type="bodyAlt">RTMP</Typography>
-                  <Typography type="caption" theme="primary">
+                  <Typography type="body">RTMP</Typography>
+                  <Typography type="caption" theme="sunkissed">
                     Coming Soon
                   </Typography>
                 </div>
               </RadioBtn>
               <RadioBtn value="rtsp" disabled>
                 <div className={css.radioLabel}>
-                  <Typography type="bodyAlt">RTSP</Typography>
-                  <Typography type="caption" theme="primary">
+                  <Typography type="body">RTSP</Typography>
+                  <Typography type="caption" theme="sunkissed">
                     Coming Soon
                   </Typography>
                 </div>

@@ -44,11 +44,11 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
       </td>
       <td className={css.nameCell}>
         <Link className={css.link} to={id}>
-          <Typography type="bodyAlt">{streamContractId}</Typography>
+          <Typography type="body">{streamContractId}</Typography>
         </Link>
       </td>
       <td>
-        <Typography type="bodyAlt">{name}</Typography>
+        <Typography type="body">{name}</Typography>
       </td>
     </tr>
   );

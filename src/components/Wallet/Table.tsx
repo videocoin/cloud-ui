@@ -18,9 +18,7 @@ const Row = observer(({ action }: { action: IWalletAction }) => (
   <tr>
     <td>{icon[action.type] && <Icon name={icon[action.type]} />}</td>
     <td>
-      <Typography type="bodyAlt">
-        {capitalize(lowerCase(action.type))}
-      </Typography>
+      <Typography type="body">{capitalize(lowerCase(action.type))}</Typography>
     </td>
     <td className={css.hash}>
       <Typography type="caption">From</Typography>
@@ -29,7 +27,7 @@ const Row = observer(({ action }: { action: IWalletAction }) => (
       </Typography>
     </td>
     <td className={css.value}>
-      <Typography tagName="span" type="bodyAlt" theme="white">
+      <Typography tagName="span" type="body" theme="white">
         {convertVID(action.value)}
       </Typography>
       <Typography className={css.vid} tagName="span" type="caption">

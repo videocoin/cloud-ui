@@ -19,8 +19,8 @@ const RevokeTokenModal = ({
   return (
     <Modal>
       <div className="modalInner">
-        <Typography type="bodyAlt">Revoke API Token?</Typography>
-        <Typography type="smallBody">
+        <Typography type="body">Revoke API Token?</Typography>
+        <Typography type="smallBodyThin">
           Revoking your API token will cause existing applications that use this
           token to be unable to access the VideoCoin Network.
         </Typography>

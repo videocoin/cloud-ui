@@ -16,9 +16,7 @@ const WithDraw = ({ closeModal }: WithdrawProps) => {
   return (
     <Modal header={renderHeader}>
       <div className="modalInner">
-        <Typography type="bodyAlt">
-          Successfully Started Your Withdraw
-        </Typography>
+        <Typography type="body">Successfully Started Your Withdraw</Typography>
         <Typography type="smallBody">
           You&apos;ll receive an email shortly with the transaction id
           <br />

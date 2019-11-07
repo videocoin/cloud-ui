@@ -51,13 +51,13 @@ const Player = ({ src, status, inputStatus }: PlayerProps) => {
       return (
         <div>
           <Icon name="preparing" />
-          <Typography type="bodyAlt">Preparing Stream</Typography>
+          <Typography type="body">Preparing Stream</Typography>
           <Typography type="caption">This may take a few minutes</Typography>
         </div>
       );
     }
 
-    return <Typography type="bodyAlt">Stream Offline</Typography>;
+    return <Typography type="body">Stream Offline</Typography>;
   };
 
   return <div className={css.player}>{render()}</div>;

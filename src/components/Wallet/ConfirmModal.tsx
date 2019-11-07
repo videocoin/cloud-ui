@@ -62,7 +62,7 @@ const ConfirmModal = ({
         </div>
         {error ? (
           <>
-            <Typography type="bodyAlt">Incorrect Confirmation Code</Typography>
+            <Typography type="body">Incorrect Confirmation Code</Typography>
             <Typography type="smallBody">
               Double check the code in the email we sent you for the correct
               confirmation code.
@@ -70,7 +70,7 @@ const ConfirmModal = ({
           </>
         ) : (
           <>
-            <Typography type="bodyAlt">
+            <Typography type="body">
               Confirm your withdraw of {amount} VID
             </Typography>
             <Typography type="smallBody">

@@ -12,7 +12,7 @@ const DepositModal = ({ closeModal }: { closeModal: () => void }) => {
   return (
     <Modal header={renderHeader}>
       <div className="modalInner">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           Warning, VideoCoin Network is still under development.
         </Typography>
         <Typography>

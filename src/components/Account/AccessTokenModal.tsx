@@ -20,8 +20,8 @@ const AccessTokenModal = ({ closeModal, token }: AccessTokenModal) => {
             postfix={() => <ClipboardPostfix text={token} />}
           />
         </div>
-        <Typography type="bodyAlt">Give Your Token A Name</Typography>
-        <Typography type="smallBody">
+        <Typography type="body">Give Your Token A Name</Typography>
+        <Typography type="smallBodyThin">
           Be descriptive so that later you&apos;ll remember what your token was
           used for.
         </Typography>

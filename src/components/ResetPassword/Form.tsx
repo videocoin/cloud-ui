@@ -37,7 +37,7 @@ const ResetForm = withFormik<FormProps, FormValues>({
     <div className={css.field}>
       <Field component={Input} name="email" label="E-mail" />
     </div>
-    <Typography type="bodyAlt">Don&apos;t remember your password?</Typography>
+    <Typography type="body">Don&apos;t remember your password?</Typography>
     <Typography>
       Enter your email address and we&apos;ll send you instruction on how to
       reset it.

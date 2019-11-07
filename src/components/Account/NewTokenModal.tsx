@@ -24,7 +24,7 @@ const NewTokenModal = ({
         <div className="mb30">
           <Input value={name} onChange={handleChange} label="Token Name" />
         </div>
-        <Typography type="bodyAlt">Give Your Token A Name</Typography>
+        <Typography type="body">Give Your Token A Name</Typography>
         <Typography>
           Be descriptive so that later you&apos;ll remember what your token was
           used for.

@@ -9,7 +9,7 @@ const Wallet = () => {
 
   return (
     <div className={css.walletBody}>
-      <Typography type="bodyAlt">Primary Wallet</Typography>
+      <Typography type="body">Primary Wallet</Typography>
       <div className={css.balance}>
         <Typography type="display2" theme="white">
           {balance}
@@ -18,7 +18,7 @@ const Wallet = () => {
           VID
         </Typography>
       </div>
-      <Typography type="bodyAlt" theme="white">
+      <Typography type="body" theme="white">
         Wallet Address
       </Typography>
       <div className={css.address}>

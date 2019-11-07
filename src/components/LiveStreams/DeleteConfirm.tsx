@@ -18,7 +18,7 @@ const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
   return (
     <Modal>
       <div className="modalInner">
-        <Typography type="bodyAlt">
+        <Typography type="body">
           Delete {pluralize('Livestream', checked.size, true)}?
         </Typography>
         <Typography type="smallBody">

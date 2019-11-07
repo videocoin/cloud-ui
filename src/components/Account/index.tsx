@@ -28,7 +28,7 @@ const Account = () => {
 
   const renderToken = (token: IToken) => (
     <div className={css.token}>
-      <Typography type="bodyAlt">{token.name}</Typography>
+      <Typography type="body">{token.name}</Typography>
       <Button theme="minimal-sunkissed" onClick={handleRevoke(token)}>
         Revoke
       </Button>
@@ -56,14 +56,14 @@ const Account = () => {
           <Typography type="title">{name}</Typography>
         </div>
         <div className={css.field}>
-          <Typography type="smallBody">Email</Typography>
-          <Typography type="bodyAlt">{email}</Typography>
+          <Typography type="smallBodyThin">Email</Typography>
+          <Typography type="body">{email}</Typography>
         </div>
       </Section>
       <Section title="Security">
         <div className={css.field}>
-          <Typography type="smallBody">Password</Typography>
-          <Typography type="bodyAlt">**************</Typography>
+          <Typography type="smallBodyThin">Password</Typography>
+          <Typography type="body">**************</Typography>
           <Button theme="minimal-sunkissed" onClick={handleResetPassword}>
             Reset
           </Button>
@@ -83,7 +83,7 @@ const Account = () => {
           <Typography type="smallBody">API Tokens</Typography>
           <div className={css.tokens}>
             {!items.length && (
-              <Typography type="smallBodyAlt">None Yet</Typography>
+              <Typography type="smallBody">None Yet</Typography>
             )}
             {map(renderToken)(items as [])}
           </div>

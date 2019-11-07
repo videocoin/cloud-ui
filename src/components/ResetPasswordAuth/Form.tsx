@@ -11,7 +11,7 @@ interface FormProps {
 const Form = ({ email, closeModal, isLoading, handleReset }: FormProps) => {
   return (
     <>
-      <Typography className="mb10" theme="light" type="bodyAlt">
+      <Typography className="mb10" theme="light" type="body">
         Reset Password?
       </Typography>
       <Typography>

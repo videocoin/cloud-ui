@@ -19,7 +19,7 @@ const Deposit = () => {
     <div className={css.root}>
       <div className={css.body}>
         <div className={css.left}>
-          <Typography type="bodyAlt" theme="white">
+          <Typography type="body" theme="white">
             Send VideoCoin to this address to fund your account
           </Typography>
           <div className={css.address}>

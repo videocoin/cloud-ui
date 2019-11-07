@@ -116,7 +116,7 @@ const Livestream = () => {
                   })}
                 />
                 <div className={css.endpointTitle}>Stream Input</div>
-                <Typography type="smallBodyAlt" theme="primary">
+                <Typography type="smallBody" theme="sunkissed">
                   {INGEST_STATUS[status]}
                 </Typography>
               </div>
@@ -133,7 +133,7 @@ const Livestream = () => {
                     })}
                   />
                   <div className={css.endpointTitle}>Stream Output</div>
-                  <Typography type="smallBodyAlt" theme="primary">
+                  <Typography type="smallBody" theme="sunkissed">
                     {OUTPUT_STATUS[status]}
                   </Typography>
                 </div>

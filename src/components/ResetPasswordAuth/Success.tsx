@@ -7,7 +7,7 @@ interface Props {
 
 const Success = ({ closeModal }: Props) => (
   <>
-    <Typography className="mb10" type="bodyAlt">
+    <Typography className="mb10" type="body">
       Email Sent
     </Typography>
     <Typography>

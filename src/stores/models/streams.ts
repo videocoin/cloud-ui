@@ -48,10 +48,7 @@ export default types
         try {
           const res: AxiosResponse = yield API.getStreams();
 
-          const mappedData = compose(
-            keyBy('id'),
-            get('data.items'),
-          )(res);
+          const mappedData = compose(keyBy('id'), get('data.items'))(res);
 
           applySnapshot(self.streams, mappedData);
           self.state = 'loaded';

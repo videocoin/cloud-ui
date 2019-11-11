@@ -4,11 +4,9 @@ import React, { FC } from 'react';
 import { TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 
-const TermsPage: FC<
-  RouteComponentProps & {
-    isCommon?: boolean;
-  }
-> = ({ isCommon }) => {
+const TermsPage: FC<RouteComponentProps & {
+  isCommon?: boolean;
+}> = ({ isCommon }) => {
   return (
     <div className={isCommon ? 'termsPage container' : ''}>
       <div className="topBar">

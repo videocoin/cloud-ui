@@ -1,10 +1,10 @@
 import { types, flow } from 'mobx-state-tree';
-import { propEq, getOr, get, map } from 'lodash/fp';
+import { propEq, getOr, get, map, lt } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import { IWalletAction, WalletAction } from 'stores/models/wallet';
 import { AxiosResponse } from 'axios';
-import { ACTIONS_OFFSET, PROTOCOL_OFFSET } from 'const';
+import { ACTIONS_OFFSET, MIN_VID, PROTOCOL_OFFSET } from 'const';
 import StreamsStore from 'stores/streams';
 import { convertToVID } from 'helpers/convertBalance';
 import { State } from './types';
@@ -122,6 +122,9 @@ const Store = types
     },
     get balance() {
       return get('user.account.balance')(self);
+    },
+    get hasBalance() {
+      return lt(MIN_VID)(+this.balance);
     },
     get address() {
       return get('user.account.address')(self);

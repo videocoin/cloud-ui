@@ -1,0 +1,21 @@
+.tooltip {
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: $perfect-white;
+  white-space: nowrap;
+  &.type-warning {
+    background-color: $impossibly-pink;
+  }
+  &::after {
+    display: none;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    svg {
+      fill: $perfect-white;
+      margin-right: 10px;
+    }
+  }
+}

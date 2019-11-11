@@ -64,11 +64,11 @@ export const INGEST_STATUS: { [key in IStatus]: string } = {
   STREAM_STATUS_READY: 'Receiving',
   STREAM_STATUS_COMPLETED: '',
   STREAM_STATUS_CANCELLED: '',
-  STREAM_STATUS_FAILED: 'Receiving',
+  STREAM_STATUS_FAILED: 'Stream Failed',
 };
 
 export const PROTOCOL_OFFSET = 10;
 export const ACTIONS_OFFSET = 15;
 export const protocolRequestTimeout = 3000;
-export const MIN_VID = 20;
+export const MIN_VID = 10;
 export const SUPPORT_EMAIL = 'support@videocoin.io';

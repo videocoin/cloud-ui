@@ -1,26 +1,33 @@
-import React, { useEffect } from 'react';
-import { propEq, eq } from 'lodash/fp';
+import React, { useEffect, useRef } from 'react';
+import { get, propEq, eq } from 'lodash/fp';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { Input, Typography } from 'ui-kit';
 import Player from 'components/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
-import { INGEST_STATUS, OUTPUT_STATUS } from 'const';
+import { INGEST_STATUS, MIN_VID, OUTPUT_STATUS } from 'const';
 import StreamStore from 'stores/stream';
 import { toast } from 'react-toastify';
+import UserStore from 'stores/user';
 import css from './index.module.scss';
 import ProtocolTable from './ProtocolTable';
 
 const Livestream = () => {
+  const prevStatus = useRef();
   const { stream, isStreamLoading } = StreamStore;
-
-  const checkStatus = stream && stream.status;
+  const { hasBalance } = UserStore;
+  const currentStatus = get('status')(stream);
 
   useEffect(() => {
-    if (propEq('status', 'STREAM_STATUS_FAILED')(stream)) {
+    if (
+      propEq('status', 'STREAM_STATUS_FAILED')(stream) &&
+      prevStatus.current
+    ) {
       toast.success('Stream Failed To Start.');
     }
-  }, [checkStatus, stream]);
+    prevStatus.current = currentStatus;
+    // eslint-disable-next-line
+  }, [currentStatus]);
 
   if (!stream || isStreamLoading) {
     return <Typography>Loading...</Typography>;
@@ -43,6 +50,16 @@ const Livestream = () => {
   const isStreamCompleted = eq(status, 'STREAM_STATUS_COMPLETED');
 
   const renderInput = () => {
+    if (isStreamFailed) {
+      return null;
+    }
+    if (!hasBalance) {
+      return (
+        <Typography>
+          {`Minimum balance of ${MIN_VID} VID required to start a stream`}
+        </Typography>
+      );
+    }
     if (isStreamOffline) {
       return (
         <Typography>

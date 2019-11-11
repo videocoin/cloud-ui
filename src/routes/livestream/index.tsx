@@ -14,7 +14,7 @@ const streamRequestTimeout = 5000;
 const StreamControl = observer(() => {
   const [isLoading, setLoading] = useState(false);
   const { stream } = StreamStore;
-  const { balance } = UserStore;
+  const { hasBalance } = UserStore;
 
   if (!stream) return null;
   const { status, runStream, completeStream } = stream;
@@ -24,21 +24,20 @@ const StreamControl = observer(() => {
     runStream();
   };
 
-  const isMinBalance = lt(balance)(MIN_VID);
-
   switch (status) {
     case 'STREAM_STATUS_NEW':
+    case 'STREAM_STATUS_FAILED':
     case 'STREAM_STATUS_NONE':
       return (
         <div data-tip data-for="start">
           <Button
             onClick={handleStart}
             loading={isLoading}
-            disabled={isMinBalance}
+            disabled={!hasBalance}
           >
             Start stream
           </Button>
-          {isMinBalance && (
+          {!hasBalance && (
             <WarnTooltip
               text={`Minimum balance of ${MIN_VID} VID required to start a stream`}
               id="start"

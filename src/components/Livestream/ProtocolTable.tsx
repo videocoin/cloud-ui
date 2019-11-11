@@ -5,7 +5,6 @@ import StreamStore from 'stores/stream';
 import { IProtocol } from 'stores/models/stream';
 import { map, uniqueId } from 'lodash/fp';
 import { protocolRequestTimeout } from 'const';
-import convertVID from 'helpers/convertVID';
 import css from './index.module.scss';
 
 const fields: Field[] = [
@@ -53,7 +52,7 @@ const ProtocolTable = () => {
       <td className={css.cell}>{item.hash}</td>
       <td className={css.cell}>{item.from}</td>
       <td className={css.cell}>{item.to}</td>
-      <td className={css.cell}>{convertVID(item.value)}</td>
+      <td className={css.cell}>{item.value}</td>
     </tr>
   );
 

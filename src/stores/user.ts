@@ -1,11 +1,12 @@
 import { types, flow } from 'mobx-state-tree';
-import { propEq, getOr, get } from 'lodash/fp';
+import { propEq, getOr, get, map } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
-import { WalletAction } from 'stores/models/wallet';
+import { IWalletAction, WalletAction } from 'stores/models/wallet';
 import { AxiosResponse } from 'axios';
 import { ACTIONS_OFFSET, PROTOCOL_OFFSET } from 'const';
 import StreamsStore from 'stores/streams';
+import { convertToVID } from 'helpers/convertBalance';
 import { State } from './types';
 import User from './models/user';
 
@@ -30,8 +31,8 @@ const Store = types
         const res: AxiosResponse = yield API.getUser();
 
         self.user = User.create(res.data);
+        self.user.account.balance = convertToVID(self.user.account.balance);
         self.state = 'loaded';
-        // initSocket(self.user.id);
 
         return res;
       } catch (e) {
@@ -54,8 +55,14 @@ const Store = types
       );
 
       self.actionsMeta.hasMore = res.data.actions.length === ACTIONS_OFFSET;
+      const mappedActions = map<IWalletAction, IWalletAction>(
+        ({ value, ...rest }) => ({
+          value: convertToVID(value),
+          ...rest,
+        }),
+      )(res.data.actions);
 
-      self.actions.replace(res.data.actions);
+      self.actions.replace(mappedActions);
     });
 
     return {

@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { Icon, IconName, Pagination, Typography } from 'ui-kit';
 import UserStore from 'stores/user';
 import { IWalletAction } from 'stores/models/wallet';
-import convertVID from 'helpers/convertVID';
 import css from './table.module.scss';
 
 const icon: { [key in string]: IconName } = {
@@ -28,7 +27,7 @@ const Row = observer(({ action }: { action: IWalletAction }) => (
     </td>
     <td className={css.value}>
       <Typography tagName="span" type="body" theme="white">
-        {convertVID(action.value)}
+        {action.value}
       </Typography>
       <Typography className={css.vid} tagName="span" type="caption">
         VID

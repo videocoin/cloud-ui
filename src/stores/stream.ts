@@ -1,10 +1,11 @@
 import { flow, types } from 'mobx-state-tree';
 import { State } from 'stores/types';
 import * as API from 'api/streams';
-import { propEq } from 'lodash/fp';
-import { Protocol, Stream } from 'stores/models/stream';
+import { map, propEq } from 'lodash/fp';
+import { IProtocol, Protocol, Stream } from 'stores/models/stream';
 import { PROTOCOL_OFFSET } from 'const';
 import { AxiosResponse } from 'axios';
+import { convertToVID } from 'helpers/convertBalance';
 
 const Store = types
   .model({
@@ -50,8 +51,12 @@ const Store = types
       });
 
       self.protocolMeta.hasMore = res.data.actions.length === PROTOCOL_OFFSET;
+      const mappedActions = map<IProtocol, IProtocol>(({ value, ...rest }) => ({
+        value: convertToVID(value),
+        ...rest,
+      }))(res.data.actions);
 
-      self.protocol.replace(res.data.actions);
+      self.protocol.replace(mappedActions);
     }),
   }))
   .views(self => ({

@@ -8,7 +8,8 @@ import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
 import { observer } from 'mobx-react-lite';
 import UserStore from 'stores/user';
-import { withdraw, withdrawStart } from 'api/withdraw';
+import { withdrawStart } from 'api/withdraw';
+import { convertToWEI } from 'helpers/convertBalance';
 import css from './Deposit.module.scss';
 
 interface WithdrawalForm {
@@ -128,7 +129,7 @@ export default withFormik<{}, WithdrawalForm>({
     const { openModal, closeModal } = ModalStore;
     const { user, fetchUser } = UserStore;
 
-    const res = await withdrawStart({ amount, address });
+    const res = await withdrawStart({ amount: convertToWEI(amount), address });
 
     openModal(modalType.CONFIRM_WITHDRAW_MODAL, {
       amount,

@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { lt } from 'lodash/fp';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';
@@ -26,7 +25,6 @@ const StreamControl = observer(() => {
 
   switch (status) {
     case 'STREAM_STATUS_NEW':
-    case 'STREAM_STATUS_FAILED':
     case 'STREAM_STATUS_NONE':
       return (
         <div data-tip data-for="start">
@@ -45,6 +43,7 @@ const StreamControl = observer(() => {
           )}
         </div>
       );
+    case 'STREAM_STATUS_FAILED':
     case 'STREAM_STATUS_COMPLETED':
       return null;
     case 'STREAM_STATUS_PREPARING':

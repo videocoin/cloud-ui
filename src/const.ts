@@ -3,6 +3,7 @@ import { IStatus } from 'stores/models/stream';
 
 export const BASE_URL = process.env.REACT_APP_VC_API_URL;
 export const WS_URL = process.env.REACT_APP_VC_WS_URL;
+export const LOG_URL = process.env.REACT_APP_VC_TXLOG_API_URL;
 
 export const defaultServerError =
   "Oops. Something went wrong! Sorry. We've let our engineers know.";
@@ -72,3 +73,4 @@ export const ACTIONS_OFFSET = 15;
 export const protocolRequestTimeout = 3000;
 export const MIN_VID = 10;
 export const SUPPORT_EMAIL = 'support@videocoin.io';
+export const TRANSACTIONS_OFFSET = 20;

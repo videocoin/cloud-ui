@@ -1,10 +1,21 @@
-import { types, flow } from 'mobx-state-tree';
+import { types, flow, applySnapshot } from 'mobx-state-tree';
 import { propEq, getOr, get, map, lt } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
-import { IWalletAction, WalletAction } from 'stores/models/wallet';
+import {
+  IWalletAction,
+  WalletAction,
+  IWalletTransaction,
+  WalletTransaction,
+  WalletMeta,
+} from 'stores/models/wallet';
 import { AxiosResponse } from 'axios';
-import { ACTIONS_OFFSET, MIN_VID, PROTOCOL_OFFSET } from 'const';
+import {
+  ACTIONS_OFFSET,
+  MIN_VID,
+  PROTOCOL_OFFSET,
+  TRANSACTIONS_OFFSET,
+} from 'const';
 import StreamsStore from 'stores/streams';
 import { convertToVID } from 'helpers/convertBalance';
 import { State } from './types';
@@ -15,12 +26,9 @@ const Store = types
     user: types.maybeNull(User),
     actions: types.array(WalletAction),
     state: State,
-    actionsMeta: types.model({
-      offset: types.number,
-      page: types.number,
-      limit: types.number,
-      hasMore: false,
-    }),
+    actionsMeta: WalletMeta,
+    transactions: types.array(WalletTransaction),
+    transactionsMeta: WalletMeta,
   })
   .actions(self => {
     const fetchUser = flow(function* fetchUser(silent = false) {
@@ -41,7 +49,31 @@ const Store = types
         throw e;
       }
     });
-    const fetchActions = flow(function* fetchActions(page) {
+    const fetchTransactions = flow(function* fetchTransactions({
+      page = 1,
+      limit = TRANSACTIONS_OFFSET,
+    }: {
+      limit?: number;
+      page?: number;
+    }) {
+      const offset = (page - 1) * TRANSACTIONS_OFFSET;
+      const res: AxiosResponse = yield API.fetchTransactions(
+        self.user.account.address,
+        { limit, offset },
+      );
+      const { transactions } = res.data;
+      const mappedTransactions = map<IWalletTransaction, IWalletTransaction>(
+        ({ value, ...rest }) => ({
+          value: convertToVID(value),
+          ...rest,
+        }),
+      )(transactions);
+
+      self.transactionsMeta.hasMore =
+        transactions.length === TRANSACTIONS_OFFSET;
+      applySnapshot(self.transactions, mappedTransactions);
+    });
+    const fetchActions = flow(function* fetchActions({ page }) {
       const offset = (page - 1) * ACTIONS_OFFSET;
 
       self.actionsMeta.offset = offset;
@@ -68,9 +100,11 @@ const Store = types
     return {
       fetchUser,
       fetchActions,
+      fetchTransactions,
       afterCreate: flow(function* afterCreate() {
         yield fetchUser();
-        yield fetchActions(1);
+        yield fetchActions({ page: 1 });
+        yield fetchTransactions({ page: 1 });
       }),
       signIn: flow(function* signIn(data) {
         const res: AxiosResponse = yield API.signIn(data);
@@ -135,7 +169,14 @@ const UserStore = Store.create({
   state: 'pending',
   user: null,
   actions: [],
+  transactions: [],
   actionsMeta: {
+    offset: 0,
+    limit: PROTOCOL_OFFSET,
+    hasMore: false,
+    page: 1,
+  },
+  transactionsMeta: {
     offset: 0,
     limit: PROTOCOL_OFFSET,
     hasMore: false,

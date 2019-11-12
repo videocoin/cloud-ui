@@ -1,3 +1,5 @@
+import { AxiosPromise } from 'axios';
+import { LOG_URL } from 'const';
 import api from '.';
 import { RestoreForm, SignInForm, SignUpForm } from '@types';
 
@@ -25,7 +27,17 @@ export function getActions(
   address: string,
   params: { limit: number; offset: number },
 ) {
-  return api(`https://txlog.dev.videocoin.network/api/v1/actions/${address}`, {
+  return api(`${LOG_URL}/actions/${address}`, {
     params,
   });
+}
+
+export function fetchTransactions(
+  address: string,
+  params: {
+    offset: number;
+    limit: number;
+  },
+): AxiosPromise {
+  return api(`${LOG_URL}/address/${address}`, { params });
 }

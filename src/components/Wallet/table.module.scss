@@ -4,12 +4,6 @@
   margin: 64px 96px 0;
 }
 
-.table {
-  width: 100%;
-  td {
-    padding: 8px 0;
-  }
-}
 .from {
   color: #b8a8ce !important;
 }
@@ -25,6 +19,19 @@
   margin-bottom: 24px;
 }
 
+.from {
+  display: flex;
+  align-items: center;
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  svg {
+    flex-shrink: 0;
+    margin-left: 20px;
+  }
+}
+
 .vid {
   margin-left: 5px;
 }
@@ -38,4 +45,18 @@
   position: sticky;
   bottom: 10px;
   text-align: right;
+}
+.protocolCell {
+  width: 120px;
+}
+.ageCell {
+  width: 140px;
+  font-size: 14px;
+}
+.timeCell {
+  width: 220px;
+}
+.valueCell,
+.sourceCell {
+  width: 110px;
 }

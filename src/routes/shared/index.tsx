@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Navigation, TopBar, Typography } from 'ui-kit';
 import Player from 'components/Player';
@@ -13,12 +13,15 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [stream, setStream] = useState(null);
 
-  const fetchStream = async () => {
-    const res = await getShared(accessCode);
+  const fetchStream = useCallback(
+    () => async () => {
+      const res = await getShared(accessCode);
 
-    setStream(res.data);
-    setIsLoaded(true);
-  };
+      setStream(res.data);
+      setIsLoaded(true);
+    },
+    [accessCode],
+  );
 
   useEffect(() => {
     fetchStream();

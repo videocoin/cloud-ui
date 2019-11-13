@@ -114,7 +114,7 @@ const Store = types
         setTokenHeader(token);
 
         yield fetchUser();
-        yield fetchActions(1);
+        yield fetchActions({ page: 1 });
 
         return res;
       }),
@@ -125,7 +125,7 @@ const Store = types
         localStorage.setItem('token', token);
         setTokenHeader(token);
         yield fetchUser();
-        yield fetchActions(1);
+        yield fetchActions({ page: 1 });
 
         return res;
       }),

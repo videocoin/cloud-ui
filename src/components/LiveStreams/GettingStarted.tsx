@@ -26,7 +26,7 @@ const GettingStarted = () => {
           distributed network
         </Typography>
         <ul className={css.steps}>
-          <li className={balance ? css.cross : ''}>
+          <li className={Number(balance) > 0 ? css.cross : ''}>
             <Icon
               color={balance ? '#5f4681' : '#fd9369'}
               name="videoCoinWallet"

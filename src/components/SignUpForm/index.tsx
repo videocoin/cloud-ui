@@ -58,7 +58,7 @@ const SignUp = (props: FormikProps<SignUpForm>) => {
         theme="perfect-white"
         type="submit"
       >
-        Join waitlist
+        Sign Up
       </Button>
     </Form>
   );

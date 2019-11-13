@@ -25,6 +25,7 @@ const StreamControl = observer(() => {
 
   switch (status) {
     case 'STREAM_STATUS_NEW':
+    case 'STREAM_STATUS_PREPARING':
     case 'STREAM_STATUS_NONE':
       return (
         <div data-tip data-for="start">
@@ -46,7 +47,6 @@ const StreamControl = observer(() => {
     case 'STREAM_STATUS_FAILED':
     case 'STREAM_STATUS_COMPLETED':
       return null;
-    case 'STREAM_STATUS_PREPARING':
     case 'STREAM_STATUS_PREPARED':
     case 'STREAM_STATUS_PENDING':
     case 'STREAM_STATUS_PROCESSING':

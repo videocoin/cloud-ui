@@ -1,5 +1,6 @@
 import api from 'api/index';
 import { AxiosPromise } from 'axios';
+import { LOG_URL } from 'const';
 
 export function getStreams() {
   return api(`/streams`);
@@ -40,7 +41,7 @@ export function getProtocol(
   id: string,
   params: { offset: number; limit: number },
 ) {
-  return api(`https://txlog.dev.videocoin.network/api/v1/stream/${id}`, {
+  return api(`${LOG_URL}/stream/${id}`, {
     params,
   });
 }

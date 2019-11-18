@@ -3,8 +3,6 @@ import { toast, ToastId } from 'react-toastify';
 import humps from 'humps';
 import { BASE_URL, defaultServerError } from 'const';
 
-const AUTH_TOKEN = localStorage.getItem('token');
-
 const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
   if (!transformRequest) {
     return [];
@@ -65,10 +63,6 @@ export function setTokenHeader(token: string) {
 
 export function removeTokenHeader() {
   delete api.defaults.headers.common.Authorization;
-}
-
-if (AUTH_TOKEN) {
-  setTokenHeader(AUTH_TOKEN);
 }
 
 export default api;

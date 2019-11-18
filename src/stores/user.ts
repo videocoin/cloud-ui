@@ -102,6 +102,9 @@ const Store = types
       fetchActions,
       fetchTransactions,
       afterCreate: flow(function* afterCreate() {
+        const AUTH_TOKEN = localStorage.getItem('token');
+
+        setTokenHeader(AUTH_TOKEN);
         yield fetchUser();
         yield fetchActions({ page: 1 });
         yield fetchTransactions({ page: 1 });

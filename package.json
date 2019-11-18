@@ -16,6 +16,7 @@
     "date-fns": "^2.7.0",
     "formik": "^1.5.8",
     "humps": "^2.0.1",
+    "javascript-time-ago": "^2.0.4",
     "lodash": "^4.17.15",
     "mobx": "^5.15.0",
     "mobx-react-lite": "^1.5.1",

@@ -37,7 +37,7 @@ const fields: Field[] = [
 const renderRow = (row: IWalletTransaction): ReactNode => (
   <tr key={row.hash} className={css.row}>
     <td className={css.protocolCell}>Protocol</td>
-    <td className={css.ageCell}>{timeAgo(row.timestamp)} Ago</td>
+    <td className={css.ageCell}>{timeAgo(row.timestamp)}</td>
     <td>
       <div className={css.from}>
         <span>{row.hash}</span>

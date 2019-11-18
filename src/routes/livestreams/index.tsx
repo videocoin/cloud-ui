@@ -1,11 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import Streams from 'components/LiveStreams';
 import StreamsHeader from 'components/LiveStreams/Header';
 import { TopBar } from 'ui-kit';
 import BalanceBadge from 'components/BalanceBadge';
+import StreamsStore from 'stores/streams';
 
-const StreamsPage: FC<RouteComponentProps> = props => {
+const StreamsPage: FC<RouteComponentProps> = () => {
+  useEffect(() => {
+    const { load } = StreamsStore;
+
+    load();
+  }, []);
+
   return (
     <>
       <div className="topBar">

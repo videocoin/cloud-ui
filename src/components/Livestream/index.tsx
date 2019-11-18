@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { Input, Typography } from 'ui-kit';
 import Player from 'components/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
-import { INGEST_STATUS, MIN_VID, OUTPUT_STATUS } from 'const';
+import { INGEST_STATUS, MIN_VID, OUTPUT_STATUS, STREAM_STATUS } from 'const';
 import StreamStore from 'stores/stream';
 import { toast } from 'react-toastify';
 import UserStore from 'stores/user';
@@ -20,7 +20,7 @@ const Livestream = () => {
 
   useEffect(() => {
     if (
-      propEq('status', 'STREAM_STATUS_FAILED')(stream) &&
+      propEq('status', STREAM_STATUS.STREAM_STATUS_FAILED)(stream) &&
       prevStatus.current
     ) {
       toast.success('Stream Failed To Start.');
@@ -37,17 +37,17 @@ const Livestream = () => {
 
   const { name, status, inputStatus, outputUrl, rtmpUrl } = stream;
 
-  const isStreamActive = eq(status, 'STREAM_STATUS_READY');
-  const isStreamFailed = eq(status, 'STREAM_STATUS_FAILED');
-  const isStreamPrepared = eq(status, 'STREAM_STATUS_PREPARED');
-  const isStreamReady = eq(status, 'STREAM_STATUS_READY');
+  const isStreamActive = eq(status, STREAM_STATUS.STREAM_STATUS_READY);
+  const isStreamFailed = eq(status, STREAM_STATUS.STREAM_STATUS_FAILED);
+  const isStreamPrepared = eq(status, STREAM_STATUS.STREAM_STATUS_PREPARED);
+  const isStreamReady = eq(status, STREAM_STATUS.STREAM_STATUS_READY);
   const isStreamPending =
-    eq(status, 'STREAM_STATUS_PENDING') ||
-    eq(status, 'STREAM_STATUS_PROCESSING');
+    eq(status, STREAM_STATUS.STREAM_STATUS_PENDING) ||
+    eq(status, STREAM_STATUS.STREAM_STATUS_PROCESSING);
   const isIngestActive = eq(inputStatus, 'INPUT_STATUS_ACTIVE');
-  const isStreamOffline = eq(status, 'STREAM_STATUS_NEW');
-  const isStreamPreparing = eq(status, 'STREAM_STATUS_PREPARING');
-  const isStreamCompleted = eq(status, 'STREAM_STATUS_COMPLETED');
+  const isStreamOffline = eq(status, STREAM_STATUS.STREAM_STATUS_NEW);
+  const isStreamPreparing = eq(status, STREAM_STATUS.STREAM_STATUS_PREPARING);
+  const isStreamCompleted = eq(status, STREAM_STATUS.STREAM_STATUS_COMPLETED);
 
   const renderInput = () => {
     if (isStreamFailed) {

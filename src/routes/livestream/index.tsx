@@ -6,7 +6,7 @@ import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
-import { MIN_VID } from 'const';
+import { MIN_VID, STREAM_STATUS } from 'const';
 import css from './index.module.scss';
 
 const streamRequestTimeout = 5000;
@@ -24,9 +24,9 @@ const StreamControl = observer(() => {
   };
 
   switch (status) {
-    case 'STREAM_STATUS_NEW':
-    case 'STREAM_STATUS_PREPARING':
-    case 'STREAM_STATUS_NONE':
+    case STREAM_STATUS.STREAM_STATUS_NEW:
+    case STREAM_STATUS.STREAM_STATUS_PREPARING:
+    case STREAM_STATUS.STREAM_STATUS_NONE:
       return (
         <div data-tip data-for="start">
           <Button
@@ -44,18 +44,18 @@ const StreamControl = observer(() => {
           )}
         </div>
       );
-    case 'STREAM_STATUS_FAILED':
-    case 'STREAM_STATUS_COMPLETED':
+    case STREAM_STATUS.STREAM_STATUS_FAILED:
+    case STREAM_STATUS.STREAM_STATUS_COMPLETED:
       return null;
-    case 'STREAM_STATUS_PREPARED':
-    case 'STREAM_STATUS_PENDING':
-    case 'STREAM_STATUS_PROCESSING':
+    case STREAM_STATUS.STREAM_STATUS_PREPARED:
+    case STREAM_STATUS.STREAM_STATUS_PENDING:
+    case STREAM_STATUS.STREAM_STATUS_PROCESSING:
       return (
         <Button theme="perfect-white" onClick={completeStream}>
           Cancel stream
         </Button>
       );
-    case 'STREAM_STATUS_READY':
+    case STREAM_STATUS.STREAM_STATUS_READY:
       return (
         <Button theme="violet-sky" onClick={completeStream}>
           Stop stream

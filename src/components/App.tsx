@@ -19,6 +19,8 @@ const Streams = lazy(() => import('routes/livestreams'));
 const NewLivestream = lazy(() => import('routes/new-livestream'));
 const Livestream = lazy(() => import('routes/livestream'));
 const Shared = lazy(() => import('routes/shared'));
+const Workers = lazy(() => import('routes/workers'));
+const Worker = lazy(() => import('routes/worker'));
 
 const App = () => {
   return (
@@ -37,6 +39,8 @@ const App = () => {
               <Livestream path=":streamId" />
               <NewLivestream path="new" />
             </StreamsRoot>
+            <Workers path="workers" />
+            <Worker path="workers/:workerId" />
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />

@@ -1,0 +1,30 @@
+@import 'colors';
+
+.root {
+  text-align: center;
+  width: 64px;
+  margin-right: 60px;
+}
+.status {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #2d1153;
+  margin: 0 auto 7px;
+  &.offline,
+  &.unregistered {
+    background-color: $grey-dawn-b2;
+  }
+  &.working {
+    background-color: #2cc383;
+  }
+  &.idle {
+    background-color: $sunkissed-orange;
+  }
+}
+
+.name {
+  text-transform: capitalize;
+  font-size: 8px;
+  color: rgba(#ab88de, 0.53);
+}

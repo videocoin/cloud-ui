@@ -30,6 +30,7 @@ export const readableProfile: { [key: string]: string } = {
 };
 
 export const balanceRequestTimeout = 30000;
+export const workersRequestTimeout = 30000;
 
 export const statusTable: { [key: string]: string } = {
   IDLE: 'Idle',

@@ -1,0 +1,82 @@
+@import 'colors';
+@import 'vars';
+
+.title {
+  border-bottom: 1px solid $grey-dawn-w2;
+  margin-bottom: 16px;
+  margin-top: 36px;
+}
+.table {
+  margin-top: 18px;
+  position: relative;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+  width: 100%;
+  th {
+    text-align: left;
+    padding: 0 20px 30px;
+    &:first-child {
+      padding-left: 40px;
+    }
+  }
+  tr {
+    td {
+      background: $grey-dawn-w1;
+      & > div {
+        margin-right: 0;
+      }
+      &:not(:first-child) {
+        padding: 12px 20px;
+      }
+      &:first-child {
+        background: none;
+      }
+      &:nth-child(2) {
+        width: 144px;
+        padding: 12px 30px;
+        border-radius: 4px 0 0 4px;
+      }
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+      }
+    }
+    &:nth-child(even) {
+      td {
+        background: $grey-dawn;
+        &:first-child {
+          background: none;
+        }
+      }
+    }
+  }
+}
+.check {
+  position: absolute;
+  left: -44px;
+  transform: translateY(20px);
+}
+
+.name {
+  transform: translateY(8px);
+}
+.th {
+  position: relative;
+  cursor: pointer;
+  color: rgba($lightBody, 0.48) !important;
+  &.active {
+    color: $lightBody !important;
+  }
+}
+.arrow {
+  width: 10px;
+  height: 7px;
+  position: absolute;
+  background-size: contain;
+  left: -15px;
+  top: 7px;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSI3IiB2aWV3Qm94PSIwIDAgMTAgNyI+ICA8cGF0aCBmaWxsPSIjRkQ5MzY5IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00LjQxNjY1MDkxLDAuODE2Njg4NzMxIEM0LjczODgyNTcxLDAuMzY1NjQ0IDUuMjU0ODI0NzYsMC4zNTY3NTQ2NjEgNS41ODMzNDkwOSwwLjgxNjY4ODczMSBMOS40MTY2NTA5MSw2LjE4MzMxMTI3IEM5LjczODgyNTcxLDYuNjM0MzU2IDkuNTQ0MzM1Niw3IDkuMDA0NjAyNDMsNyBMMC45OTUzOTc1NjgsNyBDMC40NDU2NTQ2NzEsNyAwLjI1NDgyNDc1OCw2LjY0MzI0NTM0IDAuNTgzMzQ5MDk0LDYuMTgzMzExMjcgTDQuNDE2NjUwOTEsMC44MTY2ODg3MzEgWiIgdHJhbnNmb3JtPSJyb3RhdGUoMTgwIDUgMy41KSIvPjwvc3ZnPg==);
+  transform: rotate(180deg);
+  &.asc {
+    transform: rotate(0);
+  }
+}

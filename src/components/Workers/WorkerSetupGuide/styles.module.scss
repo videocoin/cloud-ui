@@ -1,0 +1,69 @@
+@import 'colors';
+
+.cards {
+  display: flex;
+  margin: 41px -10px 0;
+  flex-wrap: wrap;
+  &.small {
+    margin-top: -10px;
+    .card {
+      width: 164px;
+      height: 93px;
+    }
+    .cardIcon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 8px;
+    }
+    .cardDesc {
+      font-size: 10px;
+      line-height: 12px;
+      font-weight: 500;
+      color: #8c7aa7;
+    }
+  }
+}
+.card {
+  width: 264px;
+  height: 149px;
+  border-radius: 16px;
+  background: $violet-sky-b3;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+  svg {
+    fill: $violet-sky-w3;
+  }
+}
+
+.img {
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+.title {
+  margin-top: 38px;
+  margin-bottom: 8px;
+}
+.head {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 30px;
+  & > div:first-child {
+    flex: 1;
+    border-bottom: 1px solid $grey-dawn-w2;
+  }
+}

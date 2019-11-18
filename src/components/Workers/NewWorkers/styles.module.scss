@@ -1,0 +1,33 @@
+@import 'colors';
+
+.title {
+  border-bottom: 1px solid $grey-dawn-w2;
+  margin-bottom: 16px;
+  margin-top: 36px;
+}
+
+.row {
+  display: flex;
+  position: relative;
+  height: 0;
+  opacity: 0;
+  align-items: center;
+  border-radius: 4px;
+  background: $grey-dawn-w1;
+  margin-bottom: 4px;
+  padding-left: 40px;
+  padding-right: 64px;
+  &:nth-child(even) {
+    background: $grey-dawn;
+  }
+}
+.check {
+  position: absolute;
+  left: -44px;
+}
+
+.name {
+  display: flex;
+  align-items: baseline;
+  margin-right: auto;
+}

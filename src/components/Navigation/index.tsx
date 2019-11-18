@@ -12,6 +12,7 @@ const Navigation = () => {
       {isActive && (
         <>
           <NavLink icon="pipelines" label="Streams" to="streams" />
+          <NavLink icon="workers" label="Workers" to="workers" />
           <div className={css.bottom}>
             <NavLink icon="videoCoinWallet" label="Wallet" to="wallet" />
             <NavLink icon="account" label="Account" to="account" />

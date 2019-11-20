@@ -40,7 +40,7 @@ const SignUp = (props: FormikProps<SignUpForm>) => {
   );
 
   return (
-    <Form className={css.form}>
+    <Form className={css.form} noValidate>
       <div className={css.fields}>
         {map(renderField, formFields)}
         <Field checked={false} name="agree" component={Checkbox}>

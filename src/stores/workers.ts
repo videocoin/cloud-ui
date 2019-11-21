@@ -71,13 +71,9 @@ const Workers = types
 
           yield Promise.all(promises);
 
-          const t = filter(
-            ({ id }) => indexOf(id)(self.checked) < 0,
-            self.workers,
+          self.workers.replace(
+            filter(({ id }) => indexOf(id)(self.checked) < 0, self.workers),
           );
-
-          self.workers.replace(t);
-          console.log(self.workers);
           self.checked.clear();
         } finally {
           self.isDeleting = false;

@@ -7,4 +7,5 @@ export default types.model('User', {
   name: types.maybe(types.string),
   isActive: false,
   account: types.maybeNull(Account),
+  role: types.string,
 });

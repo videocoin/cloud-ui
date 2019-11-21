@@ -1,15 +1,19 @@
 import React, { FC, useState } from 'react';
+import { eq } from 'lodash/fp';
 import { Button, TopBar, Typography } from 'ui-kit';
 import { RouteComponentProps } from '@reach/router';
 import BecomeWorker from 'components/Workers/BecomeWorker';
 import WorkersDashboard from 'components/Workers/Dashboard';
 import WorkersStore from 'stores/workers';
+import UserStore from 'stores/user';
 
 const WorkersPage: FC<RouteComponentProps> = () => {
   const { createWorker, isCreating } = WorkersStore;
+  const { user } = UserStore;
   const [isGuideVisible, setGuide] = useState(true);
   const showGuide = () => setGuide(true);
   const hideGuide = () => setGuide(false);
+  const isRegular = eq(user.role, 'USER_ROLE_REGULAR');
 
   return (
     <div>
@@ -32,8 +36,14 @@ const WorkersPage: FC<RouteComponentProps> = () => {
         </TopBar>
       </div>
       <div className="content">
-        {/* <BecomeWorker /> */}
-        <WorkersDashboard guideVisible={isGuideVisible} hideGuide={hideGuide} />
+        {isRegular ? (
+          <BecomeWorker />
+        ) : (
+          <WorkersDashboard
+            guideVisible={isGuideVisible}
+            hideGuide={hideGuide}
+          />
+        )}
       </div>
     </div>
   );

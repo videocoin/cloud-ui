@@ -13,19 +13,19 @@ const NewWorkerRow = ({ id, name }: IWorker) => {
   const isChecked = indexOf(id)(checked) >= 0;
 
   return (
-    <Link to={id} className={css.row}>
+    <div className={css.row}>
       <div className={css.check}>
         <Checkbox checked={isChecked} onChange={handleCheck} />
       </div>
       <WorkerStatus status="unregistered" name="Unregistered" />
-      <div className={css.name}>
+      <Link to={id} className={css.name}>
         <Typography type="body">{name}</Typography>&nbsp;
         <Typography type="smallBodyThin">(Setup Required)</Typography>
-      </div>
+      </Link>
       <Typography className={css.id} type="smallBodyThin">
         {id}
       </Typography>
-    </Link>
+    </div>
   );
 };
 

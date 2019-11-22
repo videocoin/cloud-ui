@@ -5,7 +5,7 @@ import { Checkbox, Typography } from 'ui-kit';
 import WorkerStatus from 'components/Workers/WorkerStatus';
 import WorkersStore, { IWorker } from 'stores/workers';
 import formatBytes from 'helpers/formatBytes';
-import { navigate } from '@reach/router';
+import { Link } from '@reach/router';
 import css from './styles.module.scss';
 
 const RegisteredWorkerRow = ({ id, name, status, systemInfo }: IWorker) => {
@@ -13,10 +13,9 @@ const RegisteredWorkerRow = ({ id, name, status, systemInfo }: IWorker) => {
   const handleCheck = () => checkWorker(id);
   const isChecked = indexOf(id)(checked) >= 0;
   const canBeDeleted = !includes(status)(['IDLE', 'BUSY']);
-  const handleClick = () => navigate(`/dashboard/workers/${id}`);
 
   return (
-    <tr className={css.item} onClick={handleClick}>
+    <tr className={css.item}>
       <td className={css.check}>
         {canBeDeleted && (
           <Checkbox checked={isChecked} onChange={handleCheck} />
@@ -26,9 +25,9 @@ const RegisteredWorkerRow = ({ id, name, status, systemInfo }: IWorker) => {
         <WorkerStatus status={status} name={status} />
       </td>
       <td>
-        <div className={css.name}>
+        <Link to={`/dashboard/workers/${id}`} className={css.name}>
           <Typography type="body">{name}</Typography>&nbsp;
-        </div>
+        </Link>
       </td>
       <td>
         <Typography type="body" tagName="span" theme="light">

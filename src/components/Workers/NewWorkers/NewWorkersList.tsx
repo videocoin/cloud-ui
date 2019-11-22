@@ -10,7 +10,9 @@ import NewWorkerRow from './NewWorkerRow';
 import css from './styles.module.scss';
 
 const NewWorkersList = () => {
-  const { isLoading, isLoaded, newWorkers } = WorkersStore;
+  const { isDeleting, isLoading, isLoaded, newWorkers } = WorkersStore;
+
+  const enableAnimate = !isDeleting && isLoaded;
 
   return (
     <div>
@@ -24,9 +26,8 @@ const NewWorkersList = () => {
           {newWorkers.map((worker: any, idx) => (
             <Transition
               key={worker.id}
-              appear
               unmountOnExit
-              mountOnEnter
+              appear
               in
               timeout={650}
               addEndListener={(node, done) => {
@@ -37,27 +38,27 @@ const NewWorkersList = () => {
 
                 tl.add({
                   // eslint-disable-next-line no-nested-ternary
-                  backgroundColor: isLoaded
+                  backgroundColor: enableAnimate
                     ? '#7234c8'
                     : isEven(idx)
                     ? '#281741'
                     : '#1b0d2f',
                   targets: node,
                   height: [0, 64],
-                  duration: isLoaded ? 150 : 0,
+                  duration: enableAnimate ? 150 : 0,
                   scale: 1.05,
                 });
                 tl.add({
                   scale: 1,
                   targets: node,
                   opacity: 1,
-                  duration: isLoaded ? 250 : 0,
+                  duration: enableAnimate ? 250 : 0,
                 });
                 tl.add({
                   delay: 400,
                   targets: node,
                   backgroundColor: !isEven(idx) ? '#1b0d2f' : '#281741',
-                  duration: isLoaded ? 250 : 0,
+                  duration: enableAnimate ? 250 : 0,
                   complete: () => {
                     done();
                     node.style.backgroundColor = '';

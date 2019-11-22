@@ -4,6 +4,7 @@ import { indexOf } from 'lodash/fp';
 import { Checkbox, Typography } from 'ui-kit';
 import WorkerStatus from 'components/Workers/WorkerStatus';
 import WorkersStore, { IWorker } from 'stores/workers';
+import { Link } from '@reach/router';
 import css from './styles.module.scss';
 
 const NewWorkerRow = ({ id, name }: IWorker) => {
@@ -12,7 +13,7 @@ const NewWorkerRow = ({ id, name }: IWorker) => {
   const isChecked = indexOf(id)(checked) >= 0;
 
   return (
-    <div className={css.row}>
+    <Link to={id} className={css.row}>
       <div className={css.check}>
         <Checkbox checked={isChecked} onChange={handleCheck} />
       </div>
@@ -24,7 +25,7 @@ const NewWorkerRow = ({ id, name }: IWorker) => {
       <Typography className={css.id} type="smallBodyThin">
         {id}
       </Typography>
-    </div>
+    </Link>
   );
 };
 

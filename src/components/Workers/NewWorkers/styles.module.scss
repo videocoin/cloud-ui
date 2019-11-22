@@ -17,6 +17,8 @@
   margin-bottom: 4px;
   padding-left: 40px;
   padding-right: 64px;
+  text-decoration: none;
+  color: inherit;
   &:nth-child(even) {
     background: $grey-dawn;
   }

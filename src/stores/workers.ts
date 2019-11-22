@@ -18,11 +18,13 @@ const Worker = types.model('Worker', {
 const Workers = types
   .model('Workers', {
     workers: types.array(Worker),
+    worker: types.maybeNull(Worker),
     isCreating: false,
     isLoading: true,
     isDeleting: false,
     checked: types.array(types.string),
     isLoaded: false,
+    isSaving: false,
   })
   .actions(self => {
     const fetchWorkers = flow(function* fetchWorkers({
@@ -44,6 +46,16 @@ const Workers = types
 
     return {
       fetchWorkers,
+      fetchWorker: flow(function* fetchWorker(id: string) {
+        self.isLoading = true;
+        try {
+          const res = yield API.fetchWorker(id);
+
+          self.worker = res.data;
+        } finally {
+          self.isLoading = false;
+        }
+      }),
       createWorker: flow(function* createWorker() {
         self.isCreating = true;
         try {
@@ -79,6 +91,19 @@ const Workers = types
           self.isDeleting = false;
         }
       }),
+      updateWorker: flow(function* updateWorker(data) {
+        self.isSaving = true;
+        try {
+          const res = yield API.updateWorker(self.worker.id, data);
+
+          self.worker = res.data;
+        } finally {
+          self.isSaving = false;
+        }
+      }),
+      clearWorker() {
+        self.worker = null;
+      },
     };
   })
   .views(self => ({
@@ -92,6 +117,7 @@ const Workers = types
 
 const WorkersStore = Workers.create({
   workers: [],
+  worker: null,
 });
 
 export default WorkersStore;

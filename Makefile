@@ -4,7 +4,7 @@ GOARCH?=amd64
 GCP_PROJECT?=videocoin-network
 
 NAME=ui
-ENV?=snb
+ENV?=dev
 
 VERSION=$$(git describe --abbrev=0)-$$(git rev-parse --abbrev-ref HEAD)-$$(git rev-parse --short HEAD)
 

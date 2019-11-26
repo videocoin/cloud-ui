@@ -10,9 +10,17 @@ import UserStore from 'stores/user';
 const WorkersPage: FC<RouteComponentProps> = () => {
   const { createWorker, isCreating } = WorkersStore;
   const { user } = UserStore;
-  const [isGuideVisible, setGuide] = useState(true);
-  const showGuide = () => setGuide(true);
-  const hideGuide = () => setGuide(false);
+  const [isGuideVisible, setGuide] = useState(
+    !localStorage.getItem('guideHidden'),
+  );
+  const showGuide = () => {
+    setGuide(true);
+    localStorage.removeItem('guideHidden');
+  };
+  const hideGuide = () => {
+    setGuide(false);
+    localStorage.setItem('guideHidden', 'true');
+  };
   const isRegular = eq(user.role, 'USER_ROLE_REGULAR');
 
   return (

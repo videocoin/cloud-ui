@@ -14,6 +14,8 @@ const NewWorkersList = () => {
 
   const enableAnimate = !isDeleting && isLoaded;
 
+  if (!newWorkers.length) return null;
+
   return (
     <div>
       <div className={css.title}>

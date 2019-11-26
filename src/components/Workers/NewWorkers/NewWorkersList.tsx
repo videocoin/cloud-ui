@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { TransitionGroup, Transition } from 'react-transition-group';
 import { Typography } from 'ui-kit';
@@ -10,7 +10,19 @@ import NewWorkerRow from './NewWorkerRow';
 import css from './styles.module.scss';
 
 const NewWorkersList = () => {
-  const { isDeleting, isLoading, isLoaded, newWorkers } = WorkersStore;
+  const {
+    unsetLoaded,
+    isDeleting,
+    isLoading,
+    isLoaded,
+    newWorkers,
+  } = WorkersStore;
+
+  useEffect(() => {
+    return () => {
+      unsetLoaded();
+    };
+  });
 
   const enableAnimate = !isDeleting && isLoaded;
 

@@ -104,6 +104,9 @@ const Workers = types
       clearWorker() {
         self.worker = null;
       },
+      unsetLoaded() {
+        self.isLoaded = false;
+      },
     };
   })
   .views(self => ({

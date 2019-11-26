@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 import { Button, TopBar, Typography } from 'ui-kit';
 import { Row, Col } from 'react-flexbox-grid';
 import { Redirect, RouteComponentProps } from '@reach/router';
-import AudienceImg from 'img/audience.svg';
+import AwaitingImg from 'img/awaiting.svg';
 import UserStore from 'stores/user';
 
 const Pending: FC<RouteComponentProps> = () => {
-  const { isActive, logout } = UserStore;
+  const { isActive, logout, user } = UserStore;
 
   if (isActive) {
     return <Redirect to="/dashboard/streams" noThrow />;
@@ -14,7 +14,7 @@ const Pending: FC<RouteComponentProps> = () => {
 
   return (
     <div>
-      <div className="topBar">
+      <div className="topBar mb45">
         <TopBar>
           <div className="mra">
             <Typography type="caption">VideoCoin Network</Typography>
@@ -27,22 +27,24 @@ const Pending: FC<RouteComponentProps> = () => {
       </div>
       <div className="content">
         <Row>
-          <Col xs={6} xsOffset={3}>
+          <Col xs={8} xsOffset={2}>
             <div className="g-tac">
               <img
                 className="mb45"
-                width={420}
-                height={292}
-                src={AudienceImg}
+                width={380}
+                height={248}
+                src={AwaitingImg}
                 alt=""
               />
               <div className="mb10">
-                <Typography type="display3">You&apos;re On The List</Typography>
+                <Typography type="display3">
+                  Awaiting Email Confirmation
+                </Typography>
               </div>
               <Typography>
-                In order to ensure an optimal experience, we are slowly rolling
-                out access to the VideoCoin Network. You&apos;re on the waitlist
-                and we&apos;ll email you when we expand the network.
+                We’ve sent a verification email to <b>({user.email})</b>.
+                <br />
+                Click the link in the email to confirm your email.
               </Typography>
             </div>
           </Col>

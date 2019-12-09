@@ -8,6 +8,9 @@ export GCLOUD_PROJECT=videocoin-network
 export ENV=snb
 export CLUSTER=snb
 
+export REACT_APP_VC_API_URL=/api/v1/
+export REACT_APP_VC_TXLOG_API_URL=https://txlog.dev.kili.videocoin.network/api/v1
+
 if [ "$CIRCLE_BRANCH" == "sandbox" ]; then
     export GCLOUD_PROJECT=videocoin-network
     export ENV=snb

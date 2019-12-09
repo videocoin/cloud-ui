@@ -48,7 +48,6 @@ function has_helm {
 function get_vars() {
     log_info "Getting variables..."
     readonly KUBE_CONTEXT=`consul kv get -http-addr=${CONSUL_ADDR} config/${ENV}/common/kube_context`
-    readonly TX_LOG_URL=`consul kv get -http-addr=${CONSUL_ADDR} config/${ENV}/services/${CHART_NAME}/vars/txLogUrl`
 }
 
 function deploy() {
@@ -57,7 +56,6 @@ function deploy() {
       --kube-context ${KUBE_CONTEXT} \
       --install \
       --set image.tag=${VERSION} \
-      --set config.txLogUrl="${TX_LOG_URL}" \
       --wait ${CHART_NAME} ${CHART_DIR}
 }
 

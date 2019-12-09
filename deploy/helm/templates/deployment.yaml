@@ -26,12 +26,6 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
-          env:
-            - name: REACT_APP_VC_TXLOG_API_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Chart.Name }}
-                  key: txLogUrl
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:

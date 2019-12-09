@@ -1,7 +1,7 @@
 import { AxiosPromise } from 'axios';
 import { LOG_URL } from 'const';
-import api from '.';
 import { RestoreForm, SignInForm, SignUpForm } from '@types';
+import api from '.';
 
 export function signUp(data: SignUpForm) {
   return api.post('/users', data);
@@ -40,4 +40,12 @@ export function fetchTransactions(
   },
 ): AxiosPromise {
   return api(`${LOG_URL}/address/${address}`, { params });
+}
+
+export function resendConfirm() {
+  return api.post('/user/confirm/start');
+}
+
+export function confirmUser(token: string) {
+  return api.post('/user/confirm', { token });
 }

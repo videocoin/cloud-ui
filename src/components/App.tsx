@@ -21,6 +21,7 @@ const Livestream = lazy(() => import('routes/livestream'));
 const Shared = lazy(() => import('routes/shared'));
 const Workers = lazy(() => import('routes/workers'));
 const Worker = lazy(() => import('routes/worker'));
+const Confirm = lazy(() => import('routes/Confirm'));
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
           <SignUp path="/sign-up" />
+          <Confirm path="/confirm" />
           <Terms isCommon path="/terms" />
           <Privacy isCommon path="/privacy" />
           <Shared path="/streams/shared/:accessCode" />

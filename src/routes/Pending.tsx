@@ -1,12 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, TopBar, Typography } from 'ui-kit';
 import { Row, Col } from 'react-flexbox-grid';
 import { Redirect, RouteComponentProps } from '@reach/router';
 import AwaitingImg from 'img/awaiting.svg';
 import UserStore from 'stores/user';
+import { resendConfirm } from 'api/user';
 
 const Pending: FC<RouteComponentProps> = () => {
   const { isActive, logout, user } = UserStore;
+  const [isLoading, setLoading] = useState(false);
+
+  const handleResend = async () => {
+    setLoading(true);
+    try {
+      await resendConfirm();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (isActive) {
     return <Redirect to="/dashboard/streams" noThrow />;
@@ -46,6 +57,9 @@ const Pending: FC<RouteComponentProps> = () => {
                 <br />
                 Click the link in the email to confirm your email.
               </Typography>
+              <Button onClick={handleResend} theme="minimal-sunkissed">
+                Send again
+              </Button>
             </div>
           </Col>
         </Row>

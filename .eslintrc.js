@@ -47,6 +47,7 @@ module.exports = {
     ],
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/no-angle-bracket-type-assertion': 'off',
+    'import/extensions': 'off'
   },
   settings: {
     'import/resolver': {

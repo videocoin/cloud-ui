@@ -39,7 +39,9 @@ const Store = types
         const res: AxiosResponse = yield API.getUser();
 
         self.user = User.create(res.data);
-        self.user.account.balance = convertToVID(self.user.account.balance);
+        if (self.user.account) {
+          self.user.account.balance = convertToVID(self.user.account.balance);
+        }
         self.state = 'loaded';
 
         return res;
@@ -126,6 +128,7 @@ const Store = types
         const { token } = res.data;
 
         localStorage.setItem('token', token);
+        localStorage.getItem('token');
         setTokenHeader(token);
         yield fetchUser();
         yield fetchActions({ page: 1 });

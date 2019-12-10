@@ -65,6 +65,12 @@ const Withdrawal = ({
               ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to'
               : ' Enter the amount of VideoCoin to withdraw'}
           </Typography>
+          {!isFirstStep && (
+            <Typography>
+              A 1 VID fee will be applied to each withdrawal to pay Ethereum
+              Mainnet GAS fees.
+            </Typography>
+          )}
           {isFirstStep ? (
             <div className={css.address}>
               <Field

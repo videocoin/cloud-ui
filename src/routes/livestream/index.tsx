@@ -18,9 +18,13 @@ const StreamControl = observer(() => {
   if (!stream) return null;
   const { status, runStream, completeStream } = stream;
 
-  const handleStart = () => {
-    setLoading(true);
-    runStream();
+  const handleStart = async () => {
+    try {
+      setLoading(true);
+      await runStream();
+    } finally {
+      setLoading(false);
+    }
   };
 
   switch (status) {

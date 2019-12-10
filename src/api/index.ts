@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosTransformer } from 'axios';
 import { toast, ToastId } from 'react-toastify';
 import humps from 'humps';
+import { getOr } from 'lodash/fp';
 import { BASE_URL, defaultServerError } from 'const';
 
 const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
@@ -43,6 +44,13 @@ function errorHandler(error: AxiosError) {
   //     );
   //   }
   // }
+  if (status === 403) {
+    if (!toast.isActive(toastId)) {
+      toastId = toast.error(
+        getOr(defaultServerError, 'response.data.message', error),
+      );
+    }
+  }
   if (status >= 500) {
     if (!toast.isActive(toastId)) {
       toastId = toast.error(defaultServerError);

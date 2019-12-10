@@ -45,8 +45,11 @@ const Withdrawal = ({
     setFieldValue('amount', balance);
   };
 
-  const validateAmount = () => {
-    if (values.amount <= balance) {
+  const validateAmount = (val: number) => {
+    if (val <= 0) {
+      return 'Can\'t be negative.';
+    }
+    if (val <= balance) {
       return '';
     }
 
@@ -80,6 +83,7 @@ const Withdrawal = ({
                   type="number"
                   label="Amount of VideoCoin"
                   component={Input}
+                  min={0}
                 />
                 <button
                   type="button"

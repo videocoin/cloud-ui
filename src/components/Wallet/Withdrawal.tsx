@@ -59,7 +59,7 @@ const Withdrawal = ({
   return (
     <div className={css.root}>
       <div className={css.body}>
-        <Form id="withdraw" className={css.form}>
+        <Form id="withdraw" className={css.form} noValidate>
           <Typography type="body" theme="white">
             {isFirstStep
               ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to'
@@ -90,6 +90,7 @@ const Withdrawal = ({
                   label="Amount of VideoCoin"
                   component={Input}
                   min={0}
+                  step={0.00000001}
                 />
                 <button
                   type="button"

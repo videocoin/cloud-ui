@@ -13,24 +13,32 @@ import validationSchema from './validate';
 
 interface FormValues {
   name: string;
-  input: string;
-  output: string;
+  inputType: string;
+  outputType: string;
   profile: SelectOption | null;
 }
 
 const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
   mapPropsToValues: () => ({
     name: '',
-    input: '',
-    output: '',
+    inputType: '',
+    outputType: '',
     profile: null,
   }),
   validationSchema,
-  handleSubmit: async ({ name, profile }, { setSubmitting }) => {
+  handleSubmit: async (
+    { name, profile, inputType, outputType },
+    { setSubmitting },
+  ) => {
     const { createStream } = StreamsStore;
 
     try {
-      await createStream({ name, profileId: profile.value });
+      await createStream({
+        name,
+        profileId: profile.value,
+        inputType,
+        outputType,
+      });
       navigate('./');
     } catch (e) {
       setSubmitting(false);

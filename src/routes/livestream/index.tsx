@@ -1,12 +1,14 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
+import { eq } from 'lodash/fp';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
 import { MIN_VID, STREAM_STATUS } from 'const';
+import { startWebRTC } from 'api/streams';
 import css from './index.module.scss';
 
 const streamRequestTimeout = 5000;
@@ -19,12 +21,8 @@ const StreamControl = observer(() => {
   const { status, runStream, completeStream } = stream;
 
   const handleStart = async () => {
-    try {
-      setLoading(true);
-      await runStream();
-    } finally {
-      setLoading(false);
-    }
+    setLoading(true);
+    await runStream();
   };
 
   switch (status) {
@@ -66,15 +64,59 @@ const StreamControl = observer(() => {
         </Button>
       );
     default:
-      return <Button onClick={runStream}>Start stream</Button>;
+      return (
+        <Button onClick={runStream} loading={isLoading}>
+          Start stream
+        </Button>
+      );
   }
 });
 
 const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
 }) => {
-  const { isStreamLoading, fetchStream, clearStream } = StreamStore;
+  const { isStreamLoading, fetchStream, clearStream, stream } = StreamStore;
   const interval = useRef(null);
+
+  const [videoDevice, setVideoDevice] = useState(null);
+  const [audioDevice, setAudioDevice] = useState(null);
+
+  const initWebRTC = useCallback(() => {
+    const pc = new RTCPeerConnection();
+
+    const constraints = {
+      audio: {
+        deviceId: { exact: audioDevice },
+      },
+      video: {
+        deviceId: { exact: videoDevice },
+      },
+    };
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((mediaStream: any) => {
+        mediaStream.getTracks().forEach((track: MediaStreamTrack) => {
+          pc.addTrack(track);
+        });
+
+        pc.createOffer().then(offer => {
+          pc.setLocalDescription(offer);
+          startWebRTC({ streamId, sdp: offer.sdp });
+        });
+      });
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (
+      stream?.isWebRTC &&
+      eq(stream?.status, STREAM_STATUS.STREAM_STATUS_PREPARED)
+    ) {
+      initWebRTC();
+    }
+    // eslint-disable-next-line
+  }, [stream?.status]);
 
   useEffect(() => {
     if (!isStreamLoading) {
@@ -105,7 +147,7 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
         </TopBar>
       </div>
       <div className="content">
-        <Livestream />
+        <Livestream setVideo={setVideoDevice} setAudio={setAudioDevice} />
       </div>
     </>
   );

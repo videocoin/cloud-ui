@@ -12,13 +12,14 @@ const { RadioBtn } = RadioGroup;
 
 interface Props {
   profile: Option;
-  output: string;
+  outputType: string;
+  inputType: string;
 }
 
 const NewLivestream = (props: FormikProps<Props>) => {
   const { profilesSelect } = StreamsStore;
-  const { setFieldValue, setFieldTouched, values } = props;
-  const { profile, output } = values;
+  const { setFieldValue, setFieldTouched, values, handleChange } = props;
+  const { profile, outputType } = values;
 
   return (
     <Form className={css.form} id="streamForm">
@@ -30,9 +31,12 @@ const NewLivestream = (props: FormikProps<Props>) => {
       </div>
       <div className={css.row}>
         <Typography type="subtitle">Select Input</Typography>
-        <Field name="input" component={RadioGroup}>
-          <RadioBtn value="rtmp" activeClassname={css.activeRadio}>
+        <Field name="inputType" component={RadioGroup} onChange={handleChange}>
+          <RadioBtn value="INPUT_TYPE_RTMP" activeClassname={css.activeRadio}>
             <Typography type="body">RTMP</Typography>
+          </RadioBtn>
+          <RadioBtn value="INPUT_TYPE_WEBRTC" activeClassname={css.activeRadio}>
+            <Typography type="body">WebRTC</Typography>
           </RadioBtn>
           <RadioBtn value="rtsp" disabled>
             <div className={css.radioLabel}>
@@ -55,13 +59,16 @@ const NewLivestream = (props: FormikProps<Props>) => {
       <div className={css.row}>
         <Typography type="subtitle">Select Output</Typography>
         <Field
-          name="output"
+          name="outputType"
           render={({ field, form }: FieldProps) => (
             <RadioGroup field={field} form={form}>
-              <RadioBtn value="hls" activeClassname={css.activeRadio}>
+              <RadioBtn
+                value="OUTPUT_TYPE_HLS"
+                activeClassname={css.activeRadio}
+              >
                 <Typography type="body">HLS</Typography>
               </RadioBtn>
-              {output === 'hls' && (
+              {outputType === 'OUTPUT_TYPE_HLS' && (
                 <div className={css.innerField}>
                   <Select
                     isSearchable={false}

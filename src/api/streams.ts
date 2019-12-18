@@ -49,3 +49,7 @@ export function getProtocol(
 export function getProfiles() {
   return api('/profiles');
 }
+
+export function startWebRTC(data: { streamId: string; sdp: any }) {
+  return api.post('/ms/streams/webrtc', data);
+}

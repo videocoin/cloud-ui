@@ -2,6 +2,7 @@ import { flow, Instance, types } from 'mobx-state-tree';
 import * as API from 'api/streams';
 import { Source } from 'stores/types';
 import { AxiosResponse } from 'axios';
+import { propEq } from 'lodash/fp';
 
 const InputStatus = types.enumeration('InputStatus', [
   'INPUT_STATUS_NONE',
@@ -35,6 +36,7 @@ const StreamModel = types.model('Stream', {
   streamContractAddress: types.string,
   streamContractId: types.string,
   rtmpUrl: types.maybeNull(types.string),
+  inputType: types.string,
 });
 
 export const Stream = StreamModel.actions(self => ({
@@ -55,6 +57,10 @@ export const Stream = StreamModel.actions(self => ({
   }),
   updateStatus(status: IStatus) {
     self.status = status;
+  },
+})).views(self => ({
+  get isWebRTC() {
+    return propEq('inputType', 'INPUT_TYPE_WEBRTC')(self);
   },
 }));
 

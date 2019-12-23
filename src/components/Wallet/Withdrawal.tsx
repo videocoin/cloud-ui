@@ -49,8 +49,8 @@ const Withdrawal = ({
     if (val <= 0) {
       return 'Can\'t be negative.';
     }
-    if (val < 1) {
-      return 'Min 1 VID';
+    if (val <= 1) {
+      return 'Insufficient balance to cover fee';
     }
     if (val <= balance) {
       return '';

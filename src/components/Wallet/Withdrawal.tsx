@@ -9,7 +9,7 @@ import { modalType } from 'components/ModalManager';
 import { observer } from 'mobx-react-lite';
 import UserStore from 'stores/user';
 import { withdrawStart } from 'api/withdraw';
-import { convertToWEI } from 'helpers/convertBalance';
+import { convertToWEI, VIDBalance } from 'helpers/convertBalance';
 import css from './Deposit.module.scss';
 
 interface WithdrawalForm {
@@ -42,12 +42,15 @@ const Withdrawal = ({
   };
 
   const addAllBalance = () => {
-    setFieldValue('amount', balance);
+    setFieldValue('amount', VIDBalance(balance - 10 ** 18));
   };
 
   const validateAmount = (val: number) => {
     if (val <= 0) {
       return 'Can\'t be negative.';
+    }
+    if (val < 1) {
+      return 'Min 1 VID';
     }
     if (val <= balance) {
       return '';
@@ -97,7 +100,7 @@ const Withdrawal = ({
                   className={css.balanceBtn}
                   onClick={addAllBalance}
                 >
-                  All ({balance} VID)
+                  All ({VIDBalance(balance - 10 ** 18)} VID)
                 </button>
               </div>
             </div>

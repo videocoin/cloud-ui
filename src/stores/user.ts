@@ -39,9 +39,6 @@ const Store = types
         const res: AxiosResponse = yield API.getUser();
 
         self.user = User.create(res.data);
-        if (self.user.account) {
-          self.user.account.balance = convertToVID(self.user.account.balance);
-        }
         self.state = 'loaded';
 
         return res;

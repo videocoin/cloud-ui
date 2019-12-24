@@ -125,7 +125,6 @@ const Store = types
         const { token } = res.data;
 
         localStorage.setItem('token', token);
-        localStorage.getItem('token');
         setTokenHeader(token);
         yield fetchUser();
         yield fetchActions({ page: 1 });

@@ -65,7 +65,7 @@ const Withdrawal = ({
         <Form id="withdraw" className={css.form} noValidate>
           <Typography type="body" theme="white">
             {isFirstStep
-              ? ' Enter a ERC20 VideoCoin address to withdraw VideoCoin to'
+              ? ' Enter an ERC20 VideoCoin Address to withdraw tokens to'
               : ' Enter the amount of VideoCoin to withdraw'}
           </Typography>
           {!isFirstStep && (
@@ -110,10 +110,13 @@ const Withdrawal = ({
 
       <div className={css.footer}>
         <Typography type="caption">
-          Only send VideoCoin (VID) to VideoCoin Addresses.
+          DO NOT withdraw into an exchange address. Only use an ERC20 address
+          that supports the VID token.
           <br />
-          Sending VideoCoin to a non VideoCoin Address could result in permanent
-          loss.
+          Withdrawing VideoCoin into an unsupported address will result in
+          permanent loss of tokens. If you do not know how to create an ERC20
+          address or if you have any other questions, contact support at
+          support@videocoin.io.
         </Typography>
         {isFirstStep && (
           <Button onClick={nextStepHandle} disabled={!values.address}>

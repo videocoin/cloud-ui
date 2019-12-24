@@ -59,6 +59,8 @@ const Withdrawal = ({
     return 'You can only withdraw a maximum equal to the balance in your wallet.';
   };
 
+  const isRightInput = (+values.amount + 1) * 10 ** 18 < balance;
+
   return (
     <div className={css.root}>
       <div className={css.body}>
@@ -100,7 +102,7 @@ const Withdrawal = ({
                   className={css.balanceBtn}
                   onClick={addAllBalance}
                 >
-                  All ({VIDBalance(balance - 10 ** 18)} VID)
+                  All ({VIDBalance(balance)} VID)
                 </button>
               </div>
             </div>
@@ -127,7 +129,7 @@ const Withdrawal = ({
           <Button
             form="withdraw"
             type="submit"
-            disabled={!values.amount || !isValid}
+            disabled={!values.amount || !isValid || !isRightInput}
           >
             Withdraw
           </Button>

@@ -50,7 +50,7 @@ const Withdrawal = ({
     if (val <= 0) {
       return 'Can\'t be negative.';
     }
-    if (val <= 1) {
+    if (val + 1 > +VIDBalance(balance)) {
       return 'Insufficient balance to cover fee';
     }
     if (val <= balance) {

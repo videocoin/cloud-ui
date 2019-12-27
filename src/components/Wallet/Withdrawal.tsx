@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Button, Typography } from 'ui-kit';
 import web3 from 'web3';
 import { Field, Form, FormikProps, withFormik } from 'formik';
@@ -35,7 +35,8 @@ const Withdrawal = ({
   const { balance } = UserStore;
   const [step, setStep] = useState(1);
   const isFirstStep = eq(1, step);
-  const nextStepHandle = () => {
+  const nextStepHandle = (e: FormEvent) => {
+    e.preventDefault();
     if (isValid) {
       setStep(2);
     }
@@ -64,7 +65,7 @@ const Withdrawal = ({
   return (
     <div className={css.root}>
       <div className={css.body}>
-        <Form id="withdraw" className={css.form} noValidate>
+        <div className={css.form}>
           <Typography type="body" theme="white">
             {isFirstStep
               ? ' Enter an ERC20 VideoCoin Address to withdraw tokens to'
@@ -77,16 +78,21 @@ const Withdrawal = ({
             </Typography>
           )}
           {isFirstStep ? (
-            <div className={css.address}>
+            <form
+              id="next"
+              className={css.address}
+              onSubmit={nextStepHandle}
+              noValidate
+            >
               <Field
                 validate={validateAddress}
                 name="address"
                 label="VideoCoin Address"
                 component={Input}
               />
-            </div>
+            </form>
           ) : (
-            <div className={css.address}>
+            <Form id="withdraw" className={css.address} noValidate>
               <div>
                 <Field
                   validate={validateAmount}
@@ -105,9 +111,9 @@ const Withdrawal = ({
                   All ({VIDBalance(balance)} VID)
                 </button>
               </div>
-            </div>
+            </Form>
           )}
-        </Form>
+        </div>
       </div>
 
       <div className={css.footer}>
@@ -121,7 +127,7 @@ const Withdrawal = ({
           support@videocoin.io.
         </Typography>
         {isFirstStep && (
-          <Button onClick={nextStepHandle} disabled={!values.address}>
+          <Button type="submit" form="next" disabled={!values.address}>
             Next
           </Button>
         )}

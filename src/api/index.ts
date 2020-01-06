@@ -14,9 +14,13 @@ const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
 
   return [transformRequest];
 };
+const AUTH_TOKEN = localStorage.getItem('token');
 
 const api = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    Authorization: `Bearer ${AUTH_TOKEN}`,
+  },
   transformRequest: [
     (data: any) => humps.decamelizeKeys(data),
     ...defaultTransformers(axios.defaults.transformRequest),
@@ -66,7 +70,14 @@ api.interceptors.response.use(
 );
 
 export function setTokenHeader(token: string) {
-  api.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const storedToken = localStorage.getItem('token');
+
+  if (!token && !storedToken) {
+    return;
+  }
+
+  api.defaults.headers.common.Authorization = `Bearer ${token || storedToken}`;
+  api.defaults.headers.Authorization = `Bearer ${token || storedToken}`;
 }
 
 export function removeTokenHeader() {

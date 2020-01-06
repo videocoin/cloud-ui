@@ -37,9 +37,11 @@ const WorkersPage: FC<RouteComponentProps> = () => {
                 Show Guides
               </Button>
             )}
-            <Button loading={isCreating} onClick={createWorker}>
-              New Worker
-            </Button>
+            {!isRegular && (
+              <Button loading={isCreating} onClick={createWorker}>
+                New Worker
+              </Button>
+            )}
           </div>
         </TopBar>
       </div>

@@ -1,0 +1,43 @@
+@import '~styles/mixins';
+
+.root {
+  flex: 1;
+  display: flex;
+  background-image: linear-gradient(180deg, #290f55 0%, #1b0a33 100%);
+  background-attachment: fixed;
+}
+
+.nav {
+  padding: 56px 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.body {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid #4e238e;
+  & > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    & > div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.title {
+  opacity: 0.84;
+  margin-bottom: 12px;
+  margin-top: 48px;
+}
+
+.inner {
+  padding-top: 195px;
+}

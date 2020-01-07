@@ -29,7 +29,7 @@ const Worker = () => {
 
   return (
     <div className={css.root}>
-      <div className={cn(css.status, [css.status])}>
+      <div className={cn(css.status, css[status])}>
         <div />
         <Typography type="body">{status.toLowerCase()}</Typography>
       </div>

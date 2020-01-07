@@ -11,11 +11,15 @@ const Navigation = () => {
     <BaseNavigation>
       {isActive && (
         <>
-          <NavLink icon="pipelines" label="Streams" to="streams" />
-          <NavLink icon="workers" label="Workers" to="workers" />
+          <NavLink icon="pipelines" label="Streams" to="/dashboard/streams" />
+          <NavLink icon="workers" label="Workers" to="/dashboard/workers" />
           <div className={css.bottom}>
-            <NavLink icon="videoCoinWallet" label="Wallet" to="wallet" />
-            <NavLink icon="account" label="Account" to="account" />
+            <NavLink
+              icon="videoCoinWallet"
+              label="Wallet"
+              to="/dashboard/wallet"
+            />
+            <NavLink icon="account" label="Account" to="/dashboard/account" />
           </div>
         </>
       )}

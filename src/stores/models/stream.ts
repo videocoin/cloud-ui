@@ -44,16 +44,22 @@ export const Stream = StreamModel.actions(self => ({
     const res: AxiosResponse = yield API.runStream(self.id);
 
     self.status = res.data.status;
+
+    return res;
   }),
   cancelStream: flow(function* cancelStream() {
     const res: AxiosResponse = yield API.cancelStream(self.id);
 
     self.status = res.data.status;
+
+    return res;
   }),
   completeStream: flow(function* completeStream() {
     const res: AxiosResponse = yield API.completeStream(self.id);
 
     self.status = res.data.status;
+
+    return res;
   }),
   updateStatus(status: IStatus) {
     self.status = status;

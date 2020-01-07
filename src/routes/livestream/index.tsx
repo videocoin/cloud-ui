@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, navigate } from '@reach/router';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import { toast } from 'react-toastify';
 import { eq, getOr } from 'lodash/fp';
@@ -125,19 +125,29 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
     // eslint-disable-next-line
   }, [stream?.status]);
 
-  useEffect(() => {
+  const fetchData = useCallback(async () => {
     if (!isStreamLoading) {
-      fetchStream(streamId);
-      interval.current = setInterval(() => {
+      try {
+        await fetchStream(streamId);
+      } catch (e) {
+        if (e.response.status === 404) {
+          navigate('/not-found');
+        }
+      }
+      interval.current = setInterval(async () => {
         fetchStream(streamId, true);
       }, streamRequestTimeout);
     }
+  }, [fetchStream, isStreamLoading, streamId]);
+
+  useEffect(() => {
+    fetchData();
 
     return () => {
       clearStream();
       clearInterval(interval.current);
     };
-  }, [clearStream, fetchStream, isStreamLoading, streamId]);
+  }, [clearStream, fetchData]);
 
   return (
     <>

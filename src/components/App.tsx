@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ModalManager from 'components/ModalManager';
 import { Spinner } from 'ui-kit';
+import NotFound from 'routes/NotFound';
 
 const Dashboard = lazy(() => import('routes/dashboard'));
 const Pending = lazy(() => import('routes/Pending'));
@@ -42,6 +43,7 @@ const App = () => {
             </StreamsRoot>
             <Workers path="workers" />
             <Worker path="workers/:workerId" />
+            <Redirect default from="*" to="/not-found" noThrow />
           </Dashboard>
           <SignIn path="/sign-in" />
           <SignIn path="/recovery" />
@@ -50,6 +52,7 @@ const App = () => {
           <Terms isCommon path="/terms" />
           <Privacy isCommon path="/privacy" />
           <Shared path="/streams/shared/:accessCode" />
+          <NotFound path="/not-found" default />
         </Router>
       </Suspense>
       <Suspense fallback={<Spinner />}>

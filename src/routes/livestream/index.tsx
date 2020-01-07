@@ -1,13 +1,14 @@
 import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
-import { eq } from 'lodash/fp';
+import { toast } from 'react-toastify';
+import { eq, getOr } from 'lodash/fp';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
-import { MIN_VID, STREAM_STATUS } from 'const';
+import { MIN_VID, STREAM_STATUS, defaultServerError } from 'const';
 import { startWebRTC } from 'api/streams';
 import css from './index.module.scss';
 
@@ -22,7 +23,13 @@ const StreamControl = observer(() => {
 
   const handleStart = async () => {
     setLoading(true);
-    await runStream();
+    try {
+      await runStream();
+    } catch (err) {
+      toast.error(getOr(defaultServerError, 'response.data.message', err));
+      setLoading(false);
+      throw err;
+    }
   };
 
   switch (status) {

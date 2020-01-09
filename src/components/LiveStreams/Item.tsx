@@ -46,7 +46,9 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
         )}
       </td>
       <td className={css.nameCell}>
-        <Typography type="body">{name}</Typography>
+        <Link className={css.link} to={id}>
+          <Typography type="body">{name}</Typography>
+        </Link>
       </td>
       <td className={css.idCell}>
         <Link className={css.link} to={id}>

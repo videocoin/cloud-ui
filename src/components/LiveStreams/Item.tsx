@@ -45,19 +45,19 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
           <Checkbox checked={isChecked} onChange={handleCheck} />
         )}
       </td>
+      <td className={css.nameCell}>
+        <Typography type="body">{name}</Typography>
+      </td>
+      <td className={css.idCell}>
+        <Link className={css.link} to={id}>
+          <Typography type="body">{streamContractId}</Typography>
+        </Link>
+      </td>
       <td className={css.statusCell}>
         <Link to={id} className={css.status}>
           <Icon name={statusIcon[status] || 'offline'} width={24} height={24} />
           <div>{statusTable[status]}</div>
         </Link>
-      </td>
-      <td className={css.nameCell}>
-        <Link className={css.link} to={id}>
-          <Typography type="body">{streamContractId}</Typography>
-        </Link>
-      </td>
-      <td>
-        <Typography type="body">{name}</Typography>
       </td>
     </tr>
   );

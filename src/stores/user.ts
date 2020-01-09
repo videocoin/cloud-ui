@@ -1,4 +1,4 @@
-import { types, flow, applySnapshot } from 'mobx-state-tree';
+import { types, flow, applySnapshot, getSnapshot } from 'mobx-state-tree';
 import { propEq, getOr, get, map, lt } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
@@ -31,12 +31,13 @@ const Store = types
     transactionsMeta: WalletMeta,
   })
   .actions(self => {
+    let initialState = {};
     const fetchUser = flow(function* fetchUser(silent = false) {
       if (!silent) {
         self.state = 'loading';
       }
       try {
-        const res: AxiosResponse = yield API.getUser();
+        const res: AxiosResponse<any> = yield API.getUser();
 
         self.user = User.create(res.data);
         self.state = 'loaded';
@@ -103,6 +104,7 @@ const Store = types
       afterCreate: flow(function* afterCreate() {
         const AUTH_TOKEN = localStorage.getItem('token');
 
+        initialState = getSnapshot(self);
         setTokenHeader(AUTH_TOKEN);
         yield fetchUser();
         yield fetchActions({ page: 1 });
@@ -137,6 +139,7 @@ const Store = types
         self.user = null;
         self.state = 'pending';
         StreamsStore.reset();
+        applySnapshot(self, initialState);
       },
     };
   })

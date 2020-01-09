@@ -10,12 +10,10 @@
     cursor: pointer;
     position: relative;
     &:first-child {
-      text-align: center;
-      padding-left: 70px;
+      padding-left: 90px;
     }
-    &:nth-child(2) {
-      padding-left: 24px;
-      padding-right: 24px;
+    &:last-child {
+      text-align: center;
     }
     svg {
       fill: $sunkissed-orange;

@@ -34,8 +34,11 @@
 .statusCell {
   width: 55px;
   padding: 0 53px;
+  width: 1px;
 }
-
+.idCell {
+  width: 1px;
+}
 .status {
   color: #ab88de;
   font-size: 8px;
@@ -53,6 +56,7 @@
 
 .checkCell {
   width: 68px;
+  max-width: 1px;
 }
 
 .nameCell {

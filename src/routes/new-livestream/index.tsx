@@ -33,13 +33,14 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
     const { createStream } = StreamsStore;
 
     try {
-      await createStream({
+      const res = await createStream({
         name,
         profileId: profile.value,
         inputType,
         outputType,
       });
-      navigate('./');
+
+      navigate(`/dashboard/streams/${res.data.id}`);
     } catch (e) {
       setSubmitting(false);
       throw e;

@@ -12,12 +12,14 @@ import {
   keyBy,
   map,
   orderBy,
+  each,
   propEq,
 } from 'lodash/fp';
 import * as API from 'api/streams';
 import { AxiosResponse } from 'axios';
 import { Stream } from 'stores/models/stream';
 import { Profile } from 'stores/models/profile';
+import { values } from 'mobx';
 import { OrderType, State, TStream } from '../types';
 
 export default types
@@ -48,9 +50,10 @@ export default types
         try {
           const res: AxiosResponse = yield API.getStreams();
 
-          const mappedData = compose(keyBy('id'), get('data.items'))(res);
+          each(i => {
+            self.streams.put(i);
+          })(res.data.items);
 
-          applySnapshot(self.streams, mappedData);
           self.state = 'loaded';
 
           return res;
@@ -116,10 +119,11 @@ export default types
       return propEq('state', 'loaded')(self);
     },
     get items() {
-      return compose(
-        orderBy(self.sort.field, self.sort.order as OrderType),
-        fromPairs,
-      )([...self.streams]);
+      return values(self.streams);
+      // return compose(
+      //   orderBy(self.sort.field, self.sort.order as OrderType),
+      //   fromPairs,
+      // )([...self.streams]);
     },
     get profilesSelect() {
       return map(({ id: value, name: label }) => ({ label, value }))(

@@ -96,20 +96,23 @@ const Store = types
 
       self.actions.replace(mappedActions);
     });
+    const load = flow(function* load() {
+      yield fetchUser();
+      yield fetchActions({ page: 1 });
+      yield fetchTransactions({ page: 1 });
+    });
 
     return {
       fetchUser,
       fetchActions,
       fetchTransactions,
-      afterCreate: flow(function* afterCreate() {
+      afterCreate() {
+        initialState = getSnapshot(self);
         const AUTH_TOKEN = localStorage.getItem('token');
 
-        initialState = getSnapshot(self);
         setTokenHeader(AUTH_TOKEN);
-        yield fetchUser();
-        yield fetchActions({ page: 1 });
-        yield fetchTransactions({ page: 1 });
-      }),
+        load();
+      },
       signIn: flow(function* signIn(data) {
         const res: AxiosResponse = yield API.signIn(data);
         const { token } = res.data;
@@ -117,8 +120,7 @@ const Store = types
         localStorage.setItem('token', token);
         setTokenHeader(token);
 
-        yield fetchUser();
-        yield fetchActions({ page: 1 });
+        yield load();
 
         return res;
       }),

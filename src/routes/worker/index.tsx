@@ -1,9 +1,9 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import { getOr } from 'lodash/fp';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, navigate } from '@reach/router';
 import Worker from 'components/Worker';
 import WorkersStore from 'stores/workers';
 
@@ -11,14 +11,23 @@ const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
   workerId,
 }) => {
   const { clearWorker, fetchWorker, isSaving, worker } = WorkersStore;
+  const load = useCallback(async () => {
+    try {
+      await fetchWorker(workerId);
+    } catch (e) {
+      if (e.response.status === 404) {
+        navigate('/not-found');
+      }
+    }
+  }, [fetchWorker, workerId]);
 
   useEffect(() => {
-    fetchWorker(workerId);
+    load();
 
     return () => {
       clearWorker();
     };
-  }, [clearWorker, fetchWorker, workerId]);
+  }, [clearWorker, fetchWorker, load, workerId]);
 
   return (
     <div>

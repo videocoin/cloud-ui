@@ -52,6 +52,8 @@ const Workers = types
           const res = yield API.fetchWorker(id);
 
           self.worker = res.data;
+
+          return res;
         } finally {
           self.isLoading = false;
         }

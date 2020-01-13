@@ -197,26 +197,38 @@ const Livestream = ({
           <Typography type="subtitle" className={css.head}>
             {isStreamOffline || isStreamPreparing ? 'Get started' : 'Endpoints'}
           </Typography>
-          {isWebRTC && (
-            <div className={css.endpoints}>
-              <Select
-                placeholder="Select Video Input"
-                value={selectedVideo}
-                onChange={handleChangeVideo}
-                options={videoDevices}
-                isDisabled={!isStreamOffline}
-              />
-              <Select
-                placeholder="Select Audio Input"
-                value={selectedAudio}
-                onChange={handleChangeAudio}
-                options={audioDevices}
-                isDisabled={!isStreamOffline}
-              />
-            </div>
-          )}
-          {!isWebRTC && (
-            <div className={css.endpoints}>
+
+          <div className={css.endpoints}>
+            {isWebRTC ? (
+              <div className={css.rtcInputs}>
+                <div className={css.endpointStatus}>
+                  <div
+                    className={cn(css.mark, {
+                      [css.active]: isIngestActive,
+                      [css.pending]: isStreamPrepared,
+                    })}
+                  />
+                  <div className={css.endpointTitle}>Stream Input</div>
+                  <Typography type="smallBody" theme="sunkissed">
+                    {INGEST_STATUS[status]}
+                  </Typography>
+                </div>
+                <Select
+                  placeholder="Select Video Input"
+                  value={selectedVideo}
+                  onChange={handleChangeVideo}
+                  options={videoDevices}
+                  isDisabled={!isStreamOffline}
+                />
+                <Select
+                  placeholder="Select Audio Input"
+                  value={selectedAudio}
+                  onChange={handleChangeAudio}
+                  options={audioDevices}
+                  isDisabled={!isStreamOffline}
+                />
+              </div>
+            ) : (
               <div>
                 <div className={css.endpointStatus}>
                   <div
@@ -232,26 +244,26 @@ const Livestream = ({
                 </div>
                 {renderInput()}
               </div>
-              {!isStreamOffline && !isStreamPreparing && (
-                <div>
-                  <div className={css.endpointStatus}>
-                    <div
-                      className={cn(css.mark, {
-                        [css.failed]: isStreamFailed,
-                        [css.active]: isStreamActive,
-                        [css.pending]: isStreamPending,
-                      })}
-                    />
-                    <div className={css.endpointTitle}>Stream Output</div>
-                    <Typography type="smallBody" theme="sunkissed">
-                      {OUTPUT_STATUS[status]}
-                    </Typography>
-                  </div>
-                  {renderOutput()}
+            )}
+            {!isStreamOffline && !isStreamPreparing && (
+              <div>
+                <div className={css.endpointStatus}>
+                  <div
+                    className={cn(css.mark, {
+                      [css.failed]: isStreamFailed,
+                      [css.active]: isStreamActive,
+                      [css.pending]: isStreamPending,
+                    })}
+                  />
+                  <div className={css.endpointTitle}>Stream Output</div>
+                  <Typography type="smallBody" theme="sunkissed">
+                    {OUTPUT_STATUS[status]}
+                  </Typography>
                 </div>
-              )}
-            </div>
-          )}
+                {renderOutput()}
+              </div>
+            )}
+          </div>
         </section>
       )}
       <section className={css.section}>

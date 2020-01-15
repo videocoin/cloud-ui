@@ -109,7 +109,14 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
 
         pc.createOffer().then(offer => {
           pc.setLocalDescription(offer);
-          startWebRTC({ streamId, sdp: offer.sdp });
+          startWebRTC({ streamId, sdp: offer.sdp }).then((resp: any) => {
+            const answer = new RTCSessionDescription({
+              type: 'answer',
+              sdp: resp.data.sdp,
+            });
+
+            pc.setRemoteDescription(answer);
+          });
         });
       });
     // eslint-disable-next-line

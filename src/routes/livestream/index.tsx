@@ -113,7 +113,7 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
         });
       });
     // eslint-disable-next-line
-  }, []);
+  }, [audioDevice, videoDevice]);
 
   useEffect(() => {
     if (

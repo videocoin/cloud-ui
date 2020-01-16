@@ -1,0 +1,35 @@
+@import 'colors';
+
+.btns {
+  display: flex;
+  & > div:not(:last-child) {
+    margin-right: 35px;
+  }
+}
+.confirm {
+  min-width: 250px;
+  max-width: 425px;
+}
+
+.header {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: $grey-dawn-w2;
+}
+
+.body {
+  font-size: 14px;
+  &:not(:last-child) {
+    margin-bottom: 36px;
+  }
+  p {
+    color: rgba($grey-dawn-w2, 0.5);
+    font-size: 16px;
+    line-height: 20px;
+  }
+}

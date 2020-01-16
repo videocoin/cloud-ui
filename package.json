@@ -16,6 +16,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.9.0",
     "formik": "^1.5.8",
+    "history": "^4.10.1",
     "humps": "^2.0.1",
     "javascript-time-ago": "^2.0.6",
     "lodash": "^4.17.15",

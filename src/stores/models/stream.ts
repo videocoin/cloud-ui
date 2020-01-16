@@ -3,6 +3,7 @@ import * as API from 'api/streams';
 import { Source } from 'stores/types';
 import { AxiosResponse } from 'axios';
 import { propEq } from 'lodash/fp';
+import { STREAM_STATUS } from 'const';
 
 const InputStatus = types.enumeration('InputStatus', [
   'INPUT_STATUS_NONE',
@@ -67,6 +68,9 @@ export const Stream = StreamModel.actions(self => ({
 })).views(self => ({
   get isWebRTC() {
     return propEq('inputType', 'INPUT_TYPE_WEBRTC')(self);
+  },
+  get isProcessing() {
+    return propEq('status', STREAM_STATUS.STREAM_STATUS_PROCESSING)(self);
   },
 }));
 

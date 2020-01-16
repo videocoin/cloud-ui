@@ -164,7 +164,9 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
         </TopBar>
       </div>
       <div className="content">
-        <Livestream setVideo={setVideoDevice} setAudio={setAudioDevice} />
+        {stream && (
+          <Livestream setVideo={setVideoDevice} setAudio={setAudioDevice} />
+        )}
       </div>
     </>
   );

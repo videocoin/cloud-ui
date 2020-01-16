@@ -9,6 +9,9 @@ import { INGEST_STATUS, MIN_VID, OUTPUT_STATUS, STREAM_STATUS } from 'const';
 import StreamStore from 'stores/stream';
 import { toast } from 'react-toastify';
 import UserStore from 'stores/user';
+import { history } from 'index';
+import { modalType } from 'components/ModalManager';
+import ModalStore from 'stores/modal';
 import css from './index.module.scss';
 import ProtocolTable from './ProtocolTable';
 
@@ -21,9 +24,14 @@ const Livestream = ({
 }) => {
   const [videoDevices, setVideoDevices] = useState([]);
   const [audioDevices, setAudioDevices] = useState([]);
+  // const [src, setSrc] = useState();
   const [selectedVideo, setVideo] = useState<Option>(null);
   const [selectedAudio, setAudio] = useState<Option>(null);
   const prevStatus = useRef();
+  const localStream = useRef<MediaStream>();
+  const unblock = useRef<any>();
+  const videoNode = useRef<HTMLVideoElement>();
+  const { openModal } = ModalStore;
   const { stream, isStreamLoading } = StreamStore;
   const { hasBalance } = UserStore;
   const currentStatus = get('status')(stream);
@@ -63,21 +71,57 @@ const Livestream = ({
     [onSetAudio, onSetVideo],
   );
 
-  const initWebRTC = useCallback(
-    node => {
-      navigator.mediaDevices
-        .getUserMedia({ audio: true, video: { width: 1280, height: 720 } })
-        .then(localStream => {
-          navigator.mediaDevices.enumerateDevices().then(gotDevices);
-          if (!node) return;
-          node.srcObject = localStream;
-          node.onloadedmetadata = () => {
-            node.play();
+  const initWebRTC = useCallback(() => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: { width: 1280, height: 720 } })
+      .then(mediaStream => {
+        localStream.current = mediaStream;
+        navigator.mediaDevices.enumerateDevices().then(gotDevices);
+        if (videoNode.current) {
+          videoNode.current.srcObject = mediaStream;
+          videoNode.current.onloadedmetadata = () => {
+            videoNode.current.play();
           };
-        });
-    },
-    [gotDevices],
-  );
+        }
+      });
+  }, [gotDevices]);
+
+  const showAlertOnUnload = (e: any) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+  const handleLeave = useCallback(() => {
+    openModal(modalType.CONFIRM_MODAL, {
+      confirmText: 'Yes',
+      title: 'Stop stream?',
+      onConfirm: () => {
+        if (localStream.current) {
+          localStream.current.getTracks().forEach(track => track.stop());
+        }
+        stream.completeStream();
+        setTimeout(() => {
+          unblock.current();
+        }, 100);
+      },
+    });
+  }, [openModal, stream]);
+
+  useEffect(() => {
+    if (stream.isWebRTC) {
+      initWebRTC();
+    }
+    if (stream.isWebRTC && stream.isProcessing) {
+      unblock.current = history.block(() => {
+        handleLeave();
+      });
+      window.addEventListener('beforeunload', showAlertOnUnload);
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', showAlertOnUnload);
+    };
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (
@@ -182,7 +226,7 @@ const Livestream = ({
       <div className={css.top}>
         <div className={css.player}>
           {isWebRTC ? (
-            <video muted ref={initWebRTC} />
+            <video muted ref={videoNode} />
           ) : (
             <Player src={outputUrl} status={status} inputStatus={inputStatus} />
           )}

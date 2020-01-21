@@ -11,7 +11,7 @@ interface Props {
 
 const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [stream, setStream] = useState(null);
+  const [setStream] = useState(null);
 
   const fetchStream = useCallback(
     () => async () => {
@@ -20,7 +20,7 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
       setStream(res.data);
       setIsLoaded(true);
     },
-    [accessCode],
+    [accessCode, setStream],
   );
 
   useEffect(() => {
@@ -46,15 +46,7 @@ const Pending: FC<RouteComponentProps & Props> = ({ accessCode }) => {
               </TopBar>
             </div>
             <div className="content">
-              {isLoaded ? (
-                <Player
-                  src={stream.transcodeOutputUrl}
-                  status={stream.status}
-                  inputStatus={stream.inputStatus}
-                />
-              ) : (
-                <Typography>Loading ...</Typography>
-              )}
+              {isLoaded ? <Player /> : <Typography>Loading ...</Typography>}
             </div>
           </div>
         </div>

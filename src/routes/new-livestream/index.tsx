@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps } from '@reach/router';
-import { history } from 'index';
 import withAuth from 'HOCs/withAuth';
-import { withFormik } from 'formik';
+import { Formik } from 'formik';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import NewLivestream from 'components/NewLivestream';
 import StreamsStore from 'stores/streams';
 import UserStore from 'stores/user';
+import { history } from 'index';
 import { SelectOption } from '@types';
 import css from './index.module.scss';
 import validationSchema from './validate';
@@ -19,36 +18,14 @@ interface FormValues {
   profile: SelectOption | null;
 }
 
-const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
-  mapPropsToValues: () => ({
-    name: '',
-    inputType: '',
-    outputType: '',
-    profile: null,
-  }),
-  validationSchema,
-  handleSubmit: async (
-    { name, profile, inputType, outputType },
-    { setSubmitting },
-  ) => {
-    const { createStream } = StreamsStore;
+const initialValues: FormValues = {
+  name: '',
+  inputType: '',
+  outputType: '',
+  profile: null,
+};
 
-    try {
-      const res = await createStream({
-        name,
-        profileId: profile.value,
-        inputType,
-        outputType,
-      });
-
-      history.navigate(`/dashboard/streams/${res.data.id}`);
-    } catch (e) {
-      setSubmitting(false);
-      throw e;
-    }
-  },
-})(props => {
-  const { isValid, isSubmitting } = props;
+const NewLivestreamPage = () => {
   const { balance } = UserStore;
   const { fetchProfiles } = StreamsStore;
 
@@ -66,37 +43,64 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
     return null;
   }
 
+  const onSubmit = async ({
+    name,
+    profile,
+    inputType,
+    outputType,
+  }: FormValues) => {
+    const { createStream } = StreamsStore;
+    const data = {
+      name,
+      profileId: profile.value,
+      inputType,
+      outputType,
+    };
+    const res = await createStream(data);
+
+    history.navigate(`/dashboard/streams/${res.data.id}`);
+  };
+
   return (
-    <>
-      <div className="topBar">
-        <TopBar>
-          <BackLink />
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">New Stream</Typography>
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      validateOnMount
+    >
+      {({ isValid, isSubmitting }) => (
+        <>
+          <div className="topBar">
+            <TopBar>
+              <BackLink />
+              <div>
+                <Typography type="caption">VideoCoin Network</Typography>
+                <Typography type="smallTitle">New Stream</Typography>
+              </div>
+              <div className={css.btns}>
+                {!isValid && (
+                  <Typography type="caption">
+                    Finish selections to continue
+                  </Typography>
+                )}
+                <Button
+                  type="submit"
+                  form="streamForm"
+                  loading={isSubmitting}
+                  disabled={!isValid}
+                >
+                  Create stream
+                </Button>
+              </div>
+            </TopBar>
           </div>
-          <div className={css.btns}>
-            {!isValid && (
-              <Typography type="caption">
-                Finish selections to continue
-              </Typography>
-            )}
-            <Button
-              type="submit"
-              form="streamForm"
-              loading={isSubmitting}
-              disabled={!isValid}
-            >
-              Create stream
-            </Button>
+          <div className="content">
+            <NewLivestream />
           </div>
-        </TopBar>
-      </div>
-      <div className="content">
-        <NewLivestream {...props} />
-      </div>
-    </>
+        </>
+      )}
+    </Formik>
   );
-});
+};
 
 export default withAuth()(NewLivestreamPage);

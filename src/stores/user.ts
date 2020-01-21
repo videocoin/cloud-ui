@@ -15,17 +15,19 @@ import {
   MIN_VID,
   PROTOCOL_OFFSET,
   TRANSACTIONS_OFFSET,
+  AUTH_KEY,
+  STATE,
 } from 'const';
 import StreamsStore from 'stores/streams';
 import { convertToVID } from 'helpers/convertBalance';
-import { State } from './types';
+import { StateModel } from './types';
 import User from './models/user';
 
 const Store = types
   .model('UserStore', {
     user: types.maybeNull(User),
     actions: types.array(WalletAction),
-    state: State,
+    state: StateModel,
     actionsMeta: WalletMeta,
     transactions: types.array(WalletTransaction),
     transactionsMeta: WalletMeta,
@@ -34,18 +36,18 @@ const Store = types
     let initialState = {};
     const fetchUser = flow(function* fetchUser(silent = false) {
       if (!silent) {
-        self.state = 'loading';
+        self.state = STATE.loading;
       }
       try {
         const res: AxiosResponse<any> = yield API.getUser();
 
         self.user = User.create(res.data);
-        self.state = 'loaded';
+        self.state = STATE.loaded;
 
         return res;
       } catch (e) {
-        self.state = 'error';
-        localStorage.removeItem('token');
+        self.state = STATE.error;
+        localStorage.removeItem(AUTH_KEY);
         throw e;
       }
     });
@@ -108,7 +110,7 @@ const Store = types
       fetchTransactions,
       afterCreate() {
         initialState = getSnapshot(self);
-        const AUTH_TOKEN = localStorage.getItem('token');
+        const AUTH_TOKEN = localStorage.getItem(AUTH_KEY);
 
         setTokenHeader(AUTH_TOKEN);
         load();
@@ -117,7 +119,7 @@ const Store = types
         const res: AxiosResponse = yield API.signIn(data);
         const { token } = res.data;
 
-        localStorage.setItem('token', token);
+        localStorage.setItem(AUTH_KEY, token);
         setTokenHeader(token);
 
         yield load();
@@ -128,7 +130,7 @@ const Store = types
         const res: AxiosResponse = yield API.signUp(data);
         const { token } = res.data;
 
-        localStorage.setItem('token', token);
+        localStorage.setItem(AUTH_KEY, token);
         setTokenHeader(token);
         yield fetchUser();
         yield fetchActions({ page: 1 });
@@ -136,10 +138,10 @@ const Store = types
         return res;
       }),
       logout() {
-        localStorage.removeItem('token');
+        localStorage.removeItem(AUTH_KEY);
         removeTokenHeader();
         self.user = null;
-        self.state = 'pending';
+        self.state = STATE.pending;
         StreamsStore.reset();
         applySnapshot(self, initialState);
       },
@@ -153,10 +155,10 @@ const Store = types
       return getOr(false, 'user.isActive', self);
     },
     get isLoading() {
-      return propEq('state', 'loading')(self);
+      return propEq('state', STATE.loading)(self);
     },
     get isPending() {
-      return propEq('state', 'pending')(self);
+      return propEq('state', STATE.pending)(self);
     },
     get account() {
       return get('user.account')(self);
@@ -173,7 +175,7 @@ const Store = types
   }));
 
 const UserStore = Store.create({
-  state: 'pending',
+  state: STATE.pending,
   user: null,
   actions: [],
   transactions: [],

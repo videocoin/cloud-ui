@@ -59,8 +59,8 @@ const Pending: FC<RouteComponentProps> = () => {
               </Typography>
               <Button
                 onClick={handleResend}
-                theme="minimal-sunkissed"
                 loading={isLoading}
+                theme="minimal-sunkissed"
               >
                 Send again
               </Button>

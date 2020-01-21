@@ -5,7 +5,7 @@ import Account from './models/account';
 import { Stream } from './models/stream';
 import { Profile } from './models/profile';
 
-export const State = types.enumeration('State', [
+export const StateModel = types.enumeration('State', [
   'loading',
   'loaded',
   'pending',
@@ -35,7 +35,6 @@ export const Type = types.enumeration('Type', [
   'REFUND_REVOKED',
 ]);
 
-export type TState = Instance<typeof State>;
 export type TStream = Instance<typeof Stream>;
 export type OrderType = 'asc' | 'desc';
 export type TUser = Instance<typeof User>;

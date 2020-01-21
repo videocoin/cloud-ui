@@ -34,17 +34,19 @@ const ProtocolTable = () => {
   const { fetchProtocol, protocolMeta, stream, protocol } = StreamStore;
   const { page, hasMore } = protocolMeta;
   const interval = useRef(null);
+  const contractId = stream?.streamContractId;
 
+  // console.log(stream);
   useEffect(() => {
-    fetchProtocol(stream.streamContractId, page);
+    fetchProtocol(contractId, page);
     interval.current = setInterval(() => {
-      fetchProtocol(stream.streamContractId, page);
+      fetchProtocol(contractId, page);
     }, protocolRequestTimeout);
 
     return () => {
       clearInterval(interval.current);
     };
-  }, [fetchProtocol, page, stream.streamContractId]);
+  }, [contractId, fetchProtocol, page]);
 
   const renderRow = (item: IProtocol) => (
     <tr key={uniqueId('protocol_')}>
@@ -64,7 +66,7 @@ const ProtocolTable = () => {
     ))(fields);
 
   const handlePageChange = (val: number) => {
-    fetchProtocol(stream.streamContractId, val);
+    fetchProtocol(contractId, val);
   };
 
   return (

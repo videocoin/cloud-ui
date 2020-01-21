@@ -1,25 +1,77 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Option, Typography } from 'ui-kit';
-import { Form, Field, FormikProps, FieldProps } from 'formik';
+import { Typography } from 'ui-kit';
+import { Form, Field, useFormikContext, FieldProps } from 'formik';
 import RadioGroup from 'components/RadioGroup';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import StreamsStore from 'stores/streams';
+import { map } from 'lodash/fp';
+import { STREAM_INPUT_TYPE, STREAM_OUTPUT_TYPE } from 'const';
+import { SelectOption } from '@types';
 import css from './index.module.scss';
 
 const { RadioBtn } = RadioGroup;
 
-interface Props {
-  profile: Option;
-  outputType: string;
-  inputType: string;
+interface FormValues {
+  name: string;
+  inputType: STREAM_INPUT_TYPE;
+  outputType: STREAM_OUTPUT_TYPE;
+  profile: SelectOption | null;
 }
-
-const NewLivestream = (props: FormikProps<Props>) => {
+interface RadioInputType {
+  label: string;
+  value: STREAM_INPUT_TYPE;
+  active: boolean;
+}
+const inputs: RadioInputType[] = [
+  {
+    label: 'RTMP',
+    value: STREAM_INPUT_TYPE.RTMP,
+    active: true,
+  },
+  {
+    label: 'WebRTC',
+    value: STREAM_INPUT_TYPE.WEBRTC,
+    active: true,
+  },
+  {
+    label: 'File Upload',
+    value: STREAM_INPUT_TYPE.FILE,
+    active: true,
+  },
+  {
+    label: 'RTSP',
+    value: STREAM_INPUT_TYPE.RTSP,
+    active: false,
+  },
+  {
+    label: 'HLS',
+    value: STREAM_INPUT_TYPE.HLS,
+    active: false,
+  },
+];
+const NewLivestream = () => {
   const { profilesSelect } = StreamsStore;
-  const { setFieldValue, setFieldTouched, values, handleChange } = props;
+  const { setFieldValue, setFieldTouched, values } = useFormikContext<
+    FormValues
+  >();
   const { profile, outputType } = values;
+  const renderRadioInputType = ({ label, value, active }: RadioInputType) => (
+    <RadioBtn
+      key={value}
+      value={value}
+      activeClassname={css.activeRadio}
+      disabled={!active}
+    >
+      <Typography type="body">{label}</Typography>
+      {!active && (
+        <Typography type="caption" theme="sunkissed">
+          Coming Soon
+        </Typography>
+      )}
+    </RadioBtn>
+  );
 
   return (
     <Form className={css.form} id="streamForm">
@@ -31,44 +83,23 @@ const NewLivestream = (props: FormikProps<Props>) => {
       </div>
       <div className={css.row}>
         <Typography type="subtitle">Select Input</Typography>
-        <Field name="inputType" component={RadioGroup} onChange={handleChange}>
-          <RadioBtn value="INPUT_TYPE_RTMP" activeClassname={css.activeRadio}>
-            <Typography type="body">RTMP</Typography>
-          </RadioBtn>
-          <RadioBtn value="INPUT_TYPE_WEBRTC" activeClassname={css.activeRadio}>
-            <Typography type="body">WebRTC</Typography>
-          </RadioBtn>
-          <RadioBtn value="rtsp" disabled>
-            <div className={css.radioLabel}>
-              <Typography type="body">RTSP</Typography>
-              <Typography type="caption" theme="sunkissed">
-                Coming Soon
-              </Typography>
-            </div>
-          </RadioBtn>
-          <RadioBtn value="hls" disabled>
-            <div className={css.radioLabel}>
-              <Typography type="body">HLS</Typography>
-              <Typography type="caption" theme="sunkissed">
-                Coming Soon
-              </Typography>
-            </div>
-          </RadioBtn>
+        <Field name="inputType" component={RadioGroup}>
+          {map(renderRadioInputType)(inputs)}
         </Field>
       </div>
       <div className={css.row}>
         <Typography type="subtitle">Select Output</Typography>
         <Field
           name="outputType"
-          render={({ field, form }: FieldProps) => (
-            <RadioGroup field={field} form={form}>
+          render={(props: FieldProps) => (
+            <RadioGroup {...props}>
               <RadioBtn
-                value="OUTPUT_TYPE_HLS"
+                value={STREAM_OUTPUT_TYPE.HLS}
                 activeClassname={css.activeRadio}
               >
                 <Typography type="body">HLS</Typography>
               </RadioBtn>
-              {outputType === 'OUTPUT_TYPE_HLS' && (
+              {outputType === STREAM_OUTPUT_TYPE.HLS && (
                 <div className={css.innerField}>
                   <Select
                     isSearchable={false}

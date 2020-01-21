@@ -3,7 +3,7 @@ import * as API from 'api/streams';
 import { Source } from 'stores/types';
 import { AxiosResponse } from 'axios';
 import { propEq } from 'lodash/fp';
-import { STREAM_STATUS } from 'const';
+import { STREAM_STATUS, INPUT_STATUS } from 'const';
 
 const InputStatus = types.enumeration('InputStatus', [
   'INPUT_STATUS_NONE',
@@ -70,7 +70,34 @@ export const Stream = StreamModel.actions(self => ({
     return propEq('inputType', 'INPUT_TYPE_WEBRTC')(self);
   },
   get isProcessing() {
-    return propEq('status', STREAM_STATUS.STREAM_STATUS_PROCESSING)(self);
+    return propEq('status', STREAM_STATUS.PROCESSING)(self);
+  },
+  get isPending() {
+    return propEq('status', STREAM_STATUS.PENDING)(self);
+  },
+  get isPreparing() {
+    return propEq('status', STREAM_STATUS.PREPARING)(self);
+  },
+  get isFailed() {
+    return propEq('status', STREAM_STATUS.FAILED)(self);
+  },
+  get isOffline() {
+    return propEq('status', STREAM_STATUS.NEW)(self);
+  },
+  get isReady() {
+    return propEq('status', STREAM_STATUS.READY)(self);
+  },
+  get isPrepared() {
+    return propEq('status', STREAM_STATUS.PREPARED)(self);
+  },
+  get isCompleted() {
+    return propEq('status', STREAM_STATUS.COMPLETED)(self);
+  },
+  get isInputActive() {
+    return propEq('inputStatus', INPUT_STATUS.ACTIVE)(self);
+  },
+  get isInputPending() {
+    return propEq('inputStatus', INPUT_STATUS.PENDING)(self);
   },
 }));
 

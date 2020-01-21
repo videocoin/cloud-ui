@@ -5,6 +5,7 @@ import withAuth from 'HOCs/withAuth';
 import UserStore from 'stores/user';
 import { history } from 'index';
 import { balanceRequestTimeout } from 'const';
+import { history } from 'index';
 import css from './index.module.scss';
 
 const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({

@@ -2,6 +2,10 @@ import { Instance, applySnapshot, flow, types } from 'mobx-state-tree';
 import { indexOf, reject, filter, map } from 'lodash/fp';
 import * as API from 'api/workers';
 
+const WorkerStatus = {
+  NEW: 'NEW',
+};
+
 const Worker = types.model('Worker', {
   id: types.identifier,
   name: types.string,
@@ -113,10 +117,10 @@ const Workers = types
   })
   .views(self => ({
     get newWorkers() {
-      return filter({ status: 'NEW' })(self.workers);
+      return filter({ status: WorkerStatus.NEW })(self.workers);
     },
     get registeredWorkers() {
-      return reject({ status: 'NEW' })(self.workers);
+      return reject({ status: WorkerStatus.NEW })(self.workers);
     },
   }));
 

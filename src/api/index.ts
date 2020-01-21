@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosTransformer } from 'axios';
 import { toast, ToastId } from 'react-toastify';
 import humps from 'humps';
 import { getOr } from 'lodash/fp';
-import { BASE_URL, defaultServerError } from 'const';
+import { BASE_URL, defaultServerError, AUTH_KEY } from 'const';
 
 const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
   if (!transformRequest) {
@@ -14,7 +14,7 @@ const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
 
   return [transformRequest];
 };
-const AUTH_TOKEN = localStorage.getItem('token');
+const AUTH_TOKEN = localStorage.getItem(AUTH_KEY);
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -22,7 +22,13 @@ const api = axios.create({
     Authorization: `Bearer ${AUTH_TOKEN}`,
   },
   transformRequest: [
-    (data: any) => humps.decamelizeKeys(data),
+    (data: any) => {
+      if (data instanceof FormData) {
+        return data;
+      }
+
+      return humps.decamelizeKeys(data);
+    },
     ...defaultTransformers(axios.defaults.transformRequest),
   ],
   transformResponse: [
@@ -70,7 +76,7 @@ api.interceptors.response.use(
 );
 
 export function setTokenHeader(token: string) {
-  const storedToken = localStorage.getItem('token');
+  const storedToken = localStorage.getItem(AUTH_KEY);
 
   if (!token && !storedToken) {
     return;

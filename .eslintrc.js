@@ -43,11 +43,16 @@ module.exports = {
         next: 'return',
       },
       { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
-      { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
+      {
+        blankLine: 'any',
+        prev: ['const', 'let', 'var'],
+        next: ['const', 'let', 'var'],
+      },
     ],
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/no-angle-bracket-type-assertion': 'off',
-    'import/extensions': 'off'
+    'import/extensions': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
   settings: {
     'import/resolver': {

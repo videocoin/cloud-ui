@@ -2,15 +2,14 @@ import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import { toast } from 'react-toastify';
-import { eq, getOr } from 'lodash/fp';
+import { getOr } from 'lodash/fp';
 import BackLink from 'components/BackLink';
 import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
-import { history } from 'index';
 import { MIN_VID, STREAM_STATUS, defaultServerError } from 'const';
-import { startWebRTC } from 'api/streams';
+import { history } from 'index';
 import css from './index.module.scss';
 
 const streamRequestTimeout = 5000;
@@ -34,9 +33,9 @@ const StreamControl = observer(() => {
   };
 
   switch (status) {
-    case STREAM_STATUS.STREAM_STATUS_NEW:
-    case STREAM_STATUS.STREAM_STATUS_PREPARING:
-    case STREAM_STATUS.STREAM_STATUS_NONE:
+    case STREAM_STATUS.NEW:
+    case STREAM_STATUS.PREPARING:
+    case STREAM_STATUS.NONE:
       return (
         <div data-tip data-for="start">
           <Button
@@ -54,18 +53,18 @@ const StreamControl = observer(() => {
           )}
         </div>
       );
-    case STREAM_STATUS.STREAM_STATUS_FAILED:
-    case STREAM_STATUS.STREAM_STATUS_COMPLETED:
+    case STREAM_STATUS.FAILED:
+    case STREAM_STATUS.COMPLETED:
       return null;
-    case STREAM_STATUS.STREAM_STATUS_PREPARED:
-    case STREAM_STATUS.STREAM_STATUS_PENDING:
-    case STREAM_STATUS.STREAM_STATUS_PROCESSING:
+    case STREAM_STATUS.PREPARED:
+    case STREAM_STATUS.PENDING:
+    case STREAM_STATUS.PROCESSING:
       return (
         <Button theme="perfect-white" onClick={completeStream}>
           Cancel stream
         </Button>
       );
-    case STREAM_STATUS.STREAM_STATUS_READY:
+    case STREAM_STATUS.READY:
       return (
         <Button theme="violet-sky" onClick={completeStream}>
           Stop stream
@@ -86,64 +85,6 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   const { isStreamLoading, fetchStream, clearStream, stream } = StreamStore;
   const interval = useRef(null);
 
-  const [videoDevice, setVideoDevice] = useState(null);
-  const [audioDevice, setAudioDevice] = useState(null);
-
-  const initWebRTC = useCallback(() => {
-    const pc = new RTCPeerConnection();
-
-    const constraints = {
-      audio: {
-        deviceId: { exact: audioDevice },
-      },
-      video: {
-        deviceId: { exact: videoDevice },
-      },
-    };
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((mediaStream: any) => {
-        mediaStream.getTracks().forEach((track: MediaStreamTrack) => {
-          pc.addTrack(track);
-        });
-
-        pc.createOffer().then(offer => {
-          pc.setLocalDescription(offer);
-          startWebRTC({ streamId, sdp: offer.sdp }).then((resp: any) => {
-            const answer = new RTCSessionDescription({
-              type: 'answer',
-              sdp: resp.data.sdp,
-            });
-
-            pc.setRemoteDescription(answer);
-          });
-        });
-      });
-    // eslint-disable-next-line
-  }, [audioDevice, videoDevice]);
-
-  useEffect(() => {
-    if (
-      stream?.isWebRTC &&
-      eq(stream?.status, STREAM_STATUS.STREAM_STATUS_PREPARED)
-    ) {
-      initWebRTC();
-    }
-    // eslint-disable-next-line
-  }, [stream?.status]);
-  const startPoll = useCallback(
-    (timeout: number) => {
-      interval.current = (setTimeout(async () => {
-        try {
-          fetchStream(streamId, true);
-        } finally {
-          startPoll(streamRequestTimeout);
-        }
-      }, timeout) as unknown) as number;
-    },
-    [fetchStream, streamId],
-  );
   const fetchData = useCallback(async () => {
     if (!isStreamLoading) {
       try {
@@ -153,16 +94,18 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
           history.navigate('/not-found');
         }
       }
-      startPoll(streamRequestTimeout);
+      interval.current = setInterval(async () => {
+        fetchStream(streamId, true);
+      }, streamRequestTimeout);
     }
-  }, [fetchStream, isStreamLoading, startPoll, streamId]);
+  }, [fetchStream, isStreamLoading, streamId]);
 
   useEffect(() => {
     fetchData();
 
     return () => {
       clearStream();
-      clearTimeout(interval.current);
+      clearInterval(interval.current);
     };
   }, [clearStream, fetchData]);
 
@@ -180,11 +123,7 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
           </div>
         </TopBar>
       </div>
-      <div className="content">
-        {stream && (
-          <Livestream setVideo={setVideoDevice} setAudio={setAudioDevice} />
-        )}
-      </div>
+      <div className="content">{stream && <Livestream />}</div>
     </>
   );
 };

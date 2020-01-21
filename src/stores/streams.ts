@@ -1,7 +1,8 @@
+import { STATE } from 'const';
 import Streams from './models/streams';
 
 const StreamsStore = Streams.create({
-  state: 'pending',
+  state: STATE.pending,
   streams: {},
   sort: {
     field: 'status',

@@ -11,7 +11,8 @@ import { keyBy, propEq } from 'lodash/fp';
 import * as API from 'api/token';
 import { values } from 'mobx';
 import { AxiosResponse } from 'axios';
-import { State, TState } from './types';
+import { STATE } from 'const';
+import { StateModel } from './types';
 
 const Token = types
   .model({
@@ -29,45 +30,45 @@ const Token = types
 
 const Tokens = types
   .model({
-    state: State,
+    state: StateModel,
     tokens: types.map(Token),
   })
   .actions(self => ({
     fetchTokens: flow(function* fetchTokens() {
-      self.state = 'loading';
+      self.state = STATE.loading;
       try {
         const res: AxiosResponse = yield API.getTokens();
 
         applySnapshot(self.tokens, keyBy('id')(res.data.items));
-        self.state = 'loaded';
+        self.state = STATE.loaded;
       } catch (e) {
-        self.state = 'error';
+        self.state = STATE.error;
       }
     }),
     deleteToken: flow(function* deleteToken(item: IToken) {
-      self.state = 'deleting';
+      self.state = STATE.deleting;
       const prevState = getSnapshot(self.tokens);
 
       destroy(item);
       try {
         yield API.removeToken(item.id);
-        self.state = 'loaded';
+        self.state = STATE.loaded;
       } catch (e) {
         applySnapshot(self.tokens, prevState);
-        self.state = 'error';
+        self.state = STATE.error;
       }
     }),
     addToken: flow<any, any>(function* addToken(name: string) {
-      self.state = 'creating';
+      self.state = STATE.creating;
       try {
         const res: AxiosResponse = yield API.createToken(name);
 
         self.tokens.put(res.data);
-        self.state = 'loaded';
+        self.state = STATE.loaded;
 
         return res;
       } catch (e) {
-        self.state = 'error';
+        self.state = STATE.error;
 
         throw e;
       }
@@ -81,16 +82,16 @@ const Tokens = types
       return values(self.tokens);
     },
     get isCreating() {
-      return propEq<TState>('state', 'creating')(self);
+      return propEq<STATE>('state', STATE.creating)(self);
     },
     get isDeleting() {
-      return propEq<TState>('state', 'deleting')(self);
+      return propEq<STATE>('state', STATE.deleting)(self);
     },
   }));
 
 const TokensStore = Tokens.create({
   tokens: {},
-  state: 'pending',
+  state: STATE.pending,
 });
 
 export default TokensStore;

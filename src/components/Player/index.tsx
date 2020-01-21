@@ -1,27 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { eq } from 'lodash/fp';
 import { Icon, Typography } from 'ui-kit';
-import { IInputStatus, IStatus } from 'stores/models/stream';
-import { STREAM_STATUS } from 'const';
+import StreamStore from 'stores/stream';
+import { observer } from 'mobx-react-lite';
 import css from './index.module.scss';
 
-interface PlayerProps {
-  src: string;
-  status: IStatus;
-  inputStatus: IInputStatus;
-}
-
-const Player = ({ src, status, inputStatus }: PlayerProps) => {
+const Player = () => {
+  const { stream } = StreamStore;
   const container = useRef(null);
   const player = useRef(null);
-
-  const isOnline =
-    (eq(status, STREAM_STATUS.STREAM_STATUS_READY) &&
-      eq(inputStatus, 'INPUT_STATUS_ACTIVE')) ||
-    (eq(status, STREAM_STATUS.STREAM_STATUS_COMPLETED) && src);
-  const isStreamPending =
-    eq(status, STREAM_STATUS.STREAM_STATUS_PENDING) ||
-    eq(status, STREAM_STATUS.STREAM_STATUS_PROCESSING);
+  const {
+    isPending,
+    isReady,
+    outputUrl,
+    isProcessing,
+    isCompleted,
+    isInputActive,
+  } = stream;
+  const isOnline = (isReady && isInputActive) || (isCompleted && outputUrl);
 
   useEffect(() => {
     if (isOnline) {
@@ -31,12 +26,12 @@ const Player = ({ src, status, inputStatus }: PlayerProps) => {
         sources: [
           {
             type: 'hls',
-            src,
+            outputUrl,
           },
         ],
       });
     }
-  }, [isOnline, src]);
+  }, [isOnline, outputUrl]);
 
   useEffect(() => {
     return () => {
@@ -46,11 +41,13 @@ const Player = ({ src, status, inputStatus }: PlayerProps) => {
     };
   }, []);
 
+  const isWaitingOutput = isPending || isProcessing;
+
   const render = () => {
     if (isOnline) {
       return <div ref={container} />;
     }
-    if (isStreamPending) {
+    if (isWaitingOutput) {
       return (
         <div>
           <Icon name="preparing" />
@@ -66,4 +63,4 @@ const Player = ({ src, status, inputStatus }: PlayerProps) => {
   return <div className={css.player}>{render()}</div>;
 };
 
-export default Player;
+export default observer(Player);

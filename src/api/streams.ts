@@ -1,5 +1,5 @@
 import api from 'api/index';
-import { AxiosPromise } from 'axios';
+import { AxiosPromise, AxiosRequestConfig } from 'axios';
 import { LOG_URL } from 'const';
 
 export function getStreams() {
@@ -52,4 +52,20 @@ export function getProfiles() {
 
 export function startWebRTC(data: { streamId: string; sdp: any }) {
   return api.post('/ms/streams/webrtc', data);
+}
+
+export function uploadFile(
+  streamId: string,
+  data: FormData,
+  config: AxiosRequestConfig,
+) {
+  return api.post(`/upload/local/${streamId}`, data, config);
+}
+
+export function uploadUrl(streamId: string, url: string) {
+  return api.post(`/upload/url/${streamId}`, { url });
+}
+
+export function getUploadProgress(streamId: string) {
+  return api(`/upload/url/${streamId}`);
 }

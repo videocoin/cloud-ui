@@ -1,16 +1,16 @@
 import { flow, types } from 'mobx-state-tree';
-import { State } from 'stores/types';
+import { StateModel } from 'stores/types';
 import * as API from 'api/streams';
 import { map, propEq } from 'lodash/fp';
 import { IProtocol, Protocol, Stream } from 'stores/models/stream';
-import { PROTOCOL_OFFSET } from 'const';
+import { PROTOCOL_OFFSET, STATE } from 'const';
 import { AxiosResponse } from 'axios';
 import { convertToVID } from 'helpers/convertBalance';
 
 const Store = types
   .model({
     stream: types.maybeNull(Stream),
-    streamState: State,
+    streamState: StateModel,
     protocol: types.array(Protocol),
     protocolMeta: types.model({
       offset: types.number,
@@ -22,17 +22,17 @@ const Store = types
   .actions(self => ({
     fetchStream: flow(function* fetchStream(id: string, silent = false) {
       if (!silent) {
-        self.streamState = 'loading';
+        self.streamState = STATE.loading;
       }
       try {
         const res: AxiosResponse = yield API.getStream(id);
 
         self.stream = Stream.create(res.data);
-        self.streamState = 'loaded';
+        self.streamState = STATE.loaded;
 
         return res;
       } catch (e) {
-        self.streamState = 'error';
+        self.streamState = STATE.error;
         throw e;
       }
     }),
@@ -61,15 +61,15 @@ const Store = types
   }))
   .views(self => ({
     get isStreamLoading() {
-      return propEq('state', 'loading')(self);
+      return propEq('state', STATE.loading)(self);
     },
     get isStreamPending() {
-      return propEq('streamState', 'pending')(self);
+      return propEq('streamState', STATE.pending)(self);
     },
   }));
 
 const StreamStore = Store.create({
-  streamState: 'pending',
+  streamState: STATE.pending,
   stream: null,
   protocolMeta: {
     offset: 0,

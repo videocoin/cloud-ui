@@ -43,18 +43,25 @@ export const statusTable: { [key: string]: string } = {
   COMPLETED: 'Failed',
 };
 
-export const STREAM_STATUS: { [key in IStatus]: IStatus } = {
-  STREAM_STATUS_NONE: 'STREAM_STATUS_NONE',
-  STREAM_STATUS_NEW: 'STREAM_STATUS_NEW',
-  STREAM_STATUS_PREPARING: 'STREAM_STATUS_PREPARING',
-  STREAM_STATUS_PREPARED: 'STREAM_STATUS_PREPARED',
-  STREAM_STATUS_PENDING: 'STREAM_STATUS_PENDING',
-  STREAM_STATUS_PROCESSING: 'STREAM_STATUS_PROCESSING',
-  STREAM_STATUS_READY: 'STREAM_STATUS_READY',
-  STREAM_STATUS_COMPLETED: 'STREAM_STATUS_COMPLETED',
-  STREAM_STATUS_CANCELLED: 'STREAM_STATUS_CANCELLED',
-  STREAM_STATUS_FAILED: 'STREAM_STATUS_FAILED',
-};
+export enum STREAM_STATUS {
+  NONE = 'STREAM_STATUS_NONE',
+  NEW = 'STREAM_STATUS_NEW',
+  PREPARING = 'STREAM_STATUS_PREPARING',
+  PREPARED = 'STREAM_STATUS_PREPARED',
+  PENDING = 'STREAM_STATUS_PENDING',
+  PROCESSING = 'STREAM_STATUS_PROCESSING',
+  READY = 'STREAM_STATUS_READY',
+  COMPLETED = 'STREAM_STATUS_COMPLETED',
+  CANCELLED = 'STREAM_STATUS_CANCELLED',
+  FAILED = 'STREAM_STATUS_FAILED',
+}
+
+export enum INPUT_STATUS {
+  NONE = 'INPUT_STATUS_NONE',
+  PENDING = 'INPUT_STATUS_PENDING',
+  ACTIVE = 'INPUT_STATUS_ACTIVE',
+  ERROR = 'INPUT_STATUS_ERROR',
+}
 
 export const OUTPUT_STATUS: { [key in IStatus]: string } = {
   STREAM_STATUS_NONE: '',
@@ -69,7 +76,7 @@ export const OUTPUT_STATUS: { [key in IStatus]: string } = {
   STREAM_STATUS_FAILED: 'Stream Failed',
 };
 
-export const INGEST_STATUS: { [key in IStatus]: string } = {
+export const INGEST_STATUS: { [key in STREAM_STATUS]: string } = {
   STREAM_STATUS_NONE: 'Not Started',
   STREAM_STATUS_NEW: 'Not Started',
   STREAM_STATUS_PREPARING: 'Preparing',
@@ -88,3 +95,25 @@ export const protocolRequestTimeout = 3000;
 export const MIN_VID = 20;
 export const SUPPORT_EMAIL = 'support@videocoin.io';
 export const TRANSACTIONS_OFFSET = 20;
+
+export const AUTH_KEY = 'token';
+export enum STATE {
+  loading = 'loading',
+  loaded = 'loaded',
+  pending = 'pending',
+  error = 'error',
+  deleting = 'deleting',
+  creating = 'creating',
+}
+
+export enum STREAM_INPUT_TYPE {
+  RTMP = 'INPUT_TYPE_RTMP',
+  WEBRTC = 'INPUT_TYPE_WEBRTC',
+  FILE = 'INPUT_TYPE_FILE',
+  RTSP = 'INPUT_TYPE_RTSP',
+  HLS = 'INPUT_TYPE_HLS',
+}
+
+export enum STREAM_OUTPUT_TYPE {
+  HLS = 'OUTPUT_TYPE_HLS',
+}

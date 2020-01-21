@@ -11,12 +11,13 @@ import { AxiosResponse } from 'axios';
 import { Stream } from 'stores/models/stream';
 import { Profile } from 'stores/models/profile';
 import { values } from 'mobx';
-import { State, TStream } from '../types';
+import { STATE } from 'const';
+import { StateModel, TStream } from '../types';
 
 export default types
   .model('StreamsStore', {
     streams: types.map(Stream),
-    state: State,
+    state: StateModel,
     sort: types.model('StreamsSort', {
       field: 'status',
       order: types.enumeration('Order', ['asc', 'desc']),
@@ -37,7 +38,7 @@ export default types
       afterCreate,
       reset,
       load: flow(function* load() {
-        self.state = 'loading';
+        self.state = STATE.loading;
         try {
           const res: AxiosResponse = yield API.getStreams();
 
@@ -45,11 +46,11 @@ export default types
             self.streams.put(i);
           })(res.data.items);
 
-          self.state = 'loaded';
+          self.state = STATE.loaded;
 
           return res;
         } catch (e) {
-          self.state = 'error';
+          self.state = STATE.error;
           throw e;
         }
       }),
@@ -61,7 +62,7 @@ export default types
         return res;
       }),
       deleteStreams: flow(function* deleteStreams() {
-        self.state = 'deleting';
+        self.state = STATE.deleting;
         const keys = [...self.checked.keys()];
         const promises = map(API.deleteStream)(keys);
 
@@ -69,11 +70,11 @@ export default types
           const res = yield Promise.all(promises);
 
           self.checked.forEach(i => destroy(i));
-          self.state = 'loaded';
+          self.state = STATE.loaded;
 
           return res;
         } catch (e) {
-          self.state = 'error';
+          self.state = STATE.error;
           throw e;
         }
       }),
@@ -98,23 +99,19 @@ export default types
   })
   .views(self => ({
     get isLoading() {
-      return propEq('state', 'loading')(self);
+      return propEq('state', STATE.loading)(self);
     },
     get isPending() {
-      return propEq('state', 'pending')(self);
+      return propEq('state', STATE.pending)(self);
     },
     get isDeleting() {
-      return propEq('state', 'deleting')(self);
+      return propEq('state', STATE.deleting)(self);
     },
     get isLoaded() {
-      return propEq('state', 'loaded')(self);
+      return propEq('state', STATE.loaded)(self);
     },
     get items() {
       return values(self.streams);
-      // return compose(
-      //   orderBy(self.sort.field, self.sort.order as OrderType),
-      //   fromPairs,
-      // )([...self.streams]);
     },
     get profilesSelect() {
       return map(({ id: value, name: label }) => ({ label, value }))(

@@ -1,4 +1,5 @@
 @import '~styles/vars';
+@import 'colors';
 
 .top {
   display: flex;
@@ -139,5 +140,94 @@
 .rtcInputs {
   & > * {
     margin-bottom: 15px;
+  }
+}
+
+.dragZone {
+  max-width: 512px;
+  width: 100%;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  border: 1px dashed $grey-dawn-w4;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  &.dragActive {
+    background-color: $violet-sky;
+    border-color: $violet-sky-b3;
+    border-style: solid;
+  }
+  &.hidden {
+    display: none;
+  }
+}
+.dragDesc {
+  display: flex;
+  align-items: baseline;
+  padding-right: 28px;
+  padding-left: 64px;
+  & > *:not(:last-child) {
+    margin-right: 8px;
+  }
+}
+
+.draggedFile {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  padding-right: 28px;
+  padding-left: 64px;
+  z-index: 1;
+  &.upload {
+    background-color: $violet-sky-b3;
+    color: $perfect-white;
+  }
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    padding-right: 15px;
+    min-width: 1px;
+    svg {
+      margin-right: 24px;
+      flex-shrink: 0;
+    }
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  button {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+  }
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(225deg, #7234c8 0%, #4e238e 100%);
+  z-index: -1;
+  &.finished {
+    &::after {
+      display: none;
+    }
+  }
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    background: linear-gradient(225deg, #f53568 0%, #fd9369 100%);
+    height: 2px;
+    left: 0;
+    bottom: 4px;
   }
 }

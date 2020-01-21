@@ -33,9 +33,9 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
   const handleCheck = () => onCheck(stream);
   const isChecked = checked.has(stream.id);
   const canBeDeleted = contains(status)([
-    STREAM_STATUS.STREAM_STATUS_NEW,
-    STREAM_STATUS.STREAM_STATUS_FAILED,
-    STREAM_STATUS.STREAM_STATUS_COMPLETED,
+    STREAM_STATUS.NEW,
+    STREAM_STATUS.FAILED,
+    STREAM_STATUS.COMPLETED,
   ]);
 
   return (

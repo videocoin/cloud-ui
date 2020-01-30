@@ -33,14 +33,6 @@ const Player = () => {
     }
   }, [isOnline, outputUrl]);
 
-  useEffect(() => {
-    return () => {
-      if (player.current) {
-        player.current.destroy();
-      }
-    };
-  }, []);
-
   const isWaitingOutput = isPending || isProcessing;
 
   const render = () => {

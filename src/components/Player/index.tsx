@@ -16,8 +16,9 @@ const Player = ({ src, status, inputStatus }: PlayerProps) => {
   const player = useRef(null);
 
   const isOnline =
-    eq(status, STREAM_STATUS.STREAM_STATUS_READY) &&
-    eq(inputStatus, 'INPUT_STATUS_ACTIVE');
+    (eq(status, STREAM_STATUS.STREAM_STATUS_READY) &&
+      eq(inputStatus, 'INPUT_STATUS_ACTIVE')) ||
+    (eq(status, STREAM_STATUS.STREAM_STATUS_COMPLETED) && src);
   const isStreamPending =
     eq(status, STREAM_STATUS.STREAM_STATUS_PENDING) ||
     eq(status, STREAM_STATUS.STREAM_STATUS_PROCESSING);

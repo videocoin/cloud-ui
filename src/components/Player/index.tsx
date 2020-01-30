@@ -16,22 +16,30 @@ const Player = () => {
     isCompleted,
     isInputActive,
   } = stream;
-  const isOnline = (isReady && isInputActive) || (isCompleted && outputUrl);
+  const isOnline = (isReady && isInputActive) || isCompleted;
 
   useEffect(() => {
-    if (isOnline) {
+    if (isOnline && outputUrl) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       player.current = window.IndigoPlayer.init(container.current, {
         sources: [
           {
             type: 'hls',
-            outputUrl,
+            src: outputUrl,
           },
         ],
       });
     }
   }, [isOnline, outputUrl]);
+
+  useEffect(() => {
+    return () => {
+      if (player.current) {
+        player.current.destroy();
+      }
+    };
+  }, []);
 
   const isWaitingOutput = isPending || isProcessing;
 

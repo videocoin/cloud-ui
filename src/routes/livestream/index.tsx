@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
-import { RouteComponentProps, navigate } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import { toast } from 'react-toastify';
 import { eq, getOr } from 'lodash/fp';
@@ -8,6 +8,7 @@ import Livestream from 'components/Livestream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
+import { history } from 'index';
 import { MIN_VID, STREAM_STATUS, defaultServerError } from 'const';
 import { startWebRTC } from 'api/streams';
 import css from './index.module.scss';
@@ -131,28 +132,37 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
     }
     // eslint-disable-next-line
   }, [stream?.status]);
-
+  const startPoll = useCallback(
+    (timeout: number) => {
+      interval.current = (setTimeout(async () => {
+        try {
+          fetchStream(streamId, true);
+        } finally {
+          startPoll(streamRequestTimeout);
+        }
+      }, timeout) as unknown) as number;
+    },
+    [fetchStream, streamId],
+  );
   const fetchData = useCallback(async () => {
     if (!isStreamLoading) {
       try {
         await fetchStream(streamId);
       } catch (e) {
         if (e.response.status === 404) {
-          navigate('/not-found');
+          history.navigate('/not-found');
         }
       }
-      interval.current = setInterval(async () => {
-        fetchStream(streamId, true);
-      }, streamRequestTimeout);
+      startPoll(streamRequestTimeout);
     }
-  }, [fetchStream, isStreamLoading, streamId]);
+  }, [fetchStream, isStreamLoading, startPoll, streamId]);
 
   useEffect(() => {
     fetchData();
 
     return () => {
       clearStream();
-      clearInterval(interval.current);
+      clearTimeout(interval.current);
     };
   }, [clearStream, fetchData]);
 

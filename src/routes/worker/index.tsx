@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { getOr } from 'lodash/fp';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
-import { RouteComponentProps, navigate } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
+import { history } from 'index';
 import Worker from 'components/Worker';
 import WorkersStore from 'stores/workers';
 
@@ -16,7 +17,7 @@ const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
       await fetchWorker(workerId);
     } catch (e) {
       if (e.response.status === 404) {
-        navigate('/not-found');
+        history.navigate('/not-found');
       }
     }
   }, [fetchWorker, workerId]);

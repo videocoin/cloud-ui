@@ -63,9 +63,10 @@ const createHistory = (source: any, options: any) => {
         }
       };
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    navigate(to, { state, replace = false } = {}) {
+    navigate(
+      to: string,
+      { state, replace = false }: { state?: any; replace?: boolean } = {},
+    ) {
       if (isBlocked) {
         blockedFn();
         blockedNav = to;

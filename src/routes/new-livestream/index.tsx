@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps, navigate } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
+import { history } from 'index';
 import withAuth from 'HOCs/withAuth';
 import { withFormik } from 'formik';
 import { Button, TopBar, Typography } from 'ui-kit';
@@ -40,7 +41,7 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
         outputType,
       });
 
-      navigate(`/dashboard/streams/${res.data.id}`);
+      history.navigate(`/dashboard/streams/${res.data.id}`);
     } catch (e) {
       setSubmitting(false);
       throw e;
@@ -57,7 +58,7 @@ const NewLivestreamPage = withFormik<RouteComponentProps, FormValues>({
 
   useEffect(() => {
     if (!balance) {
-      navigate('./');
+      history.navigate('./');
     }
   }, [balance]);
 

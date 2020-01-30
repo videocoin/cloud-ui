@@ -5,22 +5,13 @@ import {
   getSnapshot,
   types,
 } from 'mobx-state-tree';
-import {
-  compose,
-  fromPairs,
-  get,
-  keyBy,
-  map,
-  orderBy,
-  each,
-  propEq,
-} from 'lodash/fp';
+import { map, each, propEq } from 'lodash/fp';
 import * as API from 'api/streams';
 import { AxiosResponse } from 'axios';
 import { Stream } from 'stores/models/stream';
 import { Profile } from 'stores/models/profile';
 import { values } from 'mobx';
-import { OrderType, State, TStream } from '../types';
+import { State, TStream } from '../types';
 
 export default types
   .model('StreamsStore', {

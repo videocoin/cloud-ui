@@ -57,7 +57,11 @@ const Pending: FC<RouteComponentProps> = () => {
                 <br />
                 Click the link in the email to confirm your email.
               </Typography>
-              <Button onClick={handleResend} theme="minimal-sunkissed">
+              <Button
+                onClick={handleResend}
+                theme="minimal-sunkissed"
+                loading={isLoading}
+              >
                 Send again
               </Button>
             </div>

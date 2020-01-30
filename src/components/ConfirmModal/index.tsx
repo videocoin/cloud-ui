@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, ActionBar, Typography } from 'ui-kit';
 import Modal from 'components/Modal';
-import css from './styles.module.scss';
 
 interface ConfirmModalProps {
   title: string;

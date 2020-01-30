@@ -163,6 +163,8 @@ const Livestream = ({
     onSetAudio(v.value);
   };
 
+  const hideOutput = isStreamCompleted && !outputUrl;
+
   const renderInput = () => {
     if (isStreamFailed) {
       return null;
@@ -196,7 +198,7 @@ const Livestream = ({
   };
 
   const renderOutput = () => {
-    if (isStreamReady) {
+    if (isStreamReady || isStreamCompleted) {
       return (
         <Input
           value={outputUrl}
@@ -289,7 +291,7 @@ const Livestream = ({
                 {renderInput()}
               </div>
             )}
-            {!isStreamOffline && !isStreamPreparing && (
+            {!hideOutput && (
               <div>
                 <div className={css.endpointStatus}>
                   <div

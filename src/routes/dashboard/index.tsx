@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { RouteComponentProps, navigate } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import Navigation from 'components/Navigation';
 import withAuth from 'HOCs/withAuth';
 import UserStore from 'stores/user';
+import { history } from 'index';
 import { balanceRequestTimeout } from 'const';
 import css from './index.module.scss';
 
@@ -27,7 +28,7 @@ const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
   }, [fetchUser, isActive]);
 
   if (!isActive && path !== 'pending') {
-    navigate('/dashboard/pending');
+    history.navigate('/dashboard/pending');
 
     return null;
   }

@@ -122,7 +122,7 @@ const Livestream = () => {
 
         <div className={css.endpoints}>
           {!isCompleted && (
-            <>
+            <div>
               <div className={css.endpointStatus}>
                 <div
                   className={cn(css.mark, {
@@ -136,7 +136,7 @@ const Livestream = () => {
                 </Typography>
               </div>
               {streamInput()}
-            </>
+            </div>
           )}
 
           {!hideOutput && (

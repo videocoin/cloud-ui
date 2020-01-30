@@ -165,6 +165,8 @@ const Livestream = ({
 
   const hideOutput = isStreamCompleted && !outputUrl;
 
+  console.log(hideOutput);
+
   const renderInput = () => {
     if (isStreamFailed) {
       return null;
@@ -238,80 +240,84 @@ const Livestream = ({
           <Typography type="smallTitle">{name}</Typography>
         </div>
       </div>
-      {!isStreamCompleted && (
-        <section className={css.section}>
-          <Typography type="subtitle" className={css.head}>
-            {isStreamOffline || isStreamPreparing ? 'Get started' : 'Endpoints'}
-          </Typography>
 
-          <div className={css.endpoints}>
-            {isWebRTC ? (
-              <div className={css.rtcInputs}>
-                <div className={css.endpointStatus}>
-                  <div
-                    className={cn(css.mark, {
-                      [css.active]: isIngestActive,
-                      [css.pending]: isStreamPrepared,
-                    })}
+      <section className={css.section}>
+        <Typography type="subtitle" className={css.head}>
+          {isStreamOffline || isStreamPreparing ? 'Get started' : 'Endpoints'}
+        </Typography>
+
+        <div className={css.endpoints}>
+          {!isStreamCompleted && (
+            <>
+              {isWebRTC ? (
+                <div className={css.rtcInputs}>
+                  <div className={css.endpointStatus}>
+                    <div
+                      className={cn(css.mark, {
+                        [css.active]: isIngestActive,
+                        [css.pending]: isStreamPrepared,
+                      })}
+                    />
+                    <div className={css.endpointTitle}>Stream Input</div>
+                    <Typography type="smallBody" theme="sunkissed">
+                      {INGEST_STATUS[status]}
+                    </Typography>
+                  </div>
+                  <Select
+                    placeholder="Select Video Input"
+                    value={selectedVideo}
+                    onChange={handleChangeVideo}
+                    options={videoDevices}
+                    isDisabled={!isStreamOffline}
                   />
-                  <div className={css.endpointTitle}>Stream Input</div>
-                  <Typography type="smallBody" theme="sunkissed">
-                    {INGEST_STATUS[status]}
-                  </Typography>
+                  <Select
+                    placeholder="Select Audio Input"
+                    value={selectedAudio}
+                    onChange={handleChangeAudio}
+                    options={audioDevices}
+                    isDisabled={!isStreamOffline}
+                  />
                 </div>
-                <Select
-                  placeholder="Select Video Input"
-                  value={selectedVideo}
-                  onChange={handleChangeVideo}
-                  options={videoDevices}
-                  isDisabled={!isStreamOffline}
+              ) : (
+                <div>
+                  <div className={css.endpointStatus}>
+                    <div
+                      className={cn(css.mark, {
+                        [css.active]: isIngestActive,
+                        [css.pending]: isStreamPrepared,
+                      })}
+                    />
+                    <div className={css.endpointTitle}>Stream Input</div>
+                    <Typography type="smallBody" theme="sunkissed">
+                      {INGEST_STATUS[status]}
+                    </Typography>
+                  </div>
+                  {renderInput()}
+                </div>
+              )}
+            </>
+          )}
+          {!hideOutput && (
+            <div>
+              <div className={css.endpointStatus}>
+                <div
+                  className={cn(css.mark, {
+                    [css.failed]: isStreamFailed,
+                    [css.active]: isStreamActive,
+                    [css.pending]: isStreamPending,
+                  })}
                 />
-                <Select
-                  placeholder="Select Audio Input"
-                  value={selectedAudio}
-                  onChange={handleChangeAudio}
-                  options={audioDevices}
-                  isDisabled={!isStreamOffline}
-                />
+                <div className={css.endpointTitle}>Stream Output</div>
+                <Typography type="smallBody" theme="sunkissed">
+                  {OUTPUT_STATUS[status]}
+                </Typography>
               </div>
-            ) : (
-              <div>
-                <div className={css.endpointStatus}>
-                  <div
-                    className={cn(css.mark, {
-                      [css.active]: isIngestActive,
-                      [css.pending]: isStreamPrepared,
-                    })}
-                  />
-                  <div className={css.endpointTitle}>Stream Input</div>
-                  <Typography type="smallBody" theme="sunkissed">
-                    {INGEST_STATUS[status]}
-                  </Typography>
-                </div>
-                {renderInput()}
-              </div>
-            )}
-            {!hideOutput && (
-              <div>
-                <div className={css.endpointStatus}>
-                  <div
-                    className={cn(css.mark, {
-                      [css.failed]: isStreamFailed,
-                      [css.active]: isStreamActive,
-                      [css.pending]: isStreamPending,
-                    })}
-                  />
-                  <div className={css.endpointTitle}>Stream Output</div>
-                  <Typography type="smallBody" theme="sunkissed">
-                    {OUTPUT_STATUS[status]}
-                  </Typography>
-                </div>
-                {renderOutput()}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+              {renderOutput()}
+            </div>
+          )}
+        </div>
+      </section>
+
       <section className={css.section}>
         <Typography type="subtitle" className={css.head}>
           Protocol events

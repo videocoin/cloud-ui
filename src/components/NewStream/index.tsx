@@ -51,7 +51,7 @@ const inputs: RadioInputType[] = [
     active: false,
   },
 ];
-const NewLivestream = () => {
+const NewStream = () => {
   const { profilesSelect } = StreamsStore;
   const { setFieldValue, setFieldTouched, values } = useFormikContext<
     FormValues
@@ -136,4 +136,4 @@ const NewLivestream = () => {
   );
 };
 
-export default observer(NewLivestream);
+export default observer(NewStream);

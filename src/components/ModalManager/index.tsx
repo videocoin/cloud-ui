@@ -25,7 +25,7 @@ const WithdrawSuccessModal = lazy(() =>
   import('components/WithdrawSuccessModal'),
 );
 const StreamsDeleteConfirm = lazy(() =>
-  import('components/LiveStreams/DeleteConfirm'),
+  import('components/Streams/DeleteConfirm'),
 );
 const ShareModal = lazy(() => import('components/ShareModal'));
 const DepositModal = lazy(() => import('components/Wallet/DepositModal'));

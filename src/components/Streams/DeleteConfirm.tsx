@@ -19,12 +19,12 @@ const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
     <Modal>
       <div className="modalInner">
         <Typography type="body">
-          Delete {pluralize('Livestream', checked.size, true)}?
+          Delete {pluralize('Stream', checked.size, true)}?
         </Typography>
         <Typography type="smallBody">
           {hasRunning
-            ? 'One of the selected livestreams is running and will be ended immediately upon deletion.'
-            : 'These livestreams will be permanently deleted.'}
+            ? 'One of the selected streams is running and will be ended immediately upon deletion.'
+            : 'These streams will be permanently deleted.'}
         </Typography>
         <div className="modalActions">
           <ActionBar>

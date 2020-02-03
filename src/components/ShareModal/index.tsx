@@ -22,7 +22,7 @@ const ShareModal = ({ closeModal, accessCode }: ShareModalProps) => {
             postfix={() => <ClipboardPostfix text={url} />}
           />
         </div>
-        <Typography type="body">Share This Livestream</Typography>
+        <Typography type="body">Share This Stream</Typography>
         <Typography type="smallBody">
           Note: This is not the direct output URL but rather a VideoCoin branded
           viewer.

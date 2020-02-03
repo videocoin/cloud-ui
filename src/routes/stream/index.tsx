@@ -4,7 +4,7 @@ import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import { toast } from 'react-toastify';
 import { getOr } from 'lodash/fp';
 import BackLink from 'components/BackLink';
-import Livestream from 'components/Livestream';
+import Stream from 'components/Stream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
@@ -79,7 +79,7 @@ const StreamControl = observer(() => {
   }
 });
 
-const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
+const StreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
   streamId,
 }) => {
   const { isStreamLoading, fetchStream, clearStream, stream } = StreamStore;
@@ -116,16 +116,16 @@ const LivestreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
           <BackLink />
           <div>
             <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">Livestream</Typography>
+            <Typography type="smallTitle">Stream</Typography>
           </div>
           <div className={css.btns}>
             <StreamControl />
           </div>
         </TopBar>
       </div>
-      <div className="content">{stream && <Livestream />}</div>
+      <div className="content">{stream && <Stream />}</div>
     </>
   );
 };
 
-export default observer(LivestreamPage);
+export default observer(StreamPage);

@@ -3,7 +3,7 @@ import withAuth from 'HOCs/withAuth';
 import { Formik } from 'formik';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
-import NewLivestream from 'components/NewLivestream';
+import NewStream from 'components/NewStream';
 import StreamsStore from 'stores/streams';
 import UserStore from 'stores/user';
 import { history } from 'index';
@@ -25,7 +25,7 @@ const initialValues: FormValues = {
   profile: null,
 };
 
-const NewLivestreamPage = () => {
+const NewStreamPage = () => {
   const { balance } = UserStore;
   const { fetchProfiles } = StreamsStore;
 
@@ -95,7 +95,7 @@ const NewLivestreamPage = () => {
             </TopBar>
           </div>
           <div className="content">
-            <NewLivestream />
+            <NewStream />
           </div>
         </>
       )}
@@ -103,4 +103,4 @@ const NewLivestreamPage = () => {
   );
 };
 
-export default withAuth()(NewLivestreamPage);
+export default withAuth()(NewStreamPage);

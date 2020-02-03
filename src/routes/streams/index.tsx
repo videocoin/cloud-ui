@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import Streams from 'components/LiveStreams';
-import StreamsHeader from 'components/LiveStreams/Header';
+import Streams from 'components/Streams';
+import StreamsHeader from 'components/Streams/Header';
 import { TopBar } from 'ui-kit';
 import BalanceBadge from 'components/BalanceBadge';
 import StreamsStore from 'stores/streams';

@@ -22,7 +22,7 @@ const GettingStarted = () => {
       <div className={css.desc}>
         <Typography type="display3">Getting Started</Typography>
         <Typography>
-          VideoCoin lets you quickly get a livestream up and running using our
+          VideoCoin lets you quickly get a stream up and running using our
           distributed network
         </Typography>
         <ul className={css.steps}>
@@ -45,7 +45,7 @@ const GettingStarted = () => {
               width={24}
             />
             <Typography type="caption">
-              Step 2 - Create and run your first livestream
+              Step 2 - Create and run your first stream
             </Typography>
           </li>
         </ul>

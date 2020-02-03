@@ -16,9 +16,9 @@ const Privacy = lazy(() => import('routes/privacy'));
 const SignIn = lazy(() => import('routes/signin'));
 const SignUp = lazy(() => import('routes/signup'));
 const StreamsRoot = lazy(() => import('routes/StreamsRoot'));
-const Streams = lazy(() => import('routes/livestreams'));
-const NewLivestream = lazy(() => import('routes/new-livestream'));
-const Livestream = lazy(() => import('routes/livestream'));
+const Streams = lazy(() => import('routes/streams'));
+const NewStream = lazy(() => import('routes/new-stream'));
+const Stream = lazy(() => import('routes/stream'));
 const Shared = lazy(() => import('routes/shared'));
 const Workers = lazy(() => import('routes/workers'));
 const Worker = lazy(() => import('routes/worker'));
@@ -38,8 +38,8 @@ const App = () => {
             <Wallet path="wallet" />
             <StreamsRoot path="streams">
               <Streams path="/" />
-              <Livestream path=":streamId" />
-              <NewLivestream path="new" />
+              <Stream path=":streamId" />
+              <NewStream path="new" />
             </StreamsRoot>
             <Workers path="workers" />
             <Worker path="workers/:workerId" />

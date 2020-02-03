@@ -14,7 +14,7 @@ import WebRTCInput from './WebRTCInput';
 import RTMPInput from './RTMPInput';
 import FileInput from './FileInput';
 
-const Livestream = () => {
+const Stream = () => {
   const prevStatus = useRef();
   const videoNode = useRef<HTMLVideoElement>();
   const { stream, isStreamLoading } = StreamStore;
@@ -170,4 +170,4 @@ const Livestream = () => {
   );
 };
 
-export default observer(Livestream);
+export default observer(Stream);

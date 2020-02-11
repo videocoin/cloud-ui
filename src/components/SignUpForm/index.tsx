@@ -6,8 +6,8 @@ import Checkbox from 'components/Checkbox';
 import { Button, Typography } from 'ui-kit';
 import { Link } from '@reach/router';
 import UserStore from 'stores/user';
-import css from './index.module.scss';
 import { FormField, SignUpForm } from '@types';
+import css from './index.module.scss';
 import validationSchema from './validate';
 
 const formFields: FormField[] = [

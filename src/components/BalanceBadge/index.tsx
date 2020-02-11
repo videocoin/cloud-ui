@@ -11,7 +11,11 @@ const BalanceBadge = () => {
   return (
     <div className={css.root}>
       <Icon name="VIDToken" width={64} />
-      <Typography className={css.balance} type="smallTitle">
+      <Typography
+        className={css.balance}
+        type="smallTitle"
+        data-testid="balance"
+      >
         {VIDBalance(balance)}
       </Typography>
       <Typography>VID Tokens</Typography>

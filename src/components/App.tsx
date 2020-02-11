@@ -7,22 +7,40 @@ import ModalManager from 'components/ModalManager';
 import { Spinner } from 'ui-kit';
 import NotFound from 'routes/NotFound';
 
-const Dashboard = lazy(() => import('routes/dashboard'));
-const Pending = lazy(() => import('routes/Pending'));
-const Account = lazy(() => import('routes/account'));
-const Wallet = lazy(() => import('routes/wallet'));
-const Terms = lazy(() => import('routes/terms'));
-const Privacy = lazy(() => import('routes/privacy'));
-const SignIn = lazy(() => import('routes/signin'));
-const SignUp = lazy(() => import('routes/signup'));
-const StreamsRoot = lazy(() => import('routes/StreamsRoot'));
-const Streams = lazy(() => import('routes/streams'));
-const NewStream = lazy(() => import('routes/new-stream'));
-const Stream = lazy(() => import('routes/stream'));
-const Shared = lazy(() => import('routes/shared'));
-const Workers = lazy(() => import('routes/workers'));
-const Worker = lazy(() => import('routes/worker'));
-const Confirm = lazy(() => import('routes/Confirm'));
+const Dashboard = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/dashboard'),
+);
+const Pending = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/Pending'),
+);
+const Account = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/account'),
+);
+const Wallet = lazy(() => import(/* webpackPrefetch: true */ 'routes/wallet'));
+const Terms = lazy(() => import(/* webpackPrefetch: true */ 'routes/terms'));
+const Privacy = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/privacy'),
+);
+const SignIn = lazy(() => import(/* webpackPrefetch: true */ 'routes/signin'));
+const SignUp = lazy(() => import(/* webpackPrefetch: true */ 'routes/signup'));
+const StreamsRoot = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/StreamsRoot'),
+);
+const Streams = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/streams'),
+);
+const NewStream = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/new-stream'),
+);
+const Stream = lazy(() => import(/* webpackPrefetch: true */ 'routes/stream'));
+const Shared = lazy(() => import(/* webpackPrefetch: true */ 'routes/shared'));
+const Workers = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/workers'),
+);
+const Worker = lazy(() => import(/* webpackPrefetch: true */ 'routes/worker'));
+const Confirm = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/Confirm'),
+);
 
 const App = () => {
   return (

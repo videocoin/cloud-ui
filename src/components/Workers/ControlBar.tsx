@@ -1,8 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import WorkersStore from 'stores/workers';
-import { Icon, Typography } from 'ui-kit';
-import { Spinner } from 'ui-kit/src/components/Spinner/Spinner';
+import { Icon, Typography, Spinner } from 'ui-kit';
 import css from './styles.module.scss';
 
 const ControlBar = () => {

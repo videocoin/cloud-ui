@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { FieldProps } from 'formik';
-import { RadioGroup as RadioGroupBase } from 'ui-kit';
+import RadioGroupBase from 'ui-kit/src/Radio/Radio';
 
 const RadioGroup = ({
   field,

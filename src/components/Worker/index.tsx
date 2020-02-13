@@ -3,7 +3,8 @@ import cn from 'classnames';
 import { eq } from 'lodash/fp';
 import { observer } from 'mobx-react-lite';
 import WorkersStore from 'stores/workers';
-import { Typography, Spinner, Input } from 'ui-kit';
+import { Typography, Spinner } from 'ui-kit';
+import Input from 'ui-kit/src/Input/Input';
 import formatBytes from 'helpers/formatBytes';
 import css from './styles.module.scss';
 
@@ -56,15 +57,15 @@ const Worker = () => {
             <Typography>(Setup Required)</Typography>
           ) : (
             <>
-              <div className={css.configItem}>
+              <div data-testid="freq" className={css.configItem}>
                 <Typography type="body">
                   {(systemInfo.cpuFreq / 1000).toFixed(1)} ghz
                 </Typography>
               </div>
-              <div className={css.configItem}>
+              <div data-testid="cpu" className={css.configItem}>
                 <Typography type="body">{systemInfo.cpuCores} Cores</Typography>
               </div>
-              <div className={css.configItem}>
+              <div data-testid="ram" className={css.configItem}>
                 <Typography type="body">
                   {formatBytes(systemInfo.memTotal)}gb RAM
                 </Typography>

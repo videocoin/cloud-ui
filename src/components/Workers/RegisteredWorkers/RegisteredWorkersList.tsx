@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { orderBy, eq, map } from 'lodash/fp';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { Typography } from 'ui-kit';
+import { Typography, Spinner } from 'ui-kit';
 import WorkersStore, { IWorker } from 'stores/workers';
-import { Spinner } from 'ui-kit/src/components/Spinner/Spinner';
 import RegisteredWorkerRow from './RegisteredWorkerRow';
 import css from './styles.module.scss';
 

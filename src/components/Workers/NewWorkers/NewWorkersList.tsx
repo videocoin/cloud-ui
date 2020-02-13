@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import { Typography } from 'ui-kit';
+import { Typography, Spinner } from 'ui-kit';
 import WorkersStore from 'stores/workers';
 import anime from 'animejs';
 import isEven from 'helpers/isEven';
-import { Spinner } from 'ui-kit/src/components/Spinner/Spinner';
 import NewWorkerRow from './NewWorkerRow';
 import css from './styles.module.scss';
 

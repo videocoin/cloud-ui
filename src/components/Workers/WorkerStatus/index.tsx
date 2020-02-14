@@ -10,8 +10,13 @@ interface WorkerStatus {
 const WorkerStatus = ({ status, name }: WorkerStatus) => {
   return (
     <div className={css.root}>
-      <div className={cn(css.status, css[status.toLowerCase()])} />
-      <div className={css.name}>{name.toLowerCase()}</div>
+      <div
+        data-testid="status"
+        className={cn(css.status, css[status.toLowerCase()])}
+      />
+      <div data-testid="name" className={css.name}>
+        {name.toLowerCase()}
+      </div>
     </div>
   );
 };

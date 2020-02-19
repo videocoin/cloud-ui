@@ -55,6 +55,7 @@ const StreamControl = observer(() => {
       );
     case STREAM_STATUS.FAILED:
     case STREAM_STATUS.COMPLETED:
+    case STREAM_STATUS.CANCELLED:
       return null;
     case STREAM_STATUS.PREPARED:
     case STREAM_STATUS.PENDING:

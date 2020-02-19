@@ -29,6 +29,12 @@
       background-color: $violet-sky-b2;
     }
   }
+  &.cancelled {
+    td:not(:first-child) {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
 }
 
 .statusCell {

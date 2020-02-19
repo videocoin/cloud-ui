@@ -36,10 +36,16 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
     STREAM_STATUS.NEW,
     STREAM_STATUS.FAILED,
     STREAM_STATUS.COMPLETED,
+    STREAM_STATUS.CANCELLED,
   ]);
+  const cancelled = STREAM_STATUS.CANCELLED === status;
 
   return (
-    <tr className={cn(css.row, isChecked && css.checked)}>
+    <tr
+      className={cn(css.row, isChecked && css.checked, {
+        [css.cancelled]: cancelled,
+      })}
+    >
       <td className={css.checkCell}>
         {canBeDeleted && (
           <Checkbox checked={isChecked} onChange={handleCheck} />

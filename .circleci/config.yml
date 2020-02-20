@@ -90,3 +90,4 @@ workflows:
                 - sandbox
                 - develop
                 - staging
+                - k2

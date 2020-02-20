@@ -21,3 +21,10 @@ if [ "$CIRCLE_BRANCH" == "develop" ]; then
     export CLUSTER=dev
     source ${DIR}/../envs/develop
 fi
+
+if [ "$CIRCLE_BRANCH" == "k2" ]; then
+    export GCLOUD_PROJECT=videocoin-k2
+    export ENV=k2
+    export CLUSTER=k2
+    source ${DIR}/../envs/k2
+fi

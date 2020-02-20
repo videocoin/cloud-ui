@@ -29,7 +29,6 @@ const StreamModel = types.model('Stream', {
   createdAt: types.string,
   id: types.identifier,
   inputStatus: InputStatus,
-  inputUrl: types.maybeNull(types.string),
   name: types.string,
   outputUrl: types.maybeNull(types.string),
   readyAt: types.maybeNull(types.string),

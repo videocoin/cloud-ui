@@ -66,12 +66,13 @@ const WebRTCInput = ({
   const initWebRTC = useCallback(() => {
     const pc = new RTCPeerConnection();
 
+    if (!selectedVideo) return;
     const constraints = {
       audio: {
-        deviceId: { exact: selectedAudio.value as string },
+        deviceId: { exact: selectedAudio?.value as string },
       },
       video: {
-        deviceId: { exact: selectedVideo.value as string },
+        deviceId: { exact: selectedVideo?.value as string },
       },
     };
 
@@ -96,7 +97,7 @@ const WebRTCInput = ({
           );
         });
       });
-  }, [selectedAudio.value, selectedVideo.value, stream.id]);
+  }, [selectedAudio, selectedVideo, stream.id]);
 
   useEffect(() => {
     if (stream?.isWebRTC && stream?.isPrepared) {

@@ -25,6 +25,7 @@
     "src"
   ],
   "exclude": [
+    "ui-kit",
     "src/ui-kit",
     "node_modules"
   ]

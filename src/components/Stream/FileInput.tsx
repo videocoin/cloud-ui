@@ -58,8 +58,8 @@ const Progress = ({
 };
 
 const FileInput = () => {
-  const [file, setFile] = useState();
-  const [url, setUrl] = useState();
+  const [file, setFile] = useState(null);
+  const [url, setUrl] = useState(null);
   const [tab, setTab] = useState('file');
   const [progress, setProgress] = useState(0);
   const timer = useRef<any>();

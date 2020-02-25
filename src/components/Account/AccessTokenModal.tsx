@@ -12,7 +12,7 @@ const AccessTokenModal = ({ closeModal, token }: AccessTokenModal) => {
   return (
     <Modal>
       <div className="modalInner">
-        <div className="mb30">
+        <div data-testid="accessTokenInput" className="mb30">
           <Input
             value={token}
             readOnly
@@ -26,7 +26,7 @@ const AccessTokenModal = ({ closeModal, token }: AccessTokenModal) => {
           copy it down for safe keeping.
         </Typography>
       </div>
-      <div className="modalActions">
+      <div data-testid="accessTokenBtn" className="modalActions">
         <ActionBar>
           <Button onClick={closeModal}>Finish</Button>
         </ActionBar>

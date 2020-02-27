@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { IStatus } from 'stores/models/stream';
 
-export const BASE_URL = process.env.REACT_APP_VC_API_URL;
+export const BASE_URL = process.env.REACT_APP_CLOUD_API_URL;
 export const WS_URL = process.env.REACT_APP_VC_WS_URL;
-export const LOG_URL = process.env.REACT_APP_VC_TXLOG_API_URL;
+export const LOG_URL = process.env.REACT_APP_TXLOG_API_URL;
 
 export const defaultServerError =
   "Oops. Something went wrong! Sorry. We've let our engineers know.";

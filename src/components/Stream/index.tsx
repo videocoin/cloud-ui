@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { get } from 'lodash/fp';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { Input, Typography } from 'ui-kit';
+import { Input, Spinner, Typography } from 'ui-kit';
 import Player from 'components/Player';
 import ClipboardPostfix from 'components/ClipboardPostfix';
 import { OUTPUT_STATUS, STREAM_INPUT_TYPE, INGEST_STATUS } from 'const';
@@ -29,7 +29,7 @@ const Stream = () => {
   }, [currentStatus, isStreamFailed]);
 
   if (!stream || isStreamLoading) {
-    return <Typography>Loading...</Typography>;
+    return <Spinner />;
   }
 
   if (!stream) return null;

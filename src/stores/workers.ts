@@ -36,9 +36,8 @@ const Workers = types
     }: {
       silent: boolean;
     }) {
-      if (!silent) {
-        self.isLoading = true;
-      }
+      self.isLoading = !silent;
+
       try {
         const res = yield API.fetchWorkers();
 

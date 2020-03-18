@@ -36,7 +36,6 @@ export const Type = types.enumeration('Type', [
 ]);
 
 export type TStream = Instance<typeof Stream>;
-export type OrderType = 'asc' | 'desc';
 export type TUser = Instance<typeof User>;
 export type TAccount = Instance<typeof Account>;
 export type TStreamsStore = Instance<typeof StreamsStore>;

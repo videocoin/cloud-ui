@@ -15,17 +15,18 @@ interface StreamItemProps {
   checked: Map<string, TStream>;
 }
 
-const statusIcon: { [key in IStatus]: IconName } = {
-  STREAM_STATUS_NONE: 'offline',
-  STREAM_STATUS_NEW: 'offline',
-  STREAM_STATUS_PREPARING: 'awaitingInput',
-  STREAM_STATUS_PREPARED: 'awaitingInput',
-  STREAM_STATUS_PROCESSING: 'awaitingInput',
-  STREAM_STATUS_READY: 'awaitingInput',
-  STREAM_STATUS_COMPLETED: 'offline',
-  STREAM_STATUS_CANCELLED: 'offline',
-  STREAM_STATUS_FAILED: 'incomplete',
-  STREAM_STATUS_PENDING: 'awaitingInput',
+const statusIcon: Record<IStatus, IconName> = {
+  [STREAM_STATUS.NONE]: 'offline',
+  [STREAM_STATUS.NEW]: 'offline',
+  [STREAM_STATUS.PREPARING]: 'awaitingInput',
+  [STREAM_STATUS.PREPARED]: 'awaitingInput',
+  [STREAM_STATUS.PROCESSING]: 'awaitingInput',
+  [STREAM_STATUS.READY]: 'awaitingInput',
+  [STREAM_STATUS.COMPLETED]: 'offline',
+  [STREAM_STATUS.CANCELLED]: 'offline',
+  [STREAM_STATUS.DELETED]: 'offline',
+  [STREAM_STATUS.FAILED]: 'incomplete',
+  [STREAM_STATUS.PENDING]: 'awaitingInput',
 };
 
 const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
@@ -42,7 +43,8 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
 
   return (
     <tr
-      className={cn(css.row, isChecked && css.checked, {
+      className={cn(css.row, {
+        [css.checked]: isChecked,
         [css.cancelled]: cancelled,
       })}
     >

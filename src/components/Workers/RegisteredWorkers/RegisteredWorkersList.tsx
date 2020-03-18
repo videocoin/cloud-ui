@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { orderBy, eq, map } from 'lodash/fp';
+import { eq, map, orderBy } from 'lodash/fp';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { Typography, Spinner } from 'ui-kit';
+import { Spinner, Typography } from 'ui-kit';
 import WorkersStore, { IWorker } from 'stores/workers';
+import { ORDER } from 'const';
 import RegisteredWorkerRow from './RegisteredWorkerRow';
 import css from './styles.module.scss';
 
@@ -64,19 +65,19 @@ const renderTable = map((worker: IWorker) => (
 const RegisteredWorkersList = () => {
   const { isLoading, registeredWorkers } = WorkersStore;
   const [sortBy, setSortBy] = useState('status');
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const [order, setOrder] = useState<ORDER>(ORDER.ASC);
   const [data, setData] = useState(registeredWorkers);
 
   useEffect(() => {
     setData(orderBy<IWorker>(sortBy, order)(registeredWorkers as IWorker[]));
   }, [sortBy, order, registeredWorkers]);
 
-  const isASC = eq('asc', order);
+  const isASC = eq(ORDER.ASC, order);
   const handleSort = (field: string) => {
     if (field === sortBy) {
-      setOrder(isASC ? 'desc' : 'asc');
+      setOrder(isASC ? ORDER.DESC : ORDER.ASC);
     } else {
-      setOrder('asc');
+      setOrder(ORDER.ASC);
       setSortBy(field);
     }
   };

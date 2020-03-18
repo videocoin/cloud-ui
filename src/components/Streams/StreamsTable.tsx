@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from 'ui-kit';
+import { Spinner, Typography } from 'ui-kit';
 import { map } from 'lodash/fp';
 import StreamsStore from 'stores/streams';
 import { TStream } from 'stores/types';
@@ -26,9 +26,7 @@ const fields = [
 const StreamsTable = () => {
   const { checkStream, checked, items, isLoading, isPending } = StreamsStore;
 
-  const handleCheck = (stream: TStream) => {
-    checkStream(stream);
-  };
+  const handleCheck = (stream: TStream) => checkStream(stream);
 
   const renderHead = () =>
     map(({ name, label, colspan = 1 }) => (
@@ -36,6 +34,7 @@ const StreamsTable = () => {
         <Typography type="smallBody">{label}</Typography>
       </th>
     ))(fields);
+
   const renderTable = () =>
     map(
       (stream: TStream) => (
@@ -50,7 +49,7 @@ const StreamsTable = () => {
     );
 
   if (isPending || isLoading) {
-    return <Typography>Loading...</Typography>;
+    return <Spinner />;
   }
 
   if (!items.length) {

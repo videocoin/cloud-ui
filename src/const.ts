@@ -38,6 +38,7 @@ export enum STREAM_STATUS {
   READY = 'STREAM_STATUS_READY',
   COMPLETED = 'STREAM_STATUS_COMPLETED',
   CANCELLED = 'STREAM_STATUS_CANCELLED',
+  DELETED = 'STREAM_STATUS_DELETED',
   FAILED = 'STREAM_STATUS_FAILED',
 }
 
@@ -58,6 +59,7 @@ export const OUTPUT_STATUS: { [key in IStatus]: string } = {
   STREAM_STATUS_READY: 'Streaming',
   STREAM_STATUS_COMPLETED: '',
   STREAM_STATUS_CANCELLED: '',
+  STREAM_STATUS_DELETED: '',
   STREAM_STATUS_FAILED: 'Stream Failed',
 };
 
@@ -71,6 +73,7 @@ export const INGEST_STATUS: { [key in STREAM_STATUS]: string } = {
   STREAM_STATUS_READY: 'Receiving',
   STREAM_STATUS_COMPLETED: '',
   STREAM_STATUS_CANCELLED: '',
+  STREAM_STATUS_DELETED: '',
   STREAM_STATUS_FAILED: 'Stream Failed',
 };
 
@@ -101,4 +104,11 @@ export enum STREAM_INPUT_TYPE {
 
 export enum STREAM_OUTPUT_TYPE {
   HLS = 'OUTPUT_TYPE_HLS',
+}
+
+export const START_PAGE = 1;
+
+export enum ORDER {
+  ASC = 'asc',
+  DESC = 'desc',
 }

@@ -1,5 +1,5 @@
 import { types, flow, applySnapshot, getSnapshot } from 'mobx-state-tree';
-import { propEq, getOr, get, map, lt } from 'lodash/fp';
+import { eq, propEq, getOr, get, map, lt } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import {
@@ -17,6 +17,7 @@ import {
   TRANSACTIONS_OFFSET,
   AUTH_KEY,
   STATE,
+  START_PAGE,
 } from 'const';
 import StreamsStore from 'stores/streams';
 import { convertToVID } from 'helpers/convertBalance';
@@ -52,7 +53,7 @@ const Store = types
       }
     });
     const fetchTransactions = flow(function* fetchTransactions({
-      page = 1,
+      page = START_PAGE,
       limit = TRANSACTIONS_OFFSET,
     }: {
       limit?: number;
@@ -71,8 +72,10 @@ const Store = types
         }),
       )(transactions);
 
-      self.transactionsMeta.hasMore =
-        transactions.length === TRANSACTIONS_OFFSET;
+      self.transactionsMeta.hasMore = eq(
+        transactions.length,
+        TRANSACTIONS_OFFSET,
+      );
       applySnapshot(self.transactions, mappedTransactions);
     });
     const fetchActions = flow(function* fetchActions({ page }) {
@@ -88,7 +91,7 @@ const Store = types
         },
       );
 
-      self.actionsMeta.hasMore = res.data.actions.length === ACTIONS_OFFSET;
+      self.actionsMeta.hasMore = eq(res.data.actions.length, ACTIONS_OFFSET);
       const mappedActions = map<IWalletAction, IWalletAction>(
         ({ value, ...rest }) => ({
           value: convertToVID(value),
@@ -100,8 +103,8 @@ const Store = types
     });
     const load = flow(function* load() {
       yield fetchUser();
-      yield fetchActions({ page: 1 });
-      yield fetchTransactions({ page: 1 });
+      yield fetchActions({ page: START_PAGE });
+      yield fetchTransactions({ page: START_PAGE });
     });
 
     return {
@@ -133,7 +136,7 @@ const Store = types
         localStorage.setItem(AUTH_KEY, token);
         setTokenHeader(token);
         yield fetchUser();
-        yield fetchActions({ page: 1 });
+        yield fetchActions({ page: START_PAGE });
 
         return res;
       }),
@@ -183,13 +186,13 @@ const UserStore = Store.create({
     offset: 0,
     limit: PROTOCOL_OFFSET,
     hasMore: false,
-    page: 1,
+    page: START_PAGE,
   },
   transactionsMeta: {
     offset: 0,
     limit: PROTOCOL_OFFSET,
     hasMore: false,
-    page: 1,
+    page: START_PAGE,
   },
 });
 

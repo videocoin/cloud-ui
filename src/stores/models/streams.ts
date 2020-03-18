@@ -11,7 +11,7 @@ import { AxiosResponse } from 'axios';
 import { Stream } from 'stores/models/stream';
 import { Profile } from 'stores/models/profile';
 import { values } from 'mobx';
-import { STATE } from 'const';
+import { ORDER, STATE } from 'const';
 import { StateModel, TStream } from '../types';
 
 export default types
@@ -20,7 +20,7 @@ export default types
     state: StateModel,
     sort: types.model('StreamsSort', {
       field: 'status',
-      order: types.enumeration('Order', ['asc', 'desc']),
+      order: types.enumeration('Order', [ORDER.ASC, ORDER.DESC]),
     }),
     checked: types.map(types.safeReference(types.late(() => Stream))),
     profiles: types.array(Profile),
@@ -78,7 +78,7 @@ export default types
           throw e;
         }
       }),
-      changeSort(field: string, order = 'asc') {
+      changeSort(field: string, order: ORDER = ORDER.ASC) {
         self.sort = { field, order };
       },
       checkStream(stream: TStream) {

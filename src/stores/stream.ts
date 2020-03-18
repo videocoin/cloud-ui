@@ -3,7 +3,7 @@ import { StateModel } from 'stores/types';
 import * as API from 'api/streams';
 import { map, propEq } from 'lodash/fp';
 import { IProtocol, Protocol, Stream } from 'stores/models/stream';
-import { PROTOCOL_OFFSET, STATE } from 'const';
+import { PROTOCOL_OFFSET, START_PAGE, STATE } from 'const';
 import { AxiosResponse } from 'axios';
 import { convertToVID } from 'helpers/convertBalance';
 
@@ -75,7 +75,7 @@ const StreamStore = Store.create({
     offset: 0,
     limit: PROTOCOL_OFFSET,
     hasMore: false,
-    page: 1,
+    page: START_PAGE,
   },
 });
 

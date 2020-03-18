@@ -5,11 +5,12 @@ import { ActionBar, Button, Typography } from 'ui-kit';
 import Modal from 'components/Modal';
 import StreamsStore from 'stores/streams';
 import { observer } from 'mobx-react-lite';
+import { INPUT_STATUS } from '../../const';
 
 const DeleteConfirm = ({ closeModal }: { closeModal: () => void }) => {
   const { isDeleting, checked, deleteStreams } = StreamsStore;
 
-  const hasRunning = some(propEq('status', 'INPUT_STATUS_ACTIVE'), checked);
+  const hasRunning = some(propEq('status', INPUT_STATUS.ACTIVE), checked);
   const onConfirm = async () => {
     await deleteStreams();
     closeModal();

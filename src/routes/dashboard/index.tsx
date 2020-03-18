@@ -4,6 +4,7 @@ import Navigation from 'components/Navigation';
 import withAuth from 'HOCs/withAuth';
 import UserStore from 'stores/user';
 import { history } from 'index';
+import { Spinner } from 'ui-kit';
 import { balanceRequestTimeout } from 'const';
 import css from './index.module.scss';
 
@@ -11,7 +12,7 @@ const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
   children,
   ...props
 }) => {
-  const { isActive, fetchUser } = UserStore;
+  const { isActive, fetchUser, isLoading } = UserStore;
   const { '*': path } = props;
   const interval = useRef(null);
 
@@ -31,6 +32,10 @@ const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
     history.navigate('/dashboard/pending');
 
     return null;
+  }
+
+  if (isLoading) {
+    return <Spinner />;
   }
 
   return (

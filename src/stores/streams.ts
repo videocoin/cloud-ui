@@ -1,4 +1,4 @@
-import { STATE } from 'const';
+import { ORDER, STATE } from 'const';
 import Streams from './models/streams';
 
 const StreamsStore = Streams.create({
@@ -6,7 +6,7 @@ const StreamsStore = Streams.create({
   streams: {},
   sort: {
     field: 'status',
-    order: 'asc',
+    order: ORDER.ASC,
   },
   checked: {},
   profiles: [],

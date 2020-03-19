@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { getOr } from 'lodash/fp';
+import { eq, get, getOr } from 'lodash/fp';
 import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import { RouteComponentProps } from '@reach/router';
 import { history } from 'index';
+import HttpStatus from 'http-status-codes';
 import Worker from 'components/Worker';
 import WorkersStore from 'stores/workers';
 
@@ -16,7 +17,7 @@ const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
     try {
       await fetchWorker(workerId);
     } catch (e) {
-      if (e.response.status === 404) {
+      if (eq(HttpStatus.NOT_FOUND, get('response.status')(e))) {
         history.navigate('/not-found');
       }
     }

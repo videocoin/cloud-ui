@@ -42,9 +42,9 @@ describe('Worker Page', () => {
   it('Should update worker name', async () => {
     const { getByDisplayValue, getByLabelText } = wrapper;
 
-    await userEvent.type(getByDisplayValue('Worker'), 'New worker');
+    await userEvent.type(getByDisplayValue('Worker'), 'New');
     expect(
       getByLabelText('Worker Name', { selector: 'input' }),
-    ).toHaveAttribute('value', 'New worker');
+    ).toHaveAttribute('value', 'WorkerNew');
   });
 });

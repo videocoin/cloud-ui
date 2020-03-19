@@ -1,12 +1,13 @@
 import React from 'react';
 import { eq, get, map } from 'lodash/fp';
-import { withFormik, Form, Field } from 'formik';
+import { Formik, Form, FormikHelpers } from 'formik';
 import Modal from 'components/Modal';
-import Input from 'components/Input';
+import Input from 'components/UI/FormikInput';
 import { Button, ActionBar } from 'ui-kit';
 import { recoverPassword } from 'api/user';
 import { history } from 'index';
 import { FormField } from '@types';
+import HttpStatus from 'http-status-codes';
 import validationSchema from './validate';
 import css from './index.module.scss';
 
@@ -33,51 +34,59 @@ const formFields: FormField[] = [
   },
 ];
 
-const RestorePassword = withFormik<RestorePasswordProps, FormValues>({
-  mapPropsToValues: () => ({
-    password: '',
-    confirmPassword: '',
-  }),
-  validationSchema,
-  handleSubmit: async (
-    values,
-    { setSubmitting, props, resetForm, setErrors },
+const initialValues = {
+  password: '',
+  confirmPassword: '',
+};
+
+const RestorePassword = ({ closeModal, token }: RestorePasswordProps) => {
+  const renderField = (field: FormField) => (
+    <Input key={field.name} {...field} />
+  );
+
+  const onSubmit = async (
+    values: FormValues,
+    { setSubmitting, resetForm, setErrors }: FormikHelpers<FormValues>,
   ) => {
     try {
-      await recoverPassword({ ...values, token: props.token });
+      await recoverPassword({ ...values, token });
       resetForm();
-      props.closeModal();
+      closeModal();
       history.navigate('/sign-in', { replace: true });
     } catch (e) {
       setSubmitting(false);
-      if (eq(400, get('response.status')(e))) {
+      if (eq(HttpStatus.BAD_REQUEST, get('response.status')(e))) {
         const errors = get('response.data.fields')(e);
 
         setErrors(errors);
       }
       throw e;
     }
-  },
-})(({ closeModal, isValid, isSubmitting }) => {
-  const renderField = (field: FormField) => (
-    <Field key={field.name} component={Input} {...field} />
-  );
+  };
 
   return (
     <Modal>
-      <Form className={css.form}>
-        <div className={css.fields}>{map(renderField, formFields)}</div>
-        <ActionBar>
-          <Button theme="minimal" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button type="submit" disabled={!isValid} loading={isSubmitting}>
-            Send
-          </Button>
-        </ActionBar>
-      </Form>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+      >
+        {({ isValid, isSubmitting }) => (
+          <Form className={css.form}>
+            <div className={css.fields}>{map(renderField, formFields)}</div>
+            <ActionBar>
+              <Button theme="minimal" onClick={closeModal}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={!isValid} loading={isSubmitting}>
+                Send
+              </Button>
+            </ActionBar>
+          </Form>
+        )}
+      </Formik>
     </Modal>
   );
-});
+};
 
 export default RestorePassword;

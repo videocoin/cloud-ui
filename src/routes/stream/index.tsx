@@ -2,12 +2,13 @@ import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, TopBar, Typography, WarnTooltip } from 'ui-kit';
 import { toast } from 'react-toastify';
-import { getOr } from 'lodash/fp';
+import { eq, get, getOr } from 'lodash/fp';
 import BackLink from 'components/BackLink';
 import Stream from 'components/Stream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
+import HttpStatus from 'http-status-codes';
 import { MIN_VID, STREAM_STATUS, defaultServerError } from 'const';
 import { history } from 'index';
 import css from './index.module.scss';
@@ -91,7 +92,7 @@ const StreamPage: FC<RouteComponentProps & { streamId?: string }> = ({
       try {
         await fetchStream(streamId);
       } catch (e) {
-        if (e.response.status === 404) {
+        if (eq(HttpStatus.NOT_FOUND, get('response.status')(e))) {
           history.navigate('/not-found');
         }
       }

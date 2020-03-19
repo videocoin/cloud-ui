@@ -1,11 +1,12 @@
 import React from 'react';
-import { withFormik, Field, FormikProps, Form } from 'formik';
+import { Formik, Form, FormikHelpers } from 'formik';
 import { eq, map, omit, get } from 'lodash/fp';
-import Input from 'components/Input';
-import Checkbox from 'components/Checkbox';
+import Input from 'components/UI/FormikInput';
+import Checkbox from 'components/UI/FormikCheckbox';
 import { Button, Typography } from 'ui-kit';
 import { Link } from '@reach/router';
 import UserStore from 'stores/user';
+import HttpStatus from 'http-status-codes';
 import { FormField, SignUpForm } from '@types';
 import css from './index.module.scss';
 import validationSchema from './validate';
@@ -33,53 +34,27 @@ const formFields: FormField[] = [
   },
 ];
 
-const SignUp = (props: FormikProps<SignUpForm>) => {
-  const { isValid, isSubmitting } = props;
-  const renderField = (field: FormField) => (
-    <Field key={field.name} component={Input} {...field} />
-  );
-
-  return (
-    <Form className={css.form} noValidate>
-      <div className={css.fields}>
-        {map(renderField, formFields)}
-        <Field checked={false} name="agree" component={Checkbox}>
-          <Typography>
-            I agree to the <Link to="/privacy">Privacy Policy</Link>
-            &nbsp;and&nbsp;
-            <Link to="/terms">Terms and Conditions</Link>
-          </Typography>
-        </Field>
-      </div>
-      <Button
-        disabled={!isValid}
-        loading={isSubmitting}
-        block
-        theme="perfect-white"
-        type="submit"
-      >
-        Sign Up
-      </Button>
-    </Form>
-  );
-};
-
-export default withFormik<{}, SignUpForm>({
-  mapPropsToValues: () => ({
+const SignUp = () => {
+  const initialValues = {
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
     agree: false,
-  }),
-  validationSchema,
-  handleSubmit: async (values, { setErrors, resetForm, setSubmitting }) => {
+  };
+  const renderField = (field: FormField) => (
+    <Input key={field.name} {...field} />
+  );
+  const onSubmit = async (
+    values: typeof initialValues,
+    { setErrors, resetForm, setSubmitting }: FormikHelpers<SignUpForm>,
+  ) => {
     try {
       await UserStore.signUp(omit('agree', values));
       resetForm();
     } catch (e) {
       setSubmitting(false);
-      if (eq(400, get('response.status')(e))) {
+      if (eq(HttpStatus.BAD_REQUEST, get('response.status')(e))) {
         const errors = get('response.data.fields')(e);
 
         if (errors) {
@@ -87,5 +62,40 @@ export default withFormik<{}, SignUpForm>({
         }
       }
     }
-  },
-})(SignUp);
+  };
+
+  return (
+    <Formik
+      validationSchema={validationSchema}
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validateOnMount
+    >
+      {({ isValid, isSubmitting }) => (
+        <Form className={css.form} noValidate>
+          <div className={css.fields}>
+            {map(renderField, formFields)}
+            <Checkbox checked={false} name="agree">
+              <Typography>
+                I agree to the <Link to="/privacy">Privacy Policy</Link>
+                &nbsp;and&nbsp;
+                <Link to="/terms">Terms and Conditions</Link>
+              </Typography>
+            </Checkbox>
+          </div>
+          <Button
+            disabled={!isValid}
+            loading={isSubmitting}
+            block
+            theme="perfect-white"
+            type="submit"
+          >
+            Sign Up
+          </Button>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export default SignUp;

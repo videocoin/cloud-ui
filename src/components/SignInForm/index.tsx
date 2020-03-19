@@ -1,9 +1,9 @@
 import React from 'react';
-import { withFormik, Field, FormikProps, Form } from 'formik';
+import { Formik, Form, FormikHelpers } from 'formik';
 import UserStore from 'stores/user';
 import { get, map } from 'lodash/fp';
 import { toast } from 'react-toastify';
-import Input from 'components/Input';
+import Input from 'components/UI/FormikInput';
 import { Button } from 'ui-kit';
 import ModalStore from 'stores/modal';
 import { modalType } from 'components/ModalManager';
@@ -24,44 +24,20 @@ const formFields: FormField[] = [
   },
 ];
 
-const SignIn = (props: FormikProps<SignInForm>) => {
-  const { isValid, isSubmitting } = props;
+const SignIn = () => {
   const renderField = (field: FormField) => (
-    <Field key={field.name} component={Input} {...field} />
+    <Input key={field.name} {...field} />
   );
   const { openModal } = ModalStore;
   const handleOpenModal = () => openModal(modalType.RESET_PASSWORD);
-
-  return (
-    <>
-      <Form className={css.form}>
-        <div className={css.fields}>{map(renderField, formFields)}</div>
-        <Button
-          disabled={!isValid}
-          loading={isSubmitting}
-          block
-          type="submit"
-          theme="perfect-white"
-        >
-          Log in
-        </Button>
-        <div className={css.forgotBtn}>
-          <Button theme="minimal-sunkissed" onClick={handleOpenModal}>
-            Forgot password?
-          </Button>
-        </div>
-      </Form>
-    </>
-  );
-};
-
-export default withFormik<{}, SignInForm>({
-  mapPropsToValues: () => ({
+  const initialValues = {
     email: '',
     password: '',
-  }),
-  validationSchema,
-  handleSubmit: async (values, { setSubmitting }) => {
+  };
+  const onSubmit = async (
+    values: typeof initialValues,
+    { setSubmitting }: FormikHelpers<SignInForm>,
+  ) => {
     try {
       await UserStore.signIn(values);
     } catch (e) {
@@ -69,5 +45,35 @@ export default withFormik<{}, SignInForm>({
       toast.error(get('response.data.message', e));
       throw e;
     }
-  },
-})(SignIn);
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ isValid, isSubmitting }) => (
+        <Form className={css.form}>
+          <div className={css.fields}>{map(renderField, formFields)}</div>
+          <Button
+            disabled={!isValid}
+            loading={isSubmitting}
+            block
+            type="submit"
+            theme="perfect-white"
+          >
+            Log in
+          </Button>
+          <div className={css.forgotBtn}>
+            <Button theme="minimal-sunkissed" onClick={handleOpenModal}>
+              Forgot password?
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export default SignIn;

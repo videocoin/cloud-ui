@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, wait } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import WorkersStore from 'stores/workers';
 import mockAxios from '__mocks__/axios';
@@ -24,9 +24,11 @@ describe('Control Bar', () => {
     const btn = container.querySelector('button');
 
     expect(container.innerHTML).not.toContain('Spinner');
-    userEvent.click(btn);
-    expect(container.innerHTML).toContain('Spinner');
-    await wait();
+
+    await act(async () => {
+      await userEvent.click(btn);
+    });
+
     expect(container.innerHTML).toContain('0 Selected');
     expect(container.innerHTML).not.toContain('Spinner');
   });

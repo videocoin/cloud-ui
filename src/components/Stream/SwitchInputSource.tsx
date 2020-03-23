@@ -1,18 +1,24 @@
 import React, { useState, FormEvent } from 'react';
 import { Typography } from 'ui-kit';
+import { eq } from 'lodash/fp';
 import cn from 'classnames';
 import css from './switchSource.module.scss';
+
+export enum InputSource {
+  FILE = 'FILE',
+  URL = 'URL',
+}
 
 const SwitchInputSource = ({
   onChange,
   disabled,
 }: {
-  onChange: (val: string) => void;
+  onChange: (val: InputSource) => void;
   disabled: boolean;
 }) => {
-  const [active, setActive] = useState('file');
+  const [active, setActive] = useState<InputSource>(InputSource.FILE);
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
+    const { value }: { value: any } = e.currentTarget;
 
     setActive(value);
     onChange(value);
@@ -26,10 +32,10 @@ const SwitchInputSource = ({
           <input
             id="file"
             type="radio"
-            value="file"
+            value={InputSource.FILE}
             name="switch"
             onChange={handleChange}
-            checked={active === 'file'}
+            checked={eq(active, InputSource.FILE)}
           />
           <div className={css.label}>Computer</div>
         </label>
@@ -37,14 +43,16 @@ const SwitchInputSource = ({
           <input
             id="url"
             type="radio"
-            value="url"
+            value={InputSource.URL}
             name="switch"
             onChange={handleChange}
-            checked={active === 'url'}
+            checked={eq(active, InputSource.URL)}
           />
           <div className={css.label}>URL</div>
         </label>
-        <div className={cn(css.box, { [css.right]: active === 'url' })} />
+        <div
+          className={cn(css.box, { [css.right]: eq(active, InputSource.URL) })}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { contains } from 'lodash/fp';
+import { eq, contains } from 'lodash/fp';
 import { Checkbox, Icon, Typography, IconName } from 'ui-kit';
 import cn from 'classnames';
 import { TStream } from 'stores/types';
@@ -39,7 +39,7 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
     STREAM_STATUS.COMPLETED,
     STREAM_STATUS.CANCELLED,
   ]);
-  const cancelled = STREAM_STATUS.CANCELLED === status;
+  const cancelled = eq(STREAM_STATUS.CANCELLED, status);
 
   return (
     <tr

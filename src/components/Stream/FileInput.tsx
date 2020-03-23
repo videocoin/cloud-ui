@@ -6,13 +6,14 @@ import React, {
   ReactNode,
   useRef,
 } from 'react';
+import { eq } from 'lodash/fp';
 import { useDropzone } from 'react-dropzone';
 import { Typography, Icon, Input } from 'ui-kit';
 import cn from 'classnames';
 import StreamStore from 'stores/stream';
 import * as API from 'api/streams';
 import css from './index.module.scss';
-import SwitchInputSource from './SwitchInputSource';
+import SwitchInputSource, { InputSource } from './SwitchInputSource';
 
 const REQUEST_TIMEOUT = 1000;
 const Progress = ({
@@ -60,7 +61,7 @@ const Progress = ({
 const FileInput = () => {
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState(null);
-  const [tab, setTab] = useState('file');
+  const [tab, setTab] = useState(InputSource.FILE);
   const [progress, setProgress] = useState(0);
   const timer = useRef<any>();
   const { stream } = StreamStore;
@@ -123,18 +124,19 @@ const FileInput = () => {
     await API.uploadUrl(id, url);
     startUrlProgressPoll(REQUEST_TIMEOUT);
   }, [id, startUrlProgressPoll, url]);
+  const isFileTab = eq(tab, InputSource.FILE);
 
   useEffect(() => {
     if (isInputPending && isPrepared) {
-      tab === 'file' ? uploadFile() : uploadUrl();
+      isFileTab ? uploadFile() : uploadUrl();
     }
-  }, [isInputPending, isPrepared, tab, uploadFile, uploadUrl]);
+  }, [isInputPending, isPrepared, isFileTab, uploadFile, uploadUrl]);
 
   const disableChangeSource = isInputActive || isPreparing || isProcessing;
-  const isFileTab = tab === 'file';
+
   const dragActive = isDragActive || Boolean(file) || Boolean(progress);
   const tabs: { [key in string]: ReactNode } = {
-    file: (
+    [InputSource.FILE]: (
       <div
         className={cn(css.dragZone, {
           [css.dragActive]: dragActive,
@@ -160,7 +162,7 @@ const FileInput = () => {
         )}
       </div>
     ),
-    url: isInputPending ? (
+    [InputSource.URL]: isInputPending ? (
       <div
         className={cn(css.dragZone, {
           [css.dragActive]: dragActive,

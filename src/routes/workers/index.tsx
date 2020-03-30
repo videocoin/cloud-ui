@@ -1,27 +1,26 @@
 import React, { FC, useState } from 'react';
-import { eq } from 'lodash/fp';
 import { Button, TopBar, Typography } from 'ui-kit';
 import { RouteComponentProps } from '@reach/router';
 import BecomeWorker from 'components/Workers/BecomeWorker';
 import WorkersDashboard from 'components/Workers/Dashboard';
 import WorkersStore from 'stores/workers';
 import UserStore from 'stores/user';
+import { STORAGE_KEY } from 'const';
 
 const WorkersPage: FC<RouteComponentProps> = () => {
   const { createWorker, isCreating } = WorkersStore;
-  const { user } = UserStore;
+  const { isRegular } = UserStore;
   const [isGuideVisible, setGuide] = useState(
-    !localStorage.getItem('guideHidden'),
+    !localStorage.getItem(STORAGE_KEY.GUIDE_HIDDEN),
   );
   const showGuide = () => {
     setGuide(true);
-    localStorage.removeItem('guideHidden');
+    localStorage.removeItem(STORAGE_KEY.GUIDE_HIDDEN);
   };
   const hideGuide = () => {
     setGuide(false);
-    localStorage.setItem('guideHidden', 'true');
+    localStorage.setItem(STORAGE_KEY.GUIDE_HIDDEN, 'true');
   };
-  const isRegular = eq(user.role, 'USER_ROLE_REGULAR');
 
   return (
     <div>

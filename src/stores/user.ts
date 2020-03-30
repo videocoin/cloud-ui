@@ -15,9 +15,10 @@ import {
   MIN_VID,
   PROTOCOL_OFFSET,
   TRANSACTIONS_OFFSET,
-  AUTH_KEY,
   STATE,
   START_PAGE,
+  STORAGE_KEY,
+  USER_ROLE,
 } from 'const';
 import StreamsStore from 'stores/streams';
 import { convertToVID } from 'helpers/convertBalance';
@@ -49,7 +50,7 @@ const Store = types
         return res;
       } catch (e) {
         self.state = STATE.error;
-        localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem(STORAGE_KEY.AUTH_KEY);
         throw e;
       }
     });
@@ -116,7 +117,7 @@ const Store = types
       fetchTransactions,
       afterCreate() {
         initialState = getSnapshot(self);
-        const AUTH_TOKEN = localStorage.getItem(AUTH_KEY);
+        const AUTH_TOKEN = localStorage.getItem(STORAGE_KEY.AUTH_KEY);
 
         setTokenHeader(AUTH_TOKEN);
         load();
@@ -125,7 +126,7 @@ const Store = types
         const res: AxiosResponse = yield API.signIn(data);
         const { token } = res.data;
 
-        localStorage.setItem(AUTH_KEY, token);
+        localStorage.setItem(STORAGE_KEY.AUTH_KEY, token);
         setTokenHeader(token);
 
         yield load();
@@ -136,7 +137,7 @@ const Store = types
         const res: AxiosResponse = yield API.signUp(data);
         const { token } = res.data;
 
-        localStorage.setItem(AUTH_KEY, token);
+        localStorage.setItem(STORAGE_KEY.AUTH_KEY, token);
         setTokenHeader(token);
         yield fetchUser();
         yield fetchActions({ page: START_PAGE });
@@ -144,7 +145,7 @@ const Store = types
         return res;
       }),
       logout() {
-        localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem(STORAGE_KEY.AUTH_KEY);
         removeTokenHeader();
         self.user = null;
         self.state = STATE.pending;
@@ -156,6 +157,15 @@ const Store = types
   .views((self) => ({
     get isAuth() {
       return Boolean(self.user);
+    },
+    get isRegular() {
+      return propEq('role', USER_ROLE.REGULAR)(self);
+    },
+    get isMiner() {
+      return propEq('role', USER_ROLE.MINER)(self);
+    },
+    get isSuper() {
+      return propEq('role', USER_ROLE.MINER)(self);
     },
     get isActive() {
       return getOr(false, 'user.isActive', self);

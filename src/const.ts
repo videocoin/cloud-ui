@@ -84,7 +84,6 @@ export const MIN_VID = 20;
 export const SUPPORT_EMAIL = 'support@videocoin.io';
 export const TRANSACTIONS_OFFSET = 20;
 
-export const AUTH_KEY = 'token';
 export enum STATE {
   loading = 'loading',
   loaded = 'loaded',
@@ -111,4 +110,15 @@ export const START_PAGE = 1;
 export enum ORDER {
   ASC = 'asc',
   DESC = 'desc',
+}
+
+export enum USER_ROLE {
+  REGULAR = 'USER_ROLE_REGULAR',
+  MINER = 'USER_ROLE_MINER',
+  SUPER = 'USER_ROLE_SUPER',
+}
+
+export enum STORAGE_KEY {
+  AUTH_KEY = 'token',
+  GUIDE_HIDDEN = 'guideHidden',
 }

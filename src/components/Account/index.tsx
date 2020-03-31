@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { Typography, Button } from 'ui-kit';
 import { map } from 'lodash/fp';
 import UserStore from 'stores/user';
@@ -10,15 +10,32 @@ import TokensStore, { IToken } from 'stores/tokens';
 import { AxiosResponse } from 'axios';
 import css from './index.module.scss';
 import Section from './Section';
+import { Switch } from '../../ui-kit/src/Switch';
 
 const Account = () => {
   const {
     user: { name, email },
+    isPublisher,
+    isWorker,
+    setPublisherRole,
+    setWorkerRole,
   } = UserStore;
   const { openModal } = ModalStore;
   const { items, addToken, isCreating, isDeleting } = TokensStore;
   const handleResetPassword = () => openModal(modalType.RESET_PASSWORD_AUTH);
 
+  const handlePublisherChange = (e: FormEvent<HTMLInputElement>) => {
+    const { checked } = e.currentTarget;
+
+    setPublisherRole(checked);
+    localStorage.setItem('isPublisher', `${+checked}`);
+  };
+  const handleWorkerChange = (e: FormEvent<HTMLInputElement>) => {
+    const { checked } = e.currentTarget;
+
+    setWorkerRole(checked);
+    localStorage.setItem('isWorker', `${+checked}`);
+  };
   const handleRevoke = (token: IToken) => () => {
     openModal(modalType.REVOKE_TOKEN_MODAL, {
       onConfirm: token.remove,
@@ -67,6 +84,25 @@ const Account = () => {
           <Button theme="minimal-sunkissed" onClick={handleResetPassword}>
             Reset
           </Button>
+        </div>
+      </Section>
+      <Section title="Features">
+        <div className={css.field}>
+          <Typography type="smallBodyThin">Publisher</Typography>
+          <Switch checked={isPublisher} onChange={handlePublisherChange}>
+            <Typography type="tiny">
+              Enables features for publishers to transcode livestreams and
+              video.
+            </Typography>
+          </Switch>
+        </div>
+        <div className={css.field}>
+          <Typography type="smallBodyThin">Worker</Typography>
+          <Switch checked={isWorker} onChange={handleWorkerChange}>
+            <Typography type="tiny">
+              Enables features workers to provide compute power to the network.
+            </Typography>
+          </Switch>
         </div>
       </Section>
       <Section

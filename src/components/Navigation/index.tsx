@@ -16,6 +16,11 @@ const Navigation = () => {
           <div className={css.bottom}>
             <NavLink
               icon="videoCoinWallet"
+              label="Billing"
+              to="/dashboard/billing"
+            />
+            <NavLink
+              icon="videoCoinWallet"
               label="Wallet"
               to="/dashboard/wallet"
             />

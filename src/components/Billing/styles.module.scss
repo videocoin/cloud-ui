@@ -1,0 +1,122 @@
+@import 'vars';
+
+.balance {
+  margin-bottom: 56px;
+}
+
+.paymentItemTop {
+  display: flex;
+  align-items: baseline;
+  & > div {
+    &:first-child {
+      margin-right: 32px;
+    }
+    &:last-child {
+      margin-left: 4px;
+    }
+  }
+}
+
+.paymentItemBottom {
+  display: flex;
+  align-items: baseline;
+  button {
+    color: $sunkissed-orange;
+    background-color: transparent;
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    &:not(:last-child) {
+      margin-right: 23px;
+    }
+  }
+}
+.selectTitle {
+  display: flex;
+  align-items: baseline;
+  padding-left: 24px;
+  & > *:last-child {
+    margin-left: 9px;
+  }
+}
+.amountList {
+  display: flex;
+  background-color: $violet-sky-b4;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 12px;
+  margin-bottom: 32px;
+  label {
+    flex: 1;
+  }
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    visibility: hidden;
+    &:checked + .amountItem::after {
+      display: block;
+    }
+  }
+}
+.amountItem {
+  text-transform: capitalize;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  &::after {
+    content: '';
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background-color: $violet-sky;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+}
+.form {
+  background-color: $violet-sky;
+  border-radius: 4px;
+  padding-left: 24px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: inset 0 1px 0 0 #9e60f3;
+  margin-bottom: 24px;
+}
+.stripeCard {
+  background-color: $violet-sky;
+  padding: 16px 24px;
+  border-radius: 4px;
+  margin-bottom: 32px;
+  box-shadow: inset 0 1px 0 0 #9e60f3;
+}
+
+.formRow {
+  display: flex;
+  padding: 9px 0;
+  align-items: center;
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba($perfect-white, 0.08);
+  }
+  input {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: $perfect-white;
+    &::placeholder {
+      color: rgba($perfect-white, 0.48);
+    }
+  }
+}
+.formLabel {
+  margin-right: 15px;
+  min-width: 50px;
+}

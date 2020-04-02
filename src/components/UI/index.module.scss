@@ -1,4 +1,10 @@
+@import 'vars';
 .postfix {
   position: absolute;
   right: 0;
+}
+
+.subttlDivider {
+  padding: 0 8px;
+  border-bottom: 1px solid $grey-dawn-w2;
 }

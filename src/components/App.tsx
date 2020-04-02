@@ -42,6 +42,10 @@ const Confirm = lazy(() =>
   import(/* webpackPrefetch: true */ 'routes/Confirm'),
 );
 
+const Billing = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/billing'),
+);
+
 const App = () => {
   return (
     <>
@@ -61,6 +65,7 @@ const App = () => {
             </StreamsRoot>
             <Workers path="workers" />
             <Worker path="workers/:workerId" />
+            <Billing path="billing" />
             <Redirect default from="*" to="/not-found" noThrow />
           </Dashboard>
           <SignIn path="/sign-in" />

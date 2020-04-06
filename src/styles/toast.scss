@@ -3,6 +3,7 @@
   border-radius: 28px;
   min-height: 56px;
   padding: 8px 48px;
+  max-width: 530px;
 }
 .Toastify__toast--success {
   background-color: $violet-sky;
@@ -23,4 +24,8 @@
 }
 .Toastify__progress-bar {
   height: 2px;
+}
+.Toastify__toast-container--bottom-center {
+  transform: translateX(-50%);
+  margin-left: auto;
 }

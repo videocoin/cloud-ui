@@ -1,12 +1,19 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import React, { ChangeEvent, ReactNode, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { eq, map } from 'lodash/fp';
 import Modal from 'components/Modal';
 import { Button, Typography } from 'ui-kit';
 import { Formik, Field, Form } from 'formik';
 import { loadStripe } from '@stripe/stripe-js';
 import modalStore from 'stores/modal';
+import userStore from 'stores/user';
 import {
   CardElement,
   Elements,
@@ -14,6 +21,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { initPayment } from 'api/billing';
+import { toast } from 'react-toastify';
 import validationSchema from './validation';
 import css from './styles.module.scss';
 
@@ -46,12 +54,24 @@ const CARD_OPTIONS = {
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const amountInput = useRef(null);
   const [isLoading, setLoading] = useState(false);
   const [amount, setAmount] = useState('20');
+  const [customAmount, setCustomAmount] = useState('');
   const { closeModal } = modalStore;
+  const { fetchBillingProfile } = userStore;
   const isChecked = eq(amount);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+
+  useEffect(() => {
+    if (amount === 'other') {
+      amountInput.current.focus();
+    }
+  }, [amount]);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAmount(e.currentTarget.value);
+  };
+  const handleChangeCustomAmount = (e: ChangeEvent<HTMLInputElement>) =>
+    setCustomAmount(e.currentTarget.value);
   const renderAmount = (value: string): ReactNode => {
     return (
       <label key={value}>
@@ -79,12 +99,13 @@ const CheckoutForm = () => {
 
   const onSubmit = async (values: typeof initialValues) => {
     setLoading(true);
-    const res = await initPayment({ amount: +amount });
-    const { cardComplete, ...billingDetails } = values;
-    const card = elements.getElement(CardElement);
-
     try {
-      const { paymentIntent } = await stripe.confirmCardPayment(
+      const res = await initPayment({
+        amount: amount === 'other' ? +customAmount : +amount,
+      });
+      const { cardComplete, ...billingDetails } = values;
+      const card = elements.getElement(CardElement);
+      const { paymentIntent, error } = await stripe.confirmCardPayment(
         `${res.data.clientSecret}`,
         {
           payment_method: {
@@ -94,8 +115,16 @@ const CheckoutForm = () => {
         },
       );
 
+      if (error) {
+        toast.error(error.message);
+      }
       if (paymentIntent.status === 'succeeded') {
         closeModal();
+        setTimeout(() => {
+          fetchBillingProfile();
+        }, 3000);
+      } else {
+        toast.error('Something went wrong');
       }
     } catch (e) {
       setLoading(false);
@@ -105,6 +134,22 @@ const CheckoutForm = () => {
   return (
     <>
       <div className={css.amountList}>{map(renderAmount)(amounts)}</div>
+      {amount === 'other' && (
+        <label className={css.amountRow}>
+          <Typography type="smallBody" theme="white" className={css.formLabel}>
+            Amount
+          </Typography>
+          <input
+            ref={amountInput}
+            className={css.amountInput}
+            value={customAmount}
+            type="number"
+            placeholder="Enter amount"
+            min={0}
+            onChange={handleChangeCustomAmount}
+          />
+        </label>
+      )}
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}

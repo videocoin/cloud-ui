@@ -107,13 +107,23 @@
     border-bottom: 1px solid rgba($perfect-white, 0.08);
   }
   input {
+    width: 100%;
     background: transparent;
     border: none;
     font-size: 14px;
     color: $perfect-white;
+    padding-right: 15px;
+    caret-color: $perfect-white;
     &::placeholder {
       color: rgba($perfect-white, 0.48);
     }
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-text-fill-color: $perfect-white !important;
+    -webkit-box-shadow: 0 0 0 30px $violet-sky inset !important;
   }
 }
 .formLabel {

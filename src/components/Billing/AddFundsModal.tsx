@@ -1,19 +1,24 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 import React, { ChangeEvent, ReactNode, useState } from 'react';
 import { eq, map } from 'lodash/fp';
 import Modal from 'components/Modal';
 import { Button, Typography } from 'ui-kit';
 import { Formik, Field, Form } from 'formik';
 import { loadStripe } from '@stripe/stripe-js';
+import modalStore from 'stores/modal';
 import {
   CardElement,
   Elements,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import { initPayment } from 'api/billing';
+import validationSchema from './validation';
 import css from './styles.module.scss';
 
 const amounts = ['5', '20', '50', 'other'];
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as 'solid',
@@ -38,27 +43,12 @@ const CARD_OPTIONS = {
   },
 };
 
-const CheckoutForm = ({ children }: { children: ReactNode }) => {
+const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-
-  // const { error, paymentMethod } = await stripe.createPaymentMethod({
-  //   type: 'card',
-  //   card: elements.getElement(CardElement),
-  // });
-
-  return (
-    <>
-      {children}
-      <div className={css.stripeCard}>
-        <CardElement options={CARD_OPTIONS} />
-      </div>
-    </>
-  );
-};
-
-const AddFundsModal = () => {
+  const [isLoading, setLoading] = useState(false);
   const [amount, setAmount] = useState('20');
+  const { closeModal } = modalStore;
   const isChecked = eq(amount);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setAmount(e.currentTarget.value);
@@ -84,11 +74,97 @@ const AddFundsModal = () => {
     name: '',
     email: '',
     phone: '',
-  };
-  const onSubmit = (values: typeof initialValues) => {
-    console.log(values);
+    cardComplete: false,
   };
 
+  const onSubmit = async (values: typeof initialValues) => {
+    setLoading(true);
+    const res = await initPayment({ amount: +amount });
+    const { cardComplete, ...billingDetails } = values;
+    const card = elements.getElement(CardElement);
+
+    try {
+      const { paymentIntent } = await stripe.confirmCardPayment(
+        `${res.data.clientSecret}`,
+        {
+          payment_method: {
+            card,
+            billing_details: billingDetails,
+          },
+        },
+      );
+
+      if (paymentIntent.status === 'succeeded') {
+        closeModal();
+      }
+    } catch (e) {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <div className={css.amountList}>{map(renderAmount)(amounts)}</div>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+      >
+        {({ isValid, setFieldValue }) => {
+          const cardChange = (e: any) => {
+            setFieldValue('cardComplete', e.complete);
+          };
+
+          return (
+            <Form noValidate>
+              <div className={css.form}>
+                <label className={css.formRow}>
+                  <Typography
+                    type="smallBody"
+                    theme="white"
+                    className={css.formLabel}
+                  >
+                    Name
+                  </Typography>
+                  <Field name="name" placeholder="Jane Doe" />
+                </label>
+                <label className={css.formRow}>
+                  <Typography
+                    type="smallBody"
+                    theme="white"
+                    className={css.formLabel}
+                  >
+                    Email
+                  </Typography>
+                  <Field name="email" placeholder="janedoe@gmail.com" />
+                </label>
+                <label className={css.formRow}>
+                  <Typography
+                    type="smallBody"
+                    theme="white"
+                    className={css.formLabel}
+                  >
+                    Phone
+                  </Typography>
+                  <Field name="phone" placeholder="(941) 555-0123" />
+                </label>
+              </div>
+              <div className={css.stripeCard}>
+                <CardElement options={CARD_OPTIONS} onChange={cardChange} />
+              </div>
+
+              <Button type="submit" disabled={!isValid} loading={isLoading}>
+                Add ${amount}
+              </Button>
+            </Form>
+          );
+        }}
+      </Formik>
+    </>
+  );
+};
+
+const AddFundsModal = () => {
   return (
     <Modal header={() => <Typography type="smallTitle">Add Funds</Typography>}>
       <div className="modalInner">
@@ -96,50 +172,9 @@ const AddFundsModal = () => {
           <Typography type="subtitle">Select amount</Typography>
           <Typography type="caption">(temporary limit of $100)</Typography>
         </div>
-        <div className={css.amountList}>{map(renderAmount)(amounts)}</div>
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {() => (
-            <Form noValidate>
-              <Elements stripe={stripePromise}>
-                <CheckoutForm>
-                  <div className={css.form}>
-                    <label className={css.formRow}>
-                      <Typography
-                        type="smallBody"
-                        theme="white"
-                        className={css.formLabel}
-                      >
-                        Name
-                      </Typography>
-                      <Field name="name" placeholder="Jane Doe" />
-                    </label>
-                    <label className={css.formRow}>
-                      <Typography
-                        type="smallBody"
-                        theme="white"
-                        className={css.formLabel}
-                      >
-                        Email
-                      </Typography>
-                      <Field name="email" placeholder="janedoe@gmail.com" />
-                    </label>
-                    <label className={css.formRow}>
-                      <Typography
-                        type="smallBody"
-                        theme="white"
-                        className={css.formLabel}
-                      >
-                        Phone
-                      </Typography>
-                      <Field name="phone" placeholder="(941) 555-0123" />
-                    </label>
-                  </div>
-                </CheckoutForm>
-              </Elements>
-              <Button>Add ${amount}</Button>
-            </Form>
-          )}
-        </Formik>
+        <Elements stripe={stripePromise}>
+          <CheckoutForm />
+        </Elements>
       </div>
     </Modal>
   );

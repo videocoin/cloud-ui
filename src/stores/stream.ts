@@ -19,7 +19,7 @@ const Store = types
       hasMore: false,
     }),
   })
-  .actions(self => ({
+  .actions((self) => ({
     fetchStream: flow(function* fetchStream(id: string, silent = false) {
       if (!silent) {
         self.streamState = STATE.loading;
@@ -59,7 +59,7 @@ const Store = types
       self.protocol.replace(mappedActions);
     }),
   }))
-  .views(self => ({
+  .views((self) => ({
     get isStreamLoading() {
       return propEq('state', STATE.loading)(self);
     },

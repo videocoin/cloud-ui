@@ -30,7 +30,7 @@ const Workers = types
     isLoaded: false,
     isSaving: false,
   })
-  .actions(self => {
+  .actions((self) => {
     const fetchWorkers = flow(function* fetchWorkers({
       silent = false,
     }: {
@@ -114,7 +114,7 @@ const Workers = types
       },
     };
   })
-  .views(self => ({
+  .views((self) => ({
     get newWorkers() {
       return filter({ status: WorkerStatus.NEW })(self.workers);
     },

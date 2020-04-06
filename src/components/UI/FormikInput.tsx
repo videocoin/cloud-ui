@@ -17,7 +17,7 @@ const Input = (props: Props) => {
       error={hasError}
       postfix={() => (
         <ErrorMessage name={field.name}>
-          {msg => (
+          {(msg) => (
             <FieldAction color="pink" icon="incomplete" className={css.postfix}>
               {msg}
             </FieldAction>

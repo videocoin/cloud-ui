@@ -83,7 +83,7 @@ const WebRTCInput = ({
           pc.addTrack(track);
         });
 
-        pc.createOffer().then(offer => {
+        pc.createOffer().then((offer) => {
           pc.setLocalDescription(offer);
           startWebRTC({ streamId: stream.id, sdp: offer.sdp }).then(
             (resp: any) => {
@@ -109,7 +109,7 @@ const WebRTCInput = ({
   const initMediaDevices = useCallback(() => {
     navigator.mediaDevices
       .getUserMedia({ audio: true, video: { width: 1280, height: 720 } })
-      .then(mediaStream => {
+      .then((mediaStream) => {
         localStream.current = mediaStream;
         navigator.mediaDevices.enumerateDevices().then(gotDevices);
         if (videoNode.current) {
@@ -130,7 +130,7 @@ const WebRTCInput = ({
       title: 'Stop stream?',
       onConfirm: () => {
         if (localStream.current) {
-          localStream.current.getTracks().forEach(track => track.stop());
+          localStream.current.getTracks().forEach((track) => track.stop());
         }
         stream.completeStream();
         setTimeout(() => {

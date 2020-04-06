@@ -25,7 +25,7 @@ export default types
     checked: types.map(types.safeReference(types.late(() => Stream))),
     profiles: types.array(Profile),
   })
-  .actions(self => {
+  .actions((self) => {
     let initialState = {};
     const afterCreate = () => {
       initialState = getSnapshot(self);
@@ -42,7 +42,7 @@ export default types
         try {
           const res: AxiosResponse = yield API.getStreams();
 
-          each(i => {
+          each((i) => {
             self.streams.put(i);
           })(res.data.items);
 
@@ -69,7 +69,7 @@ export default types
         try {
           const res = yield Promise.all(promises);
 
-          self.checked.forEach(i => destroy(i));
+          self.checked.forEach((i) => destroy(i));
           self.state = STATE.loaded;
 
           return res;
@@ -97,7 +97,7 @@ export default types
       }),
     };
   })
-  .views(self => ({
+  .views((self) => ({
     get isLoading() {
       return propEq('state', STATE.loading)(self);
     },

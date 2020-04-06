@@ -93,7 +93,7 @@ const createHistory = (source: any, options: any) => {
       location = getLocation(source);
       transitioning = true;
       // eslint-disable-next-line no-return-assign
-      const transition = new Promise(res => (resolveTransition = res));
+      const transition = new Promise((res) => (resolveTransition = res));
 
       listeners.forEach((listener: any) =>
         listener({ location, action: 'PUSH' }),

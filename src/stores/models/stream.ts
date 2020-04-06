@@ -41,7 +41,7 @@ const StreamModel = types.model('Stream', {
   inputType: types.string,
 });
 
-export const Stream = StreamModel.actions(self => ({
+export const Stream = StreamModel.actions((self) => ({
   runStream: flow(function* runStream() {
     const res: AxiosResponse = yield API.runStream(self.id);
 
@@ -66,7 +66,7 @@ export const Stream = StreamModel.actions(self => ({
   updateStatus(status: IStatus) {
     self.status = status;
   },
-})).views(self => ({
+})).views((self) => ({
   get isWebRTC() {
     return propEq('inputType', STREAM_INPUT_TYPE.WEBRTC)(self);
   },

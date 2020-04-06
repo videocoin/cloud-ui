@@ -71,8 +71,8 @@ function errorHandler(error: AxiosError) {
 }
 
 api.interceptors.response.use(
-  response => response,
-  error => errorHandler(error),
+  (response) => response,
+  (error) => errorHandler(error),
 );
 
 export function setTokenHeader(token: string) {

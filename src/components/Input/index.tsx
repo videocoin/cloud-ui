@@ -14,7 +14,7 @@ const Input = ({ field, form, ...baseInputProps }: FieldProps) => {
       error={hasError}
       postfix={() => (
         <ErrorMessage name={field.name}>
-          {msg => (
+          {(msg) => (
             <FieldAction color="pink" icon="incomplete" className={css.postfix}>
               {msg}
             </FieldAction>

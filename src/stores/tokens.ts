@@ -20,7 +20,7 @@ const Token = types
     name: types.string,
     token: types.maybe(types.string),
   })
-  .actions(self => ({
+  .actions((self) => ({
     remove() {
       const parent: any = getParent(self, 2);
 
@@ -33,7 +33,7 @@ const Tokens = types
     state: StateModel,
     tokens: types.map(Token),
   })
-  .actions(self => ({
+  .actions((self) => ({
     fetchTokens: flow(function* fetchTokens() {
       self.state = STATE.loading;
       try {
@@ -77,7 +77,7 @@ const Tokens = types
       this.fetchTokens();
     },
   }))
-  .views(self => ({
+  .views((self) => ({
     get items() {
       return values(self.tokens);
     },

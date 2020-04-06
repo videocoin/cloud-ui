@@ -7,7 +7,7 @@ const Modal = types
   .volatile(() => ({
     props: null,
   }))
-  .actions(self => ({
+  .actions((self) => ({
     openModal(modalType: string, modalProps?: any) {
       self.type = modalType;
       self.props = modalProps;

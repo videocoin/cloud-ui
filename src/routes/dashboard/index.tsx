@@ -12,21 +12,21 @@ const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
   children,
   ...props
 }) => {
-  const { isActive, fetchUser, isLoading } = UserStore;
+  const { isActive, fetchBillingProfile, isLoading } = UserStore;
   const { '*': path } = props;
   const interval = useRef(null);
 
   useEffect(() => {
     if (isActive) {
       interval.current = setInterval(() => {
-        fetchUser(true);
+        fetchBillingProfile();
       }, balanceRequestTimeout);
     }
 
     return () => {
       clearInterval(interval.current);
     };
-  }, [fetchUser, isActive]);
+  }, [fetchBillingProfile, isActive]);
 
   if (!isActive && path !== 'pending') {
     history.navigate('/dashboard/pending');

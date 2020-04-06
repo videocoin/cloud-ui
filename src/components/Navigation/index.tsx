@@ -14,11 +14,7 @@ const Navigation = () => {
           <NavLink icon="pipelines" label="Streams" to="/dashboard/streams" />
           <NavLink icon="workers" label="Workers" to="/dashboard/workers" />
           <div className={css.bottom}>
-            <NavLink
-              icon="videoCoinWallet"
-              label="Billing"
-              to="/dashboard/billing"
-            />
+            <NavLink icon="billing" label="Billing" to="/dashboard/billing" />
             <NavLink
               icon="videoCoinWallet"
               label="Wallet"

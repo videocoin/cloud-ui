@@ -3,21 +3,38 @@
 
 .root {
   position: fixed;
-  height: 112px;
-  display: flex;
-  align-items: center;
+  min-width: 192px;
   border-radius: 12px;
-  background: $violet-sky-b3;
   box-shadow: $lofty;
   bottom: 64px;
-  padding: 36px 25px;
   left: 350px;
+  text-align: center;
+  overflow: hidden;
+  background-image: linear-gradient(225deg, #7234c8 0%, #4e238e 100%);
   @include laptop {
     left: 132px;
   }
 }
 .balance {
-  margin-right: 7px;
-  margin-left: 25px;
-  align-self: baseline;
+  background-image: linear-gradient(
+    122deg,
+    rgba(255, 255, 255, 0.23) 4%,
+    rgba(176, 142, 223, 0.21) 100%
+  );
+  padding: 6px 0;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    background-image: linear-gradient(135deg, #cba8fe 0%, #a570ef 100%);
+  }
+}
+.title {
+  background-image: linear-gradient(225deg, #7234c8 0%, #4e238e 100%);
+  padding: 6px 0;
+  color: #e1caff !important;
 }

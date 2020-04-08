@@ -2,11 +2,13 @@ import React from 'react';
 import SubtitleDivider from 'components/UI/SubtitleDivider';
 import { Radio, Typography } from 'ui-kit';
 import modalStore from 'stores/modal';
+import userStore from 'stores/user';
 import { modalType } from 'components/ModalManager';
 import css from './styles.module.scss';
 
 const PaymentItem = ({ onChange }: { onChange: () => void }) => {
   const { openModal } = modalStore;
+  const { balance } = userStore;
   const handleAddFunds = () => {
     openModal(modalType.ADD_FUNDS);
   };
@@ -17,7 +19,7 @@ const PaymentItem = ({ onChange }: { onChange: () => void }) => {
         <Radio.RadioBtn value="prepaid">
           <div className={css.paymentItemTop}>
             <Typography type="body">Prepaid Credits</Typography>
-            <Typography type="smallBody">$98.87</Typography>
+            <Typography type="smallBody">${balance}</Typography>
             <Typography type="smallBodyThin">left</Typography>
           </div>
           <div className={css.paymentItemBottom}>

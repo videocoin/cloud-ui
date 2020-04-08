@@ -68,11 +68,17 @@ const CheckoutForm = () => {
     }
   }, [amount]);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCustomAmount('');
     setAmount(e.currentTarget.value);
   };
-  const handleChangeCustomAmount = (e: ChangeEvent<HTMLInputElement>) =>
-    setCustomAmount(e.currentTarget.value);
+  const handleChangeCustomAmount = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.currentTarget;
+
+    setCustomAmount(+value > 100 ? '100' : value);
+  };
   const renderAmount = (value: string): ReactNode => {
+    const isCustom = value === 'other';
+
     return (
       <label key={value}>
         <input
@@ -83,9 +89,22 @@ const CheckoutForm = () => {
           onChange={handleChange}
         />
         <div className={css.amountItem}>
-          <Typography type="subtitle" theme="white">
-            {value === 'other' ? value : `$${value}`}
-          </Typography>
+          {isCustom && amount === 'other' ? (
+            <input
+              ref={amountInput}
+              className={css.amountInput}
+              value={customAmount}
+              type="number"
+              placeholder="Other"
+              min={0}
+              max={100}
+              onChange={handleChangeCustomAmount}
+            />
+          ) : (
+            <Typography type="subtitle" theme="white">
+              {value === 'other' ? value : `$${value}`}
+            </Typography>
+          )}
         </div>
       </label>
     );
@@ -134,22 +153,6 @@ const CheckoutForm = () => {
   return (
     <>
       <div className={css.amountList}>{map(renderAmount)(amounts)}</div>
-      {amount === 'other' && (
-        <label className={css.amountRow}>
-          <Typography type="smallBody" theme="white" className={css.formLabel}>
-            Amount
-          </Typography>
-          <input
-            ref={amountInput}
-            className={css.amountInput}
-            value={customAmount}
-            type="number"
-            placeholder="Enter amount"
-            min={0}
-            onChange={handleChangeCustomAmount}
-          />
-        </label>
-      )}
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -199,7 +202,7 @@ const CheckoutForm = () => {
               </div>
 
               <Button type="submit" disabled={!isValid} loading={isLoading}>
-                Add ${amount}
+                Add ${amount === 'other' ? customAmount || 0 : amount}
               </Button>
             </Form>
           );

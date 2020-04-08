@@ -1,0 +1,35 @@
+.tooltipDate {
+}
+
+.tooltipRow {
+  display: flex;
+  margin-top: 5px;
+}
+.tooltipItem {
+  display: flex;
+  margin-right: 36px;
+  & > *:last-child {
+    margin-left: 5px;
+  }
+  span {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background-color: #7234c8;
+    margin-right: 16px;
+    &.red {
+      background-color: #f53568;
+    }
+  }
+}
+.tooltip {
+  margin-bottom: 30px;
+}
+
+.chart {
+  border: 2px solid #4e238e;
+  border-radius: 16px;
+  background-color: #290f4d;
+  padding: 20px 24px;
+  width: 100%;
+}

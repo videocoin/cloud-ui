@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { TopBar, Typography } from 'ui-kit';
-import BackLink from 'components/BackLink';
 import { RouteComponentProps } from '@reach/router';
 import Balance from 'components/Billing/Balance';
 import PaymentMethods from 'components/Billing/PaymentMethods';
+import StreamsTable from 'components/Billing/StreamsTable';
+import Chart from 'components/Billing/Chart';
+import getPeriod from 'components/Billing/getPeriod';
 import css from './styles.module.scss';
 
 const BillingPage: FC<RouteComponentProps> = () => {
@@ -13,7 +15,6 @@ const BillingPage: FC<RouteComponentProps> = () => {
       <div className="topBar">
         <div>
           <TopBar>
-            <BackLink />
             <div>
               <Typography type="caption">VideoCoin Network</Typography>
               <Typography type="smallTitle">Billing</Typography>
@@ -21,10 +22,10 @@ const BillingPage: FC<RouteComponentProps> = () => {
             <div className="mla">
               <div>
                 <Typography align="right" type="subtitleCaps">
-                  Current Billing Cycle
+                  Current month&apos;s usage
                 </Typography>
                 <Typography align="right" type="smallBody">
-                  Mar 1 - Mar 31, 2020
+                  {getPeriod()}
                 </Typography>
               </div>
             </div>
@@ -37,7 +38,9 @@ const BillingPage: FC<RouteComponentProps> = () => {
             <Balance />
             <PaymentMethods />
           </div>
+          <Chart />
         </div>
+        <StreamsTable />
       </div>
     </div>
   );

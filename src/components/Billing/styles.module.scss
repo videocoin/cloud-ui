@@ -48,7 +48,7 @@
   label {
     flex: 1;
   }
-  input {
+  input[type='radio'] {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -79,6 +79,7 @@
     left: 0;
     top: 0;
     z-index: -1;
+    pointer-events: none;
   }
 }
 .amountRow {
@@ -96,8 +97,11 @@
   border: none;
   color: $perfect-white;
   background-color: transparent;
-  font-size: 14px;
-  padding-right: 15px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  padding: 0 10px;
+  text-align: center;
   caret-color: $perfect-white;
   &::placeholder {
     color: rgba($perfect-white, 0.48);
@@ -151,4 +155,8 @@
 .formLabel {
   margin-right: 15px;
   min-width: 60px;
+}
+
+.period {
+  margin-bottom: 14px;
 }

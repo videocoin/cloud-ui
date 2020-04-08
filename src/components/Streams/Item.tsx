@@ -38,14 +38,18 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
     STREAM_STATUS.FAILED,
     STREAM_STATUS.COMPLETED,
     STREAM_STATUS.CANCELLED,
+    STREAM_STATUS.DELETED,
   ]);
-  const cancelled = eq(STREAM_STATUS.CANCELLED, status);
+  const disabled = contains(status)([
+    STREAM_STATUS.CANCELLED,
+    STREAM_STATUS.DELETED,
+  ]);
 
   return (
     <tr
       className={cn(css.row, {
         [css.checked]: isChecked,
-        [css.cancelled]: cancelled,
+        [css.disabled]: disabled,
       })}
     >
       <td className={css.checkCell}>

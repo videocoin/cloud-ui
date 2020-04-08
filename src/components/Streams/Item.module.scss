@@ -29,7 +29,7 @@
       background-color: $violet-sky-b2;
     }
   }
-  &.cancelled {
+  &.disabled {
     td:not(:first-child) {
       opacity: 0.5;
       pointer-events: none;

@@ -36,7 +36,6 @@ const ProtocolTable = () => {
   const interval = useRef(null);
   const contractId = stream?.streamContractId;
 
-  // console.log(stream);
   useEffect(() => {
     fetchProtocol(contractId, page);
     interval.current = setInterval(() => {

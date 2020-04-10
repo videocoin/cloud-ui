@@ -17,6 +17,7 @@ export const modalType = {
   REVEAL_WORKER_MODAL: 'RevealWorkerModal',
   CONFIRM_MODAL: 'ConfirmModal',
   ADD_FUNDS: 'AddFunds',
+  WITHDRAW: 'Withdraw',
 };
 
 const ResetPasswordAuth = lazy(() => import('components/ResetPasswordAuth'));
@@ -45,6 +46,7 @@ const RevealWorkerModal = lazy(() =>
 );
 const ConfirmModal = lazy(() => import('components/ConfirmModal'));
 const AddFunds = lazy(() => import('components/Billing/AddFundsModal'));
+const Withdraw = lazy(() => import('components/Billing/WithdrawModal'));
 
 const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   ResetPasswordAuth,
@@ -61,6 +63,7 @@ const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   RevealWorkerModal,
   ConfirmModal,
   AddFunds,
+  Withdraw,
 };
 
 const ModalManager = () => {

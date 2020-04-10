@@ -1,7 +1,6 @@
 import { types, flow, applySnapshot, getSnapshot } from 'mobx-state-tree';
 import { eq, propEq, getOr, get, map, lt } from 'lodash/fp';
 import * as API from 'api/user';
-import * as billingApi from 'api/billing';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import {
   IWalletAction,
@@ -22,9 +21,9 @@ import {
 } from 'const';
 import StreamsStore from 'stores/streams';
 import { convertToVID } from 'helpers/convertBalance';
+import billingStore from 'stores/billing';
 import { StateModel } from './types';
 import User from './models/user';
-import Billing from './models/billing';
 
 const Store = types
   .model('UserStore', {
@@ -34,7 +33,6 @@ const Store = types
     actionsMeta: WalletMeta,
     transactions: types.array(WalletTransaction),
     transactionsMeta: WalletMeta,
-    billing: Billing,
   })
   .actions((self) => {
     let initialState = {};
@@ -104,14 +102,10 @@ const Store = types
 
       self.actions.replace(mappedActions);
     });
-    const fetchBillingProfile = flow(function* fetchBillingProfile() {
-      const res = yield billingApi.getProfile();
 
-      self.billing = res.data;
-    });
     const load = flow(function* load() {
       yield fetchUser();
-      yield fetchBillingProfile();
+      yield billingStore.fetchBillingProfile();
       yield fetchActions({ page: START_PAGE });
       yield fetchTransactions({ page: START_PAGE });
     });
@@ -120,7 +114,6 @@ const Store = types
       fetchUser,
       fetchActions,
       fetchTransactions,
-      fetchBillingProfile,
       afterCreate() {
         initialState = getSnapshot(self);
         const AUTH_TOKEN = localStorage.getItem(AUTH_KEY);
@@ -177,7 +170,7 @@ const Store = types
       return get('user.account')(self);
     },
     get balance() {
-      return get('billing.balance')(self);
+      return get('user.account.balance')(self);
     },
     get hasBalance() {
       return lt(MIN_VID)(+this.balance);
@@ -192,9 +185,6 @@ const UserStore = Store.create({
   user: null,
   actions: [],
   transactions: [],
-  billing: {
-    balance: 0,
-  },
   actionsMeta: {
     offset: 0,
     limit: PROTOCOL_OFFSET,

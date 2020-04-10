@@ -160,3 +160,22 @@
 .period {
   margin-bottom: 14px;
 }
+.table {
+  white-space: nowrap;
+  td {
+    max-width: none;
+  }
+}
+.typeCell {
+  width: 160px;
+}
+.profileCell {
+  width: 100px;
+}
+
+.nameCell {
+  max-width: 100% !important;
+}
+.durationCell {
+  width: 120px;
+}

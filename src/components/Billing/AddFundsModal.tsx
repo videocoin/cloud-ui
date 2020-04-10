@@ -13,7 +13,6 @@ import { Button, Typography } from 'ui-kit';
 import { Formik, Field, Form } from 'formik';
 import { loadStripe } from '@stripe/stripe-js';
 import modalStore from 'stores/modal';
-import userStore from 'stores/user';
 import {
   CardElement,
   Elements,
@@ -22,6 +21,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { initPayment } from 'api/billing';
 import { toast } from 'react-toastify';
+import billingStore from 'stores/billing';
 import validationSchema from './validation';
 import css from './styles.module.scss';
 
@@ -59,7 +59,7 @@ const CheckoutForm = () => {
   const [amount, setAmount] = useState('20');
   const [customAmount, setCustomAmount] = useState('');
   const { closeModal } = modalStore;
-  const { fetchBillingProfile } = userStore;
+  const { fetchBillingProfile } = billingStore;
   const isChecked = eq(amount);
 
   useEffect(() => {

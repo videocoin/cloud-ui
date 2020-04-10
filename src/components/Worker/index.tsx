@@ -3,8 +3,7 @@ import cn from 'classnames';
 import { eq } from 'lodash/fp';
 import { observer } from 'mobx-react-lite';
 import WorkersStore from 'stores/workers';
-import { Typography, Spinner } from 'ui-kit';
-import Input from 'ui-kit/src/Input/Input';
+import { Typography, Spinner, Input } from 'ui-kit';
 import formatBytes from 'helpers/formatBytes';
 import css from './styles.module.scss';
 

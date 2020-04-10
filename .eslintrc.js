@@ -7,7 +7,6 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'airbnb',
     'plugin:@typescript-eslint/recommended',
     'react-app',
     'prettier',
@@ -21,7 +20,7 @@ module.exports = {
     },
     project: './tsconfig.json',
   },
-  plugins: ['@typescript-eslint', 'prettier', 'react', 'import', 'lodash-fp'],
+  plugins: ['@typescript-eslint', 'prettier', 'react', 'lodash-fp'],
   rules: {
     'prettier/prettier': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -35,20 +34,6 @@ module.exports = {
     ],
     'no-param-reassign': [2, { props: false }],
     'import/prefer-default-export': 'off',
-    'padding-line-between-statements': [
-      'error',
-      {
-        blankLine: 'always',
-        prev: '*',
-        next: 'return',
-      },
-      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
-      {
-        blankLine: 'any',
-        prev: ['const', 'let', 'var'],
-        next: ['const', 'let', 'var'],
-      },
-    ],
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/no-angle-bracket-type-assertion': 'off',
     'import/extensions': 'off',

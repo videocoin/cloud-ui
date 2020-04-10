@@ -6,10 +6,17 @@ import Balance from 'components/Billing/Balance';
 import PaymentMethods from 'components/Billing/PaymentMethods';
 import StreamsTable from 'components/Billing/StreamsTable';
 import Chart from 'components/Billing/Chart';
-import getPeriod from 'components/Billing/getPeriod';
+import billingStore from 'stores/billing';
+import usePolling from 'hooks/usePolling';
 import css from './styles.module.scss';
+import { getPeriod } from 'components/Billing/utils';
 
 const BillingPage: FC<RouteComponentProps> = () => {
+  const { fetchCharges, fetchCharts } = billingStore;
+
+  usePolling(fetchCharges);
+  usePolling(fetchCharts);
+
   return (
     <div>
       <div className="topBar">

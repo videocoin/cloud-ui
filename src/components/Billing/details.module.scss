@@ -1,0 +1,66 @@
+@import '~styles/vars';
+@import '~styles/mixins';
+
+.prepaidCard {
+  width: 260px;
+  height: 165px;
+  border-radius: 12px;
+  box-shadow: $lofty;
+  overflow: hidden;
+  margin: 56px 0;
+  background-image: linear-gradient(225deg, #7234c8 0%, #4e238e 100%);
+}
+.prepaidCardTop {
+  background-image: linear-gradient(
+    122deg,
+    rgba(255, 255, 255, 0.23) 4%,
+    rgba(176, 142, 223, 0.21) 100%
+  );
+  position: relative;
+  padding: 13px 24px;
+  color: $perfect-white;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  &::after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    left: 0;
+    height: 1px;
+    bottom: 0;
+    background-image: linear-gradient(135deg, #cba8fe 0%, #a570ef 100%);
+  }
+}
+.table {
+  width: 100%;
+  td {
+    padding: 12px 8px;
+  }
+}
+.tableHeader {
+  border-bottom: 1px solid #3f2a5d;
+  margin-bottom: 20px;
+}
+.statusCell {
+  text-transform: capitalize;
+  width: 150px;
+}
+.typeCell {
+  width: 200px;
+  div {
+    display: flex;
+    text-transform: capitalize;
+    align-items: center;
+    div {
+      margin-left: 36px;
+    }
+  }
+}
+.amountCell {
+  text-align: right;
+  span {
+    margin-left: 5px;
+  }
+}

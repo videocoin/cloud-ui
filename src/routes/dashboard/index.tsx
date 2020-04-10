@@ -6,13 +6,15 @@ import UserStore from 'stores/user';
 import { history } from 'index';
 import { Spinner } from 'ui-kit';
 import { balanceRequestTimeout } from 'const';
+import billingStore from 'stores/billing';
 import css from './index.module.scss';
 
 const Dashboard: FC<RouteComponentProps & { '*'?: any }> = ({
   children,
   ...props
 }) => {
-  const { isActive, fetchBillingProfile, isLoading } = UserStore;
+  const { isActive, isLoading } = UserStore;
+  const { fetchBillingProfile } = billingStore;
   const { '*': path } = props;
   const interval = useRef(null);
 

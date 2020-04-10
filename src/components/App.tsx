@@ -46,6 +46,10 @@ const Billing = lazy(() =>
   import(/* webpackPrefetch: true */ 'routes/billing'),
 );
 
+const BillingDetails = lazy(() =>
+  import(/* webpackPrefetch: true */ 'routes/billing-details'),
+);
+
 const App = () => {
   return (
     <>
@@ -66,6 +70,7 @@ const App = () => {
             <Workers path="workers" />
             <Worker path="workers/:workerId" />
             <Billing path="billing" />
+            <BillingDetails path="billing-details" />
             <Redirect default from="*" to="/not-found" noThrow />
           </Dashboard>
           <SignIn path="/sign-in" />

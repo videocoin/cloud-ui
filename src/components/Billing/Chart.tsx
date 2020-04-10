@@ -1,88 +1,67 @@
-/* eslint-disable react/no-array-index-key */
-
 import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import { BarChart, Bar, XAxis, Cell, ResponsiveContainer } from 'recharts';
-import { Typography } from 'ui-kit/src/Typography';
 import css from './chart.module.scss';
 import './chart.scss';
-
-const data = [
-  { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
-  { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
-  { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
-  { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-  { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
-  { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
-  { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
-];
-
-const CustomTooltip = ({ item }: { item: any }) => (
-  <div className={css.tooltip}>
-    <Typography type="caption">Mar 5, 2020</Typography>
-    <div className={css.tooltipRow}>
-      <div className={css.tooltipItem}>
-        <span />
-        <Typography type="body">Video Encoding - 32:23</Typography>
-        <Typography type="bodyThin">mins</Typography>
-      </div>
-      <div className={css.tooltipItem}>
-        <span className={css.red} />
-        <Typography type="body">Livestreaming - 1:23</Typography>
-        <Typography type="bodyThin">hrs</Typography>
-      </div>
-    </div>
-  </div>
-);
+import billingStore, { IChart } from 'stores/billing';
+import { toJS } from 'mobx';
+import { map } from 'lodash/fp';
+import { tickFormatter } from 'components/Billing/utils';
+import ChartTooltip from 'components/Billing/ChartTooltip';
 
 const Chart = () => {
   const [active, setActive] = useState(null);
-  const onClick = (item: any) => {
-    setActive(item);
-  };
-
+  const { charts } = billingStore;
+  const onMouseLeave = () => setActive(null);
+  const plainChart = toJS(charts);
+  const renderVodBar = (entry: IChart) => (
+    <Cell
+      cursor="pointer"
+      opacity={active ? (entry.name === active.name ? 1 : 0.24) : 1}
+      fill="#7234C8"
+      key={`cell-${entry.name}`}
+    />
+  );
+  const renderLiveBar = (entry: any) => (
+    <Cell
+      cursor="pointer"
+      opacity={active ? (entry.name === active.name ? 1 : 0.24) : 1}
+      fill="#F53568"
+      key={`cell-${entry.name}`}
+    />
+  );
   return (
     <div className={css.chart}>
-      <CustomTooltip item={active} />
+      <ChartTooltip item={active} />
       <ResponsiveContainer width="100%" height={200}>
         <BarChart
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-          barSize={14}
-          barCategoryGap={10}
+          data={plainChart}
+          onMouseLeave={onMouseLeave}
+          style={{ cursor: 'pointer' }}
         >
           <XAxis
             dataKey="name"
-            scale="point"
             axisLine={false}
             tickLine={false}
+            interval={0}
+            tickFormatter={tickFormatter}
             stroke="#B099D2"
-            padding={{ left: 10, right: 10 }}
           />
-          <Bar dataKey="pv" stackId="a" fill="#7234C8" onClick={onClick}>
-            {data.map((entry, index) => (
-              <Cell
-                cursor="pointer"
-                fill={index === active?.name ? '#7234C8' : '#7234C8'}
-                key={`cell-${index}`}
-                style={{
-                  marginBottom: 2,
-                }}
-              />
-            ))}
+          <Bar
+            dataKey="vod"
+            stackId="a"
+            fill="#7234C8"
+            onMouseEnter={setActive}
+          >
+            {map(renderVodBar)(plainChart)}
           </Bar>
-          <Bar dataKey="uv" stackId="a" fill="#F53568" onClick={onClick}>
-            {data.map((entry, index) => (
-              <Cell
-                cursor="pointer"
-                fill={index === active?.name ? '#F53568' : '#F53568'}
-                key={`cell-${index}`}
-              />
-            ))}
+          <Bar
+            dataKey="live"
+            stackId="a"
+            fill="#F53568"
+            onMouseEnter={setActive}
+          >
+            {map(renderLiveBar)(plainChart)}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
@@ -90,4 +69,4 @@ const Chart = () => {
   );
 };
 
-export default Chart;
+export default observer(Chart);

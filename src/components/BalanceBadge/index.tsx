@@ -1,11 +1,12 @@
 import React from 'react';
 import { Typography } from 'ui-kit';
-import UserStore from 'stores/user';
 import { observer } from 'mobx-react-lite';
+import billingStore from 'stores/billing';
+import truncateBalance from 'helpers/truncateBalance';
 import css from './index.module.scss';
 
 const BalanceBadge = () => {
-  const { balance } = UserStore;
+  const { billing } = billingStore;
 
   return (
     <div className={css.root}>
@@ -15,7 +16,7 @@ const BalanceBadge = () => {
         data-testid="balance"
         theme="white"
       >
-        ${balance.toFixed(2)}
+        ${truncateBalance(billing.balance)}
       </Typography>
       <Typography className={css.title}>Pre-paid Credits</Typography>
     </div>

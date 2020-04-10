@@ -1,10 +1,12 @@
 import React, { ReactNode } from 'react';
-import { Pagination } from 'ui-kit/dist/Pagination';
-import { IWalletAction } from 'stores/models/wallet';
 import { uniqueId } from 'lodash/fp';
-import { Field, Table, Icon, Typography } from 'ui-kit';
-import getPeriod from './getPeriod';
+import { observer } from 'mobx-react-lite';
+import { Field, Table, Typography } from 'ui-kit';
+import billingStore, { ICharge } from 'stores/billing';
+import formatDate from 'helpers/formatDate';
+import { toJS } from 'mobx';
 import css from './styles.module.scss';
+import { formatDuration, getPeriod } from 'components/Billing/utils';
 
 const fields: Field[] = [
   {
@@ -24,8 +26,8 @@ const fields: Field[] = [
     label: 'Date',
   },
   {
-    name: 'amount',
-    label: 'Amount',
+    name: 'duration',
+    label: 'Duration',
   },
   {
     name: 'cost',
@@ -36,34 +38,45 @@ const fields: Field[] = [
     label: 'Total Cost',
   },
 ];
-const renderRow = (row: IWalletAction): ReactNode => (
+const renderRow = (row: ICharge): ReactNode => (
   <tr key={uniqueId('event')} className={css.row}>
-    <td className={css.timeCell}>{row.createdAt}</td>
-    <td>
-      <div className={css.from}>{row.hash}</div>
+    <td className={css.typeCell}>
+      <Typography type="smallBody">
+        {row.streamIsLive ? 'Livestream' : 'Video Encoding'}
+      </Typography>
     </td>
-    <td>{row.type}</td>
-    <td>
-      <div className={css.from}>
-        <span>{row.from}</span>{' '}
-        <Icon name="transaction" width={24} height={24} />
-      </div>
+    <td className={css.profileCell}>
+      <Typography type="smallBody">{row.streamProfileName}</Typography>
+    </td>
+    <td className={css.nameCell}>
+      <Typography type="smallBody" theme="sunkissed">
+        {row.streamName}
+      </Typography>
     </td>
     <td>
-      <div className={css.from}>
-        <span>{row.to}</span>
-      </div>
+      <Typography type="smallBody">
+        {formatDate('d/MM/yyyy')(row.createdAt)}
+      </Typography>
     </td>
-    <td className={css.valueCell}>{row.value}</td>
-    <td className={css.sourceCell}>{row.source}</td>
+    <td className={css.durationCell}>
+      <Typography type="smallBody">{formatDuration(row.duration)}</Typography>
+    </td>
+    <td>
+      <Typography type="smallBody">$ {row.cost}</Typography>
+    </td>
+    <td>
+      <Typography type="smallBody">$ {row.totalCost}</Typography>
+    </td>
   </tr>
 );
 
 const StreamsTable = () => {
+  const { charges } = billingStore;
+
   return (
     <div className={css.table}>
       <Typography className={css.period}>{getPeriod()}</Typography>
-      <Table fields={fields} data={[]} renderRow={renderRow} />;
+      <Table fields={fields} data={toJS(charges)} renderRow={renderRow} />;
       <div className={css.pagination}>
         {/* <Pagination onChange={handlePageChange} max={!hasMore} /> */}
       </div>
@@ -71,4 +84,4 @@ const StreamsTable = () => {
   );
 };
 
-export default StreamsTable;
+export default observer(StreamsTable);

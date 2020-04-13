@@ -5,8 +5,7 @@
     margin-bottom: 4px;
   }
   td {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 20px 24px;
     &:not(:first-child) {
       background-color: $grey-dawn;
     }
@@ -38,7 +37,6 @@
 }
 
 .statusCell {
-  width: 55px;
   padding: 0 53px;
   width: 1px;
 }
@@ -46,7 +44,7 @@
   width: 1px;
 }
 .status {
-  color: #ab88de;
+  color: rgba(#ab88de, 0.53);
   font-size: 8px;
   line-height: 20px;
   display: flex;
@@ -61,12 +59,16 @@
 }
 
 .checkCell {
-  width: 68px;
   max-width: 1px;
+  padding: 0 !important;
+  width: 64px;
+  label div {
+    margin-right: 0;
+  }
 }
 
 .nameCell {
-  padding-left: 24px;
-  padding-right: 24px;
   width: 300px;
+}
+.costCell {
 }

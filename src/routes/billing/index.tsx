@@ -27,14 +27,12 @@ const BillingPage: FC<RouteComponentProps> = () => {
               <Typography type="smallTitle">Billing</Typography>
             </div>
             <div className="mla">
-              <div>
-                <Typography align="right" type="subtitleCaps">
-                  Current month&apos;s usage
-                </Typography>
-                <Typography align="right" type="smallBody">
-                  {getPeriod()}
-                </Typography>
-              </div>
+              <Typography align="right" type="subtitleCaps">
+                Current month&apos;s usage
+              </Typography>
+              <Typography align="right" type="smallBody">
+                {getPeriod()}
+              </Typography>
             </div>
           </TopBar>
         </div>

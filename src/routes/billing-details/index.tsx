@@ -33,14 +33,12 @@ const BillingDetailsPage: FC<RouteComponentProps> = () => {
               <Typography type="smallTitle">Billing</Typography>
             </div>
             <div className="mla">
-              <div>
-                <Button theme="minimal" onClick={handleWithdraw}>
-                  Withdraw Funds
-                </Button>
-                <Button theme="sunkissed" onClick={handleAddFunds}>
-                  Add Funds
-                </Button>
-              </div>
+              <Button theme="minimal" onClick={handleWithdraw}>
+                Withdraw Funds
+              </Button>
+              <Button theme="sunkissed" onClick={handleAddFunds}>
+                Add Funds
+              </Button>
             </div>
           </TopBar>
         </div>

@@ -1,13 +1,14 @@
 import React from 'react';
-import { eq, contains } from 'lodash/fp';
+import { contains } from 'lodash/fp';
 import { Checkbox, Icon, Typography, IconName } from 'ui-kit';
 import cn from 'classnames';
 import { TStream } from 'stores/types';
 import { observer } from 'mobx-react-lite';
 import { Link } from '@reach/router';
-import { statusTable, STREAM_STATUS } from 'const';
+import { STREAM_STATUS } from 'const';
 import { IStatus } from 'stores/models/stream';
 import css from './Item.module.scss';
+import formatDate from 'helpers/formatDate';
 
 interface StreamItemProps {
   stream: TStream;
@@ -28,9 +29,36 @@ const statusIcon: Record<IStatus, IconName> = {
   [STREAM_STATUS.FAILED]: 'incomplete',
   [STREAM_STATUS.PENDING]: 'awaitingInput',
 };
-
+const statusText: Record<IStatus, string> = {
+  [STREAM_STATUS.NONE]: 'Offline',
+  [STREAM_STATUS.NEW]: 'Offline',
+  [STREAM_STATUS.PREPARING]: 'Preparing',
+  [STREAM_STATUS.PREPARED]: 'Awaiting Input',
+  [STREAM_STATUS.PROCESSING]: 'Awaiting Input',
+  [STREAM_STATUS.READY]: 'Awaiting Input',
+  [STREAM_STATUS.COMPLETED]: 'Offline',
+  [STREAM_STATUS.CANCELLED]: 'Offline',
+  [STREAM_STATUS.DELETED]: 'Offline',
+  [STREAM_STATUS.FAILED]: 'Incomplete',
+  [STREAM_STATUS.PENDING]: 'Awaiting Input',
+  [STREAM_STATUS.FAILED]: 'Failed',
+};
+const statusColor: Record<IStatus, string> = {
+  [STREAM_STATUS.NONE]: 'Offline',
+  [STREAM_STATUS.NEW]: 'Offline',
+  [STREAM_STATUS.PREPARING]: '#FD9369',
+  [STREAM_STATUS.PREPARED]: '#7130CC',
+  [STREAM_STATUS.PROCESSING]: '#7130CC',
+  [STREAM_STATUS.READY]: '#7130CC',
+  [STREAM_STATUS.COMPLETED]: 'Offline',
+  [STREAM_STATUS.CANCELLED]: 'Offline',
+  [STREAM_STATUS.DELETED]: 'Offline',
+  [STREAM_STATUS.FAILED]: 'Incomplete',
+  [STREAM_STATUS.PENDING]: '#7130CC',
+  [STREAM_STATUS.FAILED]: '#F53568',
+};
 const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
-  const { id, streamContractId, status, name } = stream;
+  const { id, streamContractId, createdAt, totalCost, status, name } = stream;
   const handleCheck = () => onCheck(stream);
   const isChecked = checked.has(stream.id);
   const canBeDeleted = contains(status)([
@@ -57,9 +85,15 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
           <Checkbox checked={isChecked} onChange={handleCheck} />
         )}
       </td>
-      <td className={css.nameCell}>
-        <Link className={css.link} to={id}>
-          <Typography type="body">{name}</Typography>
+      <td className={css.statusCell}>
+        <Link to={id} className={css.status}>
+          <Icon
+            name={statusIcon[status] || 'offline'}
+            color={statusColor[status]}
+            width={24}
+            height={24}
+          />
+          <div>{statusText[status]}</div>
         </Link>
       </td>
       <td className={css.idCell}>
@@ -67,10 +101,21 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
           <Typography type="body">{streamContractId}</Typography>
         </Link>
       </td>
-      <td className={css.statusCell}>
-        <Link to={id} className={css.status}>
-          <Icon name={statusIcon[status] || 'offline'} width={24} height={24} />
-          <div>{statusTable[status]}</div>
+      <td className={css.nameCell}>
+        <Link className={css.link} to={id}>
+          <Typography type="body">{name}</Typography>
+        </Link>
+      </td>
+      <td className={css.idCell}>
+        <Link className={css.link} to={id}>
+          <Typography type="body">
+            {formatDate('mm/dd/yyyy')(createdAt)}
+          </Typography>
+        </Link>
+      </td>
+      <td className={css.idCell}>
+        <Link className={css.link} to={id}>
+          <Typography type="body">${totalCost}</Typography>
         </Link>
       </td>
     </tr>

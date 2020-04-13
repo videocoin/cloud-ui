@@ -39,6 +39,7 @@ const StreamModel = types.model('Stream', {
   streamContractId: types.string,
   rtmpUrl: types.maybeNull(types.string),
   inputType: types.string,
+  totalCost: types.number,
 });
 
 export const Stream = StreamModel.actions((self) => ({

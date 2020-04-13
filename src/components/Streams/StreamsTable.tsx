@@ -9,8 +9,8 @@ import css from './Table.module.scss';
 
 const fields = [
   {
-    name: 'name',
-    label: 'Name',
+    name: 'status',
+    label: 'Status',
     colspan: 2,
   },
   {
@@ -18,8 +18,16 @@ const fields = [
     label: 'Stream ID',
   },
   {
-    name: 'status',
-    label: 'Status',
+    name: 'name',
+    label: 'Stream Name',
+  },
+  {
+    name: 'date',
+    label: 'Created on',
+  },
+  {
+    name: 'spent',
+    label: 'Total Spent',
   },
 ];
 

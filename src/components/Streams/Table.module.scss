@@ -6,13 +6,13 @@
   border-spacing: 0 4px;
   th {
     text-align: left;
-    padding: 24px 0;
+    padding: 24px;
     cursor: pointer;
     position: relative;
+    white-space: nowrap;
     &:first-child {
-      padding-left: 90px;
-    }
-    &:last-child {
+      padding-left: 85px;
+      max-width: 1px;
       text-align: center;
     }
     svg {

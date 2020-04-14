@@ -10,6 +10,8 @@ const Worker = types.model('Worker', {
   id: types.identifier,
   name: types.string,
   status: types.string,
+  userId: types.string,
+  address: types.string,
   systemInfo: types.model({
     cpuCores: types.number,
     cpuFreq: types.number,
@@ -29,6 +31,8 @@ const Workers = types
     checked: types.array(types.string),
     isLoaded: false,
     isSaving: false,
+    payments: types.array(types.string),
+    transactions: types.array(types.string),
   })
   .actions((self) => {
     const fetchWorkers = flow(function* fetchWorkers({
@@ -47,6 +51,15 @@ const Workers = types
       }
     });
 
+    const fetchPayments = flow(function* fetchPayments() {
+      try {
+        const res = yield API.fetchPayments(self.worker.address);
+        console.log(res);
+      } catch (e) {
+        throw e;
+      }
+    });
+
     return {
       fetchWorkers,
       fetchWorker: flow(function* fetchWorker(id: string) {
@@ -55,7 +68,7 @@ const Workers = types
           const res = yield API.fetchWorker(id);
 
           self.worker = res.data;
-
+          yield fetchPayments();
           return res;
         } finally {
           self.isLoading = false;

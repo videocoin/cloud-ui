@@ -22,7 +22,7 @@ const statusIcon: Record<IStatus, IconName> = {
   [STREAM_STATUS.PREPARING]: 'awaitingInput',
   [STREAM_STATUS.PREPARED]: 'awaitingInput',
   [STREAM_STATUS.PROCESSING]: 'awaitingInput',
-  [STREAM_STATUS.READY]: 'awaitingInput',
+  [STREAM_STATUS.READY]: 'stream',
   [STREAM_STATUS.COMPLETED]: 'offline',
   [STREAM_STATUS.CANCELLED]: 'offline',
   [STREAM_STATUS.DELETED]: 'offline',

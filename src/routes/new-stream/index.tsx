@@ -5,11 +5,11 @@ import { Button, TopBar, Typography } from 'ui-kit';
 import BackLink from 'components/BackLink';
 import NewStream from 'components/NewStream';
 import StreamsStore from 'stores/streams';
-import UserStore from 'stores/user';
 import { history } from 'index';
 import { SelectOption } from '@types';
 import css from './index.module.scss';
 import validationSchema from './validate';
+import billingStore from 'stores/billing';
 
 interface FormValues {
   name: string;
@@ -26,7 +26,7 @@ const initialValues: FormValues = {
 };
 
 const NewStreamPage = () => {
-  const { balance } = UserStore;
+  const { billing } = billingStore;
   const { fetchProfiles } = StreamsStore;
 
   useEffect(() => {
@@ -34,12 +34,12 @@ const NewStreamPage = () => {
   }, [fetchProfiles]);
 
   useEffect(() => {
-    if (!balance) {
+    if (!billing.balance) {
       history.navigate('./');
     }
-  }, [balance]);
+  }, [billing.balance]);
 
-  if (!balance) {
+  if (!billing.balance) {
     return null;
   }
 

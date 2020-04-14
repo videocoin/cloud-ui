@@ -5,9 +5,10 @@ import { observer } from 'mobx-react-lite';
 import StreamsStore from 'stores/streams';
 import icon from './assets/started.svg';
 import css from './GettingStarted.module.scss';
+import billingStore from 'stores/billing';
 
 const GettingStarted = () => {
-  const { balance } = UserStore;
+  const { billing } = billingStore;
   const { streams, isLoaded } = StreamsStore;
 
   if (streams.size > 2 || !isLoaded) {
@@ -26,9 +27,9 @@ const GettingStarted = () => {
           distributed network
         </Typography>
         <ul className={css.steps}>
-          <li className={Number(balance) > 0 ? css.cross : ''}>
+          <li className={Number(billing.balance) > 0 ? css.cross : ''}>
             <Icon
-              color={balance ? '#5f4681' : '#fd9369'}
+              color={billing.balance ? '#5f4681' : '#fd9369'}
               name="videoCoinWallet"
               height={24}
               width={24}

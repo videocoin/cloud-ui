@@ -69,15 +69,6 @@ const Workers = types
       }
     });
 
-    const fetchPayments = flow(function* fetchPayments() {
-      try {
-        const res = yield API.fetchPayments(self.worker.address);
-        self.payments = res.data.transactions;
-      } catch (e) {
-        throw e;
-      }
-    });
-
     return {
       fetchWorkers,
       fetchWorker: flow(function* fetchWorker(id: string) {
@@ -86,7 +77,6 @@ const Workers = types
           const res = yield API.fetchWorker(id);
 
           self.worker = res.data;
-          yield fetchPayments();
           return res;
         } finally {
           self.isLoading = false;

@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { first, last } from 'lodash/fp';
-import { Spinner, Table } from 'ui-kit';
+import { Spinner, Table, Typography } from 'ui-kit';
 import qs from 'query-string';
 import { uniqueId } from 'lodash/fp';
 import css from './styles.module.scss';
@@ -51,7 +51,7 @@ const Payments = () => {
     cursor: '',
   });
   const { data } = useSWR<{ transactions: IPayment[] }>(
-    worker
+    worker && worker.address
       ? qs.stringifyUrl({
           url: `${PAYMENT_URL}/transactions`,
           query: {
@@ -64,6 +64,7 @@ const Payments = () => {
       : null,
     fetcher,
   );
+  if (worker && !worker.address) return null;
   if (!data) return <Spinner />;
   const handleNext = (): void => {
     if (!data) return;
@@ -84,6 +85,7 @@ const Payments = () => {
 
   return (
     <div>
+      <Typography type="subtitle">Payments</Typography>
       <Table fields={fields} data={data.transactions} renderRow={renderRow} />;
       <div className={css.pagination}>
         <Pagination

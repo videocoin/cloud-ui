@@ -109,7 +109,7 @@ const StreamItem = ({ stream, onCheck, checked }: StreamItemProps) => {
       <td className={css.idCell}>
         <Link className={css.link} to={id}>
           <Typography type="body">
-            {formatDate('mm/dd/yyyy')(createdAt)}
+            {formatDate('MM/dd/yyyy')(createdAt)}
           </Typography>
         </Link>
       </td>

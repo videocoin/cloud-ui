@@ -1,7 +1,8 @@
 import { flow, types, Instance } from 'mobx-state-tree';
-import { sumBy } from 'lodash/fp';
+import { lt, sumBy } from 'lodash/fp';
 import * as billingApi from 'api/billing';
 import Billing from './models/billing';
+import { MIN_BALANCE } from 'const';
 
 const Charge = types.model({
   streamId: types.string,
@@ -63,6 +64,9 @@ const Store = types
     },
     get totalLive() {
       return sumBy('live')(self.charts);
+    },
+    get hasBalance() {
+      return lt(MIN_BALANCE)(self.billing.balance);
     },
   }));
 

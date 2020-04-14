@@ -12,7 +12,7 @@ import {
 import { AxiosResponse } from 'axios';
 import {
   ACTIONS_OFFSET,
-  MIN_VID,
+  MIN_BALANCE,
   PROTOCOL_OFFSET,
   TRANSACTIONS_OFFSET,
   STATE,
@@ -196,7 +196,7 @@ const Store = types
       return get('user.account.balance')(self);
     },
     get hasBalance() {
-      return lt(MIN_VID)(+this.balance);
+      return lt(MIN_BALANCE)(+this.balance);
     },
     get address() {
       return get('user.account.address')(self);

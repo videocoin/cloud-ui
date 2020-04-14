@@ -1,13 +1,14 @@
 import React from 'react';
 import StreamStore from 'stores/stream';
 import { Input, Typography } from 'ui-kit';
-import { MIN_VID } from 'const';
+import { MIN_BALANCE } from 'const';
 import ClipboardPostfix from 'components/ClipboardPostfix';
 import UserStore from 'stores/user';
+import billingStore from 'stores/billing';
 
 const RTMPInput = () => {
   const { stream } = StreamStore;
-  const { hasBalance } = UserStore;
+  const { hasBalance } = billingStore;
 
   const { isFailed, isOffline, isPreparing, rtmpUrl } = stream;
   const renderInput = () => {
@@ -17,7 +18,7 @@ const RTMPInput = () => {
     if (!hasBalance) {
       return (
         <Typography>
-          {`Minimum balance of ${MIN_VID} VID required to start a stream`}
+          {`Minimum balance of ${MIN_BALANCE} VID required to start a stream`}
         </Typography>
       );
     }

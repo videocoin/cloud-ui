@@ -9,15 +9,16 @@ import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import UserStore from 'stores/user';
 import HttpStatus from 'http-status-codes';
-import { MIN_VID, STREAM_STATUS, defaultServerError } from 'const';
+import { MIN_BALANCE, STREAM_STATUS, defaultServerError } from 'const';
 import { history } from 'index';
 import css from './index.module.scss';
+import billingStore from 'stores/billing';
 
 const streamRequestTimeout = 5000;
 const StreamControl = observer(() => {
   const [isLoading, setLoading] = useState(false);
   const { stream } = StreamStore;
-  const { hasBalance } = UserStore;
+  const { hasBalance } = billingStore;
 
   if (!stream) return null;
   const { status, runStream, completeStream } = stream;
@@ -48,7 +49,7 @@ const StreamControl = observer(() => {
           </Button>
           {!hasBalance && (
             <WarnTooltip
-              text={`Minimum balance of ${MIN_VID} VID required to start a stream`}
+              text={`Minimum balance of ${MIN_BALANCE} VID required to start a stream`}
               id="start"
             />
           )}

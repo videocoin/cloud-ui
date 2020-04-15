@@ -1,4 +1,5 @@
 import api from './index';
+import { PAYMENT_URL } from 'const';
 
 export function fetchWorkers() {
   return api('/miners');
@@ -18,4 +19,10 @@ export function createWorker() {
 
 export function updateWorker(id: string, data: { name: string }) {
   return api.put(`/miners/${id}`, data);
+}
+
+export function fetchPayments(id: string) {
+  return api(
+    `https://cors-anywhere.herokuapp.com/${PAYMENT_URL}/transactions?receiver=${id}`,
+  );
 }

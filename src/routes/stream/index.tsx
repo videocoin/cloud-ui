@@ -7,7 +7,6 @@ import BackLink from 'components/BackLink';
 import Stream from 'components/Stream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
-import UserStore from 'stores/user';
 import HttpStatus from 'http-status-codes';
 import { MIN_BALANCE, STREAM_STATUS, defaultServerError } from 'const';
 import { history } from 'index';

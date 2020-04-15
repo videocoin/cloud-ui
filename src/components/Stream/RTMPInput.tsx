@@ -3,7 +3,6 @@ import StreamStore from 'stores/stream';
 import { Input, Typography } from 'ui-kit';
 import { MIN_BALANCE } from 'const';
 import ClipboardPostfix from 'components/ClipboardPostfix';
-import UserStore from 'stores/user';
 import billingStore from 'stores/billing';
 
 const RTMPInput = () => {

@@ -1,6 +1,7 @@
 @import 'colors';
 .root {
   padding-top: 50px;
+  margin-bottom: 94px;
 }
 .status {
   text-transform: capitalize;
@@ -72,4 +73,7 @@
 .name {
   margin-top: 20px;
   width: 360px;
+}
+.pagination {
+  text-align: right;
 }

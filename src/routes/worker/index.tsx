@@ -8,6 +8,7 @@ import { history } from 'index';
 import HttpStatus from 'http-status-codes';
 import Worker from 'components/Worker';
 import WorkersStore from 'stores/workers';
+import Payments from 'components/Worker/Payments';
 
 const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
   workerId,
@@ -53,6 +54,8 @@ const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
       </div>
       <div className="content">
         <Worker />
+        <Typography type="subtitle">Payments</Typography>
+        <Payments />
       </div>
     </div>
   );

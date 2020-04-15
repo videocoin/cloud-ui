@@ -20,9 +20,3 @@ export function createWorker() {
 export function updateWorker(id: string, data: { name: string }) {
   return api.put(`/miners/${id}`, data);
 }
-
-export function fetchPayments(id: string) {
-  return api(
-    `https://cors-anywhere.herokuapp.com/${PAYMENT_URL}/transactions?receiver=${id}`,
-  );
-}

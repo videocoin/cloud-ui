@@ -8,15 +8,8 @@ const Player = () => {
   const { stream } = StreamStore;
   const container = useRef(null);
   const player = useRef(null);
-  const {
-    isPending,
-    isReady,
-    outputUrl,
-    isProcessing,
-    isCompleted,
-    isInputActive,
-  } = stream;
-  const isOnline = (isReady && isInputActive) || isCompleted;
+  const { isPending, isReady, outputUrl, isProcessing, isCompleted } = stream;
+  const isOnline = isReady || isCompleted;
 
   useEffect(() => {
     if (isOnline && outputUrl) {

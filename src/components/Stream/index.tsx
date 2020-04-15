@@ -46,7 +46,6 @@ const Stream = () => {
     status,
     outputUrl,
     isWebRTC,
-    isInputActive,
   } = stream;
 
   const isWaitingOutput = isPending || isProcessing;
@@ -126,7 +125,7 @@ const Stream = () => {
               <div className={css.endpointStatus}>
                 <div
                   className={cn(css.mark, {
-                    [css.active]: isInputActive,
+                    [css.active]: isReady,
                     [css.pending]: isPrepared,
                   })}
                 />

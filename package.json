@@ -43,6 +43,7 @@
     "react-transition-group": "^4.3.0",
     "react-useportal": "^1.0.13",
     "recharts": "^1.8.5",
+    "swr": "^0.2.0",
     "typescript": "3.8.3",
     "web3": "^1.2.6",
     "yup": "^0.28.3"

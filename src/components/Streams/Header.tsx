@@ -6,7 +6,6 @@ import { modalType } from 'components/ModalManager';
 import ModalStore from 'stores/modal';
 import StreamsStore from 'stores/streams';
 import css from './index.module.scss';
-import billing from 'stores/models/billing';
 import billingStore from 'stores/billing';
 
 const Header = () => {

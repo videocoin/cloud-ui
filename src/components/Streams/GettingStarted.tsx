@@ -1,6 +1,5 @@
 import React from 'react';
 import { Icon, Typography } from 'ui-kit';
-import UserStore from 'stores/user';
 import { observer } from 'mobx-react-lite';
 import StreamsStore from 'stores/streams';
 import icon from './assets/started.svg';

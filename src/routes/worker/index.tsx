@@ -54,6 +54,7 @@ const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
       </div>
       <div className="content">
         <Worker />
+        <Typography type="subtitle">Payments</Typography>
         <Payments />
       </div>
     </div>

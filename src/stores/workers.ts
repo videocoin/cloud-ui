@@ -6,6 +6,24 @@ const WorkerStatus = {
   NEW: 'NEW',
 };
 
+const Payment = types.model('Payment', {
+  localHash: types.string,
+  localBlockHash: types.string,
+  localBlockNumber: types.string,
+  localTimestamp: types.string,
+  foreignHash: types.string,
+  foreignBlockHash: types.string,
+  foreignBlockNumber: types.string,
+  foreignTimestamp: types.string,
+  signer: types.string,
+  foreignNonce: types.string,
+  receiver: types.string,
+  value: types.string,
+  state: types.string,
+  contract: types.string,
+  cursor: types.string,
+});
+
 const Worker = types.model('Worker', {
   id: types.identifier,
   name: types.string,
@@ -31,7 +49,7 @@ const Workers = types
     checked: types.array(types.string),
     isLoaded: false,
     isSaving: false,
-    payments: types.array(types.string),
+    payments: types.array(Payment),
     transactions: types.array(types.string),
   })
   .actions((self) => {
@@ -54,7 +72,7 @@ const Workers = types
     const fetchPayments = flow(function* fetchPayments() {
       try {
         const res = yield API.fetchPayments(self.worker.address);
-        console.log(res);
+        self.payments = res.data.transactions;
       } catch (e) {
         throw e;
       }
@@ -144,3 +162,4 @@ const WorkersStore = Workers.create({
 export default WorkersStore;
 
 export type IWorker = Instance<typeof Worker>;
+export type IPayment = Instance<typeof Payment>;

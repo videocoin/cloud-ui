@@ -1,10 +1,16 @@
-import React, { ReactNode } from 'react';
-import { Icon, Table } from 'ui-kit';
-import { toJS } from 'mobx';
-import { IWalletAction } from 'stores/models/wallet';
+import React, { ReactNode, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { first, last } from 'lodash/fp';
+import { Spinner, Table } from 'ui-kit';
+import qs from 'query-string';
 import { uniqueId } from 'lodash/fp';
 import css from './styles.module.scss';
 import { convertToVID } from 'helpers/convertBalance';
+import workersStore, { IPayment } from 'stores/workers';
+import useSWR from 'swr';
+import { PAYMENT_URL } from 'const';
+import fetcher from 'api/fetcher';
+import { Pagination } from 'components/Pagination';
 
 const fields = [
   {
@@ -32,30 +38,65 @@ const fields = [
 const renderRow = (row: any): ReactNode => (
   <tr key={uniqueId('event')} className={css.row}>
     <td className={css.timeCell}>0</td>
-    <td>
-      <div className={css.from}>{row.localBlockHash}</div>
-    </td>
+    <td>{row.localBlockHash}</td>
     <td>{row.foreignHash}</td>
-    <td>
-      <div className={css.from}>
-        <span>{row.signer}</span>
-      </div>
-    </td>
-    <td>
-      <div className={css.from}>
-        <span>${convertToVID(row.value)}</span>
-      </div>
-    </td>
+    <td>{row.signer}</td>
+    <td>${convertToVID(row.value)}</td>
   </tr>
 );
 
 const Payments = () => {
-  const data: any[] = [];
+  const { worker } = workersStore;
+  const [meta, setMeta] = useState<{ cursor: string; prev?: boolean }>({
+    cursor: '',
+  });
+  const { data } = useSWR<{ transactions: IPayment[] }>(
+    worker
+      ? qs.stringifyUrl({
+          url: `${PAYMENT_URL}/transactions`,
+          query: {
+            receiver: worker.address,
+            limit: '10',
+            ...(meta.cursor && { cursor: meta.cursor }),
+            ...(meta.prev && { prev: 'true' }),
+          },
+        })
+      : null,
+    fetcher,
+  );
+  if (!data) return <Spinner />;
+  const handleNext = (): void => {
+    if (!data) return;
+    const lastTransaction = last(data.transactions);
+    setMeta({
+      cursor: lastTransaction ? lastTransaction.cursor : meta.cursor + 1,
+      prev: false,
+    });
+  };
+  const handlePrev = (): void => {
+    if (!data) return;
+    const firstTransaction = first(data.transactions);
+    setMeta({
+      cursor: firstTransaction ? firstTransaction.cursor : meta.cursor,
+      prev: true,
+    });
+  };
+
   return (
     <div>
-      <Table fields={fields} data={data} renderRow={renderRow} />;
+      <Table fields={fields} data={data.transactions} renderRow={renderRow} />;
+      <div className={css.pagination}>
+        <Pagination
+          disabledPrev={
+            data.transactions.length && data.transactions.length < 10
+          }
+          disabled={!data}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
+      </div>
     </div>
   );
 };
 
-export default Payments;
+export default observer(Payments);

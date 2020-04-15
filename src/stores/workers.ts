@@ -69,6 +69,18 @@ const Workers = types
       }
     });
 
+<<<<<<< HEAD
+=======
+    const fetchPayments = flow(function* fetchPayments() {
+      try {
+        const res = yield API.fetchPayments(self.worker.address);
+        self.payments = res.data.transactions;
+      } catch (e) {
+        throw e;
+      }
+    });
+
+>>>>>>> add payments table for worker
     return {
       fetchWorkers,
       fetchWorker: flow(function* fetchWorker(id: string) {

@@ -4,7 +4,7 @@ import en from 'javascript-time-ago/locale/en';
 TimeAgo.addLocale(en);
 const lTimeAgo = new TimeAgo('en-US');
 
-function timeAgo(date: string): string {
+function timeAgo(date: string | number): string {
   return lTimeAgo
     .format(new Date(date), { flavour: 'short' })
     .split('.')

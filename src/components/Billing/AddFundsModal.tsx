@@ -138,9 +138,9 @@ const CheckoutForm = () => {
         toast.error(error.message);
       }
       if (paymentIntent.status === 'succeeded') {
-        closeModal();
-        setTimeout(() => {
-          fetchBillingProfile();
+        setTimeout(async () => {
+          await fetchBillingProfile();
+          closeModal();
         }, 3000);
       } else {
         toast.error('Something went wrong');

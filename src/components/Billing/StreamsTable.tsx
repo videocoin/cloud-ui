@@ -3,7 +3,6 @@ import { uniqueId } from 'lodash/fp';
 import { observer } from 'mobx-react-lite';
 import { Field, Table, Typography } from 'ui-kit';
 import billingStore, { ICharge } from 'stores/billing';
-import formatDate from 'helpers/formatDate';
 import { toJS } from 'mobx';
 import css from './styles.module.scss';
 import { formatDuration, getPeriod } from 'components/Billing/utils';
@@ -38,37 +37,40 @@ const fields: Field[] = [
     label: 'Total Cost',
   },
 ];
-const renderRow = (row: ICharge): ReactNode => (
-  <tr key={uniqueId('event')} className={css.row}>
-    <td className={css.typeCell}>
-      <Typography type="smallBody">
-        {row.streamIsLive ? 'Livestream' : 'Video Encoding'}
-      </Typography>
-    </td>
-    <td className={css.profileCell}>
-      <Typography type="smallBody">{row.streamProfileName}</Typography>
-    </td>
-    <td className={css.nameCell}>
-      <Typography type="smallBody" theme="sunkissed">
-        {row.streamName}
-      </Typography>
-    </td>
-    <td>
-      <Typography type="smallBody">
-        {formatDate('d/MM/yyyy')(row.createdAt)}
-      </Typography>
-    </td>
-    <td className={css.durationCell}>
-      <Typography type="smallBody">{formatDuration(row.duration)}</Typography>
-    </td>
-    <td>
-      <Typography type="smallBody">$ {row.cost}</Typography>
-    </td>
-    <td>
-      <Typography type="smallBody">$ {row.totalCost}</Typography>
-    </td>
-  </tr>
-);
+
+const renderRow = (row: ICharge): ReactNode => {
+  const [year, day, month] = row.createdAt.substring(0, 10).split('-');
+  const date = `${month}/${day}/${year}`;
+  return (
+    <tr key={uniqueId('event')} className={css.row}>
+      <td className={css.typeCell}>
+        <Typography type="smallBody">
+          {row.streamIsLive ? 'Livestream' : 'Video Encoding'}
+        </Typography>
+      </td>
+      <td className={css.profileCell}>
+        <Typography type="smallBody">{row.streamProfileName}</Typography>
+      </td>
+      <td className={css.nameCell}>
+        <Typography type="smallBody" theme="sunkissed">
+          {row.streamName}
+        </Typography>
+      </td>
+      <td>
+        <Typography type="smallBody">{date}</Typography>
+      </td>
+      <td className={css.durationCell}>
+        <Typography type="smallBody">{formatDuration(row.duration)}</Typography>
+      </td>
+      <td>
+        <Typography type="smallBody">$ {row.cost}</Typography>
+      </td>
+      <td>
+        <Typography type="smallBody">$ {row.totalCost}</Typography>
+      </td>
+    </tr>
+  );
+};
 
 const StreamsTable = () => {
   const { charges } = billingStore;

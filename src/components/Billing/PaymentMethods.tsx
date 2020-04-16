@@ -9,9 +9,10 @@ import billingStore from 'stores/billing';
 import truncateBalance from 'helpers/truncateBalance';
 import css from './styles.module.scss';
 
-const PaymentItem = ({ onChange }: { onChange: () => void }) => {
+const PaymentItem = observer(({ onChange }: { onChange: () => void }) => {
   const { openModal } = modalStore;
   const { billing } = billingStore;
+
   const handleAddFunds = () => {
     openModal(modalType.ADD_FUNDS);
   };
@@ -39,14 +40,14 @@ const PaymentItem = ({ onChange }: { onChange: () => void }) => {
       </Radio>
     </div>
   );
-};
+});
 
 const PaymentMethods = () => {
   return (
-    <div>
+    <>
       <SubtitleDivider title="Payment methods" />
       <PaymentItem onChange={() => false} />
-    </div>
+    </>
   );
 };
 

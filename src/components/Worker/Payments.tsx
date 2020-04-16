@@ -11,6 +11,7 @@ import useSWR from 'swr';
 import { PAYMENT_URL } from 'const';
 import fetcher from 'api/fetcher';
 import { Pagination } from 'components/Pagination';
+import timeAgo from 'helpers/timeAgo';
 
 const fields = [
   {
@@ -35,9 +36,9 @@ const fields = [
   },
 ];
 
-const renderRow = (row: any): ReactNode => (
+const renderRow = (row: IPayment): ReactNode => (
   <tr key={uniqueId('event')} className={css.row}>
-    <td className={css.timeCell}>0</td>
+    <td className={css.timeCell}>{timeAgo(+row.localTimestamp * 1000)}</td>
     <td>{row.localBlockHash}</td>
     <td>{row.foreignHash}</td>
     <td>{row.signer}</td>

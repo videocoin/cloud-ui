@@ -25,6 +25,7 @@ import { convertToVID } from 'helpers/convertBalance';
 import billingStore from 'stores/billing';
 import { StateModel } from './types';
 import User from './models/user';
+import { confirmUser } from 'api/user';
 
 const Store = types
   .model('UserStore', {
@@ -174,6 +175,10 @@ const Store = types
         StreamsStore.reset();
         applySnapshot(self, initialState);
       },
+      confirmUser: flow(function* confirmUser(token: string) {
+        yield API.confirmUser(token);
+        yield fetchUser();
+      }),
     };
   })
   .views((self) => ({

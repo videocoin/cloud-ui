@@ -1,10 +1,7 @@
-import formatDate from 'helpers/formatDate';
 import { memoize } from 'lodash/fp';
 import * as humanDuration from 'human-duration';
 import { enUS } from 'date-fns/locale';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
-
-export const tickFormatter = formatDate('dd');
 
 export const formatDuration = (duration: number) =>
   humanDuration.fmt(duration * 1000).toString();
@@ -32,4 +29,9 @@ export const formatChartDate = (date: string) => {
     months.push(enUS.localize.month(i, { width: 'abbreviated' }));
   }
   return `${day} ${months[+month - 1]}, ${year}`;
+};
+
+export const tickFormatter = (date: string) => {
+  const [, , day] = splitUTCDate(date);
+  return day;
 };

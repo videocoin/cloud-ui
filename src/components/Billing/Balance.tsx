@@ -10,7 +10,7 @@ const Balance = () => {
 
   return (
     <div className={css.balance}>
-      <Typography type="display4">${truncateBalance(totalPaid)}</Typography>
+      <Typography type="display4">${truncateBalance(totalPaid, 6)}</Typography>
       <Typography type="bodyThin">Paid in current period</Typography>
     </div>
   );

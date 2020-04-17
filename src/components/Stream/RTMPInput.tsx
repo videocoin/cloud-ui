@@ -17,7 +17,7 @@ const RTMPInput = () => {
     if (!hasBalance) {
       return (
         <Typography>
-          {`Minimum balance of ${MIN_BALANCE} VID required to start a stream`}
+          {`Minimum balance of $${MIN_BALANCE} required to start a stream`}
         </Typography>
       );
     }

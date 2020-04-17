@@ -5,7 +5,11 @@ import { Field, Table, Typography } from 'ui-kit';
 import billingStore, { ICharge } from 'stores/billing';
 import { toJS } from 'mobx';
 import css from './styles.module.scss';
-import { formatDuration, getPeriod } from 'components/Billing/utils';
+import {
+  formatDuration,
+  formatUTCDate,
+  getPeriod,
+} from 'components/Billing/utils';
 
 const fields: Field[] = [
   {
@@ -39,8 +43,7 @@ const fields: Field[] = [
 ];
 
 const renderRow = (row: ICharge): ReactNode => {
-  const [year, day, month] = row.createdAt.substring(0, 10).split('-');
-  const date = `${month}/${day}/${year}`;
+  const date = formatUTCDate(row.createdAt);
   return (
     <tr key={uniqueId('event')} className={css.row}>
       <td className={css.typeCell}>

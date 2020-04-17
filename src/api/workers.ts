@@ -1,5 +1,4 @@
 import api from './index';
-import { PAYMENT_URL } from 'const';
 
 export function fetchWorkers() {
   return api('/miners');

@@ -25,7 +25,6 @@ import { convertToVID } from 'helpers/convertBalance';
 import billingStore from 'stores/billing';
 import { StateModel } from './types';
 import User from './models/user';
-import { confirmUser } from 'api/user';
 
 const Store = types
   .model('UserStore', {

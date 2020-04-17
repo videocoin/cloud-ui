@@ -2,12 +2,17 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import billingStore, { IChart } from 'stores/billing';
 import formatDate from 'helpers/formatDate';
-import { formatDuration, getPeriod } from 'components/Billing/utils';
+import {
+  formatChartDate,
+  formatDuration,
+  getPeriod,
+} from 'components/Billing/utils';
 import css from 'components/Billing/chart.module.scss';
 import { Typography } from 'ui-kit';
 
 const ChartTooltip = ({ item }: { item: IChart }) => {
   const { totalVod, totalLive } = billingStore;
+  console.log(formatChartDate(item?.name));
   const data = item ? formatDate('dd MMM, yyyy')(item.name) : getPeriod();
   const vodDuration = item
     ? formatDuration(item.vod)

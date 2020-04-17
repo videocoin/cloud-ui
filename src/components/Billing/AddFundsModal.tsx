@@ -10,7 +10,6 @@ import React, {
 import { eq, map } from 'lodash/fp';
 import Modal from 'components/Modal';
 import { Button, Typography } from 'ui-kit';
-import { Formik, Field, Form } from 'formik';
 import { loadStripe } from '@stripe/stripe-js';
 import modalStore from 'stores/modal';
 import {
@@ -22,7 +21,6 @@ import {
 import { initPayment } from 'api/billing';
 import { toast } from 'react-toastify';
 import billingStore from 'stores/billing';
-import validationSchema from './validation';
 import css from './styles.module.scss';
 
 const amounts = ['5', '20', '50', 'other'];
@@ -58,6 +56,7 @@ const CheckoutForm = () => {
   const [isLoading, setLoading] = useState(false);
   const [amount, setAmount] = useState('20');
   const [customAmount, setCustomAmount] = useState('');
+  const [isValid, setValid] = useState(false);
   const { closeModal } = modalStore;
   const { fetchBillingProfile } = billingStore;
   const isChecked = eq(amount);
@@ -109,27 +108,19 @@ const CheckoutForm = () => {
       </label>
     );
   };
-  const initialValues = {
-    name: '',
-    email: '',
-    phone: '',
-    cardComplete: false,
-  };
 
-  const onSubmit = async (values: typeof initialValues) => {
+  const onSubmit = async () => {
     setLoading(true);
     try {
       const res = await initPayment({
         amount: amount === 'other' ? +customAmount : +amount,
       });
-      const { cardComplete, ...billingDetails } = values;
       const card = elements.getElement(CardElement);
       const { paymentIntent, error } = await stripe.confirmCardPayment(
         `${res.data.clientSecret}`,
         {
           payment_method: {
             card,
-            billing_details: billingDetails,
           },
         },
       );
@@ -149,65 +140,18 @@ const CheckoutForm = () => {
       setLoading(false);
     }
   };
-
+  const cardChange = (e: any) => {
+    setValid(e.complete);
+  };
   return (
     <>
       <div className={css.amountList}>{map(renderAmount)(amounts)}</div>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        {({ isValid, setFieldValue }) => {
-          const cardChange = (e: any) => {
-            setFieldValue('cardComplete', e.complete);
-          };
-
-          return (
-            <Form noValidate>
-              <div className={css.form}>
-                <label className={css.formRow}>
-                  <Typography
-                    type="smallBody"
-                    theme="white"
-                    className={css.formLabel}
-                  >
-                    Name
-                  </Typography>
-                  <Field name="name" placeholder="Jane Doe" />
-                </label>
-                <label className={css.formRow}>
-                  <Typography
-                    type="smallBody"
-                    theme="white"
-                    className={css.formLabel}
-                  >
-                    Email
-                  </Typography>
-                  <Field name="email" placeholder="janedoe@gmail.com" />
-                </label>
-                <label className={css.formRow}>
-                  <Typography
-                    type="smallBody"
-                    theme="white"
-                    className={css.formLabel}
-                  >
-                    Phone
-                  </Typography>
-                  <Field name="phone" placeholder="(941) 555-0123" />
-                </label>
-              </div>
-              <div className={css.stripeCard}>
-                <CardElement options={CARD_OPTIONS} onChange={cardChange} />
-              </div>
-
-              <Button type="submit" disabled={!isValid} loading={isLoading}>
-                Add ${amount === 'other' ? customAmount || 0 : amount}
-              </Button>
-            </Form>
-          );
-        }}
-      </Formik>
+      <div className={css.stripeCard}>
+        <CardElement options={CARD_OPTIONS} onChange={cardChange} />
+      </div>
+      <Button onClick={onSubmit} disabled={!isValid} loading={isLoading}>
+        Add ${amount === 'other' ? customAmount || 0 : amount}
+      </Button>
     </>
   );
 };

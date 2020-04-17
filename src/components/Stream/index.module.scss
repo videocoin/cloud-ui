@@ -7,7 +7,28 @@
   align-items: flex-end;
   margin-bottom: 56px;
 }
-
+.nav {
+  display: flex;
+  button {
+    background: none;
+    border: none;
+    margin-right: 36px;
+    position: relative;
+    &.active {
+      &::before {
+        border-radius: 2px;
+        content: '';
+        display: block;
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        background: linear-gradient(225deg, #7234c8 0%, #4e238e 100%);
+      }
+    }
+  }
+}
 .player {
   width: 320px;
   height: 180px;

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { get } from 'lodash/fp';
+import React, { useEffect, useRef, useState } from 'react';
+import { get, eq } from 'lodash/fp';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { Input, Spinner, Typography } from 'ui-kit';
@@ -13,6 +13,7 @@ import ProtocolTable from './ProtocolTable';
 import WebRTCInput from './WebRTCInput';
 import RTMPInput from './RTMPInput';
 import FileInput from './FileInput';
+import PaymentsTable from './PaymentsTable';
 
 const Stream = () => {
   const prevStatus = useRef();
@@ -20,6 +21,7 @@ const Stream = () => {
   const { stream, isStreamLoading } = StreamStore;
   const currentStatus = get('status')(stream);
   const isStreamFailed = stream.isFailed;
+  const [tab, setTab] = useState('payments');
 
   useEffect(() => {
     if (isStreamFailed && prevStatus.current) {
@@ -33,6 +35,8 @@ const Stream = () => {
   }
 
   if (!stream) return null;
+
+  const switchTab = (tab: string) => () => setTab(tab);
 
   const {
     name,
@@ -97,7 +101,7 @@ const Stream = () => {
         return null;
     }
   };
-
+  const isPaymentsTab = eq('payments', tab);
   return (
     <div>
       <div className={css.top}>
@@ -160,10 +164,23 @@ const Stream = () => {
       </section>
 
       <section className={css.section}>
-        <Typography type="subtitle" className={css.head}>
-          Protocol events
-        </Typography>
-        <ProtocolTable />
+        <div className={css.nav}>
+          <button
+            onClick={switchTab('payments')}
+            type="button"
+            className={isPaymentsTab ? css.active : ''}
+          >
+            <Typography type="subtitle">Payments</Typography>
+          </button>
+          <button
+            onClick={switchTab('transactions')}
+            type="button"
+            className={!isPaymentsTab ? css.active : ''}
+          >
+            <Typography type="subtitle">Protocol Transactions</Typography>
+          </button>
+        </div>
+        {isPaymentsTab ? <PaymentsTable /> : <ProtocolTable />}
       </section>
     </div>
   );

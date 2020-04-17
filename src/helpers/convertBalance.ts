@@ -1,5 +1,7 @@
+import truncateBalance from 'helpers/truncateBalance';
+
 export function convertToVID(value: string | number): string {
-  return (+value / 10 ** 18).toFixed(2);
+  return truncateBalance(+value / 10 ** 18, 6).toString();
 }
 
 export function VIDBalance(value: string | number): string {

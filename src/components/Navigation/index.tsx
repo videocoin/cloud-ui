@@ -27,7 +27,7 @@ const Navigation = () => {
       return ['streams', 'workers', '', 'billing', 'account'];
     }
     if (isPublisher) {
-      return ['streams', '', 'billing', 'account'];
+      return ['streams', '', 'account'];
     }
 
     return ['workers', '', 'billing', 'account'];

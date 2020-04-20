@@ -9,9 +9,10 @@ import React, {
 } from 'react';
 import { eq, map } from 'lodash/fp';
 import Modal from 'components/Modal';
-import { Button, Typography } from 'ui-kit';
+import { ActionBar, Button, Icon, Typography } from 'ui-kit';
 import { loadStripe } from '@stripe/stripe-js';
 import modalStore from 'stores/modal';
+import { IMaskInput } from 'react-imask';
 import {
   CardElement,
   Elements,
@@ -48,7 +49,12 @@ const CARD_OPTIONS = {
     },
   },
 };
-
+const ErrorMessage = ({ children }: { children: ReactNode }) => (
+  <div className={css.errorMessage}>
+    <Icon name="incomplete" width={15} height={15} />
+    {children}
+  </div>
+);
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -57,6 +63,7 @@ const CheckoutForm = () => {
   const [amount, setAmount] = useState('20');
   const [customAmount, setCustomAmount] = useState('');
   const [isValid, setValid] = useState(false);
+  const [error, setError] = useState(null);
   const { closeModal } = modalStore;
   const { fetchBillingProfile } = billingStore;
   const isChecked = eq(amount);
@@ -70,10 +77,8 @@ const CheckoutForm = () => {
     setCustomAmount('');
     setAmount(e.currentTarget.value);
   };
-  const handleChangeCustomAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-
-    setCustomAmount(+value > 100 ? '100' : value);
+  const handleChangeCustomAmount = (value: string, el: any) => {
+    setCustomAmount(+el.unmaskedValue > 100 ? '100' : value);
   };
   const renderAmount = (value: string): ReactNode => {
     const isCustom = value === 'other';
@@ -89,15 +94,16 @@ const CheckoutForm = () => {
         />
         <div className={css.amountItem}>
           {isCustom && amount === 'other' ? (
-            <input
-              ref={amountInput}
+            <IMaskInput
+              inputRef={(el: HTMLInputElement) => (amountInput.current = el)}
               className={css.amountInput}
               value={customAmount}
-              type="number"
-              placeholder="Other"
-              min={0}
+              mask="$00[0]"
+              autofix
+              overwrite
               max={100}
-              onChange={handleChangeCustomAmount}
+              placeholder="Other"
+              onAccept={handleChangeCustomAmount}
             />
           ) : (
             <Typography type="subtitle" theme="white">
@@ -141,6 +147,7 @@ const CheckoutForm = () => {
     }
   };
   const cardChange = (e: any) => {
+    setError(e.error);
     setValid(e.complete);
   };
   return (
@@ -148,10 +155,18 @@ const CheckoutForm = () => {
       <div className={css.amountList}>{map(renderAmount)(amounts)}</div>
       <div className={css.stripeCard}>
         <CardElement options={CARD_OPTIONS} onChange={cardChange} />
+        {error && <ErrorMessage>{error.message}</ErrorMessage>}
       </div>
-      <Button onClick={onSubmit} disabled={!isValid} loading={isLoading}>
-        Add ${amount === 'other' ? customAmount || 0 : amount}
-      </Button>
+      <div className="modalActions">
+        <ActionBar>
+          <Button theme="minimal" onClick={closeModal}>
+            Close
+          </Button>
+          <Button onClick={onSubmit} disabled={!isValid} loading={isLoading}>
+            Add {amount === 'other' ? customAmount || 0 : `$${amount}`}
+          </Button>
+        </ActionBar>
+      </div>
     </>
   );
 };

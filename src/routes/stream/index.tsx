@@ -48,7 +48,8 @@ const StreamControl = observer(() => {
           </Button>
           {!hasBalance && (
             <WarnTooltip
-              text={`Minimum balance of ${MIN_BALANCE} VID required to start a stream`}
+              place="left"
+              text={`Minimum balance of $${MIN_BALANCE} required to start a stream`}
               id="start"
             />
           )}

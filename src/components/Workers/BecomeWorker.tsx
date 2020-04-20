@@ -22,7 +22,7 @@ const BecomeWorker = () => {
             </Typography>
             <Typography className="mb25">
               Workers on the VideoCoin Network transcoding video streams for the
-              network and in return earn VID for the processing work they do. At
+              network and in return earn $ for the processing work they do. At
               the moment we are only partnering with select people to become
               workers to ensure network reliability.
             </Typography>

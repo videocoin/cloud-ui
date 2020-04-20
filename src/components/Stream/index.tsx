@@ -49,7 +49,6 @@ const Stream = () => {
     isCompleted,
     status,
     outputUrl,
-    isWebRTC,
   } = stream;
 
   const isWaitingOutput = isPending || isProcessing;
@@ -102,15 +101,12 @@ const Stream = () => {
     }
   };
   const isPaymentsTab = eq('payments', tab);
+  const isInputReady = isPending || isProcessing || isReady;
   return (
     <div>
       <div className={css.top}>
         <div className={css.player}>
-          {isWebRTC && !isCompleted ? (
-            <video muted ref={videoNode} />
-          ) : (
-            <Player />
-          )}
+          <Player ref={videoNode} />
         </div>
         <div className={css.desc}>
           <Typography>Stream Name</Typography>
@@ -129,8 +125,8 @@ const Stream = () => {
               <div className={css.endpointStatus}>
                 <div
                   className={cn(css.mark, {
-                    [css.active]: isReady,
-                    [css.pending]: isPrepared,
+                    [css.active]: isInputReady,
+                    [css.pending]: isPreparing || isPrepared,
                   })}
                 />
                 <div className={css.endpointTitle}>Stream Input</div>

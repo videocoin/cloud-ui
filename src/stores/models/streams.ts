@@ -114,8 +114,9 @@ export default types
       return values(self.streams);
     },
     get profilesSelect() {
-      return map(({ id: value, name: label }) => ({ label, value }))(
-        self.profiles,
-      );
+      return map(({ id: value, name, description }) => ({
+        label: `${name} (${description})`,
+        value,
+      }))(self.profiles);
     },
   }));

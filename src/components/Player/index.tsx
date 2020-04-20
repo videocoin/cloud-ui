@@ -4,11 +4,20 @@ import StreamStore from 'stores/stream';
 import { observer } from 'mobx-react-lite';
 import css from './index.module.scss';
 
-const Player = () => {
+const Player = (props: any, ref: any) => {
   const { stream } = StreamStore;
   const container = useRef(null);
   const player = useRef(null);
-  const { isPending, isReady, outputUrl, isProcessing, isCompleted } = stream;
+  const {
+    isPending,
+    isReady,
+    outputUrl,
+    isProcessing,
+    isPreparing,
+    isPrepared,
+    isCompleted,
+    isWebRTC,
+  } = stream;
   const isOnline = isReady || isCompleted;
 
   useEffect(() => {
@@ -34,13 +43,25 @@ const Player = () => {
     };
   }, []);
 
-  const isWaitingOutput = isPending || isProcessing;
-
+  const isPreparingStream = isPending || isProcessing;
+  const isPreparingInput = isPreparing || isPrepared;
   const render = () => {
+    if (isWebRTC && isOnline) {
+      return <video muted ref={ref} />;
+    }
     if (isOnline) {
       return <div ref={container} />;
     }
-    if (isWaitingOutput) {
+    if (isPreparingInput) {
+      return (
+        <div>
+          <Icon name="preparing" />
+          <Typography type="body">Preparing Input</Typography>
+          <Typography type="caption">This may take a few minutes</Typography>
+        </div>
+      );
+    }
+    if (isPreparingStream) {
       return (
         <div>
           <Icon name="preparing" />
@@ -56,4 +77,4 @@ const Player = () => {
   return <div className={css.player}>{render()}</div>;
 };
 
-export default observer(Player);
+export default observer(Player, { forwardRef: true });

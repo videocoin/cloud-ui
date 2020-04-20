@@ -1,9 +1,24 @@
 @import 'vars';
+@import 'colors';
 
 .balance {
   margin-bottom: 56px;
 }
-
+.errorMessage {
+  position: absolute;
+  bottom: -30px;
+  width: 100%;
+  left: 0;
+  color: $impossibly-pink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  svg {
+    fill: $impossibly-pink;
+    margin-right: 5px;
+  }
+}
 .paymentItemTop {
   display: flex;
   align-items: baseline;
@@ -95,6 +110,7 @@
 .amountInput {
   width: 100%;
   border: none;
+  min-width: 15px;
   color: $perfect-white;
   background-color: transparent;
   font-size: 20px;
@@ -124,6 +140,7 @@
   margin-bottom: 32px;
   box-shadow: inset 0 1px 0 0 #9e60f3;
   margin-top: 32px;
+  position: relative;
 }
 
 .formRow {

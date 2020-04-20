@@ -1,4 +1,6 @@
 @import 'vars';
+@import 'colors';
+
 .postfix {
   position: absolute;
   right: 0;
@@ -7,4 +9,43 @@
 .subttlDivider {
   padding: 0 8px;
   border-bottom: 1px solid $grey-dawn-w2;
+}
+
+.controlBar {
+  position: fixed;
+  left: 50%;
+  margin-left: -119px;
+  bottom: 10px;
+  height: 64px;
+  background: $violet-sky-b1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 238px;
+  border-radius: 12px;
+  padding: 0 25px;
+  button {
+    width: 24px;
+    margin-left: 64px;
+    background-color: transparent;
+    border: none;
+  }
+}
+.enter {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.enterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: 0.15s ease-in-out;
+}
+.exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+.exitActive {
+  transform: translateY(100%);
+  opacity: 0;
+  transition: 0.15s ease-in-out;
 }

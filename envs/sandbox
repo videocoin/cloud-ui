@@ -1,2 +1,4 @@
 export REACT_APP_CLOUD_API_URL='https://studio.snb.videocoin.network/api/v1'
 export REACT_APP_TXLOG_API_URL='https://txlog.dev.kili.videocoin.network/api/v1'
+export REACT_APP_PAYMENTS_API_URL='https://pm.dev.videocoin.net/api/v1'
+export REACT_APP_STRIPE_KEY=pk_test_IKdJtj0H1ArA8x0WI2o1u29u00Gxbs3ZWr

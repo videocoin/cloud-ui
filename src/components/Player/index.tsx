@@ -4,7 +4,7 @@ import StreamStore from 'stores/stream';
 import { observer } from 'mobx-react-lite';
 import css from './index.module.scss';
 
-const Player = (props: any, ref: any) => {
+const Player = () => {
   const { stream } = StreamStore;
   const container = useRef(null);
   const player = useRef(null);
@@ -16,12 +16,11 @@ const Player = (props: any, ref: any) => {
     isPreparing,
     isPrepared,
     isCompleted,
-    isWebRTC,
   } = stream;
   const isOnline = isReady || isCompleted;
 
   useEffect(() => {
-    if (isOnline && outputUrl) {
+    if (isOnline && outputUrl && container.current) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       player.current = window.IndigoPlayer.init(container.current, {
@@ -46,9 +45,6 @@ const Player = (props: any, ref: any) => {
   const isPreparingStream = isPending || isProcessing;
   const isPreparingInput = isPreparing || isPrepared;
   const render = () => {
-    if (isWebRTC && isOnline) {
-      return <video muted ref={ref} />;
-    }
     if (isOnline) {
       return <div ref={container} />;
     }
@@ -77,4 +73,4 @@ const Player = (props: any, ref: any) => {
   return <div className={css.player}>{render()}</div>;
 };
 
-export default observer(Player, { forwardRef: true });
+export default observer(Player);

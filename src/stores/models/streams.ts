@@ -5,7 +5,7 @@ import {
   getSnapshot,
   types,
 } from 'mobx-state-tree';
-import { map, each, propEq } from 'lodash/fp';
+import { map, propEq } from 'lodash/fp';
 import * as API from 'api/streams';
 import { AxiosResponse } from 'axios';
 import { Stream } from 'stores/models/stream';
@@ -16,7 +16,7 @@ import { StateModel, TStream } from '../types';
 
 export default types
   .model('StreamsStore', {
-    streams: types.map(Stream),
+    streams: types.array(Stream),
     state: StateModel,
     sort: types.model('StreamsSort', {
       field: 'status',
@@ -42,9 +42,7 @@ export default types
         try {
           const res: AxiosResponse = yield API.getStreams();
 
-          each((i) => {
-            self.streams.put(i);
-          })(res.data.items);
+          self.streams = res.data.items;
 
           self.state = STATE.loaded;
 
@@ -57,7 +55,7 @@ export default types
       createStream: flow(function* createStream(data) {
         const res: AxiosResponse<TStream> = yield API.addStream(data);
 
-        self.streams.put(res.data);
+        self.streams.unshift(res.data);
 
         return res;
       }),

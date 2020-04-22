@@ -10,7 +10,7 @@ const GettingStarted = () => {
   const { billing } = billingStore;
   const { streams, isLoaded } = StreamsStore;
 
-  if (streams.size > 2 || !isLoaded) {
+  if (streams.length > 2 || !isLoaded) {
     return null;
   }
 
@@ -37,9 +37,9 @@ const GettingStarted = () => {
               Step 1 - Fund your VideoCoin Wallet
             </Typography>
           </li>
-          <li className={streams.size > 0 ? css.cross : ''}>
+          <li className={streams.length > 0 ? css.cross : ''}>
             <Icon
-              color={streams.size > 0 ? '#5f4681' : '#fd9369'}
+              color={streams.length > 0 ? '#5f4681' : '#fd9369'}
               name="livestreamManager"
               height={24}
               width={24}

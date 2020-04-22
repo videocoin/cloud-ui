@@ -7,6 +7,7 @@ import React, {
   useRef,
 } from 'react';
 import { eq } from 'lodash/fp';
+import { observer } from 'mobx-react-lite';
 import { useDropzone } from 'react-dropzone';
 import { Typography, Icon, Input } from 'ui-kit';
 import cn from 'classnames';
@@ -59,12 +60,11 @@ const Progress = ({
 };
 
 const FileInput = () => {
-  const [file, setFile] = useState(null);
-  const [url, setUrl] = useState(null);
   const [tab, setTab] = useState(InputSource.FILE);
   const [progress, setProgress] = useState(0);
   const timer = useRef<any>();
-  const { stream } = StreamStore;
+  const { stream, setFile, file, setUrl, url } = StreamStore;
+
   const {
     id,
     isInputActive,
@@ -73,10 +73,14 @@ const FileInput = () => {
     isPrepared,
     isProcessing,
   } = stream;
-  const handleDrop = useCallback((acceptedFiles: File[]) => {
-    setFile(acceptedFiles[0]);
-  }, []);
+  const handleDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      setFile(acceptedFiles[0]);
+    },
+    [setFile],
+  );
   const removeFile = () => setFile(null);
+
   const handleChangeUrl = (e: FormEvent<HTMLInputElement>) =>
     setUrl(e.currentTarget.value);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -125,6 +129,13 @@ const FileInput = () => {
     startUrlProgressPoll(REQUEST_TIMEOUT);
   }, [id, startUrlProgressPoll, url]);
   const isFileTab = eq(tab, InputSource.FILE);
+
+  useEffect(() => {
+    return () => {
+      setFile(null);
+      setUrl('');
+    };
+  }, [setFile, setUrl]);
 
   useEffect(() => {
     if (isInputPending && isPrepared) {
@@ -195,4 +206,4 @@ const FileInput = () => {
   );
 };
 
-export default FileInput;
+export default observer(FileInput);

@@ -8,7 +8,12 @@ import Stream from 'components/Stream';
 import { observer } from 'mobx-react-lite';
 import StreamStore from 'stores/stream';
 import HttpStatus from 'http-status-codes';
-import { MIN_BALANCE, STREAM_STATUS, defaultServerError } from 'const';
+import {
+  MIN_BALANCE,
+  STREAM_STATUS,
+  defaultServerError,
+  STREAM_INPUT_TYPE,
+} from 'const';
 import { history } from 'index';
 import css from './index.module.scss';
 import billingStore from 'stores/billing';
@@ -16,11 +21,11 @@ import billingStore from 'stores/billing';
 const streamRequestTimeout = 5000;
 const StreamControl = observer(() => {
   const [isLoading, setLoading] = useState(false);
-  const { stream } = StreamStore;
+  const { stream, file, url } = StreamStore;
   const { hasBalance } = billingStore;
 
   if (!stream) return null;
-  const { status, runStream, completeStream } = stream;
+  const { status, inputType, runStream, completeStream } = stream;
 
   const handleStart = async () => {
     setLoading(true);
@@ -33,19 +38,21 @@ const StreamControl = observer(() => {
     }
   };
 
+  const disabled = eq(STREAM_INPUT_TYPE.FILE, inputType) && !file && !url;
+
   switch (status) {
     case STREAM_STATUS.NEW:
     case STREAM_STATUS.PREPARING:
     case STREAM_STATUS.NONE:
       return (
         <div data-tip data-for="start">
-          <Button
-            onClick={handleStart}
-            loading={isLoading}
-            disabled={!hasBalance}
-          >
-            Start stream
-          </Button>
+          {disabled && (
+            <WarnTooltip
+              place="left"
+              text="Select a file first to run stream"
+              id="start"
+            />
+          )}
           {!hasBalance && (
             <WarnTooltip
               place="left"
@@ -53,6 +60,13 @@ const StreamControl = observer(() => {
               id="start"
             />
           )}
+          <Button
+            onClick={handleStart}
+            loading={isLoading}
+            disabled={!hasBalance || disabled}
+          >
+            Start stream
+          </Button>
         </div>
       );
     case STREAM_STATUS.FAILED:

@@ -3,7 +3,7 @@ import Streams from './models/streams';
 
 const StreamsStore = Streams.create({
   state: STATE.pending,
-  streams: {},
+  streams: [],
   sort: {
     field: 'status',
     order: ORDER.ASC,

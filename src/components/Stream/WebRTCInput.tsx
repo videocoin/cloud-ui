@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  MutableRefObject,
-} from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Select, Option } from 'ui-kit';
 import { compose, map, filter } from 'lodash/fp';
 import { history } from 'index';
@@ -15,11 +9,7 @@ import { modalType } from 'components/ModalManager';
 import { startWebRTC } from 'api/streams';
 import css from './index.module.scss';
 
-const WebRTCInput = ({
-  videoNode,
-}: {
-  videoNode: MutableRefObject<HTMLVideoElement>;
-}) => {
+const WebRTCInput = () => {
   const [videoDevices, setVideoDevices] = useState([]);
   const [audioDevices, setAudioDevices] = useState([]);
   const [selectedVideo, setVideo] = useState<Option>(null);
@@ -112,14 +102,8 @@ const WebRTCInput = ({
       .then((mediaStream) => {
         localStream.current = mediaStream;
         navigator.mediaDevices.enumerateDevices().then(gotDevices);
-        if (videoNode.current) {
-          videoNode.current.srcObject = mediaStream;
-          videoNode.current.onloadedmetadata = () => {
-            videoNode.current.play();
-          };
-        }
       });
-  }, [gotDevices, videoNode]);
+  }, [gotDevices]);
 
   useEffect(() => {
     initMediaDevices();

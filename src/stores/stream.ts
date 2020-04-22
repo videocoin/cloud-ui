@@ -6,6 +6,7 @@ import { IProtocol, Protocol, Stream } from 'stores/models/stream';
 import { PROTOCOL_OFFSET, START_PAGE, STATE } from 'const';
 import { AxiosResponse } from 'axios';
 import { convertToVID } from 'helpers/convertBalance';
+import { observable } from 'mobx';
 
 const Store = types
   .model({
@@ -19,7 +20,17 @@ const Store = types
       hasMore: false,
     }),
   })
+  .volatile(() => ({
+    file: null,
+    url: '',
+  }))
   .actions((self) => ({
+    setFile(file: File | null) {
+      self.file = file;
+    },
+    setUrl(url: string) {
+      self.url = url;
+    },
     fetchStream: flow(function* fetchStream(id: string, silent = false) {
       if (!silent) {
         self.streamState = STATE.loading;

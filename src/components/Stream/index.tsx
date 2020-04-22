@@ -17,7 +17,6 @@ import PaymentsTable from './PaymentsTable';
 
 const Stream = () => {
   const prevStatus = useRef();
-  const videoNode = useRef<HTMLVideoElement>();
   const { stream, isStreamLoading } = StreamStore;
   const currentStatus = get('status')(stream);
   const isStreamFailed = stream.isFailed;
@@ -93,7 +92,7 @@ const Stream = () => {
       case STREAM_INPUT_TYPE.RTMP:
         return <RTMPInput />;
       case STREAM_INPUT_TYPE.WEBRTC:
-        return <WebRTCInput videoNode={videoNode} />;
+        return <WebRTCInput />;
       case STREAM_INPUT_TYPE.FILE:
         return <FileInput />;
       default:
@@ -106,7 +105,7 @@ const Stream = () => {
     <div>
       <div className={css.top}>
         <div className={css.player}>
-          <Player ref={videoNode} />
+          <Player />
         </div>
         <div className={css.desc}>
           <Typography>Stream Name</Typography>

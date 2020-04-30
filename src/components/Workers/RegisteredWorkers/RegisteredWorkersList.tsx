@@ -74,7 +74,7 @@ const RegisteredWorkersList = () => {
 
   const isASC = eq(ORDER.ASC, order);
   const handleSort = (field: string) => {
-    if (field === sortBy) {
+    if (eq(field, sortBy)) {
       setOrder(isASC ? ORDER.DESC : ORDER.ASC);
     } else {
       setOrder(ORDER.ASC);
@@ -94,7 +94,7 @@ const RegisteredWorkersList = () => {
           <thead>
             <tr>{renderHead(handleSort, sortBy, isASC)}</tr>
           </thead>
-          <tbody>{renderTable(data as [])}</tbody>
+          <tbody>{renderTable(data)}</tbody>
         </table>
       )}
     </>

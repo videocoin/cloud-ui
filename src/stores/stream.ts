@@ -6,7 +6,6 @@ import { IProtocol, Protocol, Stream } from 'stores/models/stream';
 import { PROTOCOL_OFFSET, START_PAGE, STATE } from 'const';
 import { AxiosResponse } from 'axios';
 import { convertToVID } from 'helpers/convertBalance';
-import { observable } from 'mobx';
 
 const Store = types
   .model({

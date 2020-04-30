@@ -36,15 +36,18 @@ const fields = [
   },
 ];
 
-const renderRow = (row: IPayment): ReactNode => (
-  <tr key={uniqueId('event')} className={css.row}>
-    <td className={css.timeCell}>{timeAgo(+row.localTimestamp * 1000)}</td>
-    <td>{row.localBlockHash}</td>
-    <td>{row.foreignHash}</td>
-    <td>{row.signer}</td>
-    <td>${convertToVID(row.value)}</td>
-  </tr>
-);
+const renderRow = (row: IPayment): ReactNode => {
+  const { localTimestamp, localBlockHash, foreignHash, signer, value } = row;
+  return (
+    <tr key={uniqueId('event')} className={css.row}>
+      <td className={css.timeCell}>{timeAgo(+localTimestamp * 1000)}</td>
+      <td>{localBlockHash}</td>
+      <td>{foreignHash}</td>
+      <td>{signer}</td>
+      <td>${convertToVID(value)}</td>
+    </tr>
+  );
+};
 
 const Payments = () => {
   const { worker } = workersStore;
@@ -67,17 +70,16 @@ const Payments = () => {
   );
   if (worker && !worker.address) return null;
   if (!data) return <Spinner />;
+  const { transactions } = data;
   const handleNext = (): void => {
-    if (!data) return;
-    const lastTransaction = last(data.transactions);
+    const lastTransaction = last(transactions);
     setMeta({
       cursor: lastTransaction ? lastTransaction.cursor : meta.cursor + 1,
       prev: false,
     });
   };
   const handlePrev = (): void => {
-    if (!data) return;
-    const firstTransaction = first(data.transactions);
+    const firstTransaction = first(transactions);
     setMeta({
       cursor: firstTransaction ? firstTransaction.cursor : meta.cursor,
       prev: true,
@@ -87,12 +89,10 @@ const Payments = () => {
   return (
     <div>
       <Typography type="subtitle">Payments</Typography>
-      <Table fields={fields} data={data.transactions} renderRow={renderRow} />;
+      <Table fields={fields} data={transactions} renderRow={renderRow} />;
       <div className={css.pagination}>
         <Pagination
-          disabledPrev={
-            data.transactions.length && data.transactions.length < 10
-          }
+          disabledPrev={transactions.length && transactions.length < 10}
           disabled={!data}
           onPrev={handlePrev}
           onNext={handleNext}

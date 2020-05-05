@@ -15,6 +15,7 @@ const WebRTCInput = () => {
   const [selectedVideo, setVideo] = useState<Option>(null);
   const [selectedAudio, setAudio] = useState<Option>(null);
   const localStream = useRef<MediaStream>();
+  const rtcStream = useRef<MediaStream>();
   const unblock = useRef<any>();
   const { stream } = StreamStore;
   const { openModal } = ModalStore;
@@ -69,6 +70,7 @@ const WebRTCInput = () => {
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((mediaStream: any) => {
+        rtcStream.current = mediaStream;
         mediaStream.getTracks().forEach((track: MediaStreamTrack) => {
           pc.addTrack(track);
         });
@@ -96,6 +98,15 @@ const WebRTCInput = () => {
     // eslint-disable-next-line
   }, [initWebRTC, stream?.isWebRTC, stream?.isPrepared]);
 
+  useEffect(() => {
+    return () => {
+      localStream.current &&
+        localStream.current.getTracks().forEach((track) => track.stop());
+      rtcStream.current &&
+        rtcStream.current.getTracks().forEach((track) => track.stop());
+    };
+  }, []);
+
   const initMediaDevices = useCallback(() => {
     navigator.mediaDevices
       .getUserMedia({ audio: true, video: { width: 1280, height: 720 } })
@@ -115,6 +126,9 @@ const WebRTCInput = () => {
       onConfirm: () => {
         if (localStream.current) {
           localStream.current.getTracks().forEach((track) => track.stop());
+        }
+        if (rtcStream.current) {
+          rtcStream.current.getTracks().forEach((track) => track.stop());
         }
         stream.completeStream();
         setTimeout(() => {

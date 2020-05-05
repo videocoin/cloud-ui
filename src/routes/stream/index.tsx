@@ -21,11 +21,17 @@ import billingStore from 'stores/billing';
 const streamRequestTimeout = 5000;
 const StreamControl = observer(() => {
   const [isLoading, setLoading] = useState(false);
+  const [isCancelling, setCancelling] = useState(false);
   const { stream, file, url } = StreamStore;
   const { hasBalance } = billingStore;
 
   if (!stream) return null;
   const { status, inputType, runStream, completeStream } = stream;
+
+  const handleComplete = async () => {
+    setCancelling(true);
+    await completeStream();
+  };
 
   const handleStart = async () => {
     setLoading(true);
@@ -77,13 +83,21 @@ const StreamControl = observer(() => {
     case STREAM_STATUS.PENDING:
     case STREAM_STATUS.PROCESSING:
       return (
-        <Button theme="perfect-white" onClick={completeStream}>
+        <Button
+          theme="perfect-white"
+          loading={isCancelling}
+          onClick={handleComplete}
+        >
           Cancel stream
         </Button>
       );
     case STREAM_STATUS.READY:
       return (
-        <Button theme="violet-sky" onClick={completeStream}>
+        <Button
+          theme="violet-sky"
+          loading={isCancelling}
+          onClick={handleComplete}
+        >
           Stop stream
         </Button>
       );

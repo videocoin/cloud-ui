@@ -11,6 +11,7 @@ const navIcons: Record<string, IconName> = {
   workers: 'workers',
   account: 'account',
   billing: 'billing',
+  earnings: 'earnings',
 };
 
 const navLabels: Record<string, string> = {
@@ -18,19 +19,20 @@ const navLabels: Record<string, string> = {
   workers: 'Workers',
   billing: 'Billing',
   account: 'Account',
+  earnings: 'Earnings',
 };
 
 const Navigation = () => {
   const { isActive, isWorker, isPublisher } = UserStore;
   const navLinks = (): string[] => {
     if (isWorker && isPublisher) {
-      return ['streams', 'workers', '', 'billing', 'account'];
+      return ['streams', 'workers', '', 'earnings', 'billing', 'account'];
     }
     if (isPublisher) {
       return ['streams', '', 'account'];
     }
 
-    return ['workers', '', 'billing', 'account'];
+    return ['workers', '', 'earnings', 'billing', 'account'];
   };
   const renderLink = (link: string) => {
     const path = `/dashboard/${link}`;

@@ -1,0 +1,22 @@
+@import 'colors';
+
+.root {
+  display: flex;
+  align-items: center;
+  div:last-child {
+    max-width: 475px;
+  }
+}
+.badge {
+  display: flex;
+  align-items: center;
+  padding: 24px 28px;
+  background: $violet-sky-b3;
+  border-radius: 16px;
+  border: 1px solid $violet-sky-b1;
+  margin-right: 20px;
+  svg {
+    flex-shrink: 0;
+    margin-right: 28px;
+  }
+}

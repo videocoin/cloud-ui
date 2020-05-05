@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import { Typography, Button } from 'ui-kit';
+import { Typography, Button, Switch } from 'ui-kit';
 import { map } from 'lodash/fp';
 import UserStore from 'stores/user';
 import ModalStore from 'stores/modal';
@@ -10,7 +10,6 @@ import TokensStore, { IToken } from 'stores/tokens';
 import { AxiosResponse } from 'axios';
 import css from './index.module.scss';
 import Section from './Section';
-import { Switch } from '../../ui-kit/src/Switch';
 
 const Account = () => {
   const {
@@ -23,10 +22,20 @@ const Account = () => {
   const { openModal } = ModalStore;
   const { items, addToken, isCreating, isDeleting } = TokensStore;
   const handleResetPassword = () => openModal(modalType.RESET_PASSWORD_AUTH);
-
   const handlePublisherChange = (e: FormEvent<HTMLInputElement>) => {
     const { checked } = e.currentTarget;
-
+    if (checked) {
+      openModal(modalType.PUBLISHER_AGREEMENTS, {
+        onConfirm: () => successPublisherChange(true),
+        onCancel: () => {
+          successPublisherChange(false);
+        },
+      });
+    } else {
+      successPublisherChange(false);
+    }
+  };
+  const successPublisherChange = (checked: boolean) => {
     setPublisherRole(checked);
     localStorage.setItem('isPublisher', `${+checked}`);
   };
@@ -44,7 +53,7 @@ const Account = () => {
   };
 
   const renderToken = (token: IToken) => (
-    <div className={css.token}>
+    <div className={css.token} key={token.name}>
       <Typography type="body">{token.name}</Typography>
       <Button theme="minimal-sunkissed" onClick={handleRevoke(token)}>
         Revoke

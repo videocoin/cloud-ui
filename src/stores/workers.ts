@@ -39,6 +39,10 @@ const Worker = types.model('Worker', {
     memTotal: types.number,
     memUsage: types.number,
   }),
+  reward: types.number,
+  totalStake: types.number,
+  selfStake: types.number,
+  delegatedStake: types.number,
 });
 
 const Workers = types
@@ -58,7 +62,7 @@ const Workers = types
     const fetchWorkers = flow(function* fetchWorkers({
       silent = false,
     }: {
-      silent: boolean;
+      silent?: boolean;
     }) {
       self.isLoading = !silent;
 

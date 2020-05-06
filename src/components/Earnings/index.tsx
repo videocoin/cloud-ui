@@ -1,10 +1,12 @@
 import React from 'react';
-import TotalEarnings from 'components/Earnings/TotalEarnings';
+import TotalEarnings from './TotalEarnings';
+import Table from './Table';
 
 const Earnings = () => {
   return (
     <div>
       <TotalEarnings />
+      <Table />
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import { types, Instance } from 'mobx-state-tree';
 import StreamsStore from 'stores/streams';
 import User from './models/user';
-import Account from './models/account';
 import { Stream } from './models/stream';
 import { Profile } from './models/profile';
 
@@ -37,6 +36,5 @@ export const Type = types.enumeration('Type', [
 
 export type TStream = Instance<typeof Stream>;
 export type TUser = Instance<typeof User>;
-export type TAccount = Instance<typeof Account>;
 export type TStreamsStore = Instance<typeof StreamsStore>;
 export type TProfile = Instance<typeof Profile>;

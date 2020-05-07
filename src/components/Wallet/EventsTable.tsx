@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import { uniqueId } from 'lodash/fp';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
-import { Field, Icon, Pagination, Table } from 'ui-kit';
+import { Field, Icon, Table } from 'ui-kit';
 import UserStore from 'stores/user';
 import { IWalletAction } from 'stores/models/wallet';
 import css from './table.module.scss';
@@ -62,18 +62,11 @@ const renderRow = (row: IWalletAction): ReactNode => (
 );
 
 const EventsTable = (): ReactElement => {
-  const { actions, actionsMeta, fetchActions } = UserStore;
-  const { hasMore } = actionsMeta;
-  const handlePageChange = (page: number) => {
-    fetchActions({ page });
-  };
+  const { actions } = UserStore;
 
   return (
     <div className={css.table}>
       <Table fields={fields} data={toJS(actions)} renderRow={renderRow} />;
-      <div className={css.pagination}>
-        <Pagination onChange={handlePageChange} max={!hasMore} />
-      </div>
     </div>
   );
 };

@@ -1,27 +1,22 @@
 import { types, flow, applySnapshot, getSnapshot } from 'mobx-state-tree';
-import { eq, propEq, getOr, get, map, lt } from 'lodash/fp';
+import { propEq, getOr, get, lt } from 'lodash/fp';
 import * as API from 'api/user';
 import { removeTokenHeader, setTokenHeader } from 'api';
 import {
-  IWalletAction,
   WalletAction,
-  IWalletTransaction,
   WalletTransaction,
   WalletMeta,
 } from 'stores/models/wallet';
 import { AxiosResponse } from 'axios';
 import {
-  ACTIONS_OFFSET,
   MIN_BALANCE,
   PROTOCOL_OFFSET,
-  TRANSACTIONS_OFFSET,
   STATE,
   START_PAGE,
   STORAGE_KEY,
   USER_ROLE,
 } from 'const';
 import StreamsStore from 'stores/streams';
-import { convertToVID } from 'helpers/convertBalance';
 import billingStore from 'stores/billing';
 import { StateModel } from './types';
 import User from './models/user';
@@ -70,67 +65,14 @@ const Store = types
         throw e;
       }
     });
-    const fetchTransactions = flow(function* fetchTransactions({
-      page = START_PAGE,
-      limit = TRANSACTIONS_OFFSET,
-    }: {
-      limit?: number;
-      page?: number;
-    }) {
-      const offset = (page - 1) * TRANSACTIONS_OFFSET;
-      const res: AxiosResponse = yield API.fetchTransactions(
-        self.user.account.address,
-        { limit, offset },
-      );
-      const { transactions } = res.data;
-      const mappedTransactions = map<IWalletTransaction, IWalletTransaction>(
-        ({ value, ...rest }) => ({
-          value: convertToVID(value),
-          ...rest,
-        }),
-      )(transactions);
-
-      self.transactionsMeta.hasMore = eq(
-        transactions.length,
-        TRANSACTIONS_OFFSET,
-      );
-      applySnapshot(self.transactions, mappedTransactions);
-    });
-    const fetchActions = flow(function* fetchActions({ page }) {
-      const offset = (page - 1) * ACTIONS_OFFSET;
-
-      self.actionsMeta.offset = offset;
-      self.actionsMeta.page = page;
-      const res: AxiosResponse = yield API.getActions(
-        self.user.account.address,
-        {
-          limit: ACTIONS_OFFSET,
-          offset,
-        },
-      );
-
-      self.actionsMeta.hasMore = eq(res.data.actions.length, ACTIONS_OFFSET);
-      const mappedActions = map<IWalletAction, IWalletAction>(
-        ({ value, ...rest }) => ({
-          value: convertToVID(value),
-          ...rest,
-        }),
-      )(res.data.actions);
-
-      self.actions.replace(mappedActions);
-    });
 
     const load = flow(function* load() {
       yield fetchUser();
       yield billingStore.fetchBillingProfile();
-      yield fetchActions({ page: START_PAGE });
-      yield fetchTransactions({ page: START_PAGE });
     });
 
     return {
       fetchUser,
-      fetchActions,
-      fetchTransactions,
       setPublisherRole(val: boolean) {
         self.isPublisher = val;
       },
@@ -162,7 +104,7 @@ const Store = types
         localStorage.setItem(STORAGE_KEY.AUTH_KEY, token);
         setTokenHeader(token);
         yield fetchUser();
-        yield fetchActions({ page: START_PAGE });
+        // yield fetchActions({ page: START_PAGE });
 
         return res;
       }),

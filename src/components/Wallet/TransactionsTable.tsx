@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
-import { Field, Icon, Pagination, Table } from 'ui-kit';
+import { Field, Icon, Table } from 'ui-kit';
 import timeAgo from 'helpers/timeAgo';
 import UserStore from 'stores/user';
 import { IWalletTransaction } from 'stores/models/wallet';
@@ -59,18 +59,11 @@ const renderRow = (row: IWalletTransaction): ReactNode => (
 );
 
 const TransactionsTable = (): ReactElement => {
-  const { transactions, transactionsMeta, fetchTransactions } = UserStore;
-  const { hasMore } = transactionsMeta;
-  const handlePageChange = (page: number) => {
-    fetchTransactions({ page });
-  };
+  const { transactions } = UserStore;
 
   return (
     <div className={css.table}>
       <Table fields={fields} data={toJS(transactions)} renderRow={renderRow} />;
-      <div className={css.pagination}>
-        <Pagination onChange={handlePageChange} max={!hasMore} />
-      </div>
     </div>
   );
 };

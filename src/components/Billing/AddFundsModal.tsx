@@ -78,7 +78,7 @@ const CheckoutForm = () => {
     setAmount(e.currentTarget.value);
   };
   const handleChangeCustomAmount = (value: string, el: any) => {
-    setCustomAmount(+el.unmaskedValue > 100 ? '100' : value);
+    setCustomAmount(+el.unmaskedValue > 100 ? '100' : el.unmaskedValue);
   };
   const renderAmount = (value: string): ReactNode => {
     const isCustom = value === 'other';
@@ -117,6 +117,7 @@ const CheckoutForm = () => {
 
   const onSubmit = async () => {
     setLoading(true);
+    console.log(customAmount, amount);
     try {
       const res = await initPayment({
         amount: amount === 'other' ? +customAmount : +amount,

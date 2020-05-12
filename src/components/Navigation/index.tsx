@@ -29,10 +29,10 @@ const Navigation = () => {
       return ['streams', 'workers', '', 'earnings', 'billing', 'account'];
     }
     if (isPublisher) {
-      return ['streams', '', 'account'];
+      return ['streams', '', 'billing', 'account'];
     }
 
-    return ['workers', '', 'earnings', 'billing', 'account'];
+    return ['workers', '', 'earnings', 'account'];
   };
   const renderLink = (link: string) => {
     const path = `/dashboard/${link}`;

@@ -2,7 +2,7 @@ import React from 'react';
 import { ActionBar, Button, Typography } from 'ui-kit';
 import Modal from '../Modal';
 
-const PublisherServiceAgreements = ({
+const WorkerServiceAgreements = ({
   closeModal,
   onConfirm,
   onCancel,
@@ -22,9 +22,9 @@ const PublisherServiceAgreements = ({
   return (
     <Modal>
       <div className="modalInner">
-        <Typography type="body">Publisher Service Agreements</Typography>
+        <Typography type="body">Worker Service Agreements</Typography>
         <Typography type="smallBodyThin">
-          To enable publisher features, you must read and agree to our publisher{' '}
+          To enable worker features, you must read and agree to our worker{' '}
           <a href="#">Terms and Conditions</a> and{' '}
           <a href="#">Privacy Policy</a>.
         </Typography>
@@ -39,4 +39,4 @@ const PublisherServiceAgreements = ({
   );
 };
 
-export default PublisherServiceAgreements;
+export default WorkerServiceAgreements;

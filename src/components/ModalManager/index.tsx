@@ -19,6 +19,7 @@ export const modalType = {
   ADD_FUNDS: 'AddFunds',
   WITHDRAW: 'Withdraw',
   PUBLISHER_AGREEMENTS: 'PublisherAgreements',
+  WORKER_AGREEMENTS: 'WorkerAgreements',
 };
 
 const ResetPasswordAuth = lazy(() => import('components/ResetPasswordAuth'));
@@ -51,6 +52,9 @@ const Withdraw = lazy(() => import('components/Billing/WithdrawModal'));
 const PublisherAgreements = lazy(() =>
   import('components/Account/PublisherServiceAgreements'),
 );
+const WorkerAgreements = lazy(() =>
+  import('components/Account/WorkerServiceAgreements'),
+);
 
 const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   ResetPasswordAuth,
@@ -69,6 +73,7 @@ const modalComponentLookupTable: { [key: string]: LazyExoticComponent<any> } = {
   AddFunds,
   Withdraw,
   PublisherAgreements,
+  WorkerAgreements,
 };
 
 const ModalManager = () => {

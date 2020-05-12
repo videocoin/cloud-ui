@@ -1,15 +1,18 @@
 import React from 'react';
 import css from './styles.module.scss';
 import { Icon, Typography } from 'ui-kit';
+import WorkersStore from 'stores/workers';
+import { observer } from 'mobx-react-lite';
 
 const TotalEarnings = () => {
+  const { rewards } = WorkersStore;
   return (
     <div className={css.root}>
       <div className={css.badge}>
         <Icon name="earnings" width={56} height={56} />
         <div>
           <Typography type="bodyThin">Total Available Earnings</Typography>
-          <Typography type="display3">$78.45</Typography>
+          <Typography type="display3">${rewards}</Typography>
         </div>
       </div>
       <Typography type="smallBodyThin">
@@ -21,4 +24,4 @@ const TotalEarnings = () => {
   );
 };
 
-export default TotalEarnings;
+export default observer(TotalEarnings);

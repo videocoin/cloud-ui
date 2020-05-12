@@ -1,5 +1,5 @@
 import { Instance, applySnapshot, flow, types } from 'mobx-state-tree';
-import { indexOf, reject, filter, map } from 'lodash/fp';
+import { indexOf, reject, filter, map, sumBy } from 'lodash/fp';
 import * as API from 'api/workers';
 
 export const Status = {
@@ -147,6 +147,9 @@ const Workers = types
     },
     get registeredWorkers() {
       return reject<IWorker>({ status: Status.NEW })(self.workers);
+    },
+    get rewards() {
+      return sumBy('reward')(self.workers);
     },
   }));
 

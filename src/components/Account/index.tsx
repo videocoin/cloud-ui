@@ -39,12 +39,24 @@ const Account = () => {
     setPublisherRole(checked);
     localStorage.setItem('isPublisher', `${+checked}`);
   };
-  const handleWorkerChange = (e: FormEvent<HTMLInputElement>) => {
-    const { checked } = e.currentTarget;
-
+  const successWorkerChange = (checked: boolean) => {
     setWorkerRole(checked);
     localStorage.setItem('isWorker', `${+checked}`);
   };
+  const handleWorkerChange = (e: FormEvent<HTMLInputElement>) => {
+    const { checked } = e.currentTarget;
+    if (checked) {
+      openModal(modalType.WORKER_AGREEMENTS, {
+        onConfirm: () => successWorkerChange(true),
+        onCancel: () => {
+          successWorkerChange(false);
+        },
+      });
+    } else {
+      successWorkerChange(false);
+    }
+  };
+
   const handleRevoke = (token: IToken) => () => {
     openModal(modalType.REVOKE_TOKEN_MODAL, {
       onConfirm: token.remove,

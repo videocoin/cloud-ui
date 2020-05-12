@@ -117,7 +117,6 @@ const CheckoutForm = () => {
 
   const onSubmit = async () => {
     setLoading(true);
-    console.log(customAmount, amount);
     try {
       const res = await initPayment({
         amount: amount === 'other' ? +customAmount : +amount,

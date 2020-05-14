@@ -1,4 +1,4 @@
-export REACT_APP_CLOUD_API_URL='https://studio.dev.videocoin.network/api/v1'
+export REACT_APP_CLOUD_API_URL='https://console.dev.videocoin.network/api/v1'
 export REACT_APP_TXLOG_API_URL='https://symphony.dev.videocoin.net/api/v1'
 export REACT_APP_PAYMENTS_API_URL='https://payments.dev.videocoinapis.com/api/v1'
 export REACT_APP_STRIPE_KEY=pk_test_k8dPL3dVynGZUOobj4WhS5nT00isBnI5Ow

@@ -1,5 +1,5 @@
 import { flow, types, Instance } from 'mobx-state-tree';
-import { lt, sumBy } from 'lodash/fp';
+import { lte, sumBy } from 'lodash/fp';
 import * as billingApi from 'api/billing';
 import Billing from './models/billing';
 import { MIN_BALANCE } from 'const';
@@ -66,7 +66,7 @@ const Store = types
       return sumBy('live')(self.charts);
     },
     get hasBalance() {
-      return lt(MIN_BALANCE)(self.billing.balance);
+      return lte(MIN_BALANCE)(self.billing.balance);
     },
   }));
 

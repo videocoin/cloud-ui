@@ -37,7 +37,21 @@ const GettingStarted = () => {
             <Icon color="#EEE3FF" name="videoPlay" height={24} width={24} />
             <Typography type="caption">
               Create your first stream and transcode a video file{' '}
-              <a href="#">using the console</a> or <a href="#">using the api</a>
+              <a
+                href="https://medium.com/videocoin/demo-setting-up-a-videocoin-worker-on-raspberry-pi-3-b-50958ca5d3e"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                using the console
+              </a>{' '}
+              or{' '}
+              <a
+                href="https://docs.videocoin.network/developers/vod-stream"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                using the api
+              </a>
             </Typography>
           </li>
           <li>
@@ -48,8 +62,22 @@ const GettingStarted = () => {
               width={24}
             />
             <Typography type="caption">
-              Livestream via WebRTC <a href="#">using the console</a> or{' '}
-              <a href="#">using the api</a>
+              Livestream via WebRTC{' '}
+              <a
+                href="https://medium.com/videocoin/videocoin-webrtc-2b4ec0fa371e"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                using the console
+              </a>{' '}
+              or{' '}
+              <a
+                href="https://docs.videocoin.network/developers/live-stream-over-webrtc"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                using the api
+              </a>
             </Typography>
           </li>
           <li>

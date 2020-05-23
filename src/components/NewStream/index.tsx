@@ -40,16 +40,16 @@ const inputs: RadioInputType[] = [
     value: STREAM_INPUT_TYPE.FILE,
     active: true,
   },
-  {
-    label: 'RTSP',
-    value: STREAM_INPUT_TYPE.RTSP,
-    active: false,
-  },
-  {
-    label: 'HLS',
-    value: STREAM_INPUT_TYPE.HLS,
-    active: false,
-  },
+  // {
+  //   label: 'RTSP',
+  //   value: STREAM_INPUT_TYPE.RTSP,
+  //   active: false,
+  // },
+  // {
+  //   label: 'HLS',
+  //   value: STREAM_INPUT_TYPE.HLS,
+  //   active: false,
+  // },
 ];
 const NewStream = () => {
   const { profilesSelect } = StreamsStore;
@@ -112,22 +112,22 @@ const NewStream = () => {
                   />
                 </div>
               )}
-              <RadioBtn value="rtmp" disabled>
-                <div className={css.radioLabel}>
-                  <Typography type="body">RTMP</Typography>
-                  <Typography type="caption" theme="sunkissed">
-                    Coming Soon
-                  </Typography>
-                </div>
-              </RadioBtn>
-              <RadioBtn value="rtsp" disabled>
-                <div className={css.radioLabel}>
-                  <Typography type="body">RTSP</Typography>
-                  <Typography type="caption" theme="sunkissed">
-                    Coming Soon
-                  </Typography>
-                </div>
-              </RadioBtn>
+              {/*<RadioBtn value="rtmp" disabled>*/}
+              {/*  <div className={css.radioLabel}>*/}
+              {/*    <Typography type="body">RTMP</Typography>*/}
+              {/*    <Typography type="caption" theme="sunkissed">*/}
+              {/*      Coming Soon*/}
+              {/*    </Typography>*/}
+              {/*  </div>*/}
+              {/*</RadioBtn>*/}
+              {/*<RadioBtn value="rtsp" disabled>*/}
+              {/*  <div className={css.radioLabel}>*/}
+              {/*    <Typography type="body">RTSP</Typography>*/}
+              {/*    <Typography type="caption" theme="sunkissed">*/}
+              {/*      Coming Soon*/}
+              {/*    </Typography>*/}
+              {/*  </div>*/}
+              {/*</RadioBtn>*/}
             </RadioGroup>
           )}
         />

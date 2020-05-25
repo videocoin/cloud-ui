@@ -1,8 +1,9 @@
 import axios, { AxiosError, AxiosTransformer } from 'axios';
-import { toast, ToastId } from 'react-toastify';
+import { toast } from 'react-toastify';
 import humps from 'humps';
 import { getOr } from 'lodash/fp';
 import { BASE_URL, defaultServerError, STORAGE_KEY } from 'const';
+import { ReactText } from 'react';
 
 const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
   if (!transformRequest) {
@@ -27,7 +28,7 @@ const api = axios.create({
         return data;
       }
 
-      return humps.decamelizeKeys(data);
+      return humps.decamelizeKeys(data, { split: /(?=[A-Z0-9])/ });
     },
     ...defaultTransformers(axios.defaults.transformRequest),
   ],
@@ -37,7 +38,7 @@ const api = axios.create({
   ],
 });
 
-let toastId: ToastId = '';
+let toastId: ReactText = '';
 
 function errorHandler(error: AxiosError) {
   if (!error.response) {

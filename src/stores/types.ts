@@ -34,6 +34,11 @@ export const Type = types.enumeration('Type', [
   'REFUND_REVOKED',
 ]);
 
+export enum UIRole {
+  MINER = 'USER_ROLE_UI_MINER',
+  PUBLISHER = 'USER_ROLE_UI_PUBLISHER',
+}
+
 export type TStream = Instance<typeof Stream>;
 export type TUser = Instance<typeof User>;
 export type TStreamsStore = Instance<typeof StreamsStore>;

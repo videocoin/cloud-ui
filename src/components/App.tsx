@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Redirect, Router } from '@reach/router';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ModalManager from 'components/ModalManager';
 import { Spinner } from 'ui-kit';
@@ -91,10 +91,7 @@ const App = () => {
       <Suspense fallback={<Spinner />}>
         <ModalManager />
       </Suspense>
-      <ToastContainer
-        position={toast.POSITION.BOTTOM_CENTER}
-        closeButton={false}
-      />
+      <ToastContainer position="bottom-center" closeButton={false} />
     </>
   );
 };

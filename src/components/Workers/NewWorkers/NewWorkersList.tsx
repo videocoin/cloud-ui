@@ -26,7 +26,7 @@ const NewWorkersList = () => {
   const enableAnimate = !isDeleting && isLoaded;
 
   if (!newWorkers.length) return null;
-  const transitionListener = (idx: number) => (
+  const transitionListener = (idx: number): any => (
     node: HTMLElement,
     done: () => void,
   ) => {

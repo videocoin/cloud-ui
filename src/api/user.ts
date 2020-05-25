@@ -6,6 +6,9 @@ import api from '.';
 export function signUp(data: SignUpForm) {
   return api.post('/users', data);
 }
+export function validateUser(data: any) {
+  return api.post('/users/validate', data);
+}
 
 export function signIn(data: SignInForm) {
   return api.post('/auth', data);

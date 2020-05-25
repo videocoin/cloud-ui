@@ -1,12 +1,18 @@
 .form {
-  padding: 38px 40px 48px;
+  & > * {
+    margin-bottom: 20px;
+  }
 }
 
-.fields {
-  margin-bottom: 28px;
-  & > * {
-    &:not(:last-child) {
-      margin-bottom: 20px;
-    }
-  }
+.formWrapper {
+  border-radius: 10px;
+  background: linear-gradient(225deg, #7234c8 0%, #4e238e 100%);
+  padding: 40px 40px 30px;
+  margin: 24px 0;
+}
+
+.right {
+  width: 416px;
+  margin-left: auto;
+  flex-shrink: 0;
 }

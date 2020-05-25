@@ -8,10 +8,6 @@ import App from 'components/App';
 import 'styles/index.scss';
 import * as serviceWorker from './serviceWorker';
 
-if (process.env.NODE_ENV !== 'production') {
-  import('stores');
-}
-
 // eslint-disable-next-line
 // @ts-ignore
 export const history = createHistory(window);

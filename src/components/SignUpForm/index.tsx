@@ -5,11 +5,14 @@ import { addressSchema, countrySchema, signUpEmailSchema } from './validate';
 import Checkbox from 'components/UI/FormikCheckbox';
 import Input from 'components/UI/FormikInput';
 import Select from 'components/UI/FormikSelect';
+import HttpStatus from 'http-status-codes';
 import countries from './countries';
 import { globalHistory as history, Link } from '@reach/router';
-import { signUp, validateUser } from 'api/user';
+import { validateUser } from 'api/user';
 import css from './index.module.scss';
 import { UIRole } from 'stores/types';
+import { get, eq } from 'lodash/fp';
+import UserStore from 'stores/user';
 
 const initialValues = {
   email: '',
@@ -23,20 +26,23 @@ const EmailForm = ({
 }: {
   onSubmit: (values: typeof initialValues) => void;
 }) => {
+  const [isLoading, setLoading] = useState(false);
   const handleSubmit = async (
     values: typeof initialValues,
     helpers: FormikHelpers<typeof initialValues>,
   ) => {
+    setLoading(true);
     const { agree, ...data } = values;
-    const { setFieldError } = helpers;
     try {
       await validateUser(data);
       onSubmit(values);
     } catch (e) {
-      if (e.response.data.fields) {
-        Object.keys(e.response.data.fields).forEach((field: string) => {
-          setFieldError(field, e.response.data.fields[field]);
-        });
+      setLoading(false);
+      if (eq(HttpStatus.BAD_REQUEST, get('response.status')(e))) {
+        const errors = get('response.data.fields')(e);
+        if (errors) {
+          helpers.setErrors(errors);
+        }
       }
     }
   };
@@ -67,7 +73,12 @@ const EmailForm = ({
                   <Link to="/terms">Terms and Conditions</Link>
                 </Typography>
               </Checkbox>
-              <Button block theme="perfect-white" type="submit">
+              <Button
+                block
+                theme="perfect-white"
+                type="submit"
+                loading={isLoading}
+              >
                 Next
               </Button>
             </Form>
@@ -111,12 +122,21 @@ const CountryForm = ({ onSubmit }: { onSubmit: (values: any) => void }) => {
   );
 };
 const AddressForm = ({ onSubmit }: { onSubmit: any }) => {
+  const [isLoading, setLoading] = useState(false);
   const initialValues = {
     address1: '',
     address2: '',
     city: '',
     region: '',
     zip: '',
+  };
+  const handleSubmit = async (values: any, helpers: any) => {
+    setLoading(true);
+    try {
+      await onSubmit(values, helpers);
+    } catch (e) {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -127,7 +147,7 @@ const AddressForm = ({ onSubmit }: { onSubmit: any }) => {
         <Formik
           validationSchema={addressSchema}
           initialValues={initialValues}
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
           validateOnBlur={false}
         >
           {() => (
@@ -137,7 +157,12 @@ const AddressForm = ({ onSubmit }: { onSubmit: any }) => {
               <Input name="city" label="City" />
               <Input name="region" label="State/province" />
               <Input name="zip" label="Postal Code" />
-              <Button block theme="perfect-white" type="submit">
+              <Button
+                block
+                theme="perfect-white"
+                type="submit"
+                loading={isLoading}
+              >
                 Create Account
               </Button>
             </Form>
@@ -176,13 +201,15 @@ const AdditionalInfoForm = ({
       uiRole: isMiner ? UIRole.MINER : UIRole.PUBLISHER,
     };
     try {
-      await signUp(data);
+      return await UserStore.signUp(data);
     } catch (e) {
-      if (e.fields) {
-        Object.keys(e.fields).forEach((field: string) => {
-          helpers.setFieldError(field, e.fields[field]);
-        });
+      if (eq(HttpStatus.BAD_REQUEST, get('response.status')(e))) {
+        const errors = get('response.data.fields')(e);
+        if (errors) {
+          helpers.setErrors(errors);
+        }
       }
+      throw e;
     }
   };
 

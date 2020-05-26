@@ -68,9 +68,31 @@ const EmailForm = ({
               />
               <Checkbox checked={false} name="agree">
                 <Typography>
-                  I agree to the <Link to="/privacy">Privacy Policy</Link>
-                  &nbsp;and&nbsp;
-                  <Link to="/terms">Terms and Conditions</Link>
+                  I agree to the{' '}
+                  <a
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkPrivacyPolicy.html
+"
+                  >
+                    Privacy Policy
+                  </a>
+                  ,&nbsp;
+                  <a
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkWorkerTermsofService.html"
+                  >
+                    Worker Terms of Service
+                  </a>
+                  &nbsp;,&nbsp;
+                  <a
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkDelegatorTermsofService.html"
+                  >
+                    Delegator Terms of Service
+                  </a>
                 </Typography>
               </Checkbox>
               <Button

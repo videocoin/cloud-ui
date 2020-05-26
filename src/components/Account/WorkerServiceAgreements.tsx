@@ -25,8 +25,30 @@ const WorkerServiceAgreements = ({
         <Typography type="body">Worker Service Agreements</Typography>
         <Typography type="smallBodyThin">
           To enable worker features, you must read and agree to our worker{' '}
-          <a href="#">Terms and Conditions</a> and{' '}
-          <a href="#">Privacy Policy</a>.
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkPrivacyPolicy.html"
+          >
+            Privacy Policy
+          </a>
+          ,&nbsp;
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkWorkerTermsofService.html"
+          >
+            Worker Terms of Service
+          </a>
+          &nbsp;,&nbsp;
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkDelegatorTermsofService.html"
+          >
+            Delegator Terms of Service
+          </a>
+          .
         </Typography>
       </div>
       <div data-testid="accessTokenBtn" className="modalActions">

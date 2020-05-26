@@ -11,27 +11,37 @@ const cards: WorkerSetupGuideCard[] = [
   {
     icon: 'windows',
     title: 'Window',
+    link:
+      'https://forum.videocoin.network/t/windows-setup-guide-for-videocoin-worker',
   },
   {
     icon: 'apple',
     title: 'Mac',
+    link:
+      'https://forum.videocoin.network/t/macos-setup-guide-for-videocoin-worker',
   },
   {
     icon: 'linux',
     title: 'Linux',
+    link:
+      'https://forum.videocoin.network/t/linux-setup-guide-for-videocoin-worker',
   },
   {
     icon: 'gc',
     title: 'GC',
+    link:
+      'https://forum.videocoin.network/t/google-cloud-setup-guide-for-videocoin-worker',
   },
   {
     icon: 'aws',
     title: 'AWS',
+    link:
+      'https://forum.videocoin.network/t/aws-setup-guide-for-videocoin-worker',
   },
 ];
 
-const renderCard = ({ icon, title }: WorkerSetupGuideCard) => (
-  <WorkerSetupCard key={title} icon={icon} title={title} />
+const renderCard = ({ icon, title, link }: WorkerSetupGuideCard) => (
+  <WorkerSetupCard key={title} icon={icon} title={title} link={link} />
 );
 
 const WorkerSetupGuide = ({

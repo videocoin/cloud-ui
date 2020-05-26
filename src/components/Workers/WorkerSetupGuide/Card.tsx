@@ -5,17 +5,18 @@ import css from './styles.module.scss';
 export interface WorkerSetupGuideCard {
   icon: IconName;
   title: string;
+  link: string;
 }
 
-const WorkerSetupGuideCard = ({ icon, title }: WorkerSetupGuideCard) => (
-  <div className={css.card}>
+const WorkerSetupGuideCard = ({ icon, title, link }: WorkerSetupGuideCard) => (
+  <a href={link} target="_blank" rel="noopener noreferrer" className={css.card}>
     <div className={css.cardIcon}>
       <Icon name={icon} />
     </div>
     <Typography className={css.cardDesc} type="body">
       {title} Setup Guide
     </Typography>
-  </div>
+  </a>
 );
 
 export default WorkerSetupGuideCard;

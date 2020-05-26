@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ModalManager from 'components/ModalManager';
 import { Spinner } from 'ui-kit';
 import NotFound from 'routes/NotFound';
+import CookiePopup from 'components/CookiePopup';
 
 const Dashboard = lazy(() =>
   import(/* webpackPrefetch: true */ 'routes/dashboard'),
@@ -92,6 +93,7 @@ const App = () => {
         <ModalManager />
       </Suspense>
       <ToastContainer position="bottom-center" closeButton={false} />
+      <CookiePopup />
     </>
   );
 };

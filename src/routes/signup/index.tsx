@@ -1,9 +1,5 @@
 import React, { FC } from 'react';
-import {
-  globalHistory as history,
-  Link,
-  RouteComponentProps,
-} from '@reach/router';
+import { Link, RouteComponentProps } from '@reach/router';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Typography } from 'ui-kit';
 import SignUpForm from 'components/SignUpForm';

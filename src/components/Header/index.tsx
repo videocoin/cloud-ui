@@ -4,12 +4,12 @@ import css from './index.module.scss';
 import { map } from 'lodash/fp';
 import { Link } from '@reach/router';
 
-interface ILink {
+interface LinkProps {
   label: string;
   path: string;
 }
 
-const links: ILink[] = [
+const links: LinkProps[] = [
   {
     label: 'The Network',
     path: 'https://videocoin.network',
@@ -37,7 +37,7 @@ const links: ILink[] = [
 ];
 
 const Header = ({ isSignin }: { isSignin?: boolean }) => {
-  const renderLink = ({ label, path }: ILink) => (
+  const renderLink = ({ label, path }: LinkProps) => (
     <a href={path} target="_blank" rel="noopener noreferrer" key={label}>
       {label}
     </a>

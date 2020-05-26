@@ -1,4 +1,33 @@
 .header {
   padding: 30px 60px;
   margin-bottom: 100px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+  a {
+    text-decoration: none;
+  }
+}
+
+.navbar {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  a {
+    font-weight: 500;
+    opacity: 0.48;
+    line-height: 1.5;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    transition: opacity 0.15s ease-in-out;
+    &:not(:last-child) {
+      margin-right: 32px;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
 }

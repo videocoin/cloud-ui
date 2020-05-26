@@ -14,6 +14,7 @@ import css from './index.module.scss';
 
 const SignIn: FC<RouteComponentProps> = ({ location }) => {
   const { token } = queryString.parse(get('search')(location));
+  const isSignin = location.pathname.includes('/sign-in');
   const { openModal } = ModalStore;
   const { logout } = UserStore;
 
@@ -26,19 +27,20 @@ const SignIn: FC<RouteComponentProps> = ({ location }) => {
 
   return (
     <>
-      <Header />
+      <Header isSignin={isSignin} />
       <div className="vc-container">
         <Grid fluid>
           <Row>
             <Col xsOffset={1} xs={5} className={css.left}>
               <div className="mb15">
                 <Typography type="display2">
-                  Try our new Publisher Studio
+                  VideoCoin Network Console
                 </Typography>
               </div>
               <Typography>
-                VideoCoin is decentralized video encoding, storage &
-                distribution. The Airbnb of video.
+                The VideoCoin Network is an API first, decentralized video
+                infrastructure designed for engineers to create cost effective
+                video streaming, livestreaming, VOD applications.
               </Typography>
             </Col>
             <Col xsOffset={1} xs={4}>

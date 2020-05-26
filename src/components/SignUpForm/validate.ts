@@ -23,8 +23,8 @@ export const countrySchema = Yup.object().shape({
 });
 export const addressSchema = Yup.object().shape({
   address1: Yup.string().required(),
-  address2: Yup.string().required(),
-  region: Yup.string().required(),
+  address2: Yup.string(),
+  region: Yup.string(),
   city: Yup.string().required(),
-  zip: Yup.string().required(),
+  zip: Yup.string().required('Postal Code is a required field'),
 });

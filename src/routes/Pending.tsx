@@ -7,7 +7,7 @@ import UserStore from 'stores/user';
 import { resendConfirm } from 'api/user';
 
 const Pending: FC<RouteComponentProps> = () => {
-  const { isActive, logout, user } = UserStore;
+  const { isActive, logout, user, isWorker } = UserStore;
   const [isLoading, setLoading] = useState(false);
 
   const handleResend = async () => {
@@ -20,7 +20,12 @@ const Pending: FC<RouteComponentProps> = () => {
   };
 
   if (isActive) {
-    return <Redirect to="/dashboard/streams" noThrow />;
+    return (
+      <Redirect
+        to={isWorker ? '/dashboard/workers' : '/dashboard/streams'}
+        noThrow
+      />
+    );
   }
 
   return (

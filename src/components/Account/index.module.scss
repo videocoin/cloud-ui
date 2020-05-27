@@ -30,7 +30,7 @@
 .terms {
   a {
     display: inline-block;
-    &:first-child {
+    &:not(:last-child) {
       margin-bottom: 12px;
     }
   }

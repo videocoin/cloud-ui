@@ -38,6 +38,7 @@ module.exports = {
     '@typescript-eslint/no-angle-bracket-type-assertion': 'off',
     'import/extensions': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
+    '@typescript-eslint/camelcase': 'off',
   },
   settings: {
     'import/resolver': {

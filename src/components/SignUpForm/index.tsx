@@ -7,7 +7,7 @@ import Input from 'components/UI/FormikInput';
 import Select from 'components/UI/FormikSelect';
 import HttpStatus from 'http-status-codes';
 import countries from './countries';
-import { globalHistory as history, Link } from '@reach/router';
+import { globalHistory as history } from '@reach/router';
 import { validateUser } from 'api/user';
 import css from './index.module.scss';
 import { UIRole } from 'stores/types';

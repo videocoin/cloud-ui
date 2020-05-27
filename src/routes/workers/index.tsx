@@ -9,7 +9,7 @@ import { STORAGE_KEY } from 'const';
 
 const WorkersPage: FC<RouteComponentProps> = () => {
   const { createWorker, isCreating } = WorkersStore;
-  const { isWorker } = UserStore;
+  const { isWorker, isPublisher, isBoth } = UserStore;
   const [isGuideVisible, setGuide] = useState(
     !localStorage.getItem(STORAGE_KEY.GUIDE_HIDDEN),
   );
@@ -36,7 +36,7 @@ const WorkersPage: FC<RouteComponentProps> = () => {
                 Show Guides
               </Button>
             )}
-            {isWorker && (
+            {(isWorker || isBoth) && (
               <Button loading={isCreating} onClick={createWorker}>
                 New Worker
               </Button>
@@ -45,7 +45,7 @@ const WorkersPage: FC<RouteComponentProps> = () => {
         </TopBar>
       </div>
       <div className="content">
-        {!isWorker ? (
+        {isPublisher ? (
           <BecomeWorker />
         ) : (
           <WorkersDashboard

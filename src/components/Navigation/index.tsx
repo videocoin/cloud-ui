@@ -23,9 +23,9 @@ const navLabels: Record<string, string> = {
 };
 
 const Navigation = () => {
-  const { isActive, isWorker, isPublisher } = UserStore;
+  const { isActive, isBoth, isPublisher } = UserStore;
   const navLinks = (): string[] => {
-    if (isWorker && isPublisher) {
+    if (isBoth) {
       return ['streams', 'workers', '', 'earnings', 'billing', 'account'];
     }
     if (isPublisher) {

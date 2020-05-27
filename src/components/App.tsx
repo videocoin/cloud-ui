@@ -7,6 +7,8 @@ import ModalManager from 'components/ModalManager';
 import { Spinner } from 'ui-kit';
 import NotFound from 'routes/NotFound';
 import CookiePopup from 'components/CookiePopup';
+import UserStore from 'stores/user';
+import { observer } from 'mobx-react-lite';
 
 const Dashboard = lazy(() =>
   import(/* webpackPrefetch: true */ 'routes/dashboard'),
@@ -56,11 +58,17 @@ const Earnings = lazy(() =>
 );
 
 const App = () => {
+  const { isWorker, isLoading } = UserStore;
+  if (isLoading) return <Spinner />;
   return (
     <>
       <Suspense fallback={<Spinner />}>
         <Router className="wrapper" primary={false}>
-          <Redirect from="/" to="/dashboard/streams" noThrow />
+          <Redirect
+            from="/"
+            to={isWorker ? '/dashboard/workers' : '/dashboard/streams'}
+            noThrow
+          />
           <Dashboard path="/dashboard">
             <Pending path="pending" />
             <Account path="account" />
@@ -98,4 +106,4 @@ const App = () => {
   );
 };
 
-export default hot(App);
+export default hot(observer(App));

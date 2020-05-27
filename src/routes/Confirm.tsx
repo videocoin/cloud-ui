@@ -7,12 +7,12 @@ import { RouteComponentProps } from '@reach/router';
 import userStore from 'stores/user';
 
 const Confirm: FC<RouteComponentProps> = ({ location }) => {
-  const { confirmUser } = userStore;
+  const { confirmUser, isWorker } = userStore;
   const handleConfirm = useCallback(async () => {
     const { token } = queryString.parse(get('search')(location));
     await confirmUser(token as string);
-    history.navigate('/dashboard/streams');
-  }, [location, confirmUser]);
+    history.navigate(isWorker ? '/dashboard/workers' : '/dashboard/streams');
+  }, [location, confirmUser, isWorker]);
 
   useEffect(() => {
     handleConfirm();

@@ -1,23 +1,23 @@
 import React, { FormEvent } from 'react';
-import { Typography, Button, Switch } from 'ui-kit';
+import { Button, Switch, Typography } from 'ui-kit';
 import { map } from 'lodash/fp';
 import UserStore from 'stores/user';
 import ModalStore from 'stores/modal';
-import { Link } from '@reach/router';
 import { modalType } from 'components/ModalManager';
 import { observer } from 'mobx-react-lite';
 import TokensStore, { IToken } from 'stores/tokens';
 import { AxiosResponse } from 'axios';
 import css from './index.module.scss';
 import Section from './Section';
+import { UI_ROLE } from 'const';
 
 const Account = () => {
   const {
     user: { name, email },
     isPublisher,
     isWorker,
-    setPublisherRole,
-    setWorkerRole,
+    isBoth,
+    updateRole,
   } = UserStore;
   const { openModal } = ModalStore;
   const { items, addToken, isCreating, isDeleting } = TokensStore;
@@ -27,36 +27,52 @@ const Account = () => {
     if (checked) {
       openModal(modalType.PUBLISHER_AGREEMENTS, {
         onConfirm: () => successPublisherChange(true),
-        onCancel: () => {
-          successPublisherChange(false);
-        },
       });
     } else {
       successPublisherChange(false);
     }
-  };
-  const successPublisherChange = (checked: boolean) => {
-    setPublisherRole(checked);
-    localStorage.setItem('isPublisher', `${+checked}`);
-  };
-  const successWorkerChange = (checked: boolean) => {
-    setWorkerRole(checked);
-    localStorage.setItem('isWorker', `${+checked}`);
   };
   const handleWorkerChange = (e: FormEvent<HTMLInputElement>) => {
     const { checked } = e.currentTarget;
     if (checked) {
       openModal(modalType.WORKER_AGREEMENTS, {
         onConfirm: () => successWorkerChange(true),
-        onCancel: () => {
-          successWorkerChange(false);
-        },
       });
     } else {
       successWorkerChange(false);
     }
   };
+  const successPublisherChange = (checked: boolean) => {
+    if (!checked) {
+      if (isPublisher) {
+        openModal(modalType.WORKER_AGREEMENTS, {
+          onConfirm: () => {
+            updateRole(UI_ROLE.MINER);
+          },
+        });
+        return;
+      }
+      updateRole(UI_ROLE.MINER);
+      return;
+    }
 
+    updateRole(isWorker ? UI_ROLE.BOTH : UI_ROLE.PUBLISHER);
+  };
+  const successWorkerChange = (checked: boolean) => {
+    if (!checked) {
+      if (isWorker) {
+        openModal(modalType.PUBLISHER_AGREEMENTS, {
+          onConfirm: () => {
+            updateRole(UI_ROLE.PUBLISHER);
+          },
+        });
+        return;
+      }
+      updateRole(UI_ROLE.PUBLISHER);
+      return;
+    }
+    updateRole(isPublisher ? UI_ROLE.BOTH : UI_ROLE.MINER);
+  };
   const handleRevoke = (token: IToken) => () => {
     openModal(modalType.REVOKE_TOKEN_MODAL, {
       onConfirm: token.remove,
@@ -110,7 +126,10 @@ const Account = () => {
       <Section title="Features">
         <div className={css.field}>
           <Typography type="smallBodyThin">Publisher</Typography>
-          <Switch checked={isPublisher} onChange={handlePublisherChange}>
+          <Switch
+            checked={isPublisher || isBoth}
+            onChange={handlePublisherChange}
+          >
             <Typography type="tiny">
               Enables features for publishers to transcode livestreams and
               video.
@@ -119,7 +138,7 @@ const Account = () => {
         </div>
         <div className={css.field}>
           <Typography type="smallBodyThin">Worker</Typography>
-          <Switch checked={isWorker} onChange={handleWorkerChange}>
+          <Switch checked={isWorker || isBoth} onChange={handleWorkerChange}>
             <Typography type="tiny">
               Enables features workers to provide compute power to the network.
             </Typography>
@@ -150,13 +169,50 @@ const Account = () => {
         <div className={css.field}>
           <Typography type="smallBody">Documents</Typography>
           <div className={css.terms}>
-            <Link className="link link_violet" to="terms">
-              Terms and conditions
-            </Link>
+            <a
+              href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkTermsofService.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link link_violet"
+            >
+              Terms of Use
+            </a>
             <br />
-            <Link className="link link_violet" to="privacy">
+            <a
+              href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkPrivacyPolicy.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link link_violet"
+            >
               Privacy policy
-            </Link>
+            </a>
+            <br />
+            <a
+              href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkWebsiteTermsofUse.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link link_violet"
+            >
+              Website Terms of use
+            </a>
+            <br />
+            <a
+              href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkWorkerTermsofService.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link link_violet"
+            >
+              Worker Terms of Service
+            </a>
+            <br />
+            <a
+              href="https://storage.googleapis.com/videocoin-network-policies/VideoCoinNetworkDelegatorTermsofService.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link link_violet"
+            >
+              Delegator Terms of Service
+            </a>
           </div>
         </div>
       </Section>

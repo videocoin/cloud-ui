@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from '@reach/router';
 import { Typography } from 'ui-kit';
 import css from './styles.module.scss';
 

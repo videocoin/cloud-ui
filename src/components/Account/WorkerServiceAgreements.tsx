@@ -5,14 +5,11 @@ import Modal from '../Modal';
 const WorkerServiceAgreements = ({
   closeModal,
   onConfirm,
-  onCancel,
 }: {
   closeModal: () => void;
-  onCancel: () => void;
   onConfirm: () => void;
 }) => {
   const handleCancel = () => {
-    onCancel();
     closeModal();
   };
   const handleConfirm = () => {

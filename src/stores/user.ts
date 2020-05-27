@@ -14,7 +14,7 @@ import {
   STATE,
   START_PAGE,
   STORAGE_KEY,
-  USER_ROLE,
+  UI_ROLE,
 } from 'const';
 import StreamsStore from 'stores/streams';
 import billingStore from 'stores/billing';
@@ -29,8 +29,6 @@ const Store = types
     actionsMeta: WalletMeta,
     transactions: types.array(WalletTransaction),
     transactionsMeta: WalletMeta,
-    isWorker: types.boolean,
-    isPublisher: types.boolean,
   })
   .actions((self) => {
     let initialState = {};
@@ -43,20 +41,6 @@ const Store = types
 
         self.user = User.create(res.data);
         self.state = STATE.loaded;
-        if (localStorage.getItem('isPublisher')) {
-          self.isPublisher = Boolean(+localStorage.getItem('isPublisher'));
-        } else {
-          self.isPublisher =
-            propEq('role', USER_ROLE.REGULAR)(self.user) ||
-            propEq('role', USER_ROLE.SUPER)(self.user);
-        }
-        if (localStorage.getItem('isWorker')) {
-          self.isWorker = Boolean(+localStorage.getItem('isWorker'));
-        } else {
-          self.isWorker =
-            propEq('role', USER_ROLE.MINER)(self.user) ||
-            propEq('role', USER_ROLE.SUPER)(self.user);
-        }
 
         return res;
       } catch (e) {
@@ -73,11 +57,9 @@ const Store = types
 
     return {
       fetchUser,
-      setPublisherRole(val: boolean) {
-        self.isPublisher = val;
-      },
-      setWorkerRole(val: boolean) {
-        self.isWorker = val;
+      updateRole: (uiRole: UI_ROLE) => {
+        API.updateUser(self.user.id, { uiRole });
+        self.user.uiRole = uiRole;
       },
       afterCreate() {
         initialState = getSnapshot(self);
@@ -147,6 +129,15 @@ const Store = types
     get address() {
       return get('user.account.address')(self);
     },
+    get isWorker() {
+      return propEq('user.uiRole', UI_ROLE.MINER)(self);
+    },
+    get isPublisher() {
+      return propEq('user.uiRole', UI_ROLE.PUBLISHER)(self);
+    },
+    get isBoth() {
+      return propEq('user.uiRole', UI_ROLE.BOTH)(self);
+    },
   }));
 
 const UserStore = Store.create({
@@ -154,8 +145,6 @@ const UserStore = Store.create({
   user: null,
   actions: [],
   transactions: [],
-  isPublisher: false,
-  isWorker: false,
   actionsMeta: {
     offset: 0,
     limit: PROTOCOL_OFFSET,

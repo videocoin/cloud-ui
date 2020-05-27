@@ -38,7 +38,7 @@ const GettingStarted = () => {
             <Typography type="caption">
               Create your first stream and transcode a video file{' '}
               <a
-                href="https://medium.com/videocoin/demo-setting-up-a-videocoin-worker-on-raspberry-pi-3-b-50958ca5d3e"
+                href="https://docs.videocoin.network/file-transcoding-with-videocoin"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -84,7 +84,13 @@ const GettingStarted = () => {
             <Icon color="#EEE3FF" name="billing" height={24} width={24} />
             <Typography type="caption">
               Fund your account with more credits{' '}
-              <a href="#">using the console</a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://forum.videocoin.network/t/add-funds-to-account-on-videocoin-console"
+              >
+                using the console
+              </a>
             </Typography>
           </li>
         </ul>

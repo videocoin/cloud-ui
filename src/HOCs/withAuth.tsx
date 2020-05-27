@@ -8,7 +8,7 @@ import { Spinner } from 'ui-kit';
 
 export default (authRedirect = false) => (WrappedComponent: ComponentType) => {
   return observer(function withAuth(props: any) {
-    const { isAuth, isLoading } = UserStore;
+    const { isAuth, isLoading, isWorker } = UserStore;
 
     if (isLoading) {
       return <Spinner />;
@@ -18,7 +18,10 @@ export default (authRedirect = false) => (WrappedComponent: ComponentType) => {
       const { token } = queryString.parse(get('search')(window.location));
 
       return isAuth && !token ? (
-        <Redirect to="/dashboard/streams" noThrow />
+        <Redirect
+          to={isWorker ? '/dashboard/workers' : '/dashboard/streams'}
+          noThrow
+        />
       ) : (
         <WrappedComponent {...props} />
       );

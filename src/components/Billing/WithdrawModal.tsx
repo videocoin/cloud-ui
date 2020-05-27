@@ -10,8 +10,8 @@ const WithdrawModal = () => {
       <div className="modalInner">
         <Typography type="body">Please Email Us To Withdraw</Typography>
         <Typography type="smallBodyThin">
-          Email support@videocoin.io to initiate a withdraw. Please provide your
-          email address used on the account and the amount you would like
+          Email support@videocoin.network to initiate a withdraw. Please provide
+          your email address used on the account and the amount you would like
           refunded.
         </Typography>
         <div className="modalActions">

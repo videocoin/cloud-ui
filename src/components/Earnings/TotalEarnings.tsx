@@ -16,9 +16,16 @@ const TotalEarnings = () => {
         </div>
       </div>
       <Typography type="smallBodyThin">
-        VideoCoin utilizes <a href="#">Public Mint</a> to make payments in fiat
-        for work done. To withdraw earned funds, use each link below to transfer
-        earning to your bank account.
+        VideoCoin utilizes{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://publicmint.com/"
+        >
+          Public Mint
+        </a>{' '}
+        to make payments in fiat for work done. To withdraw earned funds, use
+        each link below to transfer earning to your bank account.
       </Typography>
     </div>
   );

@@ -52,3 +52,7 @@ export function resendConfirm() {
 export function confirmUser(token: string) {
   return api.post('/user/confirm', { token });
 }
+
+export function updateUser(userId: string, data: any) {
+  return api.put(`/users/${userId}`, data);
+}

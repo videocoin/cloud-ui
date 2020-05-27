@@ -118,6 +118,11 @@ export enum USER_ROLE {
   MINER = 'USER_ROLE_MINER',
   SUPER = 'USER_ROLE_SUPER',
 }
+export enum UI_ROLE {
+  BOTH = 'USER_ROLE_UI_BOTH',
+  PUBLISHER = 'USER_ROLE_UI_PUBLISHER',
+  MINER = 'USER_ROLE_UI_MINER',
+}
 
 export enum STORAGE_KEY {
   AUTH_KEY = 'token',

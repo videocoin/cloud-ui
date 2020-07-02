@@ -59,12 +59,13 @@ function errorHandler(error: AxiosError) {
     if (!toast.isActive(toastId)) {
       toastId = toast.error(
         getOr(defaultServerError, 'response.data.message', error),
+        { toastId: '403' },
       );
     }
   }
   if (status >= 500) {
     if (!toast.isActive(toastId)) {
-      toastId = toast.error(defaultServerError);
+      toastId = toast.error(defaultServerError, { toastId: '500' });
     }
   }
 

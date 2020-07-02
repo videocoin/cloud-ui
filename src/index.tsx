@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { LocationProvider } from '@reach/router';
 import createHistory from 'helpers/history';
+import ReactGA from 'react-ga';
 import App from 'components/App';
 import 'styles/index.scss';
 import * as serviceWorker from './serviceWorker';
@@ -11,6 +12,9 @@ import * as serviceWorker from './serviceWorker';
 // eslint-disable-next-line
 // @ts-ignore
 export const history = createHistory(window);
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(
   // eslint-disable-next-line

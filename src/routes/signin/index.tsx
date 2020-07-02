@@ -24,7 +24,11 @@ const SignIn: FC<RouteComponentProps> = ({ location }) => {
       openModal(modalType.RESTORE_PASSWORD, { token: String(token) });
     }
   }, [logout, openModal, token]);
-
+  const handleClick = () => {
+    gtag('event', 'conversion', {
+      send_to: 'AW-766963740/vD8-CLi05tUBEJzg2-0C',
+    });
+  };
   return (
     <>
       <Header isSignin={isSignin} />
@@ -51,7 +55,7 @@ const SignIn: FC<RouteComponentProps> = ({ location }) => {
               </div>
               <Typography align="center">
                 Don’t have an account? &nbsp;
-                <Link className="link" to="/sign-up">
+                <Link className="link" to="/sign-up" onClick={handleClick}>
                   Sign Up
                 </Link>
               </Typography>

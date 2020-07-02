@@ -1,6 +1,7 @@
 // eslint-disable-next-line
 /// <reference types="react-scripts" />
 
+declare let gtag: any;
 declare module 'react-copy-to-clipboard';
 declare module 'video-react';
 declare module 'mobx-wiretap/mst';

@@ -1,4 +1,4 @@
-FROM node:10.15.3-alpine as builder
+FROM node:10.21-alpine as builder
 RUN apk add build-base git libc6-compat openssh-client python
 RUN apk upgrade libcurl
 

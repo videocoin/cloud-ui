@@ -42,17 +42,12 @@ const Header = ({ isSignin }: { isSignin?: boolean }) => {
       {label}
     </a>
   );
-  const handleClick = () => {
-    gtag('event', 'conversion', {
-      send_to: 'AW-766963740/vD8-CLi05tUBEJzg2-0C',
-    });
-  };
   return (
     <div className={css.header}>
       <Logo type="colorWhite" width={171} />
       <div className={css.navbar}>{map(renderLink)(links)}</div>
       {isSignin ? (
-        <Link to="/sign-up" onClick={handleClick}>
+        <Link to="/sign-up">
           <Button>Create Account</Button>
         </Link>
       ) : (

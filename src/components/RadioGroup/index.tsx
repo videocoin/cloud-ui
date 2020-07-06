@@ -1,12 +1,14 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { FieldProps } from 'formik';
-import RadioGroupBase from 'ui-kit/src/Radio/Radio';
+import RadioGroupBase, { RadioGroupProps } from 'ui-kit/src/Radio/Radio';
+
+type Props = Omit<RadioGroupProps, 'name' | 'onChange'>;
 
 const RadioGroup = ({
   field,
   children,
   ...baseRadioProps
-}: FieldProps & { children: ReactNode }) => (
+}: FieldProps & Props) => (
   <RadioGroupBase {...field} {...baseRadioProps}>
     {children}
   </RadioGroupBase>

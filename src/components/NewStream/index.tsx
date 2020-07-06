@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Typography } from 'ui-kit';
-import { Form, Field, useFormikContext, FieldProps } from 'formik';
+import { Field, FieldProps, Form, useFormikContext } from 'formik';
 import RadioGroup from 'components/RadioGroup';
 import Input from 'components/Input';
 import Select from 'components/Select';
@@ -56,7 +56,15 @@ const NewStream = () => {
   const { setFieldValue, setFieldTouched, values } = useFormikContext<
     FormValues
   >();
-  const { profile, outputType } = values;
+  const { profile, outputType, inputType } = values;
+  useEffect(() => {
+    if (
+      outputType === STREAM_OUTPUT_TYPE.FILE &&
+      inputType !== STREAM_INPUT_TYPE.FILE
+    ) {
+      setFieldValue('outputType', STREAM_OUTPUT_TYPE.HLS);
+    }
+  }, [inputType, outputType, setFieldValue]);
   const renderRadioInputType = ({ label, value, active }: RadioInputType) => (
     <RadioBtn
       key={value}
@@ -100,6 +108,26 @@ const NewStream = () => {
                 <Typography type="body">HLS</Typography>
               </RadioBtn>
               {outputType === STREAM_OUTPUT_TYPE.HLS && (
+                <div className={css.innerField}>
+                  <Select
+                    isSearchable={false}
+                    placeholder="Select Profile"
+                    name="profile"
+                    value={profile}
+                    options={profilesSelect}
+                    onChange={setFieldValue}
+                    onBlur={setFieldTouched}
+                  />
+                </div>
+              )}
+              <RadioBtn
+                value={STREAM_OUTPUT_TYPE.FILE}
+                activeClassname={css.activeRadio}
+                disabled={inputType !== STREAM_INPUT_TYPE.FILE}
+              >
+                <Typography type="body">File</Typography>
+              </RadioBtn>
+              {outputType === STREAM_OUTPUT_TYPE.FILE && (
                 <div className={css.innerField}>
                   <Select
                     isSearchable={false}

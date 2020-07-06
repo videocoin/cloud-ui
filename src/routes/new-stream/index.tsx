@@ -68,7 +68,7 @@ const NewStreamPage = () => {
       validationSchema={validationSchema}
       validateOnMount
     >
-      {({ isValid, isSubmitting }) => (
+      {({ isValid, errors, isSubmitting }) => (
         <>
           <div className="topBar">
             <TopBar>

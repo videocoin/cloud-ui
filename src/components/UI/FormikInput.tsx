@@ -6,7 +6,7 @@ import css from './index.module.scss';
 type Props = Omit<InputProps, 'value' | 'onChange'> & FieldConfig;
 
 const Input = (props: Props) => {
-  const [field, meta] = useField(props);
+  const [field, meta] = useField(props.name);
   const { touched, error } = meta;
   const hasError = touched ? Boolean(error) : false;
 

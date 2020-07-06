@@ -21,12 +21,13 @@ const Player = () => {
 
   useEffect(() => {
     if (isOnline && outputUrl && container.current) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+      const isMp4 = outputUrl.split('.').pop().toLowerCase() === 'mp4';
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       player.current = window.IndigoPlayer.init(container.current, {
         sources: [
           {
-            type: 'hls',
+            type: isMp4 ? 'mp4' : 'hls',
             src: outputUrl,
           },
         ],

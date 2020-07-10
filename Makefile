@@ -8,6 +8,11 @@ ENV?=dev
 
 VERSION=$$(git describe --abbrev=0)-$$(git rev-parse --abbrev-ref HEAD)-$$(git rev-parse --short HEAD)
 
+REACT_APP_CLOUD_API_URL?=
+REACT_APP_TXLOG_API_URL?=
+REACT_APP_PAYMENTS_API_URL?=
+REACT_APP_STRIPE_KEY?=
+
 .PHONY: deploy build
 
 default: build

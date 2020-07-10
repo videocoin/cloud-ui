@@ -1,0 +1,96 @@
+kind: pipeline
+type: kubernetes
+name: release-develop
+
+steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+    - git submodule update --init
+
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      registry: registry.videocoin.net
+      repo: registry.videocoin.net/cloud/console-ui
+      tags:
+        - ${DRONE_COMMIT_SHA}
+      build_args:
+        - REACT_APP_CLOUD_API_URL=https://console.dev.videocoin.network/api/v1
+        - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
+        - REACT_APP_PAYMENTS_API_URL=https://payments.dev.videocoinapis.com/api/v1
+        - REACT_APP_STRIPE_KEY=pk_test_k8dPL3dVynGZUOobj4WhS5nT00isBnI5Ow
+trigger:
+  event:
+  - push
+  - pull_request
+  branch:
+    exclude:
+    - master
+
+---
+
+kind: pipeline
+type: kubernetes
+name: release-master
+
+steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+    - git submodule update --init
+
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      registry: registry.videocoin.net
+      repo: registry.videocoin.net/cloud/console-ui
+      tags:
+        - ${DRONE_COMMIT_SHA}
+      build_args:
+        - REACT_APP_CLOUD_API_URL=/api/v1
+        - REACT_APP_TXLOG_API_URL=https://txlog.dev.kili.videocoin.network/api/v1
+        - REACT_APP_PAYMENTS_API_URL=https://pm.dev.videocoin.net/api/v1
+        - REACT_APP_STRIPE_KEY=pk_test_k8dPL3dVynGZUOobj4WhS5nT00isBnI5Ow
+        - REACT_APP_GOOGLE_ANALYTICS=UA-170965280-3
+trigger:
+  event:
+  - push
+  - pull_request
+  branch:
+  - master
+
+---
+
+kind: pipeline
+type: kubernetes
+name: deploy-dev
+
+steps:
+ - name: deploy
+   image: devth/helm:v3.1.1
+   environment:
+      KUBE_CONFIG:
+        from_secret: dev_kube_config
+   commands:
+     - echo $KUBE_CONFIG | base64 -d > kube.config
+     - helm --kubeconfig=kube.config upgrade -i --wait --set image.tag=${DRONE_COMMIT_SHA} -n console console-ui ./deploy/helm
+
+trigger:
+  event:
+  - push
+  - pull_request
+  branch:
+  - infra
+  - drone
+
+depends_on:
+  - release-develop

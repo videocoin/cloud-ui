@@ -120,13 +120,13 @@ const NewStream = () => {
                   />
                 </div>
               )}
-              {/* <RadioBtn
+              <RadioBtn
                 value={STREAM_OUTPUT_TYPE.FILE}
                 activeClassname={css.activeRadio}
                 disabled={inputType !== STREAM_INPUT_TYPE.FILE}
               >
                 <Typography type="body">File</Typography>
-              </RadioBtn> */}
+              </RadioBtn>
               {outputType === STREAM_OUTPUT_TYPE.FILE && (
                 <div className={css.innerField}>
                   <Select

@@ -74,7 +74,7 @@ export const INGEST_STATUS: { [key in STREAM_STATUS]: string } = {
 export const PROTOCOL_OFFSET = 10;
 export const ACTIONS_OFFSET = 15;
 export const protocolRequestTimeout = 3000;
-export const MIN_BALANCE = 10;
+export const MIN_BALANCE = 1;
 export const SUPPORT_EMAIL = 'support@videocoin.io';
 export const TRANSACTIONS_OFFSET = 20;
 

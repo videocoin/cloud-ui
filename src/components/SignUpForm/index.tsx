@@ -14,6 +14,12 @@ import { UIRole } from 'stores/types';
 import { get, eq } from 'lodash/fp';
 import UserStore from 'stores/user';
 
+declare global {
+  interface Window {
+    gtag: any;
+  }
+}
+
 const initialValues = {
   email: '',
   password: '',
@@ -156,6 +162,9 @@ const AddressForm = ({ onSubmit }: { onSubmit: any }) => {
     setLoading(true);
     try {
       await onSubmit(values, helpers);
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-766963740/UnNWCPnK39YBEJzg2-0C',
+      });
     } catch (e) {
       setLoading(false);
     }

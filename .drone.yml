@@ -6,7 +6,7 @@ steps:
   - name: submodules
     image: alpine/git
     commands:
-    - git submodule update --init
+    - git submodule update --init --recursive
 
   - name: build
     image: plugins/docker
@@ -29,8 +29,11 @@ trigger:
   - push
   - pull_request
   branch:
-    exclude:
-    - master
+    - develop
+    - pe-1
+    - pe-2
+    - infra
+    - drone
 
 ---
 

@@ -10,11 +10,6 @@ REACT_APP_TXLOG_API_URL?=
 REACT_APP_PAYMENTS_API_URL?=
 REACT_APP_STRIPE_KEY?=
 
-REACT_APP_CLOUD_API_URL?=
-REACT_APP_TXLOG_API_URL?=
-REACT_APP_PAYMENTS_API_URL?=
-REACT_APP_STRIPE_KEY?=
-
 .PHONY: deploy build
 
 default: build
@@ -43,4 +38,4 @@ docker-push:
 release: docker-build docker-push
 
 deploy:
-	cd deploy && helm upgrade -i --wait --set image.tag="${VERSION}" -n console console-ui ./helm
+	helm upgrade -i --wait --set image.tag="${VERSION}" -n console console-ui ./deploy/helm

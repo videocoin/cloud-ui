@@ -30,7 +30,7 @@ resources:
 
 ingress:
   enabled: true
-  host: dev.videocoin.net
+  host: console.dev.videocoin.net
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-dns-prod
     kubernetes.io/ingress.class: nginx

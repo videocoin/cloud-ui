@@ -43,6 +43,11 @@ const Worker = types.model('Worker', {
   totalStake: types.number,
   selfStake: types.number,
   delegatedStake: types.number,
+  orgDesc: types.string,
+  orgEmail: types.string,
+  orgName: types.string,
+  delegatePolicy: types.string,
+  allowThirdpartyDelegates: types.boolean,
 });
 
 const Workers = types

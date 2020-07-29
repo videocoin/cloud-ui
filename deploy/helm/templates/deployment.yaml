@@ -4,8 +4,6 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
     app: {{ .Chart.Name }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicasCount }}
   strategy:
@@ -16,16 +14,18 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-    {{- if .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
     {{- end }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      automountServiceAccountToken: true
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: {{ .Values.service.ports.http }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
@@ -39,5 +39,7 @@ spec:
             items:
             - key: nginx.conf
               path: nginx.conf
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        cloud.google.com/gke-nodepool: api
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

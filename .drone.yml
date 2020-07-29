@@ -1,13 +1,11 @@
 kind: pipeline
 type: kubernetes
 name: develop
-
 steps:
   - name: submodules
     image: alpine/git
     commands:
     - git submodule update --init --recursive
-
   - name: build
     image: plugins/docker
     settings:
@@ -25,7 +23,6 @@ steps:
         - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
         - REACT_APP_PAYMENTS_API_URL=https://payments.dev.videocoinapis.com/api/v1
         - REACT_APP_STRIPE_KEY=pk_test_k8dPL3dVynGZUOobj4WhS5nT00isBnI5Ow
-
   - name: deploy
     image: devth/helm:v3.1.1
     environment:
@@ -34,25 +31,53 @@ steps:
     commands:
       - echo $KUBE_CONFIG | base64 -d > kube.config
       - helm --kubeconfig=kube.config upgrade -i --wait --set image.tag=$DRONE_COMMIT_SHA -n console console-ui ./deploy/helm
-
 trigger:
   event:
   - push
   branch:
-    - infra
+  - develop
+
 
 ---
-
 kind: pipeline
 type: kubernetes
-name: release
-
+name: pre-release
 steps:
   - name: submodules
     image: alpine/git
     commands:
     - git submodule update --init
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      registry: registry.videocoin.net
+      repo: registry.videocoin.net/cloud/console-ui
+      tags:
+        - ${DRONE_TAG}-prerelease
+      build_args:
+        - REACT_APP_CLOUD_API_URL='https://console.staging.videocoin.network/api/v1'
+        - REACT_APP_TXLOG_API_URL='https://symphony.staging.videocoin.net/api/v1'
+        - REACT_APP_PAYMENTS_API_URL='https://payments.staging.videocoinapis.com/api/v1'
+        - REACT_APP_STRIPE_KEY=pk_test_k8dPL3dVynGZUOobj4WhS5nT00isBnI5Ow
+        - REACT_APP_GOOGLE_ANALYTICS=
+trigger:
+  event:
+  - tag
 
+
+---
+kind: pipeline
+type: kubernetes
+name: release
+steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+    - git submodule update --init
   - name: build
     image: plugins/docker
     settings:
@@ -70,32 +95,15 @@ steps:
         - REACT_APP_PAYMENTS_API_URL='https://payments.videocoinapis.com/api/v1'
         - REACT_APP_STRIPE_KEY=pk_live_t2vhGzcXbigJRYlOhRsZwWkw
         - REACT_APP_GOOGLE_ANALYTICS=UA-170965280-3
-
-  - name: deploy
-    image: devth/helm:v3.1.1
-    environment:
-      KUBE_CONFIG:
-        from_secret: stage_kube_config
-    commands:
-      - echo $KUBE_CONFIG | base64 -d > kube.config
-      - helm --kubeconfig=kube.config upgrade -i --wait --set image.tag=$DRONE_TAG -n console console-ui ./deploy/helm
-    when:
-      branch:
-      - master
 trigger:
   event:
-  - push
-  branch:
-  - master
-  - pe-1
-  - pe-2
+  - tag
+
 
 ---
-
 kind: pipeline
 type: kubernetes
 name: helm-push
-
 steps:
   - name: lint-chart
     image: pelotech/drone-helm3
@@ -113,9 +121,6 @@ steps:
       - helm repo add console https://registry.videocoin.net/chartrepo/cloud --username $$USERNAME --password $$PASSWORD
       - helm plugin install https://github.com/chartmuseum/helm-push
       - helm push ./deploy/helm console --username $$USERNAME --password $$PASSWORD
-
 trigger:
   event:
     - push
-  branch:
-    - infra

@@ -1,31 +1,30 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React from 'react';
+import { Form, useFormikContext } from 'formik';
 import cn from 'classnames';
 import { eq } from 'lodash/fp';
 import { observer } from 'mobx-react-lite';
 import WorkersStore from 'stores/workers';
-import { Typography, Spinner, Input } from 'ui-kit';
+import { Typography, Spinner, Switch } from 'ui-kit';
 import formatBytes from 'helpers/formatBytes';
 import css from './styles.module.scss';
+import Input from 'components/UI/FormikInput';
+import Textarea from 'components/UI/FormikTextarea';
 
+interface WorkerForm {
+  name: string;
+  allowThirdpartyDelegates: boolean;
+  orgDesc: string;
+  orgEmail: string;
+  orgName: string;
+  delegatePolicy: string;
+}
 const Worker = () => {
-  const [name, setName] = useState('');
-  const { worker, isLoading, updateWorker } = WorkersStore;
+  const { worker, isLoading } = WorkersStore;
+  const { values, handleChange } = useFormikContext<WorkerForm>();
 
-  useEffect(() => {
-    if (worker) {
-      setName(worker.name);
-    }
-  }, [worker]);
   if (!worker || isLoading) return <Spinner />;
   const { id, status, systemInfo } = worker;
   const isNew = eq('NEW', status);
-  const handleChangeName = (e: FormEvent<HTMLInputElement>) =>
-    setName(e.currentTarget.value);
-
-  const handleSave = (e: FormEvent) => {
-    e.preventDefault();
-    updateWorker({ name });
-  };
 
   return (
     <div className={css.root}>
@@ -43,9 +42,42 @@ const Worker = () => {
           <Typography type="body">{id}</Typography>
         </div>
       </div>
-      <form id="workerForm" className={css.name} onSubmit={handleSave}>
-        <Input value={name} onChange={handleChangeName} label="Worker Name" />
-      </form>
+      <Form id="workerForm" className={css.form}>
+        <div className={css.halfInput}>
+          <Input name="name" label="Worker Name" />
+        </div>
+        <div>
+          <Input name="orgName" label="Organization" />
+          <Input name="orgEmail" label="Contact Email" />
+        </div>
+        <div>
+          <Textarea name="orgDesc" label="Description" />
+        </div>
+      </Form>
+      <label className={css.thirdpartyCheck}>
+        <Typography type="smallBodyThin">
+          Allow Third Party Delegates
+        </Typography>
+        <Switch
+          checked={values.allowThirdpartyDelegates}
+          onChange={handleChange}
+          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          // @ts-expect-error
+          name="allowThirdpartyDelegates"
+        >
+          <Typography type="tiny">
+            Allows other people to stake VID onto your worker node. You will
+            need to setup payments for these people.
+          </Typography>
+        </Switch>
+      </label>
+      <div className={css.delegatePolicy}>
+        <Input
+          name="delegatePolicy"
+          label="Describe Delegate Payout Policy (eg. percent cash)"
+          disabled={!values.allowThirdpartyDelegates}
+        />
+      </div>
       <div className={css.info}>
         <div className={css.head}>
           <Typography type="subtitleCaps">System information</Typography>

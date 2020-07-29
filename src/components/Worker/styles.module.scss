@@ -80,3 +80,32 @@
 .timeCell {
   white-space: nowrap;
 }
+
+.form {
+  max-width: 757px;
+  margin: 30px -10px 0;
+  & > div {
+    display: flex;
+    margin-bottom: 28px;
+    & > * {
+      flex: 1;
+      margin: 0 10px;
+    }
+    &.halfInput {
+      width: 50%;
+    }
+  }
+}
+
+.thirdpartyCheck {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  & > div:first-child {
+    white-space: nowrap;
+    margin-right: 89px;
+  }
+}
+.delegatePolicy {
+  max-width: 737px;
+}

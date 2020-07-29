@@ -4,10 +4,7 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
     app: {{ .Chart.Name }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    heritage: {{ .Release.Service }}
 spec:
-  type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.ports.http }}
       targetPort: {{ .Values.service.ports.http }}

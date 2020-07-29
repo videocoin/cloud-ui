@@ -23,6 +23,10 @@ steps:
         - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
         - REACT_APP_PAYMENTS_API_URL=https://payments.dev.videocoinapis.com/api/v1
         - REACT_APP_STRIPE_KEY=pk_test_k8dPL3dVynGZUOobj4WhS5nT00isBnI5Ow
+    resources:
+      requests:
+        cpu: 1000
+        memory: 1024MiB
   - name: deploy
     image: devth/helm:v3.1.1
     environment:
@@ -64,6 +68,10 @@ steps:
         - REACT_APP_PAYMENTS_API_URL='https://payments.staging.videocoinapis.com/api/v1'
         - REACT_APP_STRIPE_KEY=pk_test_k8dPL3dVynGZUOobj4WhS5nT00isBnI5Ow
         - REACT_APP_GOOGLE_ANALYTICS=
+    resources:
+      requests:
+        cpu: 1000
+        memory: 1024MiB
 trigger:
   event:
   - tag
@@ -95,6 +103,10 @@ steps:
         - REACT_APP_PAYMENTS_API_URL='https://payments.videocoinapis.com/api/v1'
         - REACT_APP_STRIPE_KEY=pk_live_t2vhGzcXbigJRYlOhRsZwWkw
         - REACT_APP_GOOGLE_ANALYTICS=UA-170965280-3
+    resources:
+      requests:
+        cpu: 1000
+        memory: 1024MiB
 trigger:
   event:
   - tag

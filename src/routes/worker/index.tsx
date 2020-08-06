@@ -63,7 +63,7 @@ const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
       initialValues={initialValues}
       onSubmit={updateWorker}
     >
-      {({ isValid }) => (
+      {({ isValid, dirty }) => (
         <div>
           <div className="topBar">
             <div>
@@ -88,7 +88,7 @@ const WorkerPage: FC<RouteComponentProps & { workerId?: string }> = ({
                       type="submit"
                       form="workerForm"
                       loading={isSaving}
-                      disabled={!isValid}
+                      disabled={!isValid || !dirty}
                     >
                       Save changes
                     </Button>

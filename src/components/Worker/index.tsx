@@ -21,7 +21,6 @@ interface WorkerForm {
 const Worker = () => {
   const { worker, isLoading } = WorkersStore;
   const { values, handleChange } = useFormikContext<WorkerForm>();
-
   if (!worker || isLoading) return <Spinner />;
   const { id, status, systemInfo } = worker;
   const isNew = eq('NEW', status);
@@ -51,7 +50,12 @@ const Worker = () => {
           <Input name="orgEmail" label="Contact Email" />
         </div>
         <div>
-          <Textarea name="orgDesc" label="Description" />
+          <Textarea
+            minRows={2}
+            name="orgDesc"
+            label="Description"
+            placeholder="Add a short description, URL, twitter, telegram group link or anything else your delegator would need to contact you"
+          />
         </div>
       </Form>
       <label className={css.thirdpartyCheck}>
@@ -72,7 +76,7 @@ const Worker = () => {
         </Switch>
       </label>
       <div className={css.delegatePolicy}>
-        <Input
+        <Textarea
           name="delegatePolicy"
           label="Describe Delegate Payout Policy (eg. percent cash)"
           disabled={!values.allowThirdpartyDelegates}

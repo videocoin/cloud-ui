@@ -98,8 +98,8 @@ steps:
       tags:
         - ${DRONE_TAG}
       build_args:
-        - REACT_APP_CLOUD_API_URL=https://console.videocoin.net/api/v1
-        - REACT_APP_TXLOG_API_URL=https://symphony.videocoin.net/api/v1
+        - REACT_APP_CLOUD_API_URL=https://console.videocoin.network/api/v1
+        - REACT_APP_TXLOG_API_URL=https://symphony.videocoin.network/api/v1
         - REACT_APP_PAYMENTS_API_URL=https://payments.videocoinapis.com/api/v1
         - REACT_APP_STRIPE_KEY=pk_live_t2vhGzcXbigJRYlOhRsZwWkw
         - REACT_APP_GOOGLE_ANALYTICS=UA-170965280-3

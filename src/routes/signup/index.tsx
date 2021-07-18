@@ -8,11 +8,12 @@ import Header from 'components/Header';
 import css from './index.module.scss';
 import developersImg from './assets/developers.svg';
 import workerImg from './assets/workers.svg';
+import Text from '../../components/UI/Text';
 
 const SignUp: FC<RouteComponentProps> = ({ location }) => {
   const urlParams = new URLSearchParams(location.search);
   const role = urlParams.get('role');
-  const isMiner = role === 'miner';
+  const isMiner = role === 'miner' || role === 'worker';
   const img = isMiner ? workerImg : developersImg;
   return (
     <>
@@ -25,17 +26,17 @@ const SignUp: FC<RouteComponentProps> = ({ location }) => {
                 <img src={img} alt="" />
               </div>
               <div className="mb15">
-                <Typography type="display3">
+                <Text variant="display2" color="violet20">
                   {isMiner
-                    ? 'Operate a Worker Node'
+                    ? 'Operate a\nWorker Node'
                     : 'Video is Hard,\n We Make It Easy'}
-                </Typography>
+                </Text>
               </div>
-              <Typography>
+              <Text className={css.desc} variant="body" color="violet20">
                 {isMiner
                   ? 'Transform your wasted potential into cash by performing tasks on the VideoCoin Network. Just install our proprietary software on your machine and watch the magic happen.'
                   : 'The VideoCoin Network is an API first, decentralized video infrastructure designed for engineers to create cost effective video streaming, livestreaming, VOD applications.'}
-              </Typography>
+              </Text>
             </Col>
             <Col xsOffset={1} xs={4}>
               <div className="mb40">

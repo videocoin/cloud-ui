@@ -5,6 +5,13 @@ import ReactDOM from 'react-dom';
 import { LocationProvider } from '@reach/router';
 import createHistory from 'helpers/history';
 import App from 'components/App';
+import '@fontsource/poppins';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+import '@fontsource/poppins/800.css';
+import '@fontsource/poppins/900.css';
+import '@fontsource/teko/700.css';
 import 'styles/index.scss';
 import * as serviceWorker from './serviceWorker';
 

@@ -11,6 +11,7 @@ import { modalType } from 'components/ModalManager';
 import Header from 'components/Header';
 import UserStore from 'stores/user';
 import css from './index.module.scss';
+import Text from '../../components/UI/Text';
 
 const SignIn: FC<RouteComponentProps> = ({ location }) => {
   const { token } = queryString.parse(get('search')(location));
@@ -32,15 +33,15 @@ const SignIn: FC<RouteComponentProps> = ({ location }) => {
           <Row>
             <Col xsOffset={1} xs={5} className={css.left}>
               <div className="mb15">
-                <Typography type="display2">
-                  VideoCoin Network Console
-                </Typography>
+                <Text variant="display2" color="violet20">
+                  {'VideoCoin\nNetwork Console'}
+                </Text>
               </div>
-              <Typography>
+              <Text className={css.desc} variant="body" color="violet20">
                 The VideoCoin Network is an API first, decentralized video
                 infrastructure designed for engineers to create cost effective
                 video streaming, livestreaming, VOD applications.
-              </Typography>
+              </Text>
             </Col>
             <Col xsOffset={1} xs={4}>
               <div className="mb40">

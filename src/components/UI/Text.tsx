@@ -43,7 +43,7 @@ const display1 = css`
 `;
 
 const display2 = css`
-  font-size: 64px;
+  font-size: 56px;
   line-height: 1.25;
   letter-spacing: 1.2px;
   font-weight: bold;
@@ -71,6 +71,7 @@ const body = css`
   font-size: 20px;
   line-height: 1.8;
   font-weight: 500;
+  font-family: Poppins;
   @media (max-width: 768px) {
     font-size: 16px;
     line-height: 2;
@@ -97,6 +98,7 @@ const smallBodyAlt = css`
 
 const smallBody = css`
   font-size: 16px;
+  font-family: Poppins, sans-serif;
   line-height: 2;
   font-weight: 500;
   @media (max-width: 768px) {

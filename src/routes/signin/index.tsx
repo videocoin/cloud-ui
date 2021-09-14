@@ -37,7 +37,7 @@ const SignIn: FC<RouteComponentProps> = ({ location }) => {
                   {'VideoCoin\nNetwork Console'}
                 </Text>
               </div>
-              <Text className={css.desc} variant="body" color="violet20">
+              <Text className={css.desc} variant="smallBody" color="violet20">
                 The VideoCoin Network is an API first, decentralized video
                 infrastructure designed for engineers to create cost effective
                 video streaming, livestreaming, VOD applications.

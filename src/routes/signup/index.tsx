@@ -32,7 +32,7 @@ const SignUp: FC<RouteComponentProps> = ({ location }) => {
                     : 'Video is Hard,\n We Make It Easy'}
                 </Text>
               </div>
-              <Text className={css.desc} variant="body" color="violet20">
+              <Text className={css.desc} variant="smallBody" color="violet20">
                 {isMiner
                   ? 'Transform your wasted potential into cash by performing tasks on the VideoCoin Network. Just install our proprietary software on your machine and watch the magic happen.'
                   : 'The VideoCoin Network is an API first, decentralized video infrastructure designed for engineers to create cost effective video streaming, livestreaming, VOD applications.'}
